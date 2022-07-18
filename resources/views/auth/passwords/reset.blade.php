@@ -53,6 +53,7 @@
                             required autocomplete="new-password">
                     </div>
                 </div>
+                <br>
                 <div class="col-12">
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">

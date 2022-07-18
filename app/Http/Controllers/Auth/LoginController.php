@@ -19,7 +19,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers;// i make editing in showLoginForm function
 
     /**
      * Where to redirect users after login.
@@ -37,7 +37,8 @@ class LoginController extends Controller
     public function redirectTo()
     {
         if(auth()->user()->roles()->first()->allowed_route !== ''){
-            return $this->redirectTo = auth()->user()->roles()->first()->allowed_route . '/index';
+            // return $this->redirectTo = auth()->user()->roles()->first()->allowed_route . '/index';
+            return $this->redirectTo = auth()->user()->roles()->first()->allowed_route;
         }
     }
     /**

@@ -1,12 +1,15 @@
-@include('layouts.admin.head')
+@include('partials.admin.head')
 
-@include('layouts.admin.sidebar')
+@include('partials.admin.sidebar')
+@include('partials.admin.header')
+@include('partials.admin.logout_modal')
+
 
 
     @yield('content')
 
 
-@include('layouts.admin.footer')
+@include('partials.admin.footer')
 
-@include('layouts.admin.foot')
+@include('partials.admin.foot')
 

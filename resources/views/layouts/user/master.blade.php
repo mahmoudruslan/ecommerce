@@ -1,6 +1,6 @@
-@include('layouts.user.head')
+@include('partials.user.head')
 
-@include('layouts.user.header')
+@include('partials.user.header')
 
 <div class="container">
 
@@ -8,8 +8,8 @@
 
 </div>
 
-@include('layouts.user.footer')
+@include('partials.user.footer')
 
-@include('layouts.user.foot')
+@include('partials.user.foot')
 
 
