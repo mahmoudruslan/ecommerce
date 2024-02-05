@@ -1,149 +1,13 @@
-@extends('layouts.user.master')
-@section('title')
-Register
-@endsection
+@extends('layouts.app')
+
 @section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Register') }}</div>
 
-
-    <!-- HERO SECTION-->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
-                <div class="col-lg-6"></div>
-                    <h1 class="h2 text-uppercase mb-0">Register</h1>
-                </div>
-                <div class="col-lg-6 text-lg-end"></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-5">
-            <div class="offset-3">
-                <h2 class="h5 text-uppercase mb-4">Register</h2>
-                <form method="POST" action="{{ route('register') }}">
-                    @csrf
-                    <div class="row col-8">
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="first_name" class="text-small text-uppercase mb-2">{{ __('First Name') }}</label>
-                                <input id="first_name" type="text"
-                                    class="form-control form-control-lg mb-2 @error('first_name') is-invalid @enderror" name="first_name"
-                                    value="{{ old('first_name') }}" required autocomplete="name" autofocus>
-                                @error('first_name')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="last_name" class="text-small text-uppercase mb-2">{{ __('Last Name') }}</label>
-                                <input id="last_name" type="text"
-                                    class="form-control form-control-lg mb-2 @error('last_name') is-invalid @enderror" name="last_name"
-                                    value="{{ old('last_name') }}" required autocomplete="name" autofocus>
-                                @error('last_name')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="username" class="text-small text-uppercase mb-2">{{ __('User Name') }}</label>
-                                <input id="username" type="text"
-                                    class="form-control form-control-lg mb-2 @error('username') is-invalid @enderror" name="username"
-                                    value="{{ old('username') }}" required autocomplete="username" autofocus>
-                                @error('username')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="email" class="text-small text-uppercase mb-2">{{ __('Email Address') }}</label>
-                                <input id="email" type="email"
-                                    class="form-control form-control-lg mb-2 @error('email') is-invalid @enderror" name="email"
-                                    value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                @error('email')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="phone" class="text-small text-uppercase mb-2">{{ __('Mobile Phone') }}</label>
-                                <input id="phone" type="text"
-                                    class="form-control form-control-lg mb-2 @error('phone') is-invalid @enderror" name="phone"
-                                    value="{{ old('phone') }}" required autocomplete="phone" autofocus>
-                                @error('phone')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="password" class="text-small text-uppercase mb-2">{{ __('Password') }}</label>
-
-                                <input id="password" type="password"
-                                    class="form-control mb-2 @error('password') is-invalid @enderror" name="password" required
-                                    autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="password-confirm" class="text-small text-uppercase mb-2">{{ __('Confirm Password') }}</label>
-
-                                <input id="password-confirm" type="password"
-                                    class="form-control mb-2 @error('password') is-invalid @enderror" name="password_confirmation" required
-                                    autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-dark">{{ __('Register') }}</button>
-                                @if (Route::has('login'))
-                                    <a class="btn btn-secondary" style="float: right" href="{{ route('login') }}">
-                                        {{ __("Have an account") }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-
-                    </div>
-                </form>
-            </div>
-    </section>
-
-
-{{-- 
+                <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
@@ -204,6 +68,10 @@ Register
                                 </button>
                             </div>
                         </div>
-                    </form> --}}
-
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

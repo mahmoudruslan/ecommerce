@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -19,28 +18,15 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;// i make editing in showLoginForm function
+    use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/home';
 
-
-    public function username()//override 
-    {
-        return 'username';
-    }
-
-    public function redirectTo()
-    {
-        if(auth()->user()->roles()->first()->allowed_route !== ''){
-            // return $this->redirectTo = auth()->user()->roles()->first()->allowed_route . '/index';
-            return $this->redirectTo = auth()->user()->roles()->first()->allowed_route;
-        }
-    }
     /**
      * Create a new controller instance.
      *
