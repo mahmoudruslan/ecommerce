@@ -1,9 +1,15 @@
 @extends('store.layout.master')
 @section('content')
+{{__('Test')}}
 
       <!-- HERO SECTION-->
-      <div class="container">
-        <section class="hero pb-3 bg-cover bg-center d-flex align-items-center" style="background: url(img/hero-banner-alt.jpg)">
+      <div class="container m-auto">
+        <section class="hero pb-3 bg-cover bg-center d-flex align-items-center" @if (Config::get('app.locale') == 'ar')
+style="background: url({{asset('store/img/hero-banner-alt-ltr.jpg')}})"
+        @else
+style="background: url({{asset('store/img/hero-banner-alt-rtl.jpg')}})"
+        @endif
+        >
           <div class="container py-5">
             <div class="row px-4 px-lg-5">
               <div class="col-lg-6">

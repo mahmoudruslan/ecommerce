@@ -19,11 +19,18 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;700&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;800&amp;display=swap">
     <!-- theme stylesheet-->
-    <link rel="stylesheet" href="{{asset('store/css/style.default.css')}}" id="theme-stylesheet">
+
+    @if(Config::get('app.locale') == 'ar')
+<link rel="stylesheet" href="{{asset('store/css/style_ar.default.css')}}" id="theme-stylesheet">
+
+    @else
+<link rel="stylesheet" href="{{asset('store/css/style_en.default.css')}}" id="theme-stylesheet">
+
+    @endif
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="{{asset('store/css/custom.css')}}">
     <!-- Favicon-->
     <link rel="shortcut icon" href="{{asset('store/img/favicon.png')}}">
   </head>
-  <body>
+  <body @if(Config::get('app.locale') == 'ar') dir="rtl" @endif>
     <div class="page-holder">

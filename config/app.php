@@ -97,6 +97,12 @@ return [
 
     'fallback_locale' => 'en',
 
+    'available_locales' => [
+        'English' => 'en',
+        'Arabic' => 'ar',
+
+      ],
+
     /*
     |--------------------------------------------------------------------------
     | Faker Locale
@@ -107,6 +113,7 @@ return [
     | localized telephone numbers, street address information and more.
     |
     */
+
 
     'faker_locale' => 'en_US',
 
