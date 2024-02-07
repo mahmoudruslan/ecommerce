@@ -17,10 +17,9 @@ class SetAppLang
      */
     public function handle(Request $request, Closure $next)
     {
-        if (! in_array($request->segment(1), config('app.available_locales'))) {
-            abort(400);
+        if (session()->has('local')) {
+            app()->setLocale(session()->get('local'));
         }
-        App::setLocale($request->segment(1));
         return $next($request);
     }
 }

@@ -34,3 +34,4 @@
   </head>
   <body @if(Config::get('app.locale') == 'ar') dir="rtl" @endif>
     <div class="page-holder">
+    <div class="container m-auto">

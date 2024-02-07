@@ -18,11 +18,18 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{asset('dashboard/css/sb-admin-2.min.css')}}" rel="stylesheet">
+
+        @if(Config::get('app.locale') == 'ar')
+<link href="{{asset('dashboard/css/sb-admin-2-ar.min.css')}}" rel="stylesheet">
+
+    @else
+<link href="{{asset('dashboard/css/sb-admin-2-en.min.css')}}" rel="stylesheet">
+
+    @endif
 
 </head>
 
-<body id="page-top">
+<body @if(Config::get('app.locale') == 'ar') dir="rtl" @endif id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
