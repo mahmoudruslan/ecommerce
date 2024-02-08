@@ -3,9 +3,9 @@
       <!-- HERO SECTION-->
 
         <section class="hero pb-3 bg-cover bg-center d-flex align-items-center" @if (Config::get('app.locale') == 'ar')
-style="background: url({{asset('store/img/hero-banner-alt-ltr.jpg')}})"
+            style="background: url({{asset('store/img/hero-banner-alt-ltr.jpg')}})"
         @else
-style="background: url({{asset('store/img/hero-banner-alt-rtl.jpg')}})"
+            style="background: url({{asset('store/img/hero-banner-alt-rtl.jpg')}})"
         @endif>
         <div class="container py-5">
         <div class="row px-4 px-lg-5">

@@ -39,7 +39,32 @@
             </li>
             <li class="nav-item"><a class="nav-link" href="{{route('cart')}}"> <i class="fas fa-dolly-flatbed me-1 text-gray"></i>{{__('Cart')}}<small class="text-gray fw-normal">(2)</small></a></li>
             <li class="nav-item"><a class="nav-link" href="#!"> <i class="far fa-heart me-1"></i><small class="text-gray fw-normal"> (0)</small></a></li>
-            <li class="nav-item"><a class="nav-link" href="#!"> <i class="fas fa-user me-1 text-gray fw-normal"></i>{{__('Login')}}</a></li>
+
+
+
+
+
+            @if (auth()->check())
+                <li class="nav-item dropdown">
+
+
+                    <a style="display : inline-block; padding-left: 0.0rem" class="nav-link" id="pagesDropdown" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{auth()->user()->name}}
+                    </a>
+                    <img style="max-width : 26px;border-radius : 50%" src="{{asset('store/img/product-1.jpg')}}" class="me-1 text-gray fw-normal">
+                    <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown">
+                    <form action="{{route('logout')}}" method="POST" >
+                    @csrf
+                    <button type="submit" class="dropdown-item border-0 transition-link">{{__('Logout')}}</button>
+                    </form>
+                    </div>
+                </li>
+
+            @else
+                <li class="nav-item"><a class="nav-link" href="{{route('login')}}"> <i class="fas fa-user me-1 text-gray fw-normal"></i>{{__('Login')}}</a></li>
+            @endif
+
+
             </ul>
         </div>
         </nav>

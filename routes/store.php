@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Auth::routes();
 
 Route::get('/', function () {
     return view('store.index');
@@ -31,9 +32,20 @@ Route::get('/shop', function () {
     return view('store.shop');
 })->name('shop');
 
+Route::get('login', function () {
+    return view('store.auth.login');
+})->name('login');
+Route::get('register', function () {
+    return view('store.auth.register');
+})->name('register');
+Route::get('password/reset', function () {
+    return view('store.auth.passwords.reset');
+})->name('password.reset');
+
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 
 
-Auth::routes();
+
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

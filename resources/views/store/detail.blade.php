@@ -42,7 +42,7 @@
             <p class="text-sm mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ut ullamcorper leo, eget euismod orci. Cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Vestibulum ultricies aliquam convallis.</p>
             <div class="row align-items-stretch mb-4">
             <div class="col-sm-5 pr-sm-0">
-                <div class="border d-flex align-items-center justify-content-between py-1 px-3 bg-white border-white"><span class="small text-uppercase text-gray mr-4 no-select">Quantity</span>
+                <div class="border d-flex align-items-center justify-content-between py-1 px-3 bg-white border-white"><span class="small text-uppercase text-gray mr-4 no-select">{{__('Quantity')}}</span>
                 <div class="quantity">
                     <button class="dec-btn p-0"><i class="fas fa-caret-left"></i></button>
                     <input class="form-control border-0 shadow-0 p-0" type="text" value="1">
@@ -50,24 +50,24 @@
                 </div>
                 </div>
             </div>
-            <div class="col-sm-3 pl-sm-0"><a class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0" href="{{route('cart')}}">Add to cart</a></div>
-            </div><a class="text-dark p-0 mb-4 d-inline-block" href="#!"><i class="far fa-heart me-2"></i>Add to wish list</a><br>
+            <div class="col-sm-3 pl-sm-0"><a class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0" href="{{route('cart')}}">{{__('Add to cart')}}</a></div>
+            </div><a class="text-dark p-0 mb-4 d-inline-block" href="#!"><i class="far fa-heart me-2"></i>{{__('Add to wish list')}}</a><br>
             <ul class="list-unstyled small d-inline-block">
-            <li class="px-3 py-2 mb-1 bg-white"><strong class="text-uppercase">SKU:</strong><span class="ms-2 text-muted">039</span></li>
-            <li class="px-3 py-2 mb-1 bg-white text-muted"><strong class="text-uppercase text-dark">Category:</strong><a class="reset-anchor ms-2" href="#!">Demo Products</a></li>
-            <li class="px-3 py-2 mb-1 bg-white text-muted"><strong class="text-uppercase text-dark">Tags:</strong><a class="reset-anchor ms-2" href="#!">Innovation</a></li>
+            <li class="px-3 py-2 mb-1 bg-white"><strong class="text-uppercase">{{__('SKU')}}:</strong><span class="ms-2 text-muted">039</span></li>
+            <li class="px-3 py-2 mb-1 bg-white text-muted"><strong class="text-uppercase text-dark">{{__('Category')}}:</strong><a class="reset-anchor ms-2" href="#!">Demo Products</a></li>
+            <li class="px-3 py-2 mb-1 bg-white text-muted"><strong class="text-uppercase text-dark">{{__('Tags')}}:</strong><a class="reset-anchor ms-2" href="#!">Innovation</a></li>
             </ul>
         </div>
         </div>
         <!-- DETAILS TABS-->
         <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
-        <li class="nav-item"><a class="nav-link text-uppercase active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a></li>
-        <li class="nav-item"><a class="nav-link text-uppercase" id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews</a></li>
+        <li class="nav-item"><a class="nav-link text-uppercase active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">{{__('Description')}}</a></li>
+        <li class="nav-item"><a class="nav-link text-uppercase" id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">{{__('Reviews')}}</a></li>
         </ul>
         <div class="tab-content mb-5" id="myTabContent">
         <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
             <div class="p-4 p-lg-5 bg-white">
-            <h6 class="text-uppercase">Product description </h6>
+            <h6 class="text-uppercase">{{__('Product description')}} </h6>
             <p class="text-muted text-sm mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
         </div>
@@ -111,7 +111,7 @@
         </div>
         </div>
         <!-- RELATED PRODUCTS-->
-        <h2 class="h5 text-uppercase mb-4">Related products</h2>
+        <h2 class="h5 text-uppercase mb-4">{{__('Related products')}}</h2>
         <div class="row">
         <!-- PRODUCT-->
         <div class="col-lg-3 col-sm-6">
@@ -120,7 +120,7 @@
                 <div class="product-overlay">
                 <ul class="mb-0 list-inline">
                     <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#!"><i class="far fa-heart"></i></a></li>
-                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="#!">Add to cart</a></li>
+                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="#!">{{__('Add to cart')}}</a></li>
                     <li class="list-inline-item mr-0"><a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"><i class="fas fa-expand"></i></a></li>
                 </ul>
                 </div>
@@ -132,11 +132,11 @@
         <!-- PRODUCT-->
         <div class="col-lg-3 col-sm-6">
             <div class="product text-center skel-loader">
-            <div class="d-block mb-3 position-relative"><a class="d-block" href="detail.html"><img class="img-fluid w-100" src="img/product-2.jpg" alt="..."></a>
+            <div class="d-block mb-3 position-relative"><a class="d-block" href="detail.html"><img class="img-fluid w-100" src="{{asset('store/img/product-2.jpg')}}" alt="..."></a>
                 <div class="product-overlay">
                 <ul class="mb-0 list-inline">
                     <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#!"><i class="far fa-heart"></i></a></li>
-                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="#!">Add to cart</a></li>
+                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="#!">{{__('Add to cart')}}</a></li>
                     <li class="list-inline-item mr-0"><a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"><i class="fas fa-expand"></i></a></li>
                 </ul>
                 </div>
@@ -152,7 +152,7 @@
                 <div class="product-overlay">
                 <ul class="mb-0 list-inline">
                     <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#!"><i class="far fa-heart"></i></a></li>
-                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="#!">Add to cart</a></li>
+                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="#!">{{__('Add to cart')}}</a></li>
                     <li class="list-inline-item mr-0"><a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"><i class="fas fa-expand"></i></a></li>
                 </ul>
                 </div>
@@ -168,7 +168,7 @@
                 <div class="product-overlay">
                 <ul class="mb-0 list-inline">
                     <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#!"><i class="far fa-heart"></i></a></li>
-                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="#!">Add to cart</a></li>
+                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="#!">{{__('Add to cart')}}</a></li>
                     <li class="list-inline-item mr-0"><a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"><i class="fas fa-expand"></i></a></li>
                 </ul>
                 </div>
