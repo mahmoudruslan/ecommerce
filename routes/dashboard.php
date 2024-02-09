@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\AuthController;
 
 
 /*
@@ -14,11 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth'], function(){
+// Route::group(['middleware' => 'auth'], function(){
     Route::get('admin-dashboard', function () {
         return view('dashboard.index');
     })->name('dashboard');
-});
+
+    Route::get('admin-dashboard/login', [AuthController::class, 'showLoginForm']);
+    Route::get('admin-dashboard/forget-password', [AuthController::class, 'showForgetPasswordForm'])->name('forget.password');
+// });
 
 
 
