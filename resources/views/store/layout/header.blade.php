@@ -49,7 +49,7 @@
 
 
                     <a style="display : inline-block; padding-left: 0.0rem" class="nav-link" id="pagesDropdown" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{auth()->user()->name}}
+                        {{auth()->user()->full_name}}
                     </a>
                     <img style="max-width : 26px;border-radius : 50%" src="{{asset('store/img/product-1.jpg')}}" class="me-1 text-gray fw-normal">
                     <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown">

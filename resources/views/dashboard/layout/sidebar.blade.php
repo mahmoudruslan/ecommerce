@@ -37,8 +37,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        <a class="collapse-item" href="{{route('buttons')}}">Buttons</a>
+                        <a class="collapse-item" href="{{route('cards')}}">Cards</a>
                     </div>
                 </div>
             </li>
@@ -69,8 +69,7 @@
             <div class="sidebar-heading">
                 Addons
             </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
+                  <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
@@ -90,20 +89,40 @@
                     </div>
                 </div>
             </li>
+          
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="{{route('charts')}}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Charts</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{route('tables')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tables</span></a>
             </li>
+
+            {{-- settings --}}
+            @canany(['create-role-permission', 'view-role-permissions', 'update-role-permission', 'delete-role-permission'])
+                <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSettings"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>{{__('Roles and permissions')}}</span>
+                </a>
+                <div id="collapseSettings" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">{{__('Roles and permissions Screens:')}} </h6>
+                        <a class="collapse-item" href="{{route('permission-role.create')}}">{{__('Add roles and permissions')}}</a>
+                        <a class="collapse-item" href="{{route('permission-role.index')}}">{{__('Roles and permissions')}}</a>
+                    </div>
+                </div>
+            </li>
+            @endcanany
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
