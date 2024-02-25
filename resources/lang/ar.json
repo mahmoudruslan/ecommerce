@@ -1,6 +1,7 @@
 {
     "Test": "اختبر",
-    "Name": "الاسم",
+    "Username": "الاسم",
+    "Mobile": "رقم الهاتف",
     "Confirm password": "تأكيد كلمة السر",
     "Language": "اللغة",
     "Arabic": "العربية",
