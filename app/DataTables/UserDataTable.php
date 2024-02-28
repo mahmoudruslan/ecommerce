@@ -11,9 +11,11 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use App\Traits\HTMLTrait;
 
-class UsersDataTable extends DataTable
+class UserDataTable extends DataTable
 {
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -23,7 +25,15 @@ class UsersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'users.action')
+            ->addColumn('action', function($row){
+                $btn = '<div style="width: 150px"> <a href=" ' . route("users.edit", $row->id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
+                $btn = $btn. '<a href=" ' . route("users.show", $row->id) . '" class="btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
+
+                $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
+                $btn = $btn. $this->getModal('users.destroy', $row->id);
+
+            return $btn;
+            })
             ->setRowId('id');
     }
 
@@ -46,7 +56,7 @@ class UsersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('users-table')
+                    ->setTableId('user-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -70,16 +80,20 @@ class UsersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
+            Column::make('first_name'),
+            Column::make('last_name'),
             Column::make('username'),
             Column::make('email'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('status'),
+            Column::make('mobile'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
+
+
         ];
     }
 
@@ -90,6 +104,7 @@ class UsersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Users_' . date('YmdHis');
+        return 'User_' . date('YmdHis');
     }
+
 }

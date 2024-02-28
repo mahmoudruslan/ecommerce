@@ -11,6 +11,7 @@ class AuthController extends Controller
     {
         return view('dashboard.auth.login');
     }
+    
 
     public function showForgetPasswordForm()
     {

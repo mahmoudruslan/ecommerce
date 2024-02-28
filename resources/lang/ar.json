@@ -18,6 +18,7 @@
     "Add roles and permissions": "إضافة أدوار وصلاحيات",
     "Roles and permissions": "الأدوار والصلاحيات",
     "Roles and permissions Screens:": "شاشات الأدوار والصلاحيات :",
+    "Users Screens:": "شاشات المستخدمين :",
     "Logout": "تسجيل خروج",
     "Pages": "الصفحات",
     "Product detail": "تفاصيل المنتج",
@@ -60,6 +61,13 @@
     "Add to cart": "أضف إلى السلة",
     "Related products": "منتجات ذات صلة",
     "Description": "الوصف",
+    "Users": "المستخدمين",
+    "Warning": "تحذير",
+    "Cancel": "إغلاق",
+    "Delete": "حذف",
+    "Show": "عرض",
+    "Edit": "تعديل",
+    "Add users": "إضافة مستخدمين",
     "Add to wish list": "إضافة إلى المفضلة",
     "Generate Report": "إنشاء تقرير",
     "Activity Log": "سجل النشاطات",
@@ -71,6 +79,8 @@
     "Interface": "واجهة المستخدم",
     "Remember Me": "تذكرنى",
     "Create an account": "إنشاء حساب",
-    "Reset password": "إعادة تعيين كلمة المرور"
+    "I have an account": "لدى حساب بالفعل",
+    "Reset password": "إعادة تعيين كلمة المرور",
+    "Are you sure you want to delete the item?": "متأكد أنك تريد حذف العنصر؟"
 
 }

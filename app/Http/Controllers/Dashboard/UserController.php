@@ -1,28 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard\Setting;
+namespace App\Http\Controllers\Dashboard;
 
-use App\DataTables\RoleDataTable;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-use DataTables;
-use Yajra\DataTables\Html\Builder;
+use App\DataTables\UserDataTable;
 
-
-class RolePermissionController extends Controller
+class UserController extends Controller
 {
-    // use DataTables;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(RoleDataTable $dataTable)
+    public function index(UserDataTable $dataTable)
     {
-        return $dataTable->render('dashboard.roles_permissions.index');
+        return $dataTable->render('dashboard.users.index');
 
 
 
@@ -35,8 +28,7 @@ class RolePermissionController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::get();
-        return view('dashboard.roles_permissions.create', compact('permissions'));
+        //
     }
 
     /**
@@ -47,13 +39,7 @@ class RolePermissionController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
-        $role = Role::create([
-            'name' => $request->name,
-            'guard_name' => 'web',
-        ]);
-        $role->givePermissionTo($request->permissions);
-        return redirect()->route('permission-role.index')->with(['success' => __('Role Created successfully')]);
+        //
     }
 
     /**
@@ -75,10 +61,7 @@ class RolePermissionController extends Controller
      */
     public function edit($id)
     {
-        $permissions = Permission::get();
-        $role = Role::findOrFail($id);
-
-        return view('dashboard.roles_permissions.edit', compact('permissions', 'role'));
+        return 'edit';
     }
 
     /**
@@ -90,11 +73,7 @@ class RolePermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // return $request;
-        $role = Role::findOrFail($id);
-        $old_permissions = $role->getPermissionNames();
-        $role->revokePermissionTo($old_permissions);
-        return 'update';
+        //
     }
 
     /**
@@ -105,6 +84,6 @@ class RolePermissionController extends Controller
      */
     public function destroy($id)
     {
-        return 'destroy';
+        return 'delete';
     }
 }

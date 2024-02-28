@@ -18,8 +18,11 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         $all_permissions = [
+
             'create-user',          'view-users',           'update-user',              'delete-user',
+            'users',
             'create-role',          'view-roles',           'update-role',              'delete-role',
+            'roles',
             'create-product',       'view-products',        'update-product',           'delete-product',
             'create-order',         'view-orders',          'update-order',             'delete-order',
             'create-setting',       'view-settings',        'update-setting',           'delete-setting',
@@ -34,26 +37,17 @@ class RolePermissionSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
         $permissions = collect($all_permissions)->map(function($permission){
             return [
-                'name' => $permission , 
+                'name' => $permission ,
                 'guard_name'=> 'web'
             ];
         });
         // dd($permissions->toArray());
         Permission::insert($permissions->toArray());
-        
+
         $admin_role = Role::create(['name' => 'admin']);
         $super_admin = Role::create(['name' => 'super-admin']);
         $customer = Role::create(['name' => 'customer']);
-        $admin_role->givePermissionTo(['create-user',          
-        'create-role',          
-        'create-product',       
-        'create-order',         
-        'delete-setting',       
-        'create-report',        
-        'create-category',      
-        'create-subcategory',   
-        'create-payment-method',
-        'create-role-permission',       ]);
+        $admin_role->givePermissionTo([ 'users']);
 
 
     }

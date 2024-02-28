@@ -9,7 +9,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+<title>
+
+    @yield('title')
+</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('dashboard/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -27,7 +30,7 @@
 
 
 
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     @if(Config::get('app.locale') == 'ar')
             <link href="{{asset('dashboard/css/sb-admin-2-ar.min.css')}}" rel="stylesheet">

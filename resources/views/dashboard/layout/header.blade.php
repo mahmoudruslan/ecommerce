@@ -224,4 +224,5 @@
                     </ul>
 
                 </nav>
+                @include('dashboard.layout.modal')
                 <!-- End of Topbar -->

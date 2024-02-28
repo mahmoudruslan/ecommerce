@@ -32,6 +32,6 @@ class DatabaseSeeder extends Seeder
             'image' => 'avatar.jpg',
             'status' => 1,
         ]);
-        $user->assignRole('admin');
+        $user->assignRole('super-admin');
     }
 }

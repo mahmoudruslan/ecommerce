@@ -1,5 +1,5 @@
     <!-- Bootstrap core JavaScript-->
-    
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
     <script src="{{asset('dashboard/vendor/jquery/jquery.min.js')}}"></script>
@@ -7,7 +7,7 @@
 
     <!-- Core plugin JavaScript-->
     <script src="{{asset('dashboard/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
- 
+
     <!-- Custom scripts for all pages-->
     <script src="{{asset('dashboard/js/sb-admin-2.min.js')}}"></script>
 
@@ -20,6 +20,6 @@
    <!--  data table -->
    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js" > </script>
    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.bootstrap4.min.js" > </script>
-</body>
 @stack('script')
+</body>
 </html>

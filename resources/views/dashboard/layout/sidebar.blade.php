@@ -2,7 +2,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('dashboard')}}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('admin.dashboard')}}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -14,7 +14,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="{{route('dashboard')}}">
+                <a class="nav-link" href="{{route('admin.dashboard')}}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>{{__('Dashboard')}}</span></a>
             </li>
@@ -37,8 +37,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="{{route('buttons')}}">Buttons</a>
-                        <a class="collapse-item" href="{{route('cards')}}">Cards</a>
+                        <a class="collapse-item" href="{{route('admin.buttons')}}">Buttons</a>
+                        <a class="collapse-item" href="{{route('admin.cards')}}">Cards</a>
                     </div>
                 </div>
             </li>
@@ -89,24 +89,24 @@
                     </div>
                 </div>
             </li>
-          
+
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="{{route('charts')}}">
+                <a class="nav-link" href="{{route('admin.charts')}}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Charts</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="{{route('tables')}}">
+                <a class="nav-link" href="{{route('admin.tables')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tables</span></a>
             </li>
 
             {{-- settings --}}
-            @canany(['create-role-permission', 'view-role-permissions', 'update-role-permission', 'delete-role-permission'])
+            @can(['can:roles'])
                 <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSettings"
@@ -117,12 +117,30 @@
                 <div id="collapseSettings" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">{{__('Roles and permissions Screens:')}} </h6>
-                        <a class="collapse-item" href="{{route('permission-role.create')}}">{{__('Add roles and permissions')}}</a>
-                        <a class="collapse-item" href="{{route('permission-role.index')}}">{{__('Roles and permissions')}}</a>
+                        <a class="collapse-item" href="{{route('admin.permission-role.create')}}">{{__('Add roles and permissions')}}</a>
+                        <a class="collapse-item" href="{{route('admin.permission-role.index')}}">{{__('Roles and permissions')}}</a>
                     </div>
                 </div>
             </li>
-            @endcanany
+            @endcan
+                        {{-- users --}}
+            @can(['users'])
+                <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>{{__('Users')}}</span>
+                </a>
+                <div id="collapseUsers" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">{{__('Users Screens:')}} </h6>
+                        <a class="collapse-item" href="{{route('admin.users.create')}}">{{__('Add users')}}</a>
+                        <a class="collapse-item" href="{{route('admin.users.index')}}">{{__('Users')}}</a>
+                    </div>
+                </div>
+            </li>
+            @endcan
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

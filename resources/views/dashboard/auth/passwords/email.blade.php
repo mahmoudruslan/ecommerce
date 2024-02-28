@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Forgot Password</title>
+    <title>Forgot Password</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('dashboard/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -51,7 +51,7 @@
                                                 placeholder="Enter Email Address...">
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Reset Password
+                                            {{ __('Send Password Reset Link') }}
                                         </button>
                                     </form>
                                     <hr>

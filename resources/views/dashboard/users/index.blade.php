@@ -10,16 +10,10 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">{{__('Roles and permissions')}}</h1>
-                    @if (Session::has('success'))
-                        <div class="text-center alert alert-success">{{ Session::get('success') }}</div>
-                    @endif
-                        @if (Session::has('error'))
-                        <div class="text-center alert alert-danger">{{ Session::get('error') }}</div>
-                    @endif
-                    {{-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                    <h1 class="h3 mb-2 text-gray-800">{{__('Users')}}</h1>
+                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
                         For more information about DataTables, please visit the <a target="_blank"
-                            href="https://datatables.net">official DataTables documentation</a>.</p> --}}
+                            href="https://datatables.net">official DataTables documentation</a>.</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -28,10 +22,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            <a href="{{route('admin.permission-role.create')}}" class="btn btn-success">{{__('Add')}}</a>
                                 {!! $dataTable->table() !!}
                                 {!! $dataTable->scripts() !!}
-
                             </div>
                         </div>
                     </div>
@@ -48,8 +40,5 @@
 
 @endsection
 @push('script')
-{{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
-<script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
-<script src="/vendor/datatables/buttons.server-side.js"></script> --}}
-{{-- {!! $dataTable->scripts() !!} --}}
+
 @endpush
