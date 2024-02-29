@@ -28,19 +28,26 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">{{__('Edit Role')}}</h1>
                                     </div>
-                                    <form action="{{route('admin.permission-role.update', $role->id)}}" method="POST" class="user">
+                                    <form action="{{route('admin.permission-role.update', $role->id)}}" method="post" class="user">
                                     @method('patch')
                                     @csrf
+                                    <input type="hidden" name="id" value="{{$role->id}}"><!--for validation request -->
                                         <div class="form-group">
                                             <input type="text" name="name" value="{{$role->name}}" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Enter Role Name...">
+                                                @error('name')
+                                                    <span class="text-danger" role="alert">
+                                                        <small>{{ $message }}</small>
+                                                    </span>
+                                                    @enderror
                                         </div>
-                                        {{-- <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
-                                        </div> --}}
                                         <div class="form-group">
+                                        @error('permissions')
+                                                    <span class="text-danger" role="alert">
+                                                        <small>{{ $message }}</small>
+                                                    </span><br>
+                                                @enderror
                                             @foreach ($permissions as $permission)
                                                 <div style="display: inline-block" class="custom-control custom-checkbox small">
                                                     <input @if ($role->hasAllDirectPermissions($permission)) checked @endif name="permissions[]" type="checkbox" class="custom-control-input" value="{{$permission->name}}" id="customCheck{{$loop->index}}">

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 trait HTMLTrait {
     public function getModal($route, $id)
         {
-            return '<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            return '<div class="modal fade" id="DeleteModal'. $id .'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

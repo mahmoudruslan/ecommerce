@@ -10,101 +10,77 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
+use App\Http\Requests\RolePermissionRequest;
 
 
 class RolePermissionController extends Controller
 {
-    // use DataTables;
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(RoleDataTable $dataTable)
     {
         return $dataTable->render('dashboard.roles_permissions.index');
-
-
-
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $permissions = Permission::get();
         return view('dashboard.roles_permissions.create', compact('permissions'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(RolePermissionRequest $request)
     {
-        // return $request;
-        $role = Role::create([
-            'name' => $request->name,
-            'guard_name' => 'web',
-        ]);
-        $role->givePermissionTo($request->permissions);
-        return redirect()->route('permission-role.index')->with(['success' => __('Role Created successfully')]);
+        try {
+            $role = Role::create([
+                'name' => $request->name,
+                'guard_name' => 'web',
+            ]);
+            $role->givePermissionTo($request->permissions);
+            return redirect()->route('permission-role.index')->with(['success' => __('Role Created successfully')]);
+          } catch (\Exception $e) {
+              return $e->getMessage();
+          }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return 'show';
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $permissions = Permission::get();
-        $role = Role::findOrFail($id);
+        try {
 
-        return view('dashboard.roles_permissions.edit', compact('permissions', 'role'));
+            $permissions = Permission::get();
+            $role = Role::findOrFail($id);
+            return view('dashboard.roles_permissions.edit', compact('permissions', 'role'));
+          } catch (\Exception $e) {
+          
+              return $e->getMessage();
+          }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(RolePermissionRequest $request, $id)
     {
-        // return $request;
-        $role = Role::findOrFail($id);
-        $old_permissions = $role->getPermissionNames();
-        $role->revokePermissionTo($old_permissions);
-        return 'update';
+        try {
+            $role = Role::findOrFail($id);
+            $role->update(['name' => $request->name , 'guard_name'=> 'web' ]);
+            $permissions = $request->permissions ?? [];
+            $role->syncPermissions($permissions);
+            return redirect()->route('admin.permission-role.index')->with('success','Role updated successfully.');
+          
+          } catch (\Exception $e) {
+              return $e->getMessage();
+          }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Role $role, $id)
     {
-        return 'destroy';
+        try {
+
+            $role = Role::findOrFail($id);
+            $permissions = $role->permissions->pluck('name');
+            $role->revokePermissionTo($permissions);
+            $role->delete();
+            return redirect()->route('admin.permission-role.index')->with('message','Role deleted successfully');
+          } catch (\Exception $e) {
+          
+              return $e->getMessage();
+          }
+       
     }
 }

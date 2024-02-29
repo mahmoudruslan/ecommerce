@@ -21,7 +21,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::get('forget-password', [AuthController::class, 'showForgetPasswordForm'])->name('password.request');
     Route::group(['middleware' => 'auth'], function () {
-        Route::get('/', [BaseController::class, 'dashboard'])->name('dashboard');
+        Route::get('/', [BaseController::class, 'dashboard'])->name('dashboard')->middleware('role:super-admin');
         Route::get('/blank', [BaseController::class, 'blank'])->name('blank');
         Route::get('buttons/', [BaseController::class, 'buttons'])->name('buttons');
         Route::get('/cards', [BaseController::class, 'cards'])->name('cards');
