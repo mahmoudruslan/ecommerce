@@ -18,15 +18,16 @@ use App\Http\Controllers\Dashboard\BaseController;
 */
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
-    Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
-    Route::get('forget-password', [AuthController::class, 'showForgetPasswordForm'])->name('password.request');
-    Route::group(['middleware' => 'auth'], function () {
+    Route::get('login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
+    Route::get('forget-password', [AuthController::class, 'showForgetPasswordForm'])->name('password.request')->middleware('guest');
+    Route::group(['middleware' => ['auth', 'if_customer']], function () {
         Route::get('/', [BaseController::class, 'dashboard'])->name('dashboard')->middleware('role:super-admin');
         Route::get('/blank', [BaseController::class, 'blank'])->name('blank');
         Route::get('buttons/', [BaseController::class, 'buttons'])->name('buttons');
         Route::get('/cards', [BaseController::class, 'cards'])->name('cards');
         Route::get('/charts', [BaseController::class, 'charts'])->name('charts');
         Route::get('/tables', [BaseController::class, 'tables'])->name('tables');
+
         Route::resource('permission-role', RolePermissionController::class)->middleware('can:roles');
         Route::resource('users', UserController::class)->middleware('can:users');
     });

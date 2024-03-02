@@ -19,15 +19,18 @@ use App\Http\Controllers\Store\BaseController;
 */
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => ['auth', 'if_admin']], function(){
 
     Route::get('/cart', [BaseController::class, 'cart'])->name('cart');
     Route::get('/checkout', [BaseController::class, 'checkout'])->name('checkout');
     Route::get('/detail', [BaseController::class, 'detail'])->name('detail');
     Route::get('/shop', [BaseController::class, 'shop'])->name('shop');
 
+    Route::get('/', [BaseController::class, 'store'])->name('store');
+
+
+
 });
-Route::get('/', [BaseController::class, 'store'])->name('store');
 
 Route::get('/lang/{lang}', function($lang){
     app()->setLocale($lang);
