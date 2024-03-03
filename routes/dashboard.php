@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\Setting\RolePermissionController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\BaseController;
+use App\Http\Controllers\Dashboard\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
         Route::resource('permission-role', RolePermissionController::class)->middleware('can:roles');
         Route::resource('users', UserController::class)->middleware('can:users');
+        Route::resource('categories', CategoryController::class)->middleware('can:categories');
     });
 });
 

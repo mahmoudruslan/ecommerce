@@ -36,9 +36,9 @@ class RolePermissionController extends Controller
             ]);
             $role->givePermissionTo($request->permissions);
             return redirect()->route('permission-role.index')->with(['success' => __('Role Created successfully')]);
-          } catch (\Exception $e) {
-              return $e->getMessage();
-          }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function edit($id)
@@ -48,10 +48,10 @@ class RolePermissionController extends Controller
             $permissions = Permission::get();
             $role = Role::findOrFail($id);
             return view('dashboard.roles_permissions.edit', compact('permissions', 'role'));
-          } catch (\Exception $e) {
-          
-              return $e->getMessage();
-          }
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
+        }
     }
 
     public function update(RolePermissionRequest $request, $id)
@@ -62,11 +62,11 @@ class RolePermissionController extends Controller
             $permissions = $request->permissions ?? [];
             $role->syncPermissions($permissions);
             return redirect()->route('admin.permission-role.index')->with('success','Role updated successfully.');
-          
-          } catch (\Exception $e) {
-              return $e->getMessage();
-          }
-    }
+
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+}
 
     public function destroy(Role $role, $id)
     {
@@ -77,10 +77,10 @@ class RolePermissionController extends Controller
             $role->revokePermissionTo($permissions);
             $role->delete();
             return redirect()->route('admin.permission-role.index')->with('message','Role deleted successfully');
-          } catch (\Exception $e) {
-          
-              return $e->getMessage();
-          }
-       
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
+        }
+
     }
 }

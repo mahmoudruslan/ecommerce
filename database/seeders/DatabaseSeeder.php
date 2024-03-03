@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,7 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(20)->create();
+        \App\Models\Category::factory(20)->create();
         $this->call([
             RolePermissionSeeder::class,
         ]);
@@ -29,9 +31,31 @@ class DatabaseSeeder extends Seeder
             'email' => 'mahmoud@gmail.com',
             'password' => Hash::make('00000000'),
             'mobile' => '01092199386',
-            'image' => 'avatar.jpg',
+            'image' => 'avatar.svg',
             'status' => 1,
         ]);
         $user->assignRole('super-admin');
+        $user = User::factory()->create([
+            'first_name' => 'rezk',
+            'last_name' => 'kora',
+            'username' => 'rezkkora',
+            'email' => 'rezk@gmail.com',
+            'password' => Hash::make('00000000'),
+            'mobile' => '010545445446',
+            'image' => 'avatar.svg',
+            'status' => 1,
+        ]);
+        $user->assignRole('admin');
+        $user = User::factory()->create([
+            'first_name' => 'ebraheem',
+            'last_name' => 'kora',
+            'username' => 'ebraheemkora',
+            'email' => 'ebraheem@gmail.com',
+            'password' => Hash::make('00000000'),
+            'mobile' => '01097978898986',
+            'image' => 'avatar.svg',
+            'status' => 1,
+        ]);
+        $user->assignRole('employee');
     }
 }
