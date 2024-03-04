@@ -53,6 +53,24 @@
                 </div>
             </li>
             @endcan
+            {{-- Products --}}
+            @can(['can:products'])
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProducts"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>{{__('Products')}}</span>
+                </a>
+                <div id="collapseProducts" class="collapse @if($route == 'products') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">{{__('Categories Screens:')}} </h6>
+                        <a class="collapse-item" href="{{route('admin.products.create')}}">{{__('Add Products')}}</a>
+                        <a class="collapse-item" href="{{route('admin.products.index')}}">{{__('Products')}}</a>
+                    </div>
+                </div>
+            </li>
+            @endcan
             {{-- settings --}}
             @can(['can:roles'])
                 <!-- Nav Item - Pages Collapse Menu -->

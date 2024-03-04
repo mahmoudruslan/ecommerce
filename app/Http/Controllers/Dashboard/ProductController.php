@@ -4,28 +4,27 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\DataTables\CategoryDataTable;
+use App\DataTables\ProductDataTable;
 use App\Models\Category;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
-use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\ProductRequest;
 use Hash;
 
 use Illuminate\Support\Facades\Crypt;
-class CategoryController extends Controller
+class ProductController extends Controller
 {
-    public function index(CategoryDataTable $dataTable)
+    public function index(ProductDataTable $dataTable)
     {
-        return $dataTable->render('dashboard.categories.index');
+        return $dataTable->render('dashboard.products.index');
     }
 
     public function create()
     {
-        // $permissions = Permission::get();
-        return view('dashboard.categories.create');
+        return view('dashboard.products.create');
     }
 
-    public function store(CategoryRequest $request)
+    public function store(ProductRequest $request)
     {
         try {
             $category = Category::create([
@@ -33,7 +32,7 @@ class CategoryController extends Controller
                 'name_en' => $request->name_en,
                 'image' => 'avatar.png',
             ]);
-            return redirect()->route('admin.categories.index')->with(['success' => __('Category Created successfully')]);
+            return redirect()->route('admin.products.index')->with(['success' => __('Category Created successfully')]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -43,7 +42,7 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::findOrFail(Crypt::decrypt($id));
-            return view('dashboard.categories.show', compact('category'));
+            return view('dashboard.products.show', compact('category'));
         } catch (\Exception $e) {
 
             return $e->getMessage();
@@ -55,13 +54,13 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::findOrFail(Crypt::decrypt($id));
-            return view('dashboard.categories.edit', compact('category'));
+            return view('dashboard.products.edit', compact('category'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function update(CategoryRequest $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         try {
             $category = Category::findOrFail($id);
@@ -70,7 +69,7 @@ class CategoryController extends Controller
                 'name_en' => $request->name_en,
                 'image' => 'avatar.png',
             ]);
-            return redirect()->route('admin.categories.index')->with('success','category updated successfully.');
+            return redirect()->route('admin.products.index')->with('success','category updated successfully.');
 
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -82,7 +81,7 @@ class CategoryController extends Controller
         try {
             $category = Category::findOrFail($id);
             $category->delete();
-            return redirect()->route('admin.categories.index')->with('success','category deleted successfully');
+            return redirect()->route('admin.products.index')->with('success','category deleted successfully');
         } catch (\Exception $e) {
 
             return $e->getMessage();
@@ -91,3 +90,4 @@ class CategoryController extends Controller
     }
 
 }
+

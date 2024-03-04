@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -11,12 +11,9 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
-use App\Traits\HTMLTrait;
 
-
-class CategoryDataTable extends DataTable
+class ProductDataTable extends DataTable
 {
-    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -26,24 +23,17 @@ class CategoryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function($row){
-                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.categories.edit", [$row->slug, encrypt($row->id)]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
-                $btn = $btn. '<div style="width: 150px"> <a href=" ' . route("admin.categories.show", [$row->slug, encrypt($row->id)]) . '" class=" btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $row->id.'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
-                $btn = $btn. $this->getModal('admin.categories.destroy', $row->id);
-
-            return $btn;
-            })
+            ->addColumn('action', 'product.action')
             ->setRowId('id');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Category $model
+     * @param \App\Models\Product $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Category $model): QueryBuilder
+    public function query(Product $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -56,15 +46,11 @@ class CategoryDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('category-table')
+                    ->setTableId('product-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
                     ->orderBy(1)
-                    ->parameters([
-
-                        'language' => asset('dashboard/js/arabic.js')
-                    ])
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -84,18 +70,24 @@ class CategoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
-            Column::make('id'),
-            Column::make('name_ar'),
-            Column::make('name_en'),
-            Column::make('image'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
+            Column::make('id'),
+            Column::make('name_ar'),
+            Column::make('name_en'),
+            Column::make('slug'),
+            Column::make('price'),
+            Column::make('description_ar'),
+            Column::make('description_en'),
+            Column::make('quantity'),
+            Column::make('category_id'),
+            Column::make('featured'),
+            Column::make('status'),
+            Column::make('created_at'),
+            Column::make('updated_at'),
         ];
     }
 
@@ -106,6 +98,6 @@ class CategoryDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Category_' . date('YmdHis');
+        return 'Product_' . date('YmdHis');
     }
 }

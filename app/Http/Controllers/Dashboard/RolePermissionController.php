@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard\Setting;
+namespace App\Http\Controllers\Dashboard;
 
 use App\DataTables\RoleDataTable;
 use App\Http\Controllers\Controller;

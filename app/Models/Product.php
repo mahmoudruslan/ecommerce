@@ -8,11 +8,11 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Str;
 
-class Category extends Model
+class Product extends Model
 {
     use HasFactory, HasSlug;
 
-    protected $fillable = ['name_ar','name_en','image','category_id', 'status'];
+    protected $fillable = ['name_ar','name_en','slug','price','description_ar','description_en' , 'quantity','category_id','featured','status'];
 
 
     /**
@@ -31,10 +31,11 @@ class Category extends Model
         return 'slug';
     }
 
-    public function products()
+    public function category()
     {
-        return $this->hasMany(Product::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
+
     public function images()
     {
         return $this->morphMany(Media::class, 'mediable');
@@ -43,20 +44,5 @@ class Category extends Model
     public function tags()
     {
         return $this->morphMany(Tag::class, 'taggable');
-    }
-
-    public function parent()
-    {
-        return $this->hasOne(Category::class, 'id', 'parent_id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(Category::class, 'parent_id', 'id');
-    }
-
-    public function appearChildren()
-    {
-        return $this->hasMany(Category::class, 'parent_id', 'id')->where('status', true);
     }
 }

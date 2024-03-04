@@ -10881,7 +10881,7 @@ button:focus, button:active {
   .navbar-brand {
     position: absolute;
     top: 50%;
-    right: 43%;
+    right: 32%;
     transform: translate(-50%, -50%);
   }
 }

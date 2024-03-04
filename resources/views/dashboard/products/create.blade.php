@@ -1,7 +1,7 @@
 @extends('dashboard.layout.master')
 
 @section('title')
-    {{ __('Edit Categories') }}
+    {{ __('Add Products') }}
 @endsection
 @section('content')
     <!-- Content Wrapper -->
@@ -11,7 +11,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">{{ __('Edit Categories') }}</h1>
+                <h1 class="h3 mb-2 text-gray-800">{{ __('Add Products') }}</h1>
                 <div class="row justify-content-center">
 
                     <div class="col-xl-10 col-lg-12 col-md-9">
@@ -23,15 +23,13 @@
                                     <div class="col-lg-12">
                                         <div class="p-5">
                                             <div class="text-center">
-                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }}</h1>
+                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Add') }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.categories.update', $category->id) }}" method="POST"
+                                            <form action="{{ route('admin.products.store') }}" method="POST"
                                                 class="user">
-                                                @method('patch')
                                                 @csrf
-                                                <input type="hidden" name="id" value="{{$category->id}}"><!--for validation request -->
                                                 <div class="form-group">
-                                                    <input value="{{$category->name_ar}}" type="text" name="name_ar" class="form-control form-control-user" placeholder="{{ __('Enter Name In Arabic') }}">
+                                                    <input type="text" name="name_ar" class="form-control form-control-user" placeholder="{{ __('Enter Name In Arabic') }}">
                                                     @error('name_ar')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>
@@ -39,7 +37,7 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <input value="{{$category->name_en}}" type="text" name="name_en" class="form-control form-control-user" placeholder="{{ __('Enter Name In English') }}">
+                                                    <input type="text" name="name_en" class="form-control form-control-user" placeholder="{{ __('Enter Name In English') }}">
                                                     @error('name_en')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>

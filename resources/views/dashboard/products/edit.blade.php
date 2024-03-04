@@ -1,7 +1,7 @@
 @extends('dashboard.layout.master')
 
 @section('title')
-    {{ __('Edit Categories') }}
+    {{ __('Edit Products') }}
 @endsection
 @section('content')
     <!-- Content Wrapper -->
@@ -11,7 +11,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">{{ __('Edit Categories') }}</h1>
+                <h1 class="h3 mb-2 text-gray-800">{{ __('Edit Products') }}</h1>
                 <div class="row justify-content-center">
 
                     <div class="col-xl-10 col-lg-12 col-md-9">
@@ -25,7 +25,7 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.categories.update', $category->id) }}" method="POST"
+                                            <form action="{{ route('admin.products.update', $category->id) }}" method="POST"
                                                 class="user">
                                                 @method('patch')
                                                 @csrf

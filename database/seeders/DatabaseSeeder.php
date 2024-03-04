@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,7 +20,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         \App\Models\User::factory(20)->create();
-        \App\Models\Category::factory(20)->create();
+        \App\Models\Category::factory(20)->create()->each(function($category){
+            $category->update([
+                'parent_id' => Category::all()->random()->id
+            ]);
+        });
+        \App\Models\Product::factory(100)->create();
         $this->call([
             RolePermissionSeeder::class,
         ]);
