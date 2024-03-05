@@ -18,8 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tag_id');
             $table->unsignedBigInteger('taggable_id');
             $table->string('taggable_type');
-
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

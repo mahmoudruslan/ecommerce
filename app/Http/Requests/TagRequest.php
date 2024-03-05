@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
-class ProductRequest extends FormRequest
+class TagRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,19 +24,16 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
-
         $rules = [
-            'name_ar' => 'required|string|max:255|unique:categories,name_ar',
-            'name_en' => 'required|string|max:255|unique:categories,name_en',
-            // 'image' => 'required',
-
+            'name_ar' => 'required|string|max:255|unique:tags,name_ar',
+            'name_en' => 'required|string|max:255|unique:tags,name_en',
         ];
+
         if(Request::input('id') != null)
         {
             $rules = [
-                'name_ar' => 'required|string|max:255|unique:categories,name_ar,'.$this->id,
-                'name_en' => 'required|string|max:255|unique:categories,name_en,'.$this->id,
-                // 'image' => 'required',
+                'name_ar' => 'required|string|max:255|unique:tags,name_ar,'.$this->id,
+                'name_en' => 'required|string|max:255|unique:tags,name_en,'.$this->id,
             ];
         }
 
@@ -47,6 +45,8 @@ class ProductRequest extends FormRequest
     //     return [
     //         'name_ar.required' => __('This field is required'),
     //         'name_en.required' => __('This field is required'),
+    //         // 'name_ar.unique' => __('This field must be unique'),
+    //         // 'name_en.unique' => __('This field must be unique'),
     //         // 'image.required' => __('This field is required'),
     //     ];
     // }

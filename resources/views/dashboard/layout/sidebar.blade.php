@@ -36,7 +36,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
             {{-- categories --}}
-            @can(['can:categories'])
+            @can(['categories'])
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategory"
@@ -53,8 +53,26 @@
                 </div>
             </li>
             @endcan
+            {{-- tags --}}
+            @can(['tags'])
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTag"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>{{__('Tags')}}</span>
+                </a>
+                <div id="collapseTag" class="collapse @if($route == 'tags') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">{{__('Tags Screens:')}} </h6>
+                        <a class="collapse-item" href="{{route('admin.tags.create')}}">{{__('Add Tags')}}</a>
+                        <a class="collapse-item" href="{{route('admin.tags.index')}}">{{__('Tags')}}</a>
+                    </div>
+                </div>
+            </li>
+            @endcan
             {{-- Products --}}
-            @can(['can:products'])
+            @can(['products'])
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProducts"
@@ -72,7 +90,7 @@
             </li>
             @endcan
             {{-- settings --}}
-            @can(['can:roles'])
+            @can(['roles'])
                 <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSettings"

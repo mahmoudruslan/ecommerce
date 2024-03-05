@@ -17,14 +17,15 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+        $categories = Category::whereNotNull('parent_id')->pluck('id');
         return [
-                'name_ar' => fake()->unique()->name(),
-                'name_en' => fake()->unique()->word(),
+                'name_ar' => fake()->name(),
+                'name_en' => fake()->word(),
                 'price' => rand(50, 5000),
-                'description_ar' => fake()->unique()->sentence(),
-                'description_en' => fake()->unique()->sentence(),
+                'description_ar' => fake()->paragraph(),
+                'description_en' => fake()->paragraph(),
                 'quantity' => rand(1, 200),
-                'category_id' => Category::all()->random()->id,
+                'category_id' => $categories->random(),
                 'featured' => rand(0, 1),
                 'status' => rand(0, 1),
         ];

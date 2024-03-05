@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('mobile')->unique();
             $table->string('image')->nullable();
+            $table->string('slug');
             $table->unsignedTinyInteger('status')->default(0);
             $table->rememberToken();
             $table->timestamps();

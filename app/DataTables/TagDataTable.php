@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use App\Traits\HTMLTrait;
 
-class UserDataTable extends DataTable
+class TagDataTable extends DataTable
 {
     use HTMLTrait;
     /**
@@ -26,11 +26,11 @@ class UserDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row){
-                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.users.edit", [$row->slug, encrypt($row->id)]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
-                $btn = $btn. '<a href=" ' . route("admin.users.show", [$row->slug, encrypt($row->id)]) . '" class="btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
-
+                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.tags.edit", [$row->slug, encrypt($row->id)]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
+                $btn = $btn. '<div style="width: 150px"> <a href=" ' . route("admin.tags.show", [$row->slug, encrypt($row->id)]) . '" class=" btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
                 $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $row->id.'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
-                $btn = $btn. $this->getModal('admin.users.destroy', $row->id);
+                $btn = $btn. $this->getModal('admin.tags.destroy', $row->id);
+
             return $btn;
             })
             ->setRowId('id');
@@ -39,10 +39,10 @@ class UserDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\User $model
+     * @param \App\Models\Tag $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(User $model): QueryBuilder
+    public function query(Tag $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -55,7 +55,7 @@ class UserDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('user-table')
+                    ->setTableId('tag-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -79,20 +79,19 @@ class UserDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+
             Column::make('id'),
-            Column::make('first_name'),
-            Column::make('last_name'),
-            Column::make('username'),
-            Column::make('email'),
+            Column::make('name_ar'),
+            Column::make('name_en'),
+            Column::make('slug'),
             Column::make('status'),
-            Column::make('mobile'),
+            Column::make('created_at'),
+            Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
-
-
         ];
     }
 
@@ -103,7 +102,6 @@ class UserDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'User_' . date('YmdHis');
+        return 'Tag_' . date('YmdHis');
     }
-
 }

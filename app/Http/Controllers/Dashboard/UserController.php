@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use App\DataTables\UserDataTable;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -16,74 +19,84 @@ class UserController extends Controller
     public function index(UserDataTable $dataTable)
     {
         return $dataTable->render('dashboard.users.index');
-
-
-
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('dashboard.users.create');
+    }
+    public function store(UserRequest $request)
+    {
+        try {
+            // return $request;
+            $users = User::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'username' => $request->username,
+                'email' => $request->email,
+                'mobile' => $request->mobile,
+                'status' => true,
+                'password' => $request->password,
+                'image' => 'product-1',
+                'password' => Hash::make('password'),
+            ]);
+            return redirect()->route('admin.users.index')->with(['success' => __('User Created successfully')]);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function show($slug, $id)
     {
-        //
+        dd('edit');
+
+        try {
+            $users = User::findOrFail(Crypt::decrypt($id));
+            return view('dashboard.users.show', compact('user'));
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
+        }
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit( $slug, $id)
     {
-        return 'show';
+        dd('edit');
+        try {
+            $user = User::findOrFail(Crypt::decrypt($id));
+            return view('dashboard.users.edit', compact('user'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(UserRequest $request, $id)
     {
-        return 'edit';
-    }
+        try {
+            $users = User::findOrFail($id);
+            $users->update([
+                'name_ar' => $request->name_ar,
+                'name_en' => $request->name_en,
+                'image' => 'avatar.png',
+            ]);
+            return redirect()->route('admin.users.index')->with('success','User updated successfully.');
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy( $id)
     {
-        return 'delete';
+        try {
+            $users = User::findOrFail($id);
+            $users->delete();
+            return redirect()->route('admin.users.index')->with('success','User deleted successfully');
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
+        }
+
     }
 }

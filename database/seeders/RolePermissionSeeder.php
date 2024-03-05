@@ -24,6 +24,7 @@ class RolePermissionSeeder extends Seeder
             'main',
             'categories',
             'products',
+            'tags',
         ];
 
         // Reset cached roles and permissions
@@ -37,11 +38,12 @@ class RolePermissionSeeder extends Seeder
         // dd($permissions->toArray());
         Permission::insert($permissions->toArray());
 
-        $super_admin = Role::create(['name' => 'super-admin']);
+        Role::create(['name' => 'super-admin']);
         $admin_role = Role::create(['name' => 'admin']);
-        $super_admin = Role::create(['name' => 'employee']);
+        $employee_role = Role::create(['name' => 'employee']);
         $customer = Role::create(['name' => 'customer']);
-        $admin_role->givePermissionTo([ 'users']);
+        $admin_role->givePermissionTo([ 'users', 'roles', 'main']);
+        $employee_role->givePermissionTo(['products', 'categories', 'tags']);
 
 
     }

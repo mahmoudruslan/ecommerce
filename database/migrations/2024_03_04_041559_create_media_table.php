@@ -18,10 +18,8 @@ return new class extends Migration
             $table->string('file_name');
             $table->string('file_size');
             $table->string('file_sort');
-            $table->string('file_status')->default(0);
-            $table->unsignedBigInteger('media_id');
-            $table->unsignedBigInteger('mediable_id');
-            $table->string('mediable_type');
+            $table->string('status')->default(0);
+            $table->string('file_type');
             $table->timestamps();
         });
     }

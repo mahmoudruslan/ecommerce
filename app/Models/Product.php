@@ -36,13 +36,13 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function images()
+    public function media()
     {
-        return $this->morphMany(Media::class, 'mediable');
+        return $this->morphToMany(Media::class, 'mediable');
     }
 
     public function tags()
     {
-        return $this->morphMany(Tag::class, 'taggable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 }

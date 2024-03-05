@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name_en');
             $table->string('image');
             $table->string('slug')->unique();
-            $table->string('status')->default(0);
+            $table->string('status')->default(1);
             $table->unsignedBigInteger('parent_id')->nullable()->nulOnDelete();
             $table->foreign('parent_id')->references('id')->on('categories');
             $table->timestamps();

@@ -26,29 +26,33 @@ class CategoryRequest extends FormRequest
     {
 
         $rules = [
-            'name_ar' => 'required|string|max:255|unique:categories,name_ar',
-            'name_en' => 'required|string|max:255|unique:categories,name_en',
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+
+            // 'name_ar' => 'required|string|max:255|unique:categories,name_ar',
+            // 'name_en' => 'required|string|max:255|unique:categories,name_en',
             // 'image' => 'required',
 
         ];
-        if(Request::input('id') != null)
-        {
-            $rules = [
-                'name_ar' => 'required|string|max:255|unique:categories,name_ar,'.$this->id,
-                'name_en' => 'required|string|max:255|unique:categories,name_en,'.$this->id,
-                // 'image' => 'required',
-            ];
-        }
+        // if(Request::input('id') != null)
+        // {
+        //     $rules = [
+        //         'name_ar' => 'required|string|max:255|unique:categories,name_ar,'.$this->id,
+        //         'name_en' => 'required|string|max:255|unique:categories,name_en,'.$this->id,
+        //     ];
+        // }
 
         return $rules;
     }
 
-    public function messages(): array
-    {
-        return [
-            'name_ar.required' => __('This field is required'),
-            'name_en.required' => __('This field is required'),
-            // 'image.required' => __('This field is required'),
-        ];
-    }
+    // public function messages(): array
+    // {
+    //     return [
+    //         'name_ar.required' => __('This field is required'),
+    //         'name_en.required' => __('This field is required'),
+    //         // 'name_ar.unique' => __('This field must be unique'),
+    //         // 'name_en.unique' => __('This field must be unique'),
+    //         // 'image.required' => __('This field is required'),
+    //     ];
+    // }
 }

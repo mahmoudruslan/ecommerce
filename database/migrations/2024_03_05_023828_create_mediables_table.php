@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('mediables', function (Blueprint $table) {
             $table->id();
-            $table->string('name_ar');
-            $table->string('name_en');
-            $table->string('slug')->unique();
-            $table->boolean('status')->default(true);
-            $table->timestamps();
+            $table->unsignedBigInteger('media_id');
+            $table->unsignedBigInteger('mediable_id');
+            $table->string('mediable_type');
+            // $table->timestamps();
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('mediables');
     }
 };

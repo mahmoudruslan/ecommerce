@@ -17,7 +17,9 @@ class TagFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name_ar' => fake()->unique()->name(),
+            'name_en' => fake()->unique()->word()
+
         ];
     }
 }

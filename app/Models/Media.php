@@ -9,7 +9,7 @@ class Media extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['file_name','file_size','file_sort','file_status', 'media_id', 'mediable_id', 'mediable_type'];
+    protected $fillable = ['file_name','file_size','file_sort','status', 'file_type'];
 
     public function mediable()
     {

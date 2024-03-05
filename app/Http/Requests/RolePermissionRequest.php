@@ -27,7 +27,7 @@ class RolePermissionRequest extends FormRequest
 
         $rules = [
             'name' => 'required|string|max:255|unique:'.config('permission.table_names.roles', 'roles').',name',
-            
+
             'permissions' => 'required|array',
             'permissions.*' => 'string'
         ];
@@ -39,18 +39,18 @@ class RolePermissionRequest extends FormRequest
                 'permissions.*' => 'string'
             ];
         }
-       
+
         return $rules;
     }
 
-    public function messages(): array
-    {
-        return [
-            'name.required' => __('This field is required'),
-            'permissions.required' => __('you must choose permission'),
-           
-            // 'email.email' => __('This field must be an email'),
-            'name.max' => __('This is field must be no more than 255 characters'),
-        ];
-    }
+    // public function messages(): array
+    // {
+    //     return [
+    //         'name.required' => __('This field is required'),
+    //         'permissions.required' => __('you must choose permission'),
+
+    //         // 'email.email' => __('This field must be an email'),
+    //         'name.max' => __('This is field must be no more than 255 characters'),
+    //     ];
+    // }
 }

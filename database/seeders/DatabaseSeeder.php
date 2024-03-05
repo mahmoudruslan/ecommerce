@@ -5,8 +5,6 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\User;
-use App\Models\Category;
-use App\Models\Product;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,17 +18,21 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         \App\Models\User::factory(20)->create();
-        \App\Models\Category::factory(20)->create()->each(function($category){
-            $category->update([
-                'parent_id' => Category::all()->random()->id
-            ]);
-        });
-        \App\Models\Product::factory(100)->create();
+
+
         $this->call([
             RolePermissionSeeder::class,
+            TagSeeder::class,
+            MediaSeeder::class,
+            CategorySeeder::class,
+        ]);
+        \App\Models\Product::factory(1000)->create();
+        $this->call([
+            ProductTagsSeeder::class,
+            ProductMediaSeeder::class,
         ]);
 
-        $user = User::factory()->create([
+        $super_admin = User::factory()->create([
             'first_name' => 'mahmoud',
             'last_name' => 'kora',
             'username' => 'mahmoudkora',
@@ -40,8 +42,8 @@ class DatabaseSeeder extends Seeder
             'image' => 'avatar.svg',
             'status' => 1,
         ]);
-        $user->assignRole('super-admin');
-        $user = User::factory()->create([
+        $super_admin->assignRole('super-admin');
+        $admin = User::factory()->create([
             'first_name' => 'rezk',
             'last_name' => 'kora',
             'username' => 'rezkkora',
@@ -51,8 +53,8 @@ class DatabaseSeeder extends Seeder
             'image' => 'avatar.svg',
             'status' => 1,
         ]);
-        $user->assignRole('admin');
-        $user = User::factory()->create([
+        $admin->assignRole('admin');
+        $employee = User::factory()->create([
             'first_name' => 'ebraheem',
             'last_name' => 'kora',
             'username' => 'ebraheemkora',
@@ -62,6 +64,16 @@ class DatabaseSeeder extends Seeder
             'image' => 'avatar.svg',
             'status' => 1,
         ]);
-        $user->assignRole('employee');
+        $employee->assignRole('employee');
+
+
+
+
+
+                // \App\Models\Category::factory(20)->create()->each(function($category){
+        //     $category->update([
+        //         'parent_id' => Category::all()->random()->id
+        //     ]);
+        // });
     }
 }
