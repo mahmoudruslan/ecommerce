@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class TagRequest extends FormRequest
 {
@@ -29,11 +30,12 @@ class TagRequest extends FormRequest
             'name_en' => 'required|string|max:255|unique:tags,name_en',
         ];
 
-        if(Request::input('id') != null)
-        {
+
+        if (Request::input('id') != null) {
+            $id = Crypt::decrypt(Request::input('id'));
             $rules = [
-                'name_ar' => 'required|string|max:255|unique:tags,name_ar,'.$this->id,
-                'name_en' => 'required|string|max:255|unique:tags,name_en,'.$this->id,
+                'name_ar' => 'required|string|max:255|unique:tags,name_ar,'.$id,
+                'name_en' => 'required|string|max:255|unique:tags,name_en,'.$id,
             ];
         }
 

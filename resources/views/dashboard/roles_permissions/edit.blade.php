@@ -28,10 +28,10 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">{{__('Edit Role')}}</h1>
                                     </div>
-                                    <form action="{{route('admin.permission-role.update', $role->id)}}" method="post" class="user">
+                                    <form action="{{route('admin.permission-role.update', encrypt($role->id))}}" method="post" class="user">
                                     @method('patch')
                                     @csrf
-                                    <input type="hidden" name="id" value="{{$role->id}}"><!--for validation request -->
+                                    <input type="hidden" name="id" value="{{encrypt($role->id)}}"><!--for validation request -->
                                         <div class="form-group">
                                             <input type="text" name="name" value="{{$role->name}}" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"

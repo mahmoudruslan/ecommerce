@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Crypt;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Http\Requests\RolePermissionRequest;
@@ -46,7 +47,7 @@ class RolePermissionController extends Controller
         try {
 
             $permissions = Permission::get();
-            $role = Role::findOrFail($id);
+            $role = Role::findOrFail(Crypt::decrypt($id));
             return view('dashboard.roles_permissions.edit', compact('permissions', 'role'));
         } catch (\Exception $e) {
 
@@ -57,7 +58,7 @@ class RolePermissionController extends Controller
     public function update(RolePermissionRequest $request, $id)
     {
         try {
-            $role = Role::findOrFail($id);
+            $role = Role::findOrFail(Crypt::decrypt($id));
             $role->update(['name' => $request->name , 'guard_name'=> 'web' ]);
             $permissions = $request->permissions ?? [];
             $role->syncPermissions($permissions);
@@ -72,7 +73,7 @@ class RolePermissionController extends Controller
     {
         try {
 
-            $role = Role::findOrFail($id);
+            $role = Role::findOrFail(Crypt::decrypt($id));
             $permissions = $role->permissions->pluck('name');
             $role->revokePermissionTo($permissions);
             $role->delete();

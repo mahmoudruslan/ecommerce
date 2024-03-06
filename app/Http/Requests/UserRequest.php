@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+
 
 class UserRequest extends FormRequest
 {
@@ -23,15 +26,30 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
-            'mobile' => ['required', 'numeric', 'digits_between:6,50', 'unique:users'],
+        $rules = [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users',
+            'mobile' => 'required|numeric|digits_between:6,50|unique:users',
             // 'image' => ['required', 'string'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
         ];
+        if (Request::input('id') != null) {
+            $id = Crypt::decrypt(Request::input('id'));
+            // dd(true);
+            $rules = [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,'.$id,
+            'mobile' => 'required|numeric|digits_between:6,50|unique:users,mobile,'.$id,
+            // 'image' => ['required', 'string'],
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+            'password' => 'required|string|min:8|confirmed',
+            ];
+        }
+
+        return $rules;
     }
 
     // public function messages(): array

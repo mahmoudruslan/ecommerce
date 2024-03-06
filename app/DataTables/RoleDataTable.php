@@ -27,9 +27,10 @@ class RoleDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row){
-                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.permission-role.edit", $row->id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $row->id.'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
-                $btn = $btn. $this->getModal('admin.permission-role.destroy', $row->id);
+                $id = encrypt($row->id);
+                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.permission-role.edit", $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
+                $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $id.'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
+                $btn = $btn. $this->getModal('admin.permission-role.destroy', $id);
 
             return $btn;
             })

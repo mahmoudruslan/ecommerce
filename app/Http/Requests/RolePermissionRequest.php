@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class RolePermissionRequest extends FormRequest
 {
@@ -31,10 +32,10 @@ class RolePermissionRequest extends FormRequest
             'permissions' => 'required|array',
             'permissions.*' => 'string'
         ];
-        if(Request::input('id') != null)
-        {
+        if (Request::input('id') != null) {
+            $id = Crypt::decrypt(Request::input('id'));
             $rules = [
-                'name' => 'required|string|max:255|unique:'.config('permission.table_names.roles', 'roles').',name,'.$this->id,
+                'name' => 'required|string|max:255|unique:'.config('permission.table_names.roles', 'roles').',name,'.$id,
                 'permissions' => 'required|array',
                 'permissions.*' => 'string'
             ];

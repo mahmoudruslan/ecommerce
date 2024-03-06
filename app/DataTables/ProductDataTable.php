@@ -11,9 +11,11 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use App\Traits\HTMLTrait;
 
 class ProductDataTable extends DataTable
 {
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -23,7 +25,16 @@ class ProductDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'product.action')
+            ->addColumn('action', function($row){
+                $id = encrypt($row->id);
+                // dd($row->id);
+                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.products.edit", [$row->slug, $id]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
+                $btn = $btn. '<div style="width: 150px"> <a href=" ' . route("admin.products.show", [$row->slug, $id]) . '" class=" btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
+                $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $id.'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
+                $btn = $btn. $this->getModal('admin.products.destroy', $id);
+
+            return $btn;
+            })
             ->setRowId('id');
     }
 
@@ -70,11 +81,7 @@ class ProductDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
+
             Column::make('id'),
             Column::make('name_ar'),
             Column::make('name_en'),
@@ -86,8 +93,13 @@ class ProductDataTable extends DataTable
             Column::make('category_id'),
             Column::make('featured'),
             Column::make('status'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            // Column::make('created_at'),
+            // Column::make('updated_at'),
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(60)
+            ->addClass('text-center')
         ];
     }
 

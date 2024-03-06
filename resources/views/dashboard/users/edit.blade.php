@@ -23,11 +23,11 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.users.update', $user->id) }}" method="POST"
-                                                class="user">
+                                            <form action="{{ route('admin.users.update', encrypt($user->id)) }}" method="POST" class="user">
                                                 @csrf
-                                                @method('parch')
+                                                @method('patch')
                                                 <div class="form-group row">
+                                                    <input name="id" value="{{ encrypt($user->id) }}" type="hidden">
                                                     <div class="col-md-6">
                                                         <input type="text" name="first_name" value="{{ $user->first_name }}" class="form-control form-control-user @error('first_name') is-invalid @enderror" placeholder="{{ __('Enter First Name') }}">
                                                         @error('first_name')

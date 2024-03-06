@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\DataTables\ProductDataTable;
-use App\Models\Category;
+use App\Models\product;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Http\Requests\ProductRequest;
@@ -27,12 +27,18 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         try {
-            $category = Category::create([
-                'name_ar' => $request->name_ar,
-                'name_en' => $request->name_en,
-                'image' => 'avatar.png',
+            $product = Product::create([
+                // name_ar
+                // name_en
+                // price
+                // description_ar
+                // description_en
+                // quantity
+                // category_id
+                // featured
+                // status
             ]);
-            return redirect()->route('admin.products.index')->with(['success' => __('Category Created successfully')]);
+            return redirect()->route('admin.products.index')->with(['success' => __('Product Created successfully')]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -41,8 +47,8 @@ class ProductController extends Controller
     public function show($slug, $id)
     {
         try {
-            $category = Category::findOrFail(Crypt::decrypt($id));
-            return view('dashboard.products.show', compact('category'));
+            $product = Product::findOrFail(Crypt::decrypt($id));
+            return view('dashboard.products.show', compact('product'));
         } catch (\Exception $e) {
 
             return $e->getMessage();
@@ -53,8 +59,8 @@ class ProductController extends Controller
     public function edit( $slug, $id)
     {
         try {
-            $category = Category::findOrFail(Crypt::decrypt($id));
-            return view('dashboard.products.edit', compact('category'));
+            $product = Product::findOrFail(Crypt::decrypt($id));
+            return view('dashboard.products.edit', compact('product'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -63,13 +69,13 @@ class ProductController extends Controller
     public function update(ProductRequest $request, $id)
     {
         try {
-            $category = Category::findOrFail($id);
-            $category->update([
+            $product = Product::findOrFail($id);
+            $product->update([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
                 'image' => 'avatar.png',
             ]);
-            return redirect()->route('admin.products.index')->with('success','category updated successfully.');
+            return redirect()->route('admin.products.index')->with('success','Product updated successfully.');
 
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -79,9 +85,9 @@ class ProductController extends Controller
     public function destroy( $id)
     {
         try {
-            $category = Category::findOrFail($id);
-            $category->delete();
-            return redirect()->route('admin.products.index')->with('success','category deleted successfully');
+            $product = Product::findOrFail($id);
+            $product->delete();
+            return redirect()->route('admin.products.index')->with('success','Product deleted successfully');
         } catch (\Exception $e) {
 
             return $e->getMessage();

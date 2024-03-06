@@ -25,11 +25,11 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.tags.update', $tag->id) }}" method="POST"
+                                            <form action="{{ route('admin.tags.update', encrypt($tag->id)) }}" method="POST"
                                                 class="user">
                                                 @method('patch')
                                                 @csrf
-                                                <input type="hidden" name="id" value="{{$tag->id}}"><!--for validation request -->
+                                                <input type="hidden" name="id" value="{{encrypt($tag->id)}}"><!--for validation request -->
                                                 <div class="form-group">
                                                     <input value="{{$tag->name_ar}}" type="text" name="name_ar" class="form-control form-control-user" placeholder="{{ __('Enter Name In Arabic') }}">
                                                     @error('name_ar')

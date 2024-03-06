@@ -56,8 +56,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
         ->middleware(['middleware' => 'can:products'])
         ->group( function(){
             Route::resource('products', ProductController::class,['except' => ['show', 'edit']]);
-            Route::get('/details/{id}/{slug}', 'show')->name('products.show');
-            Route::get('/edit/{id}/{slug}', 'edit')->name('products.edit');
+            Route::get('products/details/{id}/{slug}', 'show')->name('products.show');
+            Route::get('products/edit/{id}/{slug}', 'edit')->name('products.edit');
         });
 
         //tags routes

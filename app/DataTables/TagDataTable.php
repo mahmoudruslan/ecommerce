@@ -26,10 +26,11 @@ class TagDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row){
-                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.tags.edit", [$row->slug, encrypt($row->id)]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
-                $btn = $btn. '<div style="width: 150px"> <a href=" ' . route("admin.tags.show", [$row->slug, encrypt($row->id)]) . '" class=" btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $row->id.'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
-                $btn = $btn. $this->getModal('admin.tags.destroy', $row->id);
+                $id = encrypt($row->id);
+                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.tags.edit", [$row->slug, $id]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
+                $btn = $btn. '<div style="width: 150px"> <a href=" ' . route("admin.tags.show", [$row->slug, $id]) . '" class=" btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
+                $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $id.'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
+                $btn = $btn. $this->getModal('admin.tags.destroy', $id);
 
             return $btn;
             })

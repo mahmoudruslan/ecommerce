@@ -25,12 +25,14 @@ class UserDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function($row){
-                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.users.edit", [$row->slug, encrypt($row->id)]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
-                $btn = $btn. '<a href=" ' . route("admin.users.show", [$row->slug, encrypt($row->id)]) . '" class="btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
 
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $row->id.'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
-                $btn = $btn. $this->getModal('admin.users.destroy', $row->id);
+            ->addColumn('action', function($row){
+                $id = encrypt($row->id);
+                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.users.edit", [$row->slug, $id]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
+                $btn = $btn. '<a href=" ' . route("admin.users.show", [$row->slug, $id]) . '" class="btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
+
+                $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $id .'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
+                $btn = $btn. $this->getModal('admin.users.destroy', $id);
             return $btn;
             })
             ->setRowId('id');

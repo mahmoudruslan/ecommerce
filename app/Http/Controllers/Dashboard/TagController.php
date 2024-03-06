@@ -42,6 +42,7 @@ class TagController extends Controller
     public function show($slug, $id)
     {
         try {
+            dd('tags show');
             $tag = Tag::findOrFail(Crypt::decrypt($id));
             return view('dashboard.tags.show', compact('tag'));
         } catch (\Exception $e) {
@@ -64,7 +65,7 @@ class TagController extends Controller
     public function update(TagRequest $request, $id)
     {
         try {
-            $tag = Tag::findOrFail($id);
+            $tag = Tag::findOrFail(Crypt::decrypt($id));
             $tag->update([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
@@ -80,7 +81,7 @@ class TagController extends Controller
     public function destroy( $id)
     {
         try {
-            $tag = Tag::findOrFail($id);
+            $tag = Tag::findOrFail(Crypt::decrypt($id));
             $tag->delete();
             return redirect()->route('admin.tags.index')->with('success','Tag deleted successfully');
         } catch (\Exception $e) {

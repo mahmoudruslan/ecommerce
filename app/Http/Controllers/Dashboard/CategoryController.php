@@ -10,8 +10,8 @@ use DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Http\Requests\CategoryRequest;
 use Hash;
-
 use Illuminate\Support\Facades\Crypt;
+
 class CategoryController extends Controller
 {
     public function index(CategoryDataTable $dataTable)
@@ -41,6 +41,7 @@ class CategoryController extends Controller
 
     public function show($slug, $id)
     {
+        dd('categories show');
         try {
             $category = Category::findOrFail(Crypt::decrypt($id));
             return view('dashboard.categories.show', compact('category'));
@@ -64,7 +65,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, $id)
     {
         try {
-            $category = Category::findOrFail($id);
+            $category = Category::findOrFail(Crypt::decrypt($id));
             $category->update([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
@@ -80,7 +81,7 @@ class CategoryController extends Controller
     public function destroy( $id)
     {
         try {
-            $category = Category::findOrFail($id);
+            $category = Category::findOrFail(Crypt::decrypt($id));
             $category->delete();
             return redirect()->route('admin.categories.index')->with('success','category deleted successfully');
         } catch (\Exception $e) {

@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Http\Request;
 
 class ProductRequest extends FormRequest
 {
@@ -25,16 +27,24 @@ class ProductRequest extends FormRequest
     {
 
         $rules = [
-            'name_ar' => 'required|string|max:255|unique:categories,name_ar',
-            'name_en' => 'required|string|max:255|unique:categories,name_en',
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'price' => 'required|string|max:255',
+            'description_ar' => 'required|string|max:500',
+            'description_en' => 'required|string|max:500',
+            'quantity' => 'required|string|max:50',
+            'category_id' => 'required|string|max:50',
+            'featured' => 'required|string|max:1',
+            'status' => 'required|string|max:1',
+
             // 'image' => 'required',
 
         ];
-        if(Request::input('id') != null)
-        {
+        if (Request::input('id') != null) {
+            $id = Crypt::decrypt(Request::input('id'));
             $rules = [
-                'name_ar' => 'required|string|max:255|unique:categories,name_ar,'.$this->id,
-                'name_en' => 'required|string|max:255|unique:categories,name_en,'.$this->id,
+                'name_ar' => 'required|string|max:255|unique:categories,name_ar,'.$id,
+                'name_en' => 'required|string|max:255|unique:categories,name_en,'.$id,
                 // 'image' => 'required',
             ];
         }
