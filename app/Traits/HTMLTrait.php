@@ -30,4 +30,26 @@ trait HTMLTrait {
             </div>
         </div>';
         }
+        public function getStatusIcon($status){
+        if ($status == '1') {
+            return '<i class="fa fa-check text-success" aria-hidden="true"></i>';
+        }else{
+            return '<i class="fa fa-times text-danger" aria-hidden="true"></i>';
+        }
+    }
+
+    public function getEditLink($route, $slug = '', $id)
+    {
+        return '<div style="width: 150px"> <a href=" ' . route($route, [$slug, $id]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
+    }
+    public function getShowLink($route, $slug, $id)
+    {
+        return '<a href=" ' . route($route, [$slug, $id]) . '" class=" btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
+    }
+    public function getDeleteLink($route, $id)
+    {
+        $btn = ' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $id.'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
+        $btn = $btn. $this->getModal($route, $id);
+        return $btn;
+    }
 }

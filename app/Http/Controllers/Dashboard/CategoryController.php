@@ -33,7 +33,7 @@ class CategoryController extends Controller
                 'name_en' => $request->name_en,
                 'image' => 'avatar.png',
             ]);
-            return redirect()->route('admin.categories.index')->with(['success' => __('Category Created successfully')]);
+            return redirect()->route('admin.categories.index')->with(['success' => __('Item Created successfully.')]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -71,7 +71,7 @@ class CategoryController extends Controller
                 'name_en' => $request->name_en,
                 'image' => 'avatar.png',
             ]);
-            return redirect()->route('admin.categories.index')->with('success','category updated successfully.');
+            return redirect()->route('admin.categories.index')->with('success', __('Item Updated successfully.'));
 
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -83,7 +83,7 @@ class CategoryController extends Controller
         try {
             $category = Category::findOrFail(Crypt::decrypt($id));
             $category->delete();
-            return redirect()->route('admin.categories.index')->with('success','category deleted successfully');
+            return redirect()->route('admin.categories.index')->with('success', __('Item Deleted successfully.'));
         } catch (\Exception $e) {
 
             return $e->getMessage();

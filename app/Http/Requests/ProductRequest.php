@@ -34,8 +34,8 @@ class ProductRequest extends FormRequest
             'description_en' => 'required|string|max:500',
             'quantity' => 'required|string|max:50',
             'category_id' => 'required|string|max:50',
-            'featured' => 'required|string|max:1',
-            'status' => 'required|string|max:1',
+            'featured' => 'max:1',
+            'status' => 'max:1',
 
             // 'image' => 'required',
 
@@ -43,8 +43,15 @@ class ProductRequest extends FormRequest
         if (Request::input('id') != null) {
             $id = Crypt::decrypt(Request::input('id'));
             $rules = [
-                'name_ar' => 'required|string|max:255|unique:categories,name_ar,'.$id,
-                'name_en' => 'required|string|max:255|unique:categories,name_en,'.$id,
+                'name_ar' => 'required|string|max:255',
+                'name_en' => 'required|string|max:255',
+                'price' => 'required|string|max:255',
+                'description_ar' => 'required|string|max:500',
+                'description_en' => 'required|string|max:500',
+                'quantity' => 'required|string|max:50',
+                'category_id' => 'required|string|max:50',
+                'featured' => 'max:1',
+                'status' => 'max:1',
                 // 'image' => 'required',
             ];
         }

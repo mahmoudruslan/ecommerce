@@ -27,14 +27,19 @@ class TagDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row){
                 $id = encrypt($row->id);
-                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.tags.edit", [$row->slug, $id]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
-                $btn = $btn. '<div style="width: 150px"> <a href=" ' . route("admin.tags.show", [$row->slug, $id]) . '" class=" btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $id.'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
-                $btn = $btn. $this->getModal('admin.tags.destroy', $id);
-
-            return $btn;
+                $b =  $this->getEditLink("admin.tags.edit", $row->slug, $id);
+                $b = $b. $this->getShowLink("admin.tags.show", $row->slug, $id);
+                $b = $b .= $this->getDeleteLink($row->slug, $id);
+                return $b;
             })
-            ->setRowId('id');
+            ->editColumn('status', function($row){
+                return $this->getStatusIcon($row->status);
+            })
+            ->editColumn('created_at', function($row){
+                return date('Y-m-d', strtotime($row->created_at));
+            })
+            ->rawColumns(['status', 'action'])
+            ;
     }
 
     /**
@@ -45,7 +50,7 @@ class TagDataTable extends DataTable
      */
     public function query(Tag $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->orderBy('id', 'desc')->newQuery();
     }
 
     /**
@@ -81,14 +86,18 @@ class TagDataTable extends DataTable
     {
         return [
 
-            Column::make('id'),
-            Column::make('name_ar'),
-            Column::make('name_en'),
-            Column::make('slug'),
-            Column::make('status'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
-            Column::computed('action')
+            Column::make('row_number')
+            ->title('#')
+            ->render('meta.row + meta.settings._iDisplayStart + 1;')
+            ->width(50)
+            ->orderable(false),
+            Column::make('name_ar')->title(__('Name In Arabic')),
+            Column::make('name_en')->title(__('Name In English')),
+            Column::make('slug')->title(__('Slug')),
+            Column::make('status')->title(__('Status')),
+            Column::make('created_at')->title(__('Created At')),
+            // Column::make('updated_at'),
+            Column::computed('action')->title(__('Action'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

@@ -65,8 +65,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
         ->middleware(['middleware' => 'can:tags'])
         ->group( function(){
             Route::resource('tags', TagController::class,['except' => ['show', 'edit']]);
-            Route::get('/details/{id}/{slug}', 'show')->name('tags.show');
-            Route::get('/edit/{id}/{slug}', 'edit')->name('tags.edit');
+            Route::get('tags/details/{id}/{slug}', 'show')->name('tags.show');
+            Route::get('tags/edit/{id}/{slug}', 'edit')->name('tags.edit');
         });
     });
 });

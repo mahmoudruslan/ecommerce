@@ -116,7 +116,7 @@
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         {{-- <input type="text" name="category_id"  placeholder="{{ __('Category') }}"> --}}
-                                                        <select style="border-radius: 10rem;height:100%" class="form-control">
+                                                        <select name="category_id" style="border-radius: 10rem;height:100%" class="form-control">
                                                             <option disabled selected>{{ __('Choose Category') }}</option>
                                                             <option>1</option>
                                                             <option>2</option>

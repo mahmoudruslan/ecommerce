@@ -28,16 +28,28 @@ class CategoryDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row){
                 $id = encrypt($row->id);
-                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.categories.edit", [$row->slug, $id]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
-                $btn = $btn. '<div style="width: 150px"> <a href=" ' . route("admin.categories.show", [$row->slug, $id]) . '" class=" btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $id.'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
-                $btn = $btn. $this->getModal('admin.categories.destroy', $id);
-
-            return $btn;
+                $b =  $this->getEditLink("admin.categories.edit", $row->slug, $id);
+                $b = $b. $this->getShowLink("admin.categories.show", $row->slug, $id);
+                $b = $b .= $this->getDeleteLink($row->slug, $id);
+                return $b;
             })
-            ->setRowId('id');
+            ->editColumn('status', function($row){
+                return $this->getStatusIcon($row->status);
+            })
+            ->editColumn('parent_id', function($row){
+                if ($row->parent_id != null) {
+                    return $row->parent->name_ar;
+                }
+                return '<span class="text-info">Parent</span>';
+            })
+            ->editColumn('created_at', function($row){
+                return date('Y-m-d', strtotime($row->created_at));
+            })
+            ->editColumn('image', function($row){
+                return '<img src="'. asset('dashboard/img/'. $row->image) .'" alt="category photo">';
+            })
+            ->rawColumns(['status', 'action', 'parent_id', 'created_at', 'image']);
     }
-
     /**
      * Get query source of dataTable.
      *
@@ -86,13 +98,19 @@ class CategoryDataTable extends DataTable
     {
         return [
 
-            Column::make('id'),
-            Column::make('name_ar'),
-            Column::make('name_en'),
-            Column::make('image'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
-            Column::computed('action')
+            Column::make('row_number')
+            ->title('#')
+            ->render('meta.row + meta.settings._iDisplayStart + 1;')
+            ->width(50)
+            ->orderable(false),
+            Column::make('name_ar')->title(__('Name In Arabic')),
+            Column::make('name_en')->title(__('Name In English')),
+            Column::make('status')->title(__('Status')),
+            Column::make('parent_id')->title(__('Parent')),
+            Column::make('image')->title(__('Image')),
+            Column::make('created_at')->title(__('Created At')),
+            // Column::make('updated_at'),
+            Column::computed('action')->title(__('Action'))
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

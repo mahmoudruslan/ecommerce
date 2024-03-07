@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\DataTables\ProductDataTable;
-use App\Models\product;
+use App\Models\Product;
+use App\Models\Category;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Http\Requests\ProductRequest;
@@ -27,18 +28,19 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         try {
+            // return $request;
             $product = Product::create([
-                // name_ar
-                // name_en
-                // price
-                // description_ar
-                // description_en
-                // quantity
-                // category_id
-                // featured
-                // status
+                'name_ar' => $request->name_ar,
+                'name_en' => $request->name_en,
+                'price' => $request->price,
+                'description_ar' => $request->description_ar,
+                'description_en' => $request->description_en,
+                'quantity' => $request->quantity,
+                'category_id' => $request->category_id,
+                'featured' => $request->featured,
+                'status' => $request->status
             ]);
-            return redirect()->route('admin.products.index')->with(['success' => __('Product Created successfully')]);
+            return redirect()->route('admin.products.index')->with(['success' => __('Item Created successfully.')]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -59,8 +61,9 @@ class ProductController extends Controller
     public function edit( $slug, $id)
     {
         try {
+            $categories = Category::whereNotNull('parent_id')->select('id', 'parent_id', 'name_ar', 'name_en')->get();
             $product = Product::findOrFail(Crypt::decrypt($id));
-            return view('dashboard.products.edit', compact('product'));
+            return view('dashboard.products.edit', compact('product', 'categories'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -69,13 +72,19 @@ class ProductController extends Controller
     public function update(ProductRequest $request, $id)
     {
         try {
-            $product = Product::findOrFail($id);
+            $product = Product::findOrFail(Crypt::decrypt($id));
             $product->update([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
-                'image' => 'avatar.png',
+                'price' => $request->price,
+                'description_ar' => $request->description_ar,
+                'description_en' => $request->description_en,
+                'quantity' => $request->quantity,
+                'category_id' => $request->category_id,
+                'featured' => $request->featured ?? 0,
+                'status' => $request->status ?? 0
             ]);
-            return redirect()->route('admin.products.index')->with('success','Product updated successfully.');
+            return redirect()->route('admin.products.index')->with('success', __('Item Updated successfully.'));
 
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -87,7 +96,7 @@ class ProductController extends Controller
         try {
             $product = Product::findOrFail($id);
             $product->delete();
-            return redirect()->route('admin.products.index')->with('success','Product deleted successfully');
+            return redirect()->route('admin.products.index')->with('success', __('Item Deleted successfully.'));
         } catch (\Exception $e) {
 
             return $e->getMessage();

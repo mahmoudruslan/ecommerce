@@ -25,17 +25,20 @@ class UserDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-
             ->addColumn('action', function($row){
                 $id = encrypt($row->id);
-                $btn = '<div style="width: 150px"> <a href=" ' . route("admin.users.edit", [$row->slug, $id]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
-                $btn = $btn. '<a href=" ' . route("admin.users.show", [$row->slug, $id]) . '" class="btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
-
-                $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $id .'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
-                $btn = $btn. $this->getModal('admin.users.destroy', $id);
-            return $btn;
+                $b =  $this->getEditLink("admin.users.edit", $row->slug, $id);
+                $b = $b. $this->getShowLink("admin.users.show", $row->slug, $id);
+                $b = $b .= $this->getDeleteLink($row->slug, $id);
+                return $b;
             })
-            ->setRowId('id');
+            ->editColumn('status', function($row){
+                return $this->getStatusIcon($row->status);
+            })
+            ->editColumn('image', function($row){
+                return '<img src="'. asset('dashboard/img/'. $row->image) .'" alt="category photo">';
+            })
+            ->rawColumns(['status', 'action', 'image']);
     }
 
     /**
@@ -46,7 +49,7 @@ class UserDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->orderBy('id', 'desc')->newQuery();
     }
 
     /**
@@ -81,13 +84,18 @@ class UserDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::make('row_number')
+            ->title('#')
+            ->render('meta.row + meta.settings._iDisplayStart + 1;')
+            ->width(50)
+            ->orderable(false),
             Column::make('first_name'),
             Column::make('last_name'),
             Column::make('username'),
             Column::make('email'),
             Column::make('status'),
             Column::make('mobile'),
+            Column::make('image'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

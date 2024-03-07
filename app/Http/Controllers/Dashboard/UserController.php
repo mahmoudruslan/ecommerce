@@ -29,7 +29,6 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         try {
-            // return $request;
             $users = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -40,7 +39,7 @@ class UserController extends Controller
                 'image' => 'product-1',
                 'password' => Hash::make('password'),
             ]);
-            return redirect()->route('admin.users.index')->with(['success' => __('User Created successfully')]);
+            return redirect()->route('admin.users.index')->with(['success' => __('Item Created successfully.')]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -62,7 +61,6 @@ class UserController extends Controller
 
     public function edit( $slug, $id)
     {
-        // dd('edit');
         try {
             $user = User::findOrFail(Crypt::decrypt($id));
             return view('dashboard.users.edit', compact('user'));
@@ -73,7 +71,6 @@ class UserController extends Controller
 
     public function update(UserRequest $request, $id)
     {
-        // dd(true);
         try {
             $user = User::findOrFail(Crypt::decrypt($id));
             $user->update([
@@ -86,7 +83,7 @@ class UserController extends Controller
                 'image' => 'product-1',
                 'password' => Hash::make('password'),
             ]);
-            return redirect()->route('admin.users.index')->with('success','User updated successfully.');
+            return redirect()->route('admin.users.index')->with('success', __('Item Updated successfully.'));
 
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -98,7 +95,7 @@ class UserController extends Controller
         try {
             $user = User::findOrFail(Crypt::decrypt($id));
             $user->delete();
-            return redirect()->route('admin.users.index')->with('success','User deleted successfully');
+            return redirect()->route('admin.users.index')->with('success', __('Item Deleted successfully.'));
         } catch (\Exception $e) {
 
             return $e->getMessage();

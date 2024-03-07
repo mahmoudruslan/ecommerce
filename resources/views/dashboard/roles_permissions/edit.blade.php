@@ -1,7 +1,7 @@
 @extends('dashboard.layout.master')
 
 @section('title')
-{{__('Edit Role and permissions')}}
+{{__('Edit role and permissions')}}
 @endsection
 @section('content')
 
@@ -14,7 +14,7 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">{{__('Add Role and permissions')}}</h1>
+                    <h1 class="h3 mb-2 text-gray-800">{{__('Edit role and permissions')}}</h1>
         <div class="row justify-content-center">
 
             <div class="col-xl-10 col-lg-12 col-md-9">
@@ -26,7 +26,7 @@
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">{{__('Edit Role')}}</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">{{__('Edit')}}</h1>
                                     </div>
                                     <form action="{{route('admin.permission-role.update', encrypt($role->id))}}" method="post" class="user">
                                     @method('patch')

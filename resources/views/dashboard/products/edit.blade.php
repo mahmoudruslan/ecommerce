@@ -13,9 +13,7 @@
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800">{{ __('Edit Products') }}</h1>
                 <div class="row justify-content-center">
-
                     <div class="col-xl-10 col-lg-12 col-md-9">
-
                         <div class="card o-hidden border-0 shadow-lg my-4">
                             <div class="card-body p-0">
                                 <!-- Nested Row within Card Body -->
@@ -25,57 +23,134 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.products.update', encrypt($product->id)) }}" method="POST"
-                                                class="user">
-                                                @method('patch')
+                                            <form action="{{ route('admin.products.update', encrypt($product->id)) }}" method="POST" class="user">
                                                 @csrf
-                                                <input type="hidden" name="id" value="{{encrypt($product->id)}}"><!--for validation request -->
-                                                <div class="form-group">
-                                                    <input value="{{$product->name_ar}}" type="text" name="name_ar" class="form-control form-control-user" placeholder="{{ __('Enter Name In Arabic') }}">
-                                                    @error('name_ar')
-                                                    <span class="text-danger" role="alert">
-                                                        <small>{{ $message }}</small>
-                                                    </span>
-                                                    @enderror
+                                                @method('patch')
+                                                <div class="form-group row">
+                                                    <div class="col-md-6">
+                                                        <label><small>{{ __('Enter Name In Arabic') }}</small></label>
+                                                        <input type="text" name="name_ar" value="{{ $product->name_ar }}" class="form-control form-control-user @error('name_ar') is-invalid @enderror" placeholder="    {{ __('Enter Name In Arabic') }}">
+                                                        @error('name_ar')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label><small>{{ __('Enter Name In English') }}</small></label>
+                                                        <input type="text" name="name_en" value="{{ $product->name_en }}" class="form-control form-control-user @error('name_en') is-invalid @enderror" placeholder="    {{  __('Enter Name In English') }}">
+                                                        @error('name_en')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <input value="{{$product->name_en}}" type="text" name="name_en" class="form-control form-control-user" placeholder="{{ __('Enter Name In English') }}">
-                                                    @error('name_en')
-                                                    <span class="text-danger" role="alert">
-                                                        <small>{{ $message }}</small>
-                                                    </span>
-                                                    @enderror
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>{{ __('Choose Image') }}</label>
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                          <span class="input-group-text">Upload</span>
+                                                <div class="form-group row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label><small>{{ __('Enter Price') }}</small></label>
+                                                            <input type="text" name="price" value="{{ $product->price }}" class="form-control form-control-user @error('price') is-invalid @enderror" placeholder="    {{ __('Enter Price') }}">
+                                                            @error('price')
+                                                            <span class="text-danger" role="alert">
+                                                                <small>{{ $message }}</small>
+                                                            </span>
+                                                            @enderror
                                                         </div>
-                                                        <div style="border: #eaecf4 1px solid" class="custom-file">
-                                                          <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                                          <label style="left : 0" class="custom-file-label" for="inputGroupFile01">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label><small>{{ __('Enter Quantity') }}</small></label>
+                                                            <input type="text" name="quantity" value="{{ $product->quantity }}" class="form-control form-control-user @error('quantity') is-invalid @enderror" placeholder="    {{ __('Enter Quantity') }}">
+                                                            @error('quantity')
+                                                            <span class="text-danger" role="alert">
+                                                                <small>{{ $message }}</small>
+                                                            </span>
+                                                            @enderror
 
-                                                            {{-- <span>Choose file<span> --}}
-                                                        </label>
                                                         </div>
-                                                      </div>
-                                                    @error('image')
-                                                    <span class="text-danger" role="alert">
-                                                        <small>{{ $message }}</small>
-                                                    </span>
-                                                    @enderror
+                                                    </div>
                                                 </div>
-
-
-
+                                                <div class="form-group row">
+                                                    <div class="col-md-6">
+                                                        <label><small>{{ __('Enter Description In Arabic') }}</small></label>
+                                                        <textarea style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_ar" value="{{ old('description_ar') }}" class="form-control form-control-user
+                                                        @error('description_ar') is-invalid @enderror" placeholder="   {{ __('Enter Description In Arabic') }}">{{ $product->description_ar }}</textarea>
+                                                        @error('description_ar')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label><small>{{ __('Enter Description In English') }}</small></label>
+                                                        <textarea  style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_en" class="form-control form-control-user
+                                                        @error('description_en') is-invalid @enderror" placeholder="   {{ __('Enter Description In English') }}">{{ $product->description_en }}</textarea>
+                                                        @error('description_en')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-md-6">
+                                                        <label><small>{{ __('Choose Category') }}</small></label>
+                                                        <select name="category_id" style="border-radius: 10rem;height:60%" class="form-control">
+                                                            <option value="{{ $product->category->id }}" selected>{{ $product->category->parent->name_ar }} | {{ $product->category->name_ar }}</option>
+                                                            @foreach ($categories as $category)
+                                                            {{-- {{ $category->id }} --}}
+                                                            <option value="{{ $category->id }}">{{ $category->parent->name_ar }} | {{ $category->name_ar }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('category_id')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label></label>
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <label>{{ __('Choose Image') }}</label>
+                                                                @error('image')
+                                                                <span class="text-danger" role="alert">
+                                                                    <small>{{ $message }}</small>
+                                                                </span>
+                                                                @enderror
+                                                            </div><br>
+                                                            <div class="col-md-8">
+                                                                <input type="file" id="inputGroupFile01" name="image">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-md-3">
+                                                        <input type="checkbox" value="1" name="featured" class="checkbox @error('featured') is-invalid @enderror" placeholder="    {{ __('Enter Featured') }}">
+                                                        <label><small>{{ __('Featured') }}</small></label>
+                                                        @error('featured')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                        <div class="col-md-3">
+                                                        <input type="checkbox" value="1" name="status" class="checkbox" placeholder="{{ __('Status') }}">
+                                                        <label><small>{{ __('Active') }}</small></label>
+                                                        @error('status')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                </div><br>
+                                                <hr>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
                                                     </button>
-                                                    <hr>
-
                                                 </form>
-
                                             </div>
                                         </div>
                                     </div>

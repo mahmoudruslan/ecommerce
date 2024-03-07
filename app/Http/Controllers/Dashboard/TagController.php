@@ -33,7 +33,7 @@ class TagController extends Controller
                 'name_en' => $request->name_en,
                 'image' => 'avatar.png',
             ]);
-            return redirect()->route('admin.tags.index')->with(['success' => __('Tag Created successfully')]);
+            return redirect()->route('admin.tags.index')->with(['success' => __('Item Created successfully.')]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -71,7 +71,7 @@ class TagController extends Controller
                 'name_en' => $request->name_en,
                 'image' => 'avatar.png',
             ]);
-            return redirect()->route('admin.tags.index')->with('success','Tag updated successfully.');
+            return redirect()->route('admin.tags.index')->with('success', __('Item Updated successfully.'));
 
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -83,7 +83,7 @@ class TagController extends Controller
         try {
             $tag = Tag::findOrFail(Crypt::decrypt($id));
             $tag->delete();
-            return redirect()->route('admin.tags.index')->with('success','Tag deleted successfully');
+            return redirect()->route('admin.tags.index')->with('success', __('Item Deleted successfully.'));
         } catch (\Exception $e) {
 
             return $e->getMessage();

@@ -17,6 +17,7 @@
     "Settings": "الإعدادات",
 
     "Add roles and permissions": "إضافة أدوار وصلاحيات",
+    "Edit role and permissions": "تعديل الأدوار وصلاحيات",
     "Roles and permissions": "الأدوار والصلاحيات",
     "Roles and permissions Screens:": "شاشات الأدوار والصلاحيات :",
 
@@ -28,11 +29,13 @@
     "Categories": "الأقسام",
     "Add Categories": "إضافة أقسام",
     "Categories Screens:": "شاشات الأقسام :",
+    "Parent Category": "القسم الأساسى",
 
     "Product": "المنتج",
     "Products": "المنتجات",
     "Add Products": "إضافة منتجات",
     "Products Screens:": "شاشات المنتجات :",
+    "Edit Products": "تعديل المنتجات",
 
     "Tag": "كلمة مفتاحية",
     "Tags": "كلمات مفتاحية",
@@ -77,6 +80,8 @@
     "Message Center": "الرسائل",
     "Add to cart": "أضف إلى السلة",
     "Related products": "منتجات ذات صلة",
+
+
     "Description": "الوصف",
     "Warning": "تحذير",
     "Cancel": "إغلاق",
@@ -84,14 +89,35 @@
     "Show": "عرض",
     "Add": "إضافة",
     "Enter Name In Arabic": "أدخل الاسم بالعربية",
-    "name_ar": "الاسم-بالعربية",
+    "Name In Arabic": "الاسم-بالعربية",
     "Enter Name In English": "أدخل الاسم بالانجليزية",
-    "name_en": "الاسم-بالانجليزية",
+    "Name In English": "الاسم-بالانجليزية",
     "Choose Image": "اختر الصورة",
     "Image": "الصورة",
     "Upload": "رفع",
-
+    "Featured": "متميز",
+    "Choose Category": "اختر القسم",
+    "Description In English": "الوصف بالانجليزية",
+    "Enter Description In English": "أدخل الوصف بالانجليزية",
+    "Description In Arabic": "الوصف بالعربية",
+    "Enter Description In Arabic": "أدخل الوصف بالعربية",
+    "Active": "نشط",
+    "Action": "الإجراءات",
+    "Enter Quantity": "الكمية",
+    "Enter Price": "السعر",
+    "Save": "حفظ",
+    "Status": "الحالة",
     "Edit": "تعديل",
+    "Slug": "الكلمة المفتاحية",
+    "Created At": "أنشئ فى",
+    "Item Created successfully.": "تم إنشاء العنصر بنجاح", 
+    "Item Updated successfully.": "تم تحديث العنصر بنجاح", 
+    "Item Deleted successfully.": "تم حذف العنصر بنجاح", 
+
+
+
+
+
     "Main": "الصفحة الرئيسية",
     "Add to wish list": "إضافة إلى المفضلة",
     "Generate Report": "إنشاء تقرير",
