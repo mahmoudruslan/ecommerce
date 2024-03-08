@@ -2,6 +2,7 @@
     "Test": "اختبر",
     "Username": "الاسم",
     "Mobile": "رقم الهاتف",
+    "Email": "البريد الإلكترونى",
     "Confirm password": "تأكيد كلمة السر",
     "Language": "اللغة",
     "Arabic": "العربية",
@@ -21,6 +22,8 @@
     "Roles and permissions": "الأدوار والصلاحيات",
     "Roles and permissions Screens:": "شاشات الأدوار والصلاحيات :",
 
+    "First Name": "الإسم الأول",
+    "Last Name": "الاسم الأخير",
     "Users": "المستخدمين",
     "Add users": "إضافة مستخدمين",
     "Users Screens:": "شاشات المستخدمين :",
@@ -110,9 +113,9 @@
     "Edit": "تعديل",
     "Slug": "الكلمة المفتاحية",
     "Created At": "أنشئ فى",
-    "Item Created successfully.": "تم إنشاء العنصر بنجاح", 
-    "Item Updated successfully.": "تم تحديث العنصر بنجاح", 
-    "Item Deleted successfully.": "تم حذف العنصر بنجاح", 
+    "Item Created successfully.": "تم إنشاء العنصر بنجاح",
+    "Item Updated successfully.": "تم تحديث العنصر بنجاح",
+    "Item Deleted successfully.": "تم حذف العنصر بنجاح",
 
 
 

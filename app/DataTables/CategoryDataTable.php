@@ -30,23 +30,30 @@ class CategoryDataTable extends DataTable
                 $id = encrypt($row->id);
                 $b =  $this->getEditLink("admin.categories.edit", $row->slug, $id);
                 $b = $b. $this->getShowLink("admin.categories.show", $row->slug, $id);
-                $b = $b .= $this->getDeleteLink($row->slug, $id);
+                $b = $b .= $this->getDeleteLink("admin.categories.destroy", $id);
                 return $b;
+            })
+            ->addColumn('product_count', function($row){
+               
+                return $row->products_count;
+            })
+            ->addColumn('parent', function($row){
+               
+                return $row->parent->name_ar ?? 'no';
             })
             ->editColumn('status', function($row){
                 return $this->getStatusIcon($row->status);
             })
-            ->editColumn('parent_id', function($row){
-                if ($row->parent_id != null) {
-                    return $row->parent->name_ar;
-                }
-                return '<span class="text-info">Parent</span>';
-            })
+            // ->editColumn('parent_id', function($row){
+            //         return $row->parent->name_ar ?? '<span class="text-info">Parent</span>';
+
+            // })
             ->editColumn('created_at', function($row){
                 return date('Y-m-d', strtotime($row->created_at));
             })
+
             ->editColumn('image', function($row){
-                return '<img src="'. asset('dashboard/img/'. $row->image) .'" alt="category photo">';
+                return '<img  style="height: auto;width: 100%" src="'. asset($row->image) .'" alt="category photo">';
             })
             ->rawColumns(['status', 'action', 'parent_id', 'created_at', 'image']);
     }
@@ -58,7 +65,11 @@ class CategoryDataTable extends DataTable
      */
     public function query(Category $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->withCount('products')->with('parent')
+        // ->with(['parent' => function(QueryBuilder $query) {
+        //     $query->whereNotNull('parent_id');
+        // }])
+        ->newQuery();
     }
 
     /**
@@ -73,11 +84,7 @@ class CategoryDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->parameters([
-
-                        'language' => asset('dashboard/js/arabic.js')
-                    ])
+                    ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -98,18 +105,15 @@ class CategoryDataTable extends DataTable
     {
         return [
 
-            Column::make('row_number')
-            ->title('#')
-            ->render('meta.row + meta.settings._iDisplayStart + 1;')
-            ->width(50)
-            ->orderable(false),
+            Column::make('id'),
             Column::make('name_ar')->title(__('Name In Arabic')),
             Column::make('name_en')->title(__('Name In English')),
             Column::make('status')->title(__('Status')),
-            Column::make('parent_id')->title(__('Parent')),
+            // Column::make('parent_id')->title(__('Parent')),
             Column::make('image')->title(__('Image')),
             Column::make('created_at')->title(__('Created At')),
-            // Column::make('updated_at'),
+            Column::make('product_count')->title(__('product_count')),
+            Column::make('parent')->title(__('parent')),
             Column::computed('action')->title(__('Action'))
                 ->exportable(false)
                 ->printable(false)

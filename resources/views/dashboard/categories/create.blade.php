@@ -25,8 +25,7 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Add') }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.categories.store') }}" method="POST"
-                                                class="user">
+                                            <form action="{{ route('admin.categories.store') }}" method="POST" class="user" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="form-group">
                                                     <input type="text" name="name_ar" class="form-control form-control-user" placeholder="{{ __('Enter Name In Arabic') }}">
@@ -51,9 +50,9 @@
                                                           <span class="input-group-text">Upload</span>
                                                         </div>
                                                         <div style="border: #eaecf4 1px solid" class="custom-file">
-                                                          <input type="file" class="custom-file-input" id="inputGroupFile01">
+                                                          <input type="file" name="image" class="custom-file-input" id="inputGroupFile01">
                                                           <label style="left : 0" class="custom-file-label" for="inputGroupFile01">
-                                                            
+
                                                             {{-- <span>Choose file<span> --}}
                                                         </label>
                                                         </div>
@@ -64,7 +63,7 @@
                                                     </span>
                                                     @enderror
                                                 </div>
-                                                
+
 
 
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">

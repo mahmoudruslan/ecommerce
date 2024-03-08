@@ -6,16 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\DataTables\CategoryDataTable;
 use App\Models\Category;
+use App\Models\Product;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Http\Requests\CategoryRequest;
 use Hash;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 class CategoryController extends Controller
 {
     public function index(CategoryDataTable $dataTable)
     {
+        // return Category::withCount('products')->get();
         return $dataTable->render('dashboard.categories.index');
     }
 
@@ -28,10 +31,14 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         try {
+            if($request->hasFile('image')) {
+                $fileName = time().'_'.$request->image->getClientOriginalName();
+                $filePath = $request->file('image')->storeAs('public/images/categories', $fileName);
+            }
             $category = Category::create([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
-                'image' => 'avatar.png',
+                'image' => 'storage/categories/images/' . $fileName
             ]);
             return redirect()->route('admin.categories.index')->with(['success' => __('Item Created successfully.')]);
         } catch (\Exception $e) {

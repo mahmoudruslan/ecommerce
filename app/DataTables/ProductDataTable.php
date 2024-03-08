@@ -30,7 +30,7 @@ class ProductDataTable extends DataTable
                 $id = encrypt($row->id);
                 $b =  $this->getEditLink("admin.products.edit", $row->slug, $id);
                 $b = $b. $this->getShowLink("admin.products.show", $row->slug, $id);
-                $b = $b .= $this->getDeleteLink($row->slug, $id);
+                $b = $b .= $this->getDeleteLink("admin.products.destroy", $id);
                 return $b;
             })
             ->addColumn('parent_category', function($row){
@@ -63,7 +63,7 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->orderBy('id', 'desc')->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -98,11 +98,7 @@ class ProductDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('row_number')
-            ->title('#')
-            ->render('meta.row + meta.settings._iDisplayStart + 1;')
-            ->width(50)
-            ->orderable(false),
+            Column::make('id'),
             Column::make('name_ar')->title(__('Name In Arabic')),
             Column::make('name_en')->title(__('Name In English')),
             Column::make('slug')->title(__('Slug')),

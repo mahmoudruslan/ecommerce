@@ -29,7 +29,7 @@ class TagDataTable extends DataTable
                 $id = encrypt($row->id);
                 $b =  $this->getEditLink("admin.tags.edit", $row->slug, $id);
                 $b = $b. $this->getShowLink("admin.tags.show", $row->slug, $id);
-                $b = $b .= $this->getDeleteLink($row->slug, $id);
+                $b = $b .= $this->getDeleteLink("admin.tags.destroy", $id);
                 return $b;
             })
             ->editColumn('status', function($row){
@@ -50,7 +50,7 @@ class TagDataTable extends DataTable
      */
     public function query(Tag $model): QueryBuilder
     {
-        return $model->orderBy('id', 'desc')->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -65,7 +65,7 @@ class TagDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -86,11 +86,7 @@ class TagDataTable extends DataTable
     {
         return [
 
-            Column::make('row_number')
-            ->title('#')
-            ->render('meta.row + meta.settings._iDisplayStart + 1;')
-            ->width(50)
-            ->orderable(false),
+            Column::make('id'),
             Column::make('name_ar')->title(__('Name In Arabic')),
             Column::make('name_en')->title(__('Name In English')),
             Column::make('slug')->title(__('Slug')),

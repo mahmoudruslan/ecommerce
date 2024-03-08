@@ -52,7 +52,7 @@ class RoleDataTable extends DataTable
      */
     public function query(Role $model): QueryBuilder
     {
-        return $model->orderBy('id', 'desc')->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -88,11 +88,7 @@ class RoleDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('row_number')
-            ->title('#')
-            ->render('meta.row + meta.settings._iDisplayStart + 1;')
-            ->width(50)
-            ->orderable(false),
+            Column::make('id'),
             Column::make('name')->title(__('Role Name')),
             Column::computed('action')->title(__('Action'))
                 ->exportable(false)

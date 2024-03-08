@@ -22,7 +22,9 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('dashboard.products.create');
+        $categories = Category::whereNotNull('parent_id')->get(['id', 'name_en']);
+        // return $categories;
+        return view('dashboard.products.create', compact('categories'));
     }
 
     public function store(ProductRequest $request)

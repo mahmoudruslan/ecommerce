@@ -118,9 +118,10 @@
                                                         {{-- <input type="text" name="category_id"  placeholder="{{ __('Category') }}"> --}}
                                                         <select name="category_id" style="border-radius: 10rem;height:100%" class="form-control">
                                                             <option disabled selected>{{ __('Choose Category') }}</option>
-                                                            <option>1</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
+                                                            @foreach($categories as $category)
+                                                                <option value="{{$category->id}}">{{$category->name_en}}</option>
+                                                            @endforeach
+                                                           
                                                         </select>
                                                         @error('category_id')
                                                         <span class="text-danger" role="alert">
