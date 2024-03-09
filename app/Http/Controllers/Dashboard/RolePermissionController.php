@@ -45,7 +45,6 @@ class RolePermissionController extends Controller
     public function edit($id)
     {
         try {
-
             $permissions = Permission::get();
             $role = Role::findOrFail(Crypt::decrypt($id));
             return view('dashboard.roles_permissions.edit', compact('permissions', 'role'));

@@ -46,12 +46,8 @@ class CategoryDataTable extends DataTable
             })
             ->rawColumns(['status', 'action', 'parent_id', 'created_at', 'image']);
     }
-    /**
-     * Get query source of dataTable.
-     *
-     * @param \App\Models\Category $model
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
+
+    
     public function query(Category $model): QueryBuilder
     {
         return $model->withCount('products')->with('parent')

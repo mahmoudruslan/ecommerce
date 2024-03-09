@@ -24,7 +24,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Category::whereNotNull('parent_id')->get(['id', 'name_en']);
+        $categories = Category::select('id', 'name_ar', 'name_en', 'parent_id')->whereNotNull('parent_id')->with('parent:id,name_ar,name_en')->get();
         // return $categories;
         return view('dashboard.products.create', compact('categories'));
     }
@@ -56,7 +56,6 @@ class ProductController extends Controller
             $product = Product::findOrFail(Crypt::decrypt($id));
             return view('dashboard.products.show', compact('product'));
         } catch (\Exception $e) {
-
             return $e->getMessage();
         }
 
@@ -65,7 +64,8 @@ class ProductController extends Controller
     public function edit( $slug, $id)
     {
         try {
-            $categories = Category::whereNotNull('parent_id')->select('id', 'parent_id', 'name_ar', 'name_en')->get();
+            $categories = Category::select('id', 'name_ar', 'name_en', 'parent_id')->whereNotNull('parent_id')->with('parent:id,name_ar,name_en')->get();
+            // $categories = Category::whereNotNull('parent_id')->select('id', 'parent_id', 'name_ar', 'name_en')->get();
             $product = Product::findOrFail(Crypt::decrypt($id));
             return view('dashboard.products.edit', compact('product', 'categories'));
         } catch (\Exception $e) {

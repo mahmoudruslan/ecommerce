@@ -121,7 +121,7 @@
                 <div id="collapseUsers" class="collapse @if($route == 'users') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">{{__('Users Screens:')}} </h6>
-                        <a class="collapse-item" href="{{route('admin.users.create')}}">{{__('Add users')}}</a>
+                        <a class="collapse-item" href="{{route('admin.users.create')}}">{{__('Add Users')}}</a>
                         <a class="collapse-item" href="{{route('admin.users.index')}}">{{__('Users')}}</a>
                     </div>
                 </div>
