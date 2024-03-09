@@ -43,9 +43,7 @@ class ProductDataTable extends DataTable
                 return $this->getStatusIcon($row->featured);
             })
             ->editColumn('category_id', function($row){
-                if ($row->category_id != null) {
                     return $row->category->name_ar;
-                }
             })
             // ->editColumn('image', function($row){
 
@@ -63,7 +61,7 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->with(['category:id,name_ar,name_en,parent_id' => ['parent:id,name_ar,name_en']])->newQuery();
     }
 
     /**
@@ -111,7 +109,7 @@ class ProductDataTable extends DataTable
             Column::make('featured')->title(__('Featured')),
             Column::make('status')->title(__('Status')),
             // Column::make('image')->title(__('Image')),
-            Column::computed('action')
+            Column::computed('action')->title(__('Action'))
             ->exportable(false)
             ->printable(false)
             ->width(60)

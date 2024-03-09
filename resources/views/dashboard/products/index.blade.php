@@ -10,7 +10,6 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">{{__('Products')}}</h1>
                     @if (Session::has('success'))
                         <div class="text-center alert alert-success">{{ Session::get('success') }}</div>
                     @endif
@@ -23,12 +22,15 @@
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                        <div style="display: block;width: 100%" class="card-header table-header py-3">
+                            <h4 class="m-0 font-weight-bold text-primary">{{__('Products')}}</h4>
+                            <a  href="{{route('admin.products.create')}}" class="btn btn-primary">
+                                {{__('Add Products')}}
+                                <i class="fa fa-plus plus"></i>
+                            </a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                            <a href="{{route('admin.products.create')}}" class="btn btn-success">{{__('Add')}}</a>
                                 {!! $dataTable->table() !!}
                                 {!! $dataTable->scripts() !!}
 

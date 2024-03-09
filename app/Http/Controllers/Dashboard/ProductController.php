@@ -17,6 +17,8 @@ class ProductController extends Controller
 {
     public function index(ProductDataTable $dataTable)
     {
+        // return Product::with(['category:id,name_ar,name_en,parent_id' => ['parent:id,name_ar,name_en']])->get();
+        // return Product::with(['category:id,name_ar,name_en,parent_id' => ['parent:id,name_ar,name_en']])->get();
         return $dataTable->render('dashboard.products.index');
     }
 

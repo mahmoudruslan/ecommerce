@@ -17,12 +17,8 @@ use App\Traits\HTMLTrait;
 class CategoryDataTable extends DataTable
 {
     use HTMLTrait;
-    /**
-     * Build DataTable class.
-     *
-     * @param QueryBuilder $query Results from query() method.
-     * @return \Yajra\DataTables\EloquentDataTable
-     */
+
+
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
@@ -34,24 +30,17 @@ class CategoryDataTable extends DataTable
                 return $b;
             })
             ->addColumn('product_count', function($row){
-               
                 return $row->products_count;
             })
             ->addColumn('parent', function($row){
-               
                 return $row->parent->name_ar ?? 'no';
             })
             ->editColumn('status', function($row){
                 return $this->getStatusIcon($row->status);
             })
-            // ->editColumn('parent_id', function($row){
-            //         return $row->parent->name_ar ?? '<span class="text-info">Parent</span>';
-
-            // })
             ->editColumn('created_at', function($row){
                 return date('Y-m-d', strtotime($row->created_at));
             })
-
             ->editColumn('image', function($row){
                 return '<img  style="height: auto;width: 100%" src="'. asset($row->image) .'" alt="category photo">';
             })
@@ -71,7 +60,6 @@ class CategoryDataTable extends DataTable
         // }])
         ->newQuery();
     }
-
     /**
      * Optional method if you want to use html builder.
      *
@@ -96,15 +84,10 @@ class CategoryDataTable extends DataTable
                     ]);
     }
 
-    /**
-     * Get the dataTable columns definition.
-     *
-     * @return array
-     */
+
     public function getColumns(): array
     {
         return [
-
             Column::make('id'),
             Column::make('name_ar')->title(__('Name In Arabic')),
             Column::make('name_en')->title(__('Name In English')),
@@ -112,8 +95,8 @@ class CategoryDataTable extends DataTable
             // Column::make('parent_id')->title(__('Parent')),
             Column::make('image')->title(__('Image')),
             Column::make('created_at')->title(__('Created At')),
-            Column::make('product_count')->title(__('product_count')),
-            Column::make('parent')->title(__('parent')),
+            Column::make('product_count')->title(__('Product Count')),
+            Column::make('parent')->title(__('Parent Category')),
             Column::computed('action')->title(__('Action'))
                 ->exportable(false)
                 ->printable(false)
@@ -122,11 +105,7 @@ class CategoryDataTable extends DataTable
         ];
     }
 
-    /**
-     * Get filename for export.
-     *
-     * @return string
-     */
+
     protected function filename(): string
     {
         return 'Category_' . date('YmdHis');
