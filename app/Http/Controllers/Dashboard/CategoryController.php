@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Traits\Files;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\DataTables\CategoryDataTable;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 class CategoryController extends Controller
 {
+    use Files;
     public function index(CategoryDataTable $dataTable)
     {
         // return Category::withCount('products')->get();
@@ -30,15 +32,17 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
+        $fileName = $this->saveimg('images/test', 1, 'images/test', [$request->image]);
+        // return 'success';
         try {
-            if($request->hasFile('image')) {
-                $fileName = time().'_'.$request->image->getClientOriginalName();
-                $filePath = $request->file('image')->storeAs('public/images/categories', $fileName);
-            }
+            // if($request->hasFile('image')) {
+            //     $fileName = time().'_'.$request->image->getClientOriginalName();
+            //     $filePath = $request->file('image')->storeAs('public/images/categories', $fileName);
+            // }
             $category = Category::create([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
-                'image' => 'storage/images/categories/' . $fileName
+                'image' => 'storage/images/test/' . $fileName
             ]);
             return redirect()->route('admin.categories.index')->with([
                     'message' => __('Item Created successfully.'),
@@ -92,6 +96,8 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::findOrFail(Crypt::decrypt($id));
+            $this->deleteFiles($category->image);
+            return 'deleted true';
             $category->delete();
             return redirect()->route('admin.categories.index')->with([
                 'message' => __('Item Deleted successfully.'),

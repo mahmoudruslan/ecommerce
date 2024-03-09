@@ -19,14 +19,16 @@
     <script src="{{asset('dashboard/js/demo/chart-pie-demo.js')}}"></script>
    <!--  data table -->
    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js" > </script>
-   <script src="https://cdn.datatables.net/2.0.0/js/dataTables.bootstrap4.min.js" > </script>
+   <script src="https://cdn.datatables.net/2.0.0/js/dataTables.bootstrap4.min.js" ></script>
 @stack('script')
 <script>
     //hide alert after 2 second
     window.onload = function flashAlert() {
         setInterval(function () {
             let alert = document.getElementById("alert");
+            if (alert) {
             alert.classList.add('hidden');
+            }
         }, 2000);
 };
 </script>
