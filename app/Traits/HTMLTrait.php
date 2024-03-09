@@ -32,9 +32,9 @@ trait HTMLTrait {
         }
         public function getStatusIcon($status){
         if ($status == '1') {
-            return '<i class="fa fa-check text-success" aria-hidden="true"></i>';
+            return '<div class="btn-circle btn-sm btn-success"><i class="fa fa-check" aria-hidden="true"></i></div>';
         }else{
-            return '<i class="fa fa-times text-danger" aria-hidden="true"></i>';
+            return '<div class="btn-circle btn-sm btn-success"><i class="fa fa-times text-danger" aria-hidden="true"></i></div>';
         }
     }
 

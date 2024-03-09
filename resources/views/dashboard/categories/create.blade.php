@@ -13,9 +13,7 @@
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800">{{ __('Add Categories') }}</h1>
                 <div class="row justify-content-center">
-
                     <div class="col-xl-10 col-lg-12 col-md-9">
-
                         <div class="card o-hidden border-0 shadow-lg my-4">
                             <div class="card-body p-0">
                                 <!-- Nested Row within Card Body -->
@@ -44,47 +42,47 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>{{ __('Choose Image') }}</label>
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                          <span class="input-group-text">Upload</span>
-                                                        </div>
-                                                        <div style="border: #eaecf4 1px solid" class="custom-file">
-                                                          <input type="file" name="image" class="custom-file-input" id="inputGroupFile01">
-                                                          <label style="left : 0" class="custom-file-label" for="inputGroupFile01">
-
-                                                            {{-- <span>Choose file<span> --}}
-                                                        </label>
-                                                        </div>
-                                                      </div>
+                                                    <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
+                                                    <input type="file" name="image" class="custom-file-input filestyle"  id="fileInput">
                                                     @error('image')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>
                                                     </span>
                                                     @enderror
                                                 </div>
-
-
-
+                                                <div style="width: 20%">
+                                                    <img class="hidden images" style="width:100%;margin-bottom: 15px;"  id="imageDev" src="#" alt="Your Logo"/>
+                                                </div>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
                                                     </button>
                                                     <hr>
-
                                                 </form>
-
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
-
-
                 </div>
             </div>
             <!-- Outer Row -->
         @endsection
+        @push('script')
+            <script>
+                function showImage(src,target) {
+                var fr=new FileReader();
+                // when image is loaded, set the src of the image where you want to display it
+                src.addEventListener("change",function(e) {
+                    // fill fr with image data
+                    fr.readAsDataURL(e.target.files[0]);
+                    var target = document.getElementById("imageDev").classList.remove('hidden');
+                });
+                fr.onload = function(e) { target.src = this.result };
+                }
+                var src = document.getElementById("fileInput");
+                var target = document.getElementById("imageDev");
+                showImage(src,target);
+    </script>
+        @endpush

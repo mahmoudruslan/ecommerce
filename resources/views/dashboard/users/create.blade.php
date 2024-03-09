@@ -76,19 +76,13 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <div class="row">
-                                                            <div class="col-md-4">
-                                                                <label>{{ __('Choose Image') }}</label>
-                                                                @error('image')
-                                                                <span class="text-danger" role="alert">
-                                                                    <small>{{ $message }}</small>
-                                                                </span>
-                                                                @enderror
-                                                            </div>
-                                                            <div class="col-md-8">
-                                                                <input type="file" id="inputGroupFile01" name="image">
-                                                            </div>
-                                                        </div>
+                                                        <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
+                                                        @error('image')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                        <input class="hidden" type="file" id="fileInput" name="image">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -109,6 +103,9 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                <div style="width: 20%">
+                                                    <img class="hidden images" style="width:100%;margin-bottom: 15px;"  id="imageDev" src="#" alt="Your Logo"/>
+                                                </div>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
                                                     </button>
@@ -119,13 +116,26 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
-
-
                 </div>
             </div>
             <!-- Outer Row -->
         @endsection
+        @push('script')
+        <script>
+            function showImage(src,target) {
+            var fr=new FileReader();
+            // when image is loaded, set the src of the image where you want to display it
+            src.addEventListener("change",function(e) {
+                // fill fr with image data
+                fr.readAsDataURL(e.target.files[0]);
+                var target = document.getElementById("imageDev").classList.remove('hidden');
+            });
+            fr.onload = function(e) { target.src = this.result };
+            }
+            var src = document.getElementById("fileInput");
+            var target = document.getElementById("imageDev");
+            showImage(src,target);
+</script>
+    @endpush

@@ -38,9 +38,11 @@ class CategoryController extends Controller
             $category = Category::create([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
-                'image' => 'storage/categories/images/' . $fileName
+                'image' => 'storage/images/categories/' . $fileName
             ]);
-            return redirect()->route('admin.categories.index')->with(['success' => __('Item Created successfully.')]);
+            return redirect()->route('admin.categories.index')->with([
+                    'message' => __('Item Created successfully.'),
+                    'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -78,8 +80,9 @@ class CategoryController extends Controller
                 'name_en' => $request->name_en,
                 'image' => 'avatar.png',
             ]);
-            return redirect()->route('admin.categories.index')->with('success', __('Item Updated successfully.'));
-
+            return redirect()->route('admin.categories.index')->with([
+                'message' => __('Item Updated successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -90,7 +93,9 @@ class CategoryController extends Controller
         try {
             $category = Category::findOrFail(Crypt::decrypt($id));
             $category->delete();
-            return redirect()->route('admin.categories.index')->with('success', __('Item Deleted successfully.'));
+            return redirect()->route('admin.categories.index')->with([
+                'message' => __('Item Deleted successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
 
             return $e->getMessage();
