@@ -9,37 +9,31 @@ use function PHPUnit\Framework\directoryExists;
 
 trait Files
 {
-    function saveimg($name_folder, $photo_owner_id, $model_path, $images)
+    function saveImag($name_folder,   $images)
     {
+        try{
 
-        foreach ($images as $image) {
-
-            $photo = $image->getClientOriginalExtension();
-            $name = time() . Str::random(6) . '.' . $photo;
-            // Image::create([
-            //     'filename' => $name,
-            //     'imageable_id' => $photo_owner_id,
-            //     'imageable_type' => $model_path,
-            // ]);
-            $image->storeAs($name_folder, $name, 'public');
-            return $name;
+            foreach ($images as $image) {
+                $photo = $image->getClientOriginalExtension();
+                $name = time() . Str::random(6) . '.' . $photo;
+                $image->storeAs($name_folder, $name, 'public');
+                return $name_folder . '/' . $name;
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
         }
     }
 
 
-
-
-
     function deleteFiles($file_name)
     {
+        try{
             File::delete($file_name);
-            // $files = File::allFiles($file_name);
-            // if (empty($files)) {
-            //     File::deleteDirectory(public_path( $file_name));
-            // }
-
-
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
+
 }
 
 

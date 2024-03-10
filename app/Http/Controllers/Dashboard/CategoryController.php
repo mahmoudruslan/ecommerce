@@ -11,6 +11,7 @@ use App\Models\Product;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
 use App\Http\Requests\CategoryRequest;
+use Intervention\Image\Facades\Image;
 use Hash;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -20,33 +21,34 @@ class CategoryController extends Controller
     use Files;
     public function index(CategoryDataTable $dataTable)
     {
-        // return Category::withCount('products')->get();
         return $dataTable->render('dashboard.categories.index');
     }
 
     public function create()
     {
-        // $permissions = Permission::get();
         return view('dashboard.categories.create');
     }
 
     public function store(CategoryRequest $request)
     {
-        $fileName = $this->saveimg('images/test', 1, 'images/test', [$request->image]);
-        // return 'success';
         try {
-            // if($request->hasFile('image')) {
-            //     $fileName = time().'_'.$request->image->getClientOriginalName();
-            //     $filePath = $request->file('image')->storeAs('public/images/categories', $fileName);
-            // }
-            $category = Category::create([
-                'name_ar' => $request->name_ar,
-                'name_en' => $request->name_en,
-                'image' => 'storage/images/test/' . $fileName
-            ]);
-            return redirect()->route('admin.categories.index')->with([
-                    'message' => __('Item Created successfully.'),
-                    'alert-type' => 'success']);
+            if ($image = $request->file('image')) {
+                $path = 'images/categories';
+                $fileName = $this->saveImag($path, [$request->image]);
+                // Image::make($image->getReelPath())->resize(500, null, function($constraint){
+                //     $constraint->aspectRatio();
+                // })->save($path, 100);
+                // dd(true);
+                $category = Category::create([
+                    'name_ar' => $request->name_ar,
+                    'name_en' => $request->name_en,
+                    'image' => 'storage/' . $fileName
+                ]);
+                return redirect()->route('admin.categories.index')->with([
+                        'message' => __('Item Created successfully.'),
+                        'alert-type' => 'success']);
+                }
+
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -79,10 +81,14 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::findOrFail(Crypt::decrypt($id));
+            if (isset($request->image)) {
+                $this->deleteFiles($category->image);
+                $category->image = $this->saveImag('images/categories', [$request->image]);
+            }
             $category->update([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
-                'image' => 'avatar.png',
+                'image' => 'storage/' . $category->image,
             ]);
             return redirect()->route('admin.categories.index')->with([
                 'message' => __('Item Updated successfully.'),
@@ -97,7 +103,6 @@ class CategoryController extends Controller
         try {
             $category = Category::findOrFail(Crypt::decrypt($id));
             $this->deleteFiles($category->image);
-            return 'deleted true';
             $category->delete();
             return redirect()->route('admin.categories.index')->with([
                 'message' => __('Item Deleted successfully.'),
@@ -106,7 +111,6 @@ class CategoryController extends Controller
 
             return $e->getMessage();
         }
-
     }
 
 }

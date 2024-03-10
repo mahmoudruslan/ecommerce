@@ -26,7 +26,7 @@
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }}</h1>
                                             </div>
                                             <form action="{{ route('admin.categories.update', encrypt($category->id)) }}" method="POST"
-                                                class="user">
+                                                class="user" enctype="multipart/form-data">
                                                 @method('patch')
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{encrypt($category->id)}}"><!--for validation request -->
@@ -50,25 +50,22 @@
                                                     <label>{{ __('Choose Image') }}</label>
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-prepend">
-                                                          <span class="input-group-text">Upload</span>
+                                                            <span class="input-group-text">Upload</span>
                                                         </div>
                                                         <div style="border: #eaecf4 1px solid" class="custom-file">
-                                                          <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                                          <label style="left : 0" class="custom-file-label" for="inputGroupFile01">
+                                                            <input type="file" name="image" class="custom-file-input" id="inputGroupFile01">
+                                                            <label style="left : 0" class="custom-file-label" for="inputGroupFile01">
 
                                                             {{-- <span>Choose file<span> --}}
                                                         </label>
                                                         </div>
-                                                      </div>
+                                                        </div>
                                                     @error('image')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>
                                                     </span>
                                                     @enderror
                                                 </div>
-
-
-
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
                                                     </button>

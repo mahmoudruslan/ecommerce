@@ -28,7 +28,7 @@ class CategoryRequest extends FormRequest
         $rules = [
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:1024'
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:1024'
 
             // 'name_ar' => 'required|string|max:255|unique:categories,name_ar',
             // 'name_en' => 'required|string|max:255|unique:categories,name_en',
