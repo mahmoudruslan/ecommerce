@@ -10,6 +10,8 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{asset('dashboard/js/sb-admin-2.min.js')}}"></script>
+    <!-- custom js code-->
+    <script src="{{asset('dashboard/js/custom.js')}}"></script>
 
     <!-- Page level plugins -->
     <script src="{{asset('dashboard/vendor/chart.js/Chart.min.js')}}"></script>

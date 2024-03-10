@@ -24,7 +24,7 @@
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Add') }}</h1>
                                             </div>
                                             <form action="{{ route('admin.users.store') }}" method="POST"
-                                                class="user">
+                                                class="user" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="form-group row">
                                                     <div class="col-md-6">

@@ -47,24 +47,16 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>{{ __('Choose Image') }}</label>
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text">Upload</span>
-                                                        </div>
-                                                        <div style="border: #eaecf4 1px solid" class="custom-file">
-                                                            <input type="file" name="image" class="custom-file-input" id="inputGroupFile01">
-                                                            <label style="left : 0" class="custom-file-label" for="inputGroupFile01">
-
-                                                            {{-- <span>Choose file<span> --}}
-                                                        </label>
-                                                        </div>
-                                                        </div>
+                                                    <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
+                                                    <input type="file" name="image" class="custom-file-input filestyle"  id="fileInput">
                                                     @error('image')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>
                                                     </span>
                                                     @enderror
+                                                </div>
+                                                <div style="width: 20%">
+                                                    <img class="hidden images" style="width:100%;margin-bottom: 15px;"  id="imageDev" src="#" alt="Your Logo"/>
                                                 </div>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}

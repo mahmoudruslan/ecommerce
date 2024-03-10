@@ -23,7 +23,7 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.users.update', encrypt($user->id)) }}" method="POST" class="user">
+                                            <form action="{{ route('admin.users.update', encrypt($user->id)) }}" method="POST" class="user"  enctype="multipart/form-data">
                                                 @csrf
                                                 @method('patch')
                                                 <div class="form-group row">
@@ -77,19 +77,13 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <div class="row">
-                                                            <div class="col-md-4">
-                                                                <label>{{ __('Choose Image') }}</label>
-                                                                @error('image')
-                                                                <span class="text-danger" role="alert">
-                                                                    <small>{{ $message }}</small>
-                                                                </span>
-                                                                @enderror
-                                                            </div>
-                                                            <div class="col-md-8">
-                                                                <input type="file" id="inputGroupFile01" name="image">
-                                                            </div>
-                                                        </div>
+                                                        <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
+                                                        @error('image')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                        <input class="hidden" type="file" id="fileInput" name="image">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -109,6 +103,9 @@
                                                         </span>
                                                         @enderror
                                                     </div>
+                                                </div>
+                                                <div style="width: 20%">
+                                                    <img class="hidden images" style="width:100%;margin-bottom: 15px;"  id="imageDev" src="#" alt="Your Logo"/>
                                                 </div>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}

@@ -31,7 +31,7 @@ class UserRequest extends FormRequest
             'last_name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users',
             'mobile' => 'required|numeric|digits_between:6,50|unique:users',
-            // 'image' => ['required', 'string'],
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ];
@@ -43,7 +43,7 @@ class UserRequest extends FormRequest
             'last_name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,'.$id,
             'mobile' => 'required|numeric|digits_between:6,50|unique:users,mobile,'.$id,
-            // 'image' => ['required', 'string'],
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
             'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'password' => 'required|string|min:8|confirmed',
             ];

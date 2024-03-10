@@ -31,23 +31,19 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        try {
-            if ($image = $request->file('image')) {
-                $path = 'images/categories';
-                $fileName = $this->saveImag($path, [$request->image]);
-                // Image::make($image->getReelPath())->resize(500, null, function($constraint){
-                //     $constraint->aspectRatio();
-                // })->save($path, 100);
-                // dd(true);
+        try{
+                $image = $request->file('image');
+                $path = 'images/categories/';
+                $file_name = $this->saveImag($path, [$request->image]);
+                $this->resizeImage(300, null, $path, $file_name, $image);
                 $category = Category::create([
                     'name_ar' => $request->name_ar,
                     'name_en' => $request->name_en,
-                    'image' => 'storage/' . $fileName
+                    'image' => 'storage/' . $path . $file_name
                 ]);
                 return redirect()->route('admin.categories.index')->with([
                         'message' => __('Item Created successfully.'),
                         'alert-type' => 'success']);
-                }
 
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -64,7 +60,6 @@ class CategoryController extends Controller
 
             return $e->getMessage();
         }
-
     }
 
     public function edit( $slug, $id)
@@ -81,14 +76,18 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::findOrFail(Crypt::decrypt($id));
-            if (isset($request->image)) {
-                $this->deleteFiles($category->image);
-                $category->image = $this->saveImag('images/categories', [$request->image]);
+            $file_name = $category->image;
+            $path = '';
+            if ($image = $request->file('image')) {
+                $this->deleteFiles($file_name);
+                $path = 'images/categories/';
+                $file_name = $this->saveImag($path, [$request->image]);
+                $this->resizeImage(300, null, $path, $file_name, $image);
             }
             $category->update([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
-                'image' => 'storage/' . $category->image,
+                'image' => 'storage/' . $path . $file_name
             ]);
             return redirect()->route('admin.categories.index')->with([
                 'message' => __('Item Updated successfully.'),

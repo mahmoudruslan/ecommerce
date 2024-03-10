@@ -8,10 +8,12 @@ use App\Http\Requests\UserRequest;
 use App\DataTables\UserDataTable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
+use App\Traits\Files;
 use App\Models\User;
 
 class UserController extends Controller
 {
+    use Files;
     /**
      * Display a listing of the resource.
      *
@@ -29,6 +31,10 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         try {
+                $image = $request->file('image');
+                $path = 'images/users/';
+                $file_name = $this->saveImag($path, [$request->image]);
+                $this->resizeImage(400, null, $path, $file_name, $image);
             $users = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -36,7 +42,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'mobile' => $request->mobile,
                 'status' => true,
-                'image' => 'product-1',
+                'image' => 'storage/' . $path . $file_name,
                 'password' => Hash::make('password'),
             ]);
             return redirect()->route('admin.users.index')->with(['success' => __('Item Created successfully.')]);
@@ -73,6 +79,14 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail(Crypt::decrypt($id));
+            $file_name = $user->image;
+            $path = '';
+            if ($image = $request->file('image')) {
+                $this->deleteFiles($file_name);
+                $path = 'images/users/';
+                $file_name = $this->saveImag($path, [$request->image]);
+                $this->resizeImage(300, null, $path, $file_name, $image);
+            }
             $user->update([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -80,7 +94,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'mobile' => $request->mobile,
                 'status' => true,
-                'image' => 'product-1',
+                'image' => 'storage/' . $path . $file_name,
                 'password' => Hash::make('password'),
             ]);
             return redirect()->route('admin.users.index')->with('success', __('Item Updated successfully.'));
@@ -94,6 +108,7 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail(Crypt::decrypt($id));
+            $this->deleteFiles($user->image);
             $user->delete();
             return redirect()->route('admin.users.index')->with('success', __('Item Deleted successfully.'));
         } catch (\Exception $e) {
