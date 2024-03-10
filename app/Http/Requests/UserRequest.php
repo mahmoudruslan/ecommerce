@@ -35,9 +35,8 @@ class UserRequest extends FormRequest
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ];
-        if (Request::input('id') != null) {
+        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
             $id = Crypt::decrypt(Request::input('id'));
-            // dd(true);
             $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',

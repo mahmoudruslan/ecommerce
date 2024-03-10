@@ -42,8 +42,22 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
+                                                        {{-- parent category or this is parent --}}
+                                                        <select name="parent_id" style="border-radius: 10rem;height:100%" class="form-control">
+                                                            <option disabled selected>{{ __('Choose Parent Category') }} ({{ __('Optional') }})</option>
+                                                            @foreach($categories as $category)
+                                                            <option value="{{ $category->id }}">{{ $category->name_ar }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('parent_id')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
-                                                    <input type="file" name="image" class="custom-file-input filestyle"  id="fileInput">
+                                                    <input type="file" name="image" class="custom-file-input filestyle hidden"  id="fileInput">
                                                     @error('image')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>

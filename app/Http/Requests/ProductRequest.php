@@ -40,7 +40,7 @@ class ProductRequest extends FormRequest
             // 'image' => 'required',
 
         ];
-        if (Request::input('id') != null) {
+        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
             $id = Crypt::decrypt(Request::input('id'));
             $rules = [
                 'name_ar' => 'required|string|max:255',

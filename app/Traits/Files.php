@@ -9,7 +9,7 @@ use function PHPUnit\Framework\directoryExists;
 
 trait Files
 {
-    function saveImag($path,   $images)
+    function saveImag($path, $images)
     {
         try{
 

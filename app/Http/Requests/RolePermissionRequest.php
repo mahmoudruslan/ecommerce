@@ -32,7 +32,7 @@ class RolePermissionRequest extends FormRequest
             'permissions' => 'required|array',
             'permissions.*' => 'string'
         ];
-        if (Request::input('id') != null) {
+        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
             $id = Crypt::decrypt(Request::input('id'));
             $rules = [
                 'name' => 'required|string|max:255|unique:'.config('permission.table_names.roles', 'roles').',name,'.$id,

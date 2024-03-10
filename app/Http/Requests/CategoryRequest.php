@@ -28,20 +28,21 @@ class CategoryRequest extends FormRequest
         $rules = [
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:1024'
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:1024'
 
             // 'name_ar' => 'required|string|max:255|unique:categories,name_ar',
             // 'name_en' => 'required|string|max:255|unique:categories,name_en',
             // 'image' => 'required',
 
         ];
-        // if(Request::input('id') != null)
-        // {
-        //     $rules = [
-        //         'name_ar' => 'required|string|max:255|unique:categories,name_ar,'.$this->id,
-        //         'name_en' => 'required|string|max:255|unique:categories,name_en,'.$this->id,
-        //     ];
-        // }
+        if($this->method() == 'PUT' || $this->method() == 'PATCH')
+        {
+            $rules = [
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:1024'
+            ];
+        }
 
         return $rules;
     }

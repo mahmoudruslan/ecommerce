@@ -12,7 +12,7 @@ class Category extends Model
 {
     use HasFactory, HasSlug;
 
-    protected $fillable = ['id', 'name_ar','name_en','image','category_id', 'status'];
+    protected $fillable = ['id', 'name_ar','name_en','image','category_id', 'status', 'parent_id'];
 
 
     /**

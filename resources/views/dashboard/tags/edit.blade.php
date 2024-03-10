@@ -29,7 +29,6 @@
                                                 class="user">
                                                 @method('patch')
                                                 @csrf
-                                                <input type="hidden" name="id" value="{{encrypt($tag->id)}}"><!--for validation request -->
                                                 <div class="form-group">
                                                     <input value="{{$tag->name_ar}}" type="text" name="name_ar" class="form-control form-control-user" placeholder="{{ __('Enter Name In Arabic') }}">
                                                     @error('name_ar')

@@ -26,7 +26,9 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('dashboard.categories.create');
+        $categories = Category::where('parent_id', null)->get(['id', 'name_ar', 'name_en']);
+        // return $categories;
+        return view('dashboard.categories.create', compact('categories'));
     }
 
     public function store(CategoryRequest $request)
@@ -39,7 +41,8 @@ class CategoryController extends Controller
                 $category = Category::create([
                     'name_ar' => $request->name_ar,
                     'name_en' => $request->name_en,
-                    'image' => 'storage/' . $path . $file_name
+                    'image' => 'storage/' . $path . $file_name,
+                    'parent_id' => $request->parent_id ?? null,
                 ]);
                 return redirect()->route('admin.categories.index')->with([
                         'message' => __('Item Created successfully.'),
@@ -65,8 +68,9 @@ class CategoryController extends Controller
     public function edit( $slug, $id)
     {
         try {
+            $categories = Category::where('parent_id', null)->get(['id', 'name_ar', 'name_en']);
             $category = Category::findOrFail(Crypt::decrypt($id));
-            return view('dashboard.categories.edit', compact('category'));
+            return view('dashboard.categories.edit', compact('category', 'categories'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -87,7 +91,8 @@ class CategoryController extends Controller
             $category->update([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
-                'image' => 'storage/' . $path . $file_name
+                'image' => 'storage/' . $path . $file_name,
+                'parent_id' => $request->parent_id ?? null,
             ]);
             return redirect()->route('admin.categories.index')->with([
                 'message' => __('Item Updated successfully.'),

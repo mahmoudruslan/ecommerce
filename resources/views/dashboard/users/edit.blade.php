@@ -27,7 +27,6 @@
                                                 @csrf
                                                 @method('patch')
                                                 <div class="form-group row">
-                                                    <input name="id" value="{{ encrypt($user->id) }}" type="hidden">
                                                     <div class="col-md-6">
                                                         <input type="text" name="first_name" value="{{ $user->first_name }}" class="form-control form-control-user @error('first_name') is-invalid @enderror" placeholder="{{ __('Enter First Name') }}">
                                                         @error('first_name')

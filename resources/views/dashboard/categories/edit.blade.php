@@ -29,7 +29,6 @@
                                                 class="user" enctype="multipart/form-data">
                                                 @method('patch')
                                                 @csrf
-                                                <input type="hidden" name="id" value="{{encrypt($category->id)}}"><!--for validation request -->
                                                 <div class="form-group">
                                                     <input value="{{$category->name_ar}}" type="text" name="name_ar" class="form-control form-control-user" placeholder="{{ __('Enter Name In Arabic') }}">
                                                     @error('name_ar')
@@ -46,9 +45,25 @@
                                                     </span>
                                                     @enderror
                                                 </div>
+                                                @if ($category->parent_id != null)
+                                                <div class="form-group">
+                                                    {{-- parent category or this is parent --}}
+                                                    <select name="parent_id" style="border-radius: 10rem;height:100%" class="form-control">
+                                                        <option value="{{ $category->parent->id }}" selected>{{ $category->parent->name_ar }}</option>
+                                                        @foreach($categories as $category)
+                                                        <option value="{{ $category->id }}">{{ $category->name_ar }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('parent_id')
+                                                    <span class="text-danger" role="alert">
+                                                        <small>{{ $message }}</small>
+                                                    </span>
+                                                    @enderror
+                                            </div>
+                                                @endif
                                                 <div class="form-group">
                                                     <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
-                                                    <input type="file" name="image" class="custom-file-input filestyle"  id="fileInput">
+                                                    <input type="file" name="image" class="custom-file-input filestyle hidden"  id="fileInput">
                                                     @error('image')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>
@@ -58,9 +73,9 @@
                                                 <div style="width: 20%">
                                                     <img class="hidden images" style="width:100%;margin-bottom: 15px;"  id="imageDev" src="#" alt="Your Logo"/>
                                                 </div>
-                                                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                                                        {{ __('Save') }}
-                                                    </button>
+                                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                                    {{ __('Save') }}
+                                                </button>
                                                     <hr>
 
                                                 </form>
