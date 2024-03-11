@@ -16,7 +16,20 @@
     "Password": "كلمة السر",
     "Profile": "الملف الشخصى",
     "Settings": "الإعدادات",
+    "users": "المستخدمين",
+    "roles": "الصلاحيات",
+    "main": "الصفحة الرئيسية",
+    "categories": "الأقسام",
+    "products": "المنتجات",
+    "customer": "عميل",
+    "super-admin": "المشرف الفائق",
+    "admin": "المسئول",
+    "employee": "موظف",
+    "tags": "الكلمات المفتاحية",
 
+
+    "Permissions": "الأذونات",
+    "Enter Role Name...": "أدخل اسم الصلاحية ...",
     "Add roles and permissions": "إضافة أدوار وصلاحيات",
     "Edit role and permissions": "تعديل الأدوار وصلاحيات",
     "Roles and permissions": "الأدوار والصلاحيات",
@@ -137,6 +150,7 @@
     "Create an account": "إنشاء حساب",
     "I have an account": "لدى حساب بالفعل",
     "Reset password": "إعادة تعيين كلمة المرور",
-    "Are you sure you want to delete the item?": "متأكد أنك تريد حذف العنصر؟"
+    "Are you sure you want to delete the item?": "متأكد أنك تريد حذف العنصر؟",
+    "Are you sure you want to logput?": "متأكد أنك تريد تسجيل الخروج؟"
 
 }

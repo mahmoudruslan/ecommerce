@@ -1,7 +1,7 @@
 @extends('dashboard.layout.master')
 
 @section('title')
-    {{ __('Add Role and permissions') }}
+    {{ __('Add roles and permissions') }}
 @endsection
 @section('content')
     <!-- Content Wrapper -->
@@ -11,7 +11,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">{{ __('Add Role and permissions') }}</h1>
+                <h1 class="h3 mb-2 text-gray-800">{{ __('Add roles and permissions') }}</h1>
                 <div class="row justify-content-center">
 
                     <div class="col-xl-10 col-lg-12 col-md-9">
@@ -29,7 +29,7 @@
                                                 class="user">
                                                 @csrf
                                                 <div class="form-group">
-                                                    <input type="text" name="name" class="form-control form-control-user" placeholder="Enter Role Name...">
+                                                    <input type="text" name="name" class="form-control form-control-user" placeholder="{{ __('Enter Role Name...') }}">
                                                     @error('name')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>
@@ -38,7 +38,7 @@
                                                 </div>
 
                                                     <div class="form-group">
-                                                        <h1 class="h3 mb-2 text-gray-800">{{ __('permissions') }}</h1>
+                                                        <h1 class="h3 mb-2 text-gray-800">{{ __('Permissions') }}</h1>
                                                         @error('permissions')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>
@@ -51,7 +51,7 @@
                                                                     class="custom-control-input" value="{{ $permission->name }}"
                                                                     id="customCheck{{ $loop->index }}">
                                                                 <label class="custom-control-label"
-                                                                    for="customCheck{{ $loop->index }}">{{ $permission->name }}</label>
+                                                                    for="customCheck{{ $loop->index }}">{{ __($permission->name) }}</label>
                                                             </div>
                                                         @endforeach
 

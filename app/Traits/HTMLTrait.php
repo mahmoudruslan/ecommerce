@@ -34,7 +34,7 @@ trait HTMLTrait {
         if ($status == '1') {
             return '<div class="btn-circle btn-sm btn-success"><i class="fa fa-check" aria-hidden="true"></i></div>';
         }else{
-            return '<div class="btn-circle btn-sm btn-success"><i class="fa fa-times text-danger" aria-hidden="true"></i></div>';
+            return '<div class="btn-circle btn-sm btn-danger"><i class="fa fa-times" aria-hidden="true"></i></div>';
         }
     }
 

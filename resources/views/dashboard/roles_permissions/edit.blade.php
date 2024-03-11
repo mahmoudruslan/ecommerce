@@ -32,7 +32,7 @@
                                     @method('patch')
                                     @csrf
                                         <div class="form-group">
-                                            <input type="text" name="name" value="{{$role->name}}" class="form-control form-control-user"
+                                            <input type="text" name="name" value="{{ __($role->name) }}" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Enter Role Name...">
                                                 @error('name')
@@ -50,7 +50,7 @@
                                             @foreach ($permissions as $permission)
                                                 <div style="display: inline-block" class="custom-control custom-checkbox small">
                                                     <input @if ($role->hasAllDirectPermissions($permission)) checked @endif name="permissions[]" type="checkbox" class="custom-control-input" value="{{$permission->name}}" id="customCheck{{$loop->index}}">
-                                                    <label class="custom-control-label" for="customCheck{{$loop->index}}">{{$permission->name}}</label>
+                                                    <label class="custom-control-label" for="customCheck{{$loop->index}}">{{ __($permission->name) }}</label>
                                                 </div>
                                             @endforeach
 

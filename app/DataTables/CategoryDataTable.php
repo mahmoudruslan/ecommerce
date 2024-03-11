@@ -33,7 +33,7 @@ class CategoryDataTable extends DataTable
                 return $row->products_count;
             })
             ->addColumn('parent', function($row){
-                return $row->parent->name_ar ?? 'no';
+                return $row->parent->name_ar ?? '<span style="cursor: auto" class="btn btn-success">'. __('Parent') .'</span>';
             })
             ->editColumn('status', function($row){
                 return $this->getStatusIcon($row->status);
@@ -44,10 +44,10 @@ class CategoryDataTable extends DataTable
             ->editColumn('image', function($row){
                 return '<img  style="height: auto;width: 100%" src="'. asset($row->image) .'" alt="category photo">';
             })
-            ->rawColumns(['status', 'action', 'parent_id', 'created_at', 'image']);
+            ->rawColumns(['status', 'action', 'parent_id', 'created_at', 'image', 'parent']);
     }
 
-    
+
     public function query(Category $model): QueryBuilder
     {
         return $model->withCount('products')->with('parent')
