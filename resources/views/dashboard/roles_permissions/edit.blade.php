@@ -26,13 +26,14 @@
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">{{__('Edit')}}</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">{{__('Edit')}} : {{ __($role->name) }}</h1>
                                     </div>
-                                    <form action="{{route('admin.permission-role.update', encrypt($role->id))}}" method="post" class="user">
+                                    <form action="{{route('admin.permission-roles.update', encrypt($role->id))}}" method="post" class="user">
                                     @method('patch')
                                     @csrf
+                                    <input type="hidden" name="id" value="{{ encrypt($role->id) }}">
                                         <div class="form-group">
-                                            <input type="text" name="name" value="{{ __($role->name) }}" class="form-control form-control-user"
+                                            <input type="text" name="name" value="{{ $role->name }}" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Enter Role Name...">
                                                 @error('name')

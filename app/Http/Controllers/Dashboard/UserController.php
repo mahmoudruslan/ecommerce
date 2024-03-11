@@ -42,7 +42,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'mobile' => $request->mobile,
                 'status' => true,
-                'image' => 'storage/' . $path . $file_name,
+                'image' => $path . $file_name,
                 'password' => Hash::make('password'),
             ]);
             return redirect()->route('admin.users.index')->with(['success' => __('Item Created successfully.')]);
@@ -94,7 +94,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'mobile' => $request->mobile,
                 'status' => true,
-                'image' => 'storage/' . $path . $file_name,
+                'image' => $path . $file_name,
                 'password' => Hash::make('password'),
             ]);
             return redirect()->route('admin.users.index')->with('success', __('Item Updated successfully.'));

@@ -36,7 +36,7 @@ class UserDataTable extends DataTable
                 return $this->getStatusIcon($row->status);
             })
             ->editColumn('image', function($row){
-                return '<img   style="height: auto;width: 100%" src="'. asset($row->image) .'" alt="category photo">';
+                return '<img   style="height: auto;width: 100%" src="'. asset('storage/'.$row->image) .'" alt="category photo">';
             })
             ->rawColumns(['status', 'action', 'image']);
     }

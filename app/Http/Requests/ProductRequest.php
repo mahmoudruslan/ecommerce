@@ -41,7 +41,7 @@ class ProductRequest extends FormRequest
 
         ];
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
-            $id = Crypt::decrypt(Request::input('id'));
+            // $id = Crypt::decrypt($this->route('product'));
             $rules = [
                 'name_ar' => 'required|string|max:255',
                 'name_en' => 'required|string|max:255',

@@ -5,9 +5,22 @@
                     // fill fr with image data
                     fr.readAsDataURL(e.target.files[0]);
                     var target = document.getElementById("imageDev").classList.remove('hidden');
+                    document.getElementById("rmImage").classList.remove('hidden');
+
+
                 });
                 fr.onload = function(e) { target.src = this.result };
                 }
                 var src = document.getElementById("fileInput");
                 var target = document.getElementById("imageDev");
                 showImage(src,target);
+
+                function deleteImage(url)
+                {
+                    var input = document.getElementById("imageDev");
+                    document.getElementById("rmImage").classList.add('hidden');
+                    var originImage = document.getElementById("fileInput");
+                    input.src = url;
+                    originImage.value = null;
+                }
+

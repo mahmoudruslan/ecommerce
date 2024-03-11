@@ -103,9 +103,14 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div style="width: 20%">
-                                                    <img class="hidden images" style="width:100%;margin-bottom: 15px;"  id="imageDev" src="#" alt="Your Logo"/>
+                                                <div class="show-image-container">
+                                                    <div class="show-image">
+                                                        <img class="form-image hidden" id="imageDev" src="#" alt="Your Logo"/>
+                                                    </div>
                                                 </div>
+                                                {{-- <div class="show-image-container">
+                                                    <img class="hidden images" style="width:100%;margin-bottom: 15px;"  id="imageDev" src="#" alt="Your Logo"/>
+                                                </div> --}}
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
                                                     </button>

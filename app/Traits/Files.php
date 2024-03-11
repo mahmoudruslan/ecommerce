@@ -17,7 +17,6 @@ trait Files
                 $extension = $image->getClientOriginalExtension();
                 $image_name = time() . Str::random(6) . '.' . $extension;
                 $image->storeAs($path, $image_name, 'public');
-
                 return $image_name;
             }
         } catch (\Exception $e) {
@@ -41,6 +40,9 @@ trait Files
     function deleteFiles($file_name)
     {
         try{
+            // if (File::exists($file)) {
+
+            // }
             File::delete($file_name);
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);

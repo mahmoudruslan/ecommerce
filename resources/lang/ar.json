@@ -39,11 +39,15 @@
     "Last Name": "الاسم الأخير",
     "Users": "المستخدمين",
     "Add Users": "إضافة مستخدمين",
+    "Edit Users": "تعديل المستخدمين",
+    "Edit User": "تعديل المستخدم",
     "Users Screens:": "شاشات المستخدمين :",
 
     "Category": "القسم",
     "Categories": "الأقسام",
     "Add Categories": "إضافة أقسام",
+    "Edit Categories": "تعديل الأقسام",
+    "Edit Category": "تعديل القسم",
     "Categories Screens:": "شاشات الأقسام :",
     "Parent Category": "القسم الأساسى",
 
@@ -52,6 +56,7 @@
     "Add Products": "إضافة منتجات",
     "Products Screens:": "شاشات المنتجات :",
     "Edit Products": "تعديل المنتجات",
+    "Edit Product": "تعديل المنتج",
     "Product Count": "عدد المنتجات",
 
     "Tag": "كلمة مفتاحية",

@@ -37,6 +37,7 @@ class CategoryRequest extends FormRequest
         ];
         if($this->method() == 'PUT' || $this->method() == 'PATCH')
         {
+            // $id = Crypt::decrypt($this->route('category'));
             $rules = [
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',

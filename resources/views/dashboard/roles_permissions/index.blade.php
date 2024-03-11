@@ -24,7 +24,7 @@
                     <div class="card shadow mb-4">
                         <div style="display: block;width: 100%" class="card-header table-header py-3">
                             <h4 class="m-0 font-weight-bold text-primary">{{__('Roles and permissions')}}</h4>
-                            <a  href="{{route('admin.permission-role.create')}}" class="btn btn-primary">
+                            <a  href="{{route('admin.permission-roles.create')}}" class="btn btn-primary">
                                 {{__('Add roles and permissions')}}
                                 <i class="fa fa-plus plus"></i>
                             </a>

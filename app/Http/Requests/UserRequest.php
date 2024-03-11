@@ -36,7 +36,7 @@ class UserRequest extends FormRequest
             'password' => 'required|string|min:8|confirmed',
         ];
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
-            $id = Crypt::decrypt(Request::input('id'));
+            $id = Crypt::decrypt($this->route('user'));
             $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',

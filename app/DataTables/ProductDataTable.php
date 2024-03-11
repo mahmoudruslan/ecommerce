@@ -34,7 +34,7 @@ class ProductDataTable extends DataTable
                 return $b;
             })
             ->addColumn('parent_category', function($row){
-                return $row->category->parent->name_ar;
+                return $row->category->parent['name_' . \App::currentLocale()];
             })
             ->editColumn('status', function($row){
                 return $this->getStatusIcon($row->status);
@@ -43,7 +43,7 @@ class ProductDataTable extends DataTable
                 return $this->getStatusIcon($row->featured);
             })
             ->editColumn('category_id', function($row){
-                    return $row->category->name_ar;
+                    return $row->category['name_' . \App::currentLocale()];
             })
             // ->editColumn('image', function($row){
 

@@ -11,7 +11,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">{{ __('Edit Categories') }}</h1>
+                <h1 class="h3 mb-2 text-gray-800">{{ __('Edit Category') }}</h1>
                 <div class="row justify-content-center">
 
                     <div class="col-xl-10 col-lg-12 col-md-9">
@@ -23,7 +23,7 @@
                                     <div class="col-lg-12">
                                         <div class="p-5">
                                             <div class="text-center">
-                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }}</h1>
+                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }} : {{ __($category['name_'. App::currentLocale()]) }}</h1>
                                             </div>
                                             <form action="{{ route('admin.categories.update', encrypt($category->id)) }}" method="POST"
                                                 class="user" enctype="multipart/form-data">
@@ -49,9 +49,9 @@
                                                 <div class="form-group">
                                                     {{-- parent category or this is parent --}}
                                                     <select name="parent_id" style="border-radius: 10rem;height:100%" class="form-control">
-                                                        <option value="{{ $category->parent->id }}" selected>{{ $category->parent->name_ar }}</option>
-                                                        @foreach($categories as $category)
-                                                        <option value="{{ $category->id }}">{{ $category->name_ar }}</option>
+                                                        <option value="{{ $category->parent->id }}" selected>{{ $category->parent['name_'. App::currentLocale()] }}</option>
+                                                        @foreach($categories as $item)
+                                                        <option value="{{ $item->id }}">{{ $item['name_'. App::currentLocale()] }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('parent_id')
@@ -59,38 +59,38 @@
                                                         <small>{{ $message }}</small>
                                                     </span>
                                                     @enderror
-                                            </div>
+                                                </div>
                                                 @endif
                                                 <div class="form-group">
                                                     <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
-                                                    <input type="file" name="image" class="custom-file-input filestyle hidden"  id="fileInput">
+                                                    <input type="file" name="image" class="custom-file-input filestyle hidden" id="fileInput">
                                                     @error('image')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>
                                                     </span>
                                                     @enderror
                                                 </div>
-                                                <div style="width: 20%">
-                                                    <img class="hidden images" style="width:100%;margin-bottom: 15px;"  id="imageDev" src="#" alt="Your Logo"/>
+                                                <div class="show-image-container">
+                                                    <div class="show-image">
+                                                        <span id="rmImage" onclick="deleteImage('{{ url('storage/'.$category->image) }}')" class="btn btn-danger btn-sm btn-rm-image hidden">
+                                                            <i class="fas fa-trash"></i>
+                                                        </span>
+                                                        <img class="form-image" id="imageDev" src="{{ url('storage/'.$category->image) }}" alt="Your Logo"/>
+                                                    </div>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary btn-user btn-block">
                                                     {{ __('Save') }}
                                                 </button>
-                                                    <hr>
-
-                                                </form>
-
+                                                <hr>
+                                            </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                     </div>
-
-
                 </div>
             </div>
             <!-- Outer Row -->

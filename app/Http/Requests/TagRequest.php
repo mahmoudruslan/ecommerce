@@ -32,7 +32,7 @@ class TagRequest extends FormRequest
 
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
-            $id = Crypt::decrypt(Request::input('id'));
+            $id = Crypt::decrypt($this->route('tag'));
             $rules = [
                 'name_ar' => 'required|string|max:255|unique:tags,name_ar,'.$id,
                 'name_en' => 'required|string|max:255|unique:tags,name_en,'.$id,

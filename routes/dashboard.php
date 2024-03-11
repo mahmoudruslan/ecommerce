@@ -33,7 +33,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
         Route::get('/charts', 'charts')->name('charts');
         Route::get('/tables', 'tables')->name('tables');
 
-        Route::resource('permission-role', RolePermissionController::class)->middleware('can:roles');
+        Route::resource('permission-roles', RolePermissionController::class)->middleware('can:roles');
         // Route::resource('users', UserController::class)->middleware('can:users');
         //categories users
         Route::controller(UserController::class)

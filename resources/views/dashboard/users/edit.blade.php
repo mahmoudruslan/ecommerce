@@ -11,7 +11,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">{{ __('Edit Users') }}</h1>
+                <h1 class="h3 mb-2 text-gray-800">{{ __('Edit User') }}</h1>
                 <div class="row justify-content-center">
                     <div class="col-xl-10 col-lg-12 col-md-9">
                         <div class="card o-hidden border-0 shadow-lg my-4">
@@ -21,7 +21,7 @@
                                     <div class="col-lg-12">
                                         <div class="p-5">
                                             <div class="text-center">
-                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }}</h1>
+                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }} : {{ __($user->fullName) }}</h1>
                                             </div>
                                             <form action="{{ route('admin.users.update', encrypt($user->id)) }}" method="POST" class="user"  enctype="multipart/form-data">
                                                 @csrf
@@ -103,8 +103,13 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div style="width: 20%">
-                                                    <img class="hidden images" style="width:100%;margin-bottom: 15px;"  id="imageDev" src="#" alt="Your Logo"/>
+                                                <div class="show-image-container">
+                                                    <div class="show-image">
+                                                        <span id="rmImage" onclick="deleteImage('{{ url('storage/'.$user->image) }}')" class="btn btn-danger btn-sm btn-rm-image hidden">
+                                                            <i class="fas fa-trash"></i>
+                                                        </span>
+                                                        <img class="form-image" id="imageDev" src="{{ url('storage/'.$user->image) }}" alt="Your Logo"/>
+                                                    </div>
                                                 </div>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}

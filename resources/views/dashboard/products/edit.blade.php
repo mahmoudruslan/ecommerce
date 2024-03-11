@@ -21,7 +21,7 @@
                                     <div class="col-lg-12">
                                         <div class="p-5">
                                             <div class="text-center">
-                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }}</h1>
+                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }} : {{ __($product['name_'. App::currentLocale()]) }}</h1>
                                             </div>
                                             <form action="{{ route('admin.products.update', encrypt($product->id)) }}" method="POST" class="user">
                                                 @csrf
@@ -97,10 +97,10 @@
                                                     <div class="col-md-6">
                                                         <label><small>{{ __('Choose Category') }}</small></label>
                                                         <select name="category_id" style="border-radius: 10rem;height:60%" class="form-control">
-                                                            <option value="{{ $product->category->id }}" selected>{{ $product->category->parent->name_ar }} | {{ $product->category->name_ar }}</option>
+                                                            <option value="{{ $product->category->id }}" selected>{{ $product->category->parent['name_'. App::currentLocale()] }} | {{ $product->category['name_'. App::currentLocale()] }}</option>
                                                             @foreach ($categories as $category)
                                                             {{-- {{ $category->id }} --}}
-                                                            <option value="{{ $category->id }}">{{ $category->parent->name_ar }} | {{ $category->name_ar }}</option>
+                                                            <option value="{{ $category->id }}">{{ $category->parent['name_'. App::currentLocale()] }} | {{ $category['name_'. App::currentLocale()] }}</option>
                                                             @endforeach
                                                         </select>
                                                         @error('category_id')

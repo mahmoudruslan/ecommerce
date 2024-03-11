@@ -61,7 +61,7 @@ class RolePermissionController extends Controller
             $role->update(['name' => $request->name , 'guard_name'=> 'web' ]);
             $permissions = $request->permissions ?? [];
             $role->syncPermissions($permissions);
-            return redirect()->route('admin.permission-role.index')->with('success', __('Item Updated successfully.'));
+            return redirect()->route('admin.permission-roles.index')->with('success', __('Item Updated successfully.'));
 
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -76,7 +76,7 @@ class RolePermissionController extends Controller
             $permissions = $role->permissions->pluck('name');
             $role->revokePermissionTo($permissions);
             $role->delete();
-            return redirect()->route('admin.permission-role.index')->with('success', __('Item Deleted successfully.'));
+            return redirect()->route('admin.permission-roles.index')->with('success', __('Item Deleted successfully.'));
         } catch (\Exception $e) {
 
             return $e->getMessage();

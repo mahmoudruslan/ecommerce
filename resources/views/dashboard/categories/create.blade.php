@@ -46,7 +46,7 @@
                                                         <select name="parent_id" style="border-radius: 10rem;height:100%" class="form-control">
                                                             <option disabled selected>{{ __('Choose Parent Category') }} ({{ __('Optional') }})</option>
                                                             @foreach($categories as $category)
-                                                            <option value="{{ $category->id }}">{{ $category->name_ar }}</option>
+                                                            <option value="{{ $category->id }}">{{ $category['name_'. App::currentLocale()] }}</option>
                                                             @endforeach
                                                         </select>
                                                         @error('parent_id')
@@ -64,9 +64,13 @@
                                                     </span>
                                                     @enderror
                                                 </div>
-                                                <div style="width: 20%">
-                                                    <img class="hidden images" style="width:100%;margin-bottom: 15px;"  id="imageDev" src="#" alt="Your Logo"/>
+                                                <div class="show-image-container">
+                                                    <div class="show-image">
+                                                        <img class="form-image hidden" id="imageDev" src="{{ url('storage/'.$category->image) }}" alt="Your Logo"/>
+                                                    </div>
                                                 </div>
+                                                <hr>
+
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
                                                     </button>

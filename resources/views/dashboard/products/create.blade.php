@@ -119,7 +119,7 @@
                                                         <select name="category_id" style="border-radius: 10rem;height:100%" class="form-control">
                                                             <option disabled selected>{{ __('Choose Category') }}</option>
                                                             @foreach($categories as $category)
-                                                            <option value="{{ $category->id }}">{{ $category->parent->name_ar }} | {{ $category->name_ar }}</option>
+                                                            <option value="{{ $category->id }}">{{ $category->parent['name_'. App::currentLocale()] }} | {{ $category['name_'. App::currentLocale()] }}</option>
                                                             @endforeach
 
                                                         </select>

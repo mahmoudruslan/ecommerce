@@ -101,8 +101,8 @@
                 <div id="collapseSettings" class="collapse @if($route == 'permission-role') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">{{__('Roles and permissions Screens:')}} </h6>
-                        <a class="collapse-item" href="{{route('admin.permission-role.create')}}">{{__('Add roles and permissions')}}</a>
-                        <a class="collapse-item" href="{{route('admin.permission-role.index')}}">{{__('Roles and permissions')}}</a>
+                        <a class="collapse-item" href="{{route('admin.permission-roles.create')}}">{{__('Add roles and permissions')}}</a>
+                        <a class="collapse-item" href="{{route('admin.permission-roles.index')}}">{{__('Roles and permissions')}}</a>
                     </div>
                 </div>
             </li>

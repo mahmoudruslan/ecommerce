@@ -41,7 +41,7 @@ class CategoryController extends Controller
                 $category = Category::create([
                     'name_ar' => $request->name_ar,
                     'name_en' => $request->name_en,
-                    'image' => 'storage/' . $path . $file_name,
+                    'image' => $path . $file_name,
                     'parent_id' => $request->parent_id ?? null,
                 ]);
                 return redirect()->route('admin.categories.index')->with([
@@ -68,7 +68,7 @@ class CategoryController extends Controller
     public function edit( $slug, $id)
     {
         try {
-            $categories = Category::where('parent_id', null)->get(['id', 'name_ar', 'name_en']);
+            $categories = Category::where('parent_id', null)->get(['id', 'name_ar', 'name_en', 'image']);
             $category = Category::findOrFail(Crypt::decrypt($id));
             return view('dashboard.categories.edit', compact('category', 'categories'));
         } catch (\Exception $e) {
@@ -91,7 +91,7 @@ class CategoryController extends Controller
             $category->update([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
-                'image' => 'storage/' . $path . $file_name,
+                'image' =>  $path . $file_name,
                 'parent_id' => $request->parent_id ?? null,
             ]);
             return redirect()->route('admin.categories.index')->with([
@@ -106,6 +106,15 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::findOrFail(Crypt::decrypt($id));
+            if(count($category->children) > 0){
+                return redirect()->route('admin.categories.index')->with([
+                    'message' => __('This is category has subcategories'),
+                    'alert-type' => 'danger']);
+            } else if(count($category->products) > 0){
+                return redirect()->route('admin.categories.index')->with([
+                    'message' => __('This is category has products'),
+                    'alert-type' => 'danger']);
+            }
             $this->deleteFiles($category->image);
             $category->delete();
             return redirect()->route('admin.categories.index')->with([

@@ -25,7 +25,7 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Add') }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.permission-role.store') }}" method="POST"
+                                            <form action="{{ route('admin.permission-roles.store') }}" method="POST"
                                                 class="user">
                                                 @csrf
                                                 <div class="form-group">
