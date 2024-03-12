@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use App\Traits\HTMLTrait;
-
+use Illuminate\Support\Facades\App;
 
 class CategoryDataTable extends DataTable
 {
@@ -33,7 +33,7 @@ class CategoryDataTable extends DataTable
                 return $row->products_count;
             })
             ->addColumn('parent', function($row){
-                return $row->parent['name_' . \App::currentLocale()] ?? '<span style="cursor: auto" class="btn btn-success">'. __('Parent') .'</span>';
+                return $row->parent['name_' . App::currentLocale()] ?? '<span style="cursor: auto" class="btn btn-success">'. __('Parent') .'</span>';
             })
             ->editColumn('status', function($row){
                 return $this->getStatusIcon($row->status);

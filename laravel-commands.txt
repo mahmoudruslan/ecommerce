@@ -1,0 +1,17 @@
+php artisan mi:f --seed
+php artisan cach:clear
+php artisan config:clear
+php artisan route:clear
+composer dumpautoload
+
+php artisan make:controller
+php artisan make:request TagRequest
+php artisan make:seed ImageSeeder
+php artisan make:migration create_mediable_table
+php artisan datatables:make Post
+php artisan make:factory --model=Model
+php artisan route:list
+
+show image in edit pages and add button to remove this image => true
+solve problem "if category has products" => true
+
