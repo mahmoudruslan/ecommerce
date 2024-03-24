@@ -104,13 +104,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="show-image-container">
-                                                    <div class="show-image">
-                                                        <img class="form-image hidden" id="imageDev" src="#" alt="Your Logo"/>
+                                                    <div  id="parent" class="show-image">
+                                                        <div id="image-div" class="image-div"  style="width: 100%;position: relative;">
+
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                {{-- <div class="show-image-container">
-                                                    <img class="hidden images" style="width:100%;margin-bottom: 15px;"  id="imageDev" src="#" alt="Your Logo"/>
-                                                </div> --}}
+                                                
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
                                                     </button>
@@ -127,20 +127,4 @@
             </div>
             <!-- Outer Row -->
         @endsection
-        @push('script')
-        <script>
-            function showImage(src,target) {
-            var fr=new FileReader();
-            // when image is loaded, set the src of the image where you want to display it
-            src.addEventListener("change",function(e) {
-                // fill fr with image data
-                fr.readAsDataURL(e.target.files[0]);
-                var target = document.getElementById("imageDev").classList.remove('hidden');
-            });
-            fr.onload = function(e) { target.src = this.result };
-            }
-            var src = document.getElementById("fileInput");
-            var target = document.getElementById("imageDev");
-            showImage(src,target);
-</script>
-    @endpush
+

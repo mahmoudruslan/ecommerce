@@ -8,10 +8,10 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use App\Traits\HTMLTrait;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\App;
 
 class ProductDataTable extends DataTable
 {
@@ -34,7 +34,13 @@ class ProductDataTable extends DataTable
                 return $b;
             })
             ->addColumn('parent_category', function($row){
-                return $row->category->parent['name_' . \App::currentLocale()];
+                return $row->category->parent['name_' . App::currentLocale()];
+            })
+            ->addColumn('image', function($row){
+                return '<img style="height: auto;width: 100%" src="'. asset('storage/' . $row->firstMedia->file_name) .'" alt="category photo">';
+            })
+            ->addColumn('tags', function($row){
+                return $row->tags->pluck('name_' . App::currentLocale())->join(', ');
             })
             ->editColumn('status', function($row){
                 return $this->getStatusIcon($row->status);
@@ -43,13 +49,8 @@ class ProductDataTable extends DataTable
                 return $this->getStatusIcon($row->featured);
             })
             ->editColumn('category_id', function($row){
-                    return $row->category['name_' . \App::currentLocale()];
+                    return $row->category['name_' . App::currentLocale()];
             })
-            // ->editColumn('image', function($row){
-
-            //         return '<img src="'. asset('dashboard/img/'. $row->image) .'" alt="category photo">';
-
-            // })
             ->rawColumns(['status', 'action', 'featured', 'category_id', 'parent_category', 'image']);
     }
 
@@ -61,7 +62,13 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->with(['category:id,name_ar,name_en,parent_id' => ['parent:id,name_ar,name_en']])->newQuery();
+        return $model->with([
+            'category:id,name_ar,name_en,parent_id' => 
+                ['parent:id,name_ar,name_en'],
+            'tags',
+            'firstMedia:mediable_id,file_name',
+            
+            ])->newQuery();
     }
 
     /**
@@ -99,7 +106,7 @@ class ProductDataTable extends DataTable
             Column::make('id'),
             Column::make('name_ar')->title(__('Name In Arabic')),
             Column::make('name_en')->title(__('Name In English')),
-            Column::make('slug')->title(__('Slug')),
+            Column::make('tags')->title(__('Tags')),
             Column::make('price')->title(__('Price')),
             Column::make('description_ar')->title(__('Description In Arabic')),
             Column::make('description_en')->title(__('Description In English')),
@@ -108,7 +115,7 @@ class ProductDataTable extends DataTable
             Column::make('category_id')->title(__('Category')),
             Column::make('featured')->title(__('Featured')),
             Column::make('status')->title(__('Status')),
-            // Column::make('image')->title(__('Image')),
+            Column::make('image')->title(__('Image')),
             Column::computed('action')->title(__('Action'))
             ->exportable(false)
             ->printable(false)

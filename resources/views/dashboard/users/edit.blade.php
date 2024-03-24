@@ -108,7 +108,7 @@
                                                         <span id="rmImage" onclick="deleteImage('{{ url('storage/'.$user->image) }}')" class="btn btn-danger btn-sm btn-rm-image hidden">
                                                             <i class="fas fa-trash"></i>
                                                         </span>
-                                                        <img class="form-image" id="imageDev" src="{{ url('storage/'.$user->image) }}" alt="Your Logo"/>
+                                                        <img class="form-image" id="imageTag" src="{{ url('storage/'.$user->image) }}" alt="Your Logo"/>
                                                     </div>
                                                 </div>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">

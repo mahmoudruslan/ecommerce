@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ProductTagsSeeder::class,
             ProductMediaSeeder::class,
+            CategoryTagsSeeder::class,
         ]);
         \App\Models\User::factory(20)->create()->each(function($user){
             $user->assignRole('customer');

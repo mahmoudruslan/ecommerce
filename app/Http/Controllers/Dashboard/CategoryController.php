@@ -76,8 +76,10 @@ class CategoryController extends Controller
         }
     }
 
-    public function update(CategoryRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        return $request;
+
         try {
             $category = Category::findOrFail(Crypt::decrypt($id));
             $file_name = $category->image;

@@ -36,7 +36,9 @@ class RolePermissionController extends Controller
                 'guard_name' => 'web',
             ]);
             $role->givePermissionTo($request->permissions);
-            return redirect()->route('permission-role.index')->with(['success' => __('Item Created successfully.')]);
+            return redirect()->route('permission-role.index')->with([
+                'message' => __('Item Created successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -61,7 +63,9 @@ class RolePermissionController extends Controller
             $role->update(['name' => $request->name , 'guard_name'=> 'web' ]);
             $permissions = $request->permissions ?? [];
             $role->syncPermissions($permissions);
-            return redirect()->route('admin.permission-roles.index')->with('success', __('Item Updated successfully.'));
+            return redirect()->route('admin.permission-roles.index')->with([
+                'message' => __('Item Updated successfully.'),
+                'alert-type' => 'success']);
 
         } catch (\Exception $e) {
             return $e->getMessage();

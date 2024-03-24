@@ -17,6 +17,12 @@ class ProductController extends Controller
 {
     public function index(ProductDataTable $dataTable)
     {
+            //    return Product::with([
+            //     'category:id,name_ar,name_en,parent_id' => ['parent:id,name_ar,name_en'],
+            //     'firstMedia:file_name,mediable_id',
+            //     'tags:name_ar,name_en',
+            //     ])->first();
+        // return Product::with(['category:id,name_ar,name_en,parent_id' => ['parent:id,name_ar,name_en']])->first()->first_media;
         // return Product::with(['category:id,name_ar,name_en,parent_id' => ['parent:id,name_ar,name_en']])->get();
         // return Product::with(['category:id,name_ar,name_en,parent_id' => ['parent:id,name_ar,name_en']])->get();
         return $dataTable->render('dashboard.products.index');
@@ -29,10 +35,10 @@ class ProductController extends Controller
         return view('dashboard.products.create', compact('categories'));
     }
 
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {
         try {
-            // return $request;
+            return $request;
             $product = Product::create([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
@@ -44,7 +50,9 @@ class ProductController extends Controller
                 'featured' => $request->featured,
                 'status' => $request->status
             ]);
-            return redirect()->route('admin.products.index')->with(['success' => __('Item Created successfully.')]);
+            return redirect()->route('admin.products.index')->with([
+                'message' => __('Item Created successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -73,8 +81,9 @@ class ProductController extends Controller
         }
     }
 
-    public function update(ProductRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        return $request;
         try {
             $product = Product::findOrFail(Crypt::decrypt($id));
             $product->update([
@@ -88,7 +97,9 @@ class ProductController extends Controller
                 'featured' => $request->featured ?? 0,
                 'status' => $request->status ?? 0
             ]);
-            return redirect()->route('admin.products.index')->with('success', __('Item Updated successfully.'));
+            return redirect()->route('admin.products.index')->with([
+                'message' => __('Item Updated successfully.'),
+                'alert-type' => 'success']);
 
         } catch (\Exception $e) {
             return $e->getMessage();

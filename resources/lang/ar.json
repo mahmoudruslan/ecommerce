@@ -59,7 +59,6 @@
     "Edit Product": "تعديل المنتج",
     "Product Count": "عدد المنتجات",
 
-    "Tag": "كلمة مفتاحية",
     "Tags": "كلمات مفتاحية",
     "Add Tags": "إضافة كلمات مفتاحية",
     "Tags Screens:": "شاشات الكلمات مفتاحية :",
@@ -131,7 +130,7 @@
     "Save": "حفظ",
     "Status": "الحالة",
     "Edit": "تعديل",
-    "Slug": "الكلمة المفتاحية",
+    "Tag": "الكلمة المفتاحية",
     "Created At": "أنشئ فى",
     "Item Created successfully.": "تم إنشاء العنصر بنجاح",
     "Item Updated successfully.": "تم تحديث العنصر بنجاح",

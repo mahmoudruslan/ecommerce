@@ -7,13 +7,6 @@
             <div id="content">
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Page Heading -->
-                    @if (Session::has('success'))
-                        <div class="text-center alert alert-success">{{ Session::get('success') }}</div>
-                    @endif
-                        @if (Session::has('error'))
-                        <div class="text-center alert alert-danger">{{ Session::get('error') }}</div>
-                    @endif
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div style="display: block;width: 100%" class="card-header table-header py-3">

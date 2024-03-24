@@ -23,7 +23,7 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Add') }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.categories.store') }}" method="POST" class="user" enctype="multipart/form-data">
+                                            <form id="form" action="{{ route('admin.categories.store') }}" method="POST" class="user" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="form-group">
                                                     <input type="text" name="name_ar" class="form-control form-control-user" placeholder="{{ __('Enter Name In Arabic') }}">
@@ -65,8 +65,11 @@
                                                     @enderror
                                                 </div>
                                                 <div class="show-image-container">
-                                                    <div class="show-image">
-                                                        <img class="form-image hidden" id="imageDev" src="{{ url('storage/'.$category->image) }}" alt="Your Logo"/>
+                                                    <div id="parent" class="show-image">
+                                                        {{-- <div id="image-div" class="image-div"  style="width: 100%;position: relative;">
+
+                                                        </div> --}}
+                                                        {{-- <img class="form-image hidden" id="imageDev" src="{{ url('storage/'.$category->image) }}" alt="Your Logo"/> --}}
                                                     </div>
                                                 </div>
                                                 <hr>

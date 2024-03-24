@@ -13,8 +13,7 @@ class Product extends Model
     use HasFactory, HasSlug;
 
     protected $fillable = ['name_ar','name_en','slug','price','description_ar','description_en' , 'quantity','category_id','featured','status'];
-
-
+    // protected $appends = ['first_media'];
     /**
      * Get the options for generating the slug.
      */
@@ -38,11 +37,22 @@ class Product extends Model
 
     public function media()
     {
-        return $this->morphToMany(Media::class, 'mediable');
+        return $this->morphMany(Media::class, 'mediable');
+    }
+
+    public function firstMedia()
+    {
+        return $this->morphOne(Media::class, 'mediable');
     }
 
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'taggable');
     }
+
+
+    // public function getFirstMediaAttribute()
+    // {
+    //     return $this->media->first()->file_name;
+    // }
 }

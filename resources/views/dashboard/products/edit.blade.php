@@ -109,21 +109,16 @@
                                                         </span>
                                                         @enderror
                                                     </div>
+                                                    
                                                     <div class="col-md-6">
-                                                        <label></label>
-                                                        <div class="row">
-                                                            <div class="col-md-4">
-                                                                <label>{{ __('Choose Image') }}</label>
-                                                                @error('image')
-                                                                <span class="text-danger" role="alert">
-                                                                    <small>{{ $message }}</small>
-                                                                </span>
-                                                                @enderror
-                                                            </div><br>
-                                                            <div class="col-md-8">
-                                                                <input type="file" id="inputGroupFile01" name="image">
-                                                            </div>
-                                                        </div>
+                                                        <label >{{ __('Choose Image') }}</label><br>
+                                                        <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
+                                                        <input multiple type="file" name="image[]" class="custom-file-input filestyle hidden"  id="fileInput">
+                                                        @error('image')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -146,6 +141,11 @@
                                                         @enderror
                                                     </div>
                                                 </div><br>
+                                                <div class="show-image-container">
+                                                    <div id="parent" class="show-image" >
+                                                        
+                                                    </div>
+                                                </div>
                                                 <hr>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}

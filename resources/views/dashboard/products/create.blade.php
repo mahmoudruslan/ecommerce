@@ -68,32 +68,6 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <input type="text" name="featured" class="form-control form-control-user @error('featured') is-invalid @enderror" placeholder="    {{ __('Enter Featured') }}">
-                                                        @error('featured')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="row">
-                                                            <div class="col-md-4">
-                                                                <label>{{ __('Choose Image') }}</label>
-                                                                @error('image')
-                                                                <span class="text-danger" role="alert">
-                                                                    <small>{{ $message }}</small>
-                                                                </span>
-                                                                @enderror
-                                                            </div>
-                                                            <div class="col-md-8">
-                                                                <input type="file" id="inputGroupFile01" name="category_id">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-6">
                                                         <textarea style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_ar" value="{{ old('description_ar') }}" class="form-control form-control-user
                                                         @error('description_ar') is-invalid @enderror" placeholder="   {{ __('Enter Description In Arabic') }}"></textarea>
                                                         @error('description_ar')
@@ -115,13 +89,11 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        {{-- <input type="text" name="category_id"  placeholder="{{ __('Category') }}"> --}}
                                                         <select name="category_id" style="border-radius: 10rem;height:100%" class="form-control">
                                                             <option disabled selected>{{ __('Choose Category') }}</option>
                                                             @foreach($categories as $category)
                                                             <option value="{{ $category->id }}">{{ $category->parent['name_'. App::currentLocale()] }} | {{ $category['name_'. App::currentLocale()] }}</option>
                                                             @endforeach
-
                                                         </select>
                                                         @error('category_id')
                                                         <span class="text-danger" role="alert">
@@ -130,17 +102,43 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="text" name="status" class="form-control form-control-user" placeholder="{{ __('Status') }}">
-                                                        @error('status')
+                                                        <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
+                                                        <input multiple type="file" name="image[]" class="custom-file-input filestyle hidden"  id="fileInput">
+                                                        @error('image')
                                                         <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
                                                         </span>
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <br>
+                                                <div class="form-group row">
+                                                    <div class="col-md-3">
+                                                        <input type="checkbox" value="1" name="featured" class="checkbox @error('featured') is-invalid @enderror" placeholder="    {{ __('Enter Featured') }}">
+                                                        <label><small>{{ __('Featured') }}</small></label>
+                                                        @error('featured')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                        <div class="col-md-3">
+                                                        <input type="checkbox" value="1" name="status" class="checkbox" placeholder="{{ __('Status') }}">
+                                                        <label><small>{{ __('Active') }}</small></label>
+                                                        @error('status')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                </div><br>
+                                                <div class="show-image-container">
+                                                    <div id="parent" class="show-image" >
+                                                        {{-- <div id="image-div" class="image-div"  style="width: 100%;position: relative;"> --}}
+                                                            {{-- <img class="form-image hidden" id="imageTag" src="#" alt="Your Logo"/> --}}
+                                                        {{-- </div> --}}
+                                                    </div>
+                                                </div>
                                                 <hr>
-
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
                                                     </button>

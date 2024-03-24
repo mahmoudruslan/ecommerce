@@ -9,17 +9,6 @@
             <div id="content">
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Page Heading -->
-                    @if (Session::has('success'))
-                        <div class="text-center alert alert-success">{{ Session::get('success') }}</div>
-                    @endif
-                        @if (Session::has('error'))
-                        <div class="text-center alert alert-danger">{{ Session::get('error') }}</div>
-                    @endif
-                    {{-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                        For more information about DataTables, please visit the <a target="_blank"
-                            href="https://datatables.net">official DataTables documentation</a>.</p> --}}
-
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div style="display: block;width: 100%" class="card-header table-header py-3">
