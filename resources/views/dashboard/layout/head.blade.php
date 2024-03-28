@@ -24,7 +24,12 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="//cdn.datatables.net/2.0.0/css/dataTables.dataTables.min.css">
 
-
+{{-- bootstrap file input package => show and delete image selected--}}
+{{-- @if(Config::get('app.locale') == 'ar')
+    <link rel="stylesheet" href="{{ asset("dashboard/vendor/bootstrap-file-input/css/fileinput-rtl.css") }}">
+@else --}}
+    <link rel="stylesheet" href="{{ asset("dashboard/vendor/bootstrap-file-input/css/fileinput.min.css") }}">
+{{-- @endif --}}
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

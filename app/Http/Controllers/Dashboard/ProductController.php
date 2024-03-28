@@ -35,10 +35,9 @@ class ProductController extends Controller
         return view('dashboard.products.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         try {
-            return $request;
             $product = Product::create([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,

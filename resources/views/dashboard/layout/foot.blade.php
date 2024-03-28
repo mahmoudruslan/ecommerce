@@ -19,6 +19,17 @@
     <!-- Page level custom scripts -->
     <script src="{{asset('dashboard/js/demo/chart-area-demo.js')}}"></script>
     <script src="{{asset('dashboard/js/demo/chart-pie-demo.js')}}"></script>
+
+
+    {{-- bootstrap file input package => show and delete image selected--}}
+    <script src="{{asset('dashboard/vendor/bootstrap-file-input/themes/fa4/theme.min.js')}}"></script>
+    <script src="{{asset('dashboard/vendor/bootstrap-file-input/js/plugins/piexif.min.js')}}"></script>
+    <script src="{{asset('dashboard/vendor/bootstrap-file-input/js/plugins/sortable.min.js')}}"></script>
+    <script src="{{asset('dashboard/vendor/bootstrap-file-input/js/fileinput.min.js')}}"></script>
+    {{-- <script src="{{asset('dashboard/vendor/bootstrap-file-input/js/locales/ar.js')}}"></script> --}}
+
+
+
    <!--  data table -->
    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js" > </script>
    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.bootstrap4.min.js" ></script>

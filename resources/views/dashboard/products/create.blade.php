@@ -62,7 +62,6 @@
                                                                 <small>{{ $message }}</small>
                                                             </span>
                                                             @enderror
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -76,7 +75,6 @@
                                                         </span>
                                                         @enderror
                                                     </div>
-
                                                     <div class="col-md-6">
                                                         <textarea  style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_en" value="{{ old('description_en') }}" class="form-control form-control-user
                                                         @error('description_en') is-invalid @enderror" placeholder="   {{ __('Enter Description In English') }}"></textarea>
@@ -102,42 +100,36 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
-                                                        <input multiple type="file" name="image[]" class="custom-file-input filestyle hidden"  id="fileInput">
-                                                        @error('image')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                        @enderror
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <input type="checkbox" value="1" name="featured" class="checkbox @error('featured') is-invalid @enderror" placeholder="    {{ __('Enter Featured') }}">
+                                                                <label><small>{{ __('Featured') }}</small></label>
+                                                                @error('featured')
+                                                                <span class="text-danger" role="alert">
+                                                                    <small>{{ $message }}</small>
+                                                                </span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <input type="checkbox" value="1" name="status" class="checkbox" placeholder="{{ __('Status') }}">
+                                                                <label><small>{{ __('Active') }}</small></label>
+                                                                @error('status')
+                                                                <span class="text-danger" role="alert">
+                                                                    <small>{{ $message }}</small>
+                                                                </span>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-3">
-                                                        <input type="checkbox" value="1" name="featured" class="checkbox @error('featured') is-invalid @enderror" placeholder="    {{ __('Enter Featured') }}">
-                                                        <label><small>{{ __('Featured') }}</small></label>
-                                                        @error('featured')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-                                                        <div class="col-md-3">
-                                                        <input type="checkbox" value="1" name="status" class="checkbox" placeholder="{{ __('Status') }}">
-                                                        <label><small>{{ __('Active') }}</small></label>
-                                                        @error('status')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-                                                </div><br>
-                                                <div class="show-image-container">
-                                                    <div id="parent" class="show-image" >
-                                                        {{-- <div id="image-div" class="image-div"  style="width: 100%;position: relative;"> --}}
-                                                            {{-- <img class="form-image hidden" id="imageTag" src="#" alt="Your Logo"/> --}}
-                                                        {{-- </div> --}}
-                                                    </div>
-                                                </div>
+                                                <br>
+                                                    <input multiple type="file" name="images[]" class="file"  id="input-id" data-preview-file-type="text">
+                                                    @error('images')
+                                                    <span class="text-danger" role="alert">
+                                                        <small>{{ $message }}</small>
+                                                    </span>
+                                                    @enderror
+                                                <br>
                                                 <hr>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
@@ -158,3 +150,22 @@
             </div>
             <!-- Outer Row -->
         @endsection
+        @push('script')
+        <script>
+
+            $(function(){
+
+                $("#input-id").fileinput({
+
+                'showCancel':true,
+                'showRemove':true,
+                'showUpload':false,
+                'overwriteInitial':false,
+                'theme':'fas',
+                // 'maxFileCount':1,
+            });
+            })
+
+        </script>
+
+        @endpush

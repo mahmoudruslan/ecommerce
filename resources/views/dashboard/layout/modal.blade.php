@@ -13,7 +13,7 @@
                 </div>
                 <div class="modal-body">{{ __("Are you sure you want to logput?") }}</div>
                 <form action="{{ route('logout') }}" method="post">
-                @method('DELETE')
+                {{-- @method('DELETE') --}}
                 @csrf
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">{{ __("Cancel") }}</button>
