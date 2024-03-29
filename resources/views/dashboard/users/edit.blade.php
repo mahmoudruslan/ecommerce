@@ -75,15 +75,6 @@
                                                         </span>
                                                         @enderror
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
-                                                        @error('image')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                        @enderror
-                                                        <input class="hidden" type="file" id="fileInput" name="image">
-                                                    </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
@@ -103,14 +94,15 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div class="show-image-container">
-                                                    <div class="show-image">
-                                                        <span id="rmImage" onclick="deleteImage('{{ url('storage/'.$user->image) }}')" class="btn btn-danger btn-sm btn-rm-image hidden">
-                                                            <i class="fas fa-trash"></i>
-                                                        </span>
-                                                        <img class="form-image" id="imageTag" src="{{ url('storage/'.$user->image) }}" alt="Your Logo"/>
-                                                    </div>
-                                                </div>
+                                                <input type="file" name="image" class="file"  id="input-id" data-preview-file-type="text">
+                                                @error('image')
+                                                <span class="text-danger" role="alert">
+                                                    <small>{{ $message }}</small>
+                                                </span>
+                                                @enderror
+                                                <br>
+                                                <br>
+                                                <hr>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
                                                     </button>
@@ -121,13 +113,31 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
-
-
                 </div>
             </div>
             <!-- Outer Row -->
         @endsection
+        @push('script')
+        <script>
+                $("#input-id").fileinput({
+                    showUpload: false,
+                    showRemove: true,
+                    showCancel: false,
+                    required: true,
+                    'initialPreview': [
+                        "{{ asset('storage/' . $user->image) }}",
+                ],
+                'initialPreviewFileType':'image',
+                'initialPreviewAsData':true,
+                'initialPreviewConfig':[{
+                    size: '1111',
+                    width: '120px',
+                    url: "{{ route('admin.users.remove-image', [$user->id , '_token' => csrf_token()]) }}",
+                    key: {{ $user->id }},
+                }]
+            });
+        </script>
+    @endpush
+

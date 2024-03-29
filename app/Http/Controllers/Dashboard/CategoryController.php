@@ -4,30 +4,30 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Traits\Files;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\DataTables\CategoryDataTable;
 use App\Models\Category;
-use App\Models\Product;
-use DataTables;
-use Yajra\DataTables\Html\Builder;
 use App\Http\Requests\CategoryRequest;
-use Intervention\Image\Facades\Image;
-use Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 class CategoryController extends Controller
 {
     use Files;
     public function index(CategoryDataTable $dataTable)
     {
+        $user = auth()->user();
+        if(!$user->hasAnyDirectPermission(['update-category', 'show-category','delete-category'])
+        ||
+        !$user->hasRole(['categories'])
+        ){
+            dd('403 forbidden');
+        }
         return $dataTable->render('dashboard.categories.index');
     }
 
     public function create()
     {
         $categories = Category::where('parent_id', null)->get(['id', 'name_ar', 'name_en']);
-        // return $categories;
         return view('dashboard.categories.create', compact('categories'));
     }
 
@@ -76,9 +76,8 @@ class CategoryController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
-        return $request;
 
         try {
             $category = Category::findOrFail(Crypt::decrypt($id));
@@ -117,15 +116,27 @@ class CategoryController extends Controller
                     'message' => __('This is category has products'),
                     'alert-type' => 'danger']);
             }
+
             $this->deleteFiles($category->image);
             $category->delete();
             return redirect()->route('admin.categories.index')->with([
                 'message' => __('Item Deleted successfully.'),
                 'alert-type' => 'success']);
+
+
         } catch (\Exception $e) {
 
             return $e->getMessage();
         }
+    }
+    public function removeImage($category_id)
+    {
+        $category = Category::findOrFail($category_id);
+
+        $this->deleteFiles($category->image);
+        $category->image = null;
+        $category->save();
+        return response()->json([]);
     }
 
 }

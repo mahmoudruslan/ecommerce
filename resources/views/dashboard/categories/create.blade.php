@@ -55,25 +55,13 @@
                                                         </span>
                                                         @enderror
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
-                                                    <input type="file" name="image" class="custom-file-input filestyle hidden"  id="fileInput">
-                                                    @error('image')
-                                                    <span class="text-danger" role="alert">
-                                                        <small>{{ $message }}</small>
-                                                    </span>
-                                                    @enderror
-                                                </div>
-                                                <div class="show-image-container">
-                                                    <div id="parent" class="show-image">
-                                                        {{-- <div id="image-div" class="image-div"  style="width: 100%;position: relative;">
-
-                                                        </div> --}}
-                                                        {{-- <img class="form-image hidden" id="imageDev" src="{{ url('storage/'.$category->image) }}" alt="Your Logo"/> --}}
-                                                    </div>
-                                                </div>
+                                                <input type="file" name="image" class="file"  id="input-id" data-preview-file-type="text">
+                                                @error('image')
+                                                <span class="text-danger" role="alert">
+                                                    <small>{{ $message }}</small>
+                                                </span>
+                                                @enderror
                                                 <hr>
-
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
                                                     </button>
@@ -90,3 +78,14 @@
             </div>
             <!-- Outer Row -->
         @endsection
+        @push('script')
+        <script>
+            $("#input-id").fileinput({
+                required: true,
+                showUpload: false,
+                showRemove: false,
+
+        });
+        </script>
+        @endpush
+

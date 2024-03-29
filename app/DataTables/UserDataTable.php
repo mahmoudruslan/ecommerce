@@ -8,8 +8,7 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
+
 use Yajra\DataTables\Services\DataTable;
 use App\Traits\HTMLTrait;
 
@@ -36,7 +35,7 @@ class UserDataTable extends DataTable
                 return $this->getStatusIcon($row->status);
             })
             ->editColumn('image', function($row){
-                return '<img   style="height: auto;width: 100%" src="'. asset('storage/'.$row->image) .'" alt="category photo">';
+                return $row->image ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->image) .'" alt="category photo">' : __('Image Not Found');
             })
             ->rawColumns(['status', 'action', 'image']);
     }

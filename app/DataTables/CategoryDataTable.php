@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 use App\Traits\HTMLTrait;
 use Illuminate\Support\Facades\App;
@@ -42,7 +40,7 @@ class CategoryDataTable extends DataTable
                 return date('Y-m-d', strtotime($row->created_at));
             })
             ->editColumn('image', function($row){
-                return '<img  style="height: auto;width: 100%" src="'. asset('storage/' . $row->image) .'" alt="category photo">';
+                return $row->image ? '<img style="height: auto;width: 100%" src="'. asset('storage/'.$row->image) .'" alt="category photo">' : __('Image Not Found');
             })
             ->rawColumns(['status', 'action', 'parent_id', 'created_at', 'image', 'parent']);
     }

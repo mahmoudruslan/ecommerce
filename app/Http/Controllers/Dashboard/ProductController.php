@@ -17,14 +17,7 @@ class ProductController extends Controller
 {
     public function index(ProductDataTable $dataTable)
     {
-            //    return Product::with([
-            //     'category:id,name_ar,name_en,parent_id' => ['parent:id,name_ar,name_en'],
-            //     'firstMedia:file_name,mediable_id',
-            //     'tags:name_ar,name_en',
-            //     ])->first();
-        // return Product::with(['category:id,name_ar,name_en,parent_id' => ['parent:id,name_ar,name_en']])->first()->first_media;
-        // return Product::with(['category:id,name_ar,name_en,parent_id' => ['parent:id,name_ar,name_en']])->get();
-        // return Product::with(['category:id,name_ar,name_en,parent_id' => ['parent:id,name_ar,name_en']])->get();
+
         return $dataTable->render('dashboard.products.index');
     }
 
@@ -35,8 +28,9 @@ class ProductController extends Controller
         return view('dashboard.products.create', compact('categories'));
     }
 
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {
+
         try {
             $product = Product::create([
                 'name_ar' => $request->name_ar,
@@ -49,6 +43,9 @@ class ProductController extends Controller
                 'featured' => $request->featured,
                 'status' => $request->status
             ]);
+            //create media
+                // $product->media()->create(Arr::random($images));
+
             return redirect()->route('admin.products.index')->with([
                 'message' => __('Item Created successfully.'),
                 'alert-type' => 'success']);
@@ -116,6 +113,16 @@ class ProductController extends Controller
             return $e->getMessage();
         }
 
+    }
+
+    public function removeImage($product_id)
+    {
+
+        $product = Product::findOrFail($product_id);
+        $this->deleteFiles($product->image);
+        // $product->image = null;
+        // $product->save();
+        return response()->json([]);
     }
 
 }

@@ -61,25 +61,15 @@
                                                     @enderror
                                                 </div>
                                                 @endif
-                                                <div class="form-group">
-                                                    <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
-                                                    <input multiple type="file" name="image" class="custom-file-input filestyle hidden" id="fileInput">
-                                                    @error('image')
-                                                    <span class="text-danger" role="alert">
-                                                        <small>{{ $message }}</small>
-                                                    </span>
-                                                    @enderror
-                                                </div>
-                                                <div class="show-image-container">
-                                                    {{-- <span id="rmImage" onclick="deleteImage('{{ url('storage/'.$category->image) }}')" class="btn btn-danger btn-sm btn-rm-image hidden">
-                                                        <i class="fas fa-trash"></i>
-                                                    </span> --}}
-                                                    <div id="parent" class="show-image">
-                                                        <div id="image-div" class="image-div">
-                                                            <img class="selected-image" id="imageTag" src="{{ url('storage/'.$category->image) }}" alt="Your Logo"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <input type="file" name="image" class="file"  id="input-id" data-preview-file-type="text">
+                                                @error('image')
+                                                <span class="text-danger" role="alert">
+                                                    <small>{{ $message }}</small>
+                                                </span>
+                                                @enderror
+                                                <br>
+                                                <br>
+                                                <hr>
                                                 <button type="submit" class="btn btn-primary btn-user btn-block">
                                                     {{ __('Save') }}
                                                 </button>
@@ -97,3 +87,4 @@
             </div>
             <!-- Outer Row -->
         @endsection
+

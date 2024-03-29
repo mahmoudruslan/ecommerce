@@ -23,7 +23,7 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Add') }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.products.store') }}" method="POST" class="user">
+                                            <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="user">
                                                 @csrf
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
@@ -124,6 +124,7 @@
                                                 </div>
                                                 <br>
                                                     <input multiple type="file" name="images[]" class="file"  id="input-id" data-preview-file-type="text">
+                                                    <br>
                                                     @error('images')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>
@@ -152,20 +153,10 @@
         @endsection
         @push('script')
         <script>
-
-            $(function(){
-
-                $("#input-id").fileinput({
-
-                'showCancel':true,
-                'showRemove':true,
-                'showUpload':false,
-                'overwriteInitial':false,
-                'theme':'fas',
-                // 'maxFileCount':1,
-            });
-            })
-
+            $("#input-id").fileinput({
+                required: true,
+                showUpload: false,
+                showRemove: false,
+        });
         </script>
-
         @endpush

@@ -109,17 +109,6 @@
                                                         </span>
                                                         @enderror
                                                     </div>
-                                                    
-                                                    <div class="col-md-6">
-                                                        <label >{{ __('Choose Image') }}</label><br>
-                                                        <label for="fileInput" class="form-control">{{ __('Choose Image') }}</label>
-                                                        <input multiple type="file" name="image[]" class="custom-file-input filestyle hidden"  id="fileInput">
-                                                        @error('image')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-3">
@@ -143,9 +132,17 @@
                                                 </div><br>
                                                 <div class="show-image-container">
                                                     <div id="parent" class="show-image" >
-                                                        
+
                                                     </div>
                                                 </div>
+                                                <input type="file" name="image" class="file"  id="input-id" data-preview-file-type="text">
+                                                @error('image')
+                                                <span class="text-danger" role="alert">
+                                                    <small>{{ $message }}</small>
+                                                </span>
+                                                @enderror
+                                                <br>
+                                                <br>
                                                 <hr>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
@@ -166,3 +163,25 @@
             </div>
             <!-- Outer Row -->
         @endsection
+        @push('script')
+        <script>
+                $("#input-id").fileinput({
+                    showUpload: false,
+                    showRemove: false,
+                    required: true,
+                    'initialPreview': [
+                        "{{ asset('storage/' . $product->firstMedia->file_name) }}",
+                ],
+                'initialPreviewFileType':'image',
+                'initialPreviewAsData':true,
+                'initialPreviewConfig':[{
+                    // caption: "{{ $category->image }}",
+                    size: '1111',
+                    width: '120px',
+                    url: "{{ route('admin.products.remove-image', [$product->id , '_token' => csrf_token()]) }}",
+                    key: {{ $product->id }},
+                }]
+            });
+        </script>
+    @endpush
+

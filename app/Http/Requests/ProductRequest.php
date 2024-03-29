@@ -37,7 +37,7 @@ class ProductRequest extends FormRequest
             'featured' => 'max:1',
             'status' => 'max:1',
             'images' => 'required',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
+            // 'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:1024',
 
             // 'image' => 'required',
 

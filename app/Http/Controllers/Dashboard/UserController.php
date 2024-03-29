@@ -64,7 +64,6 @@ class UserController extends Controller
 
             return $e->getMessage();
         }
-
     }
 
     public function edit( $slug, $id)
@@ -120,5 +119,15 @@ class UserController extends Controller
             return $e->getMessage();
         }
 
+    }
+
+    public function removeImage($user_id)
+    {
+        $user = User::findOrFail($user_id);
+
+        $this->deleteFiles($user->image);
+        $user->image = null;
+        $user->save();
+        return response()->json([]);
     }
 }

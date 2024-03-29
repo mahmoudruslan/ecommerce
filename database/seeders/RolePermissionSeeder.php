@@ -20,11 +20,34 @@ class RolePermissionSeeder extends Seeder
         $all_permissions = [
 
             'users',
+            'show-users',
+            'delete-users',
+            'update-users',
+
             'roles',
+            'show-roles',
+            'delete-roles',
+            'update-roles',
+
             'main',
+            'show-main',
+            'delete-main',
+            'update-main',
+
             'categories',
+            'show-categories',
+            'delete-categories',
+            'update-categories',
+
             'products',
+            'show-products',
+            'delete-products',
+            'update-products',
+
             'tags',
+            'show-tags',
+            'delete-tags',
+            'update-tags',
         ];
 
         // Reset cached roles and permissions
