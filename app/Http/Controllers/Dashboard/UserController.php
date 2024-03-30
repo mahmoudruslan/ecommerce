@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\DataTables\UserDataTable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use App\Traits\Files;
 use App\Models\User;
+use App\Traits\Helper;
+
 
 class UserController extends Controller
 {
-    use Files;
+    use Files, Helper;
     /**
      * Display a listing of the resource.
      *
@@ -21,16 +22,19 @@ class UserController extends Controller
      */
     public function index(UserDataTable $dataTable)
     {
+        $this->checkAbility(['users','store-users', 'update-users', 'show-users','delete-users']);
         return $dataTable->render('dashboard.users.index');
     }
 
     public function create()
     {
+        $this->checkAbility(['store-users']);
         return view('dashboard.users.create');
     }
     public function store(UserRequest $request)
     {
         try {
+            $this->checkAbility(['store-users']);
                 $image = $request->file('image');
                 $path = 'images/users/';
                 $file_name = $this->saveImag($path, [$request->image]);
@@ -58,6 +62,7 @@ class UserController extends Controller
         dd('show user');
 
         try {
+            $this->checkAbility(['show-users']);
             $users = User::findOrFail(Crypt::decrypt($id));
             return view('dashboard.users.show', compact('user'));
         } catch (\Exception $e) {
@@ -69,6 +74,7 @@ class UserController extends Controller
     public function edit( $slug, $id)
     {
         try {
+            $this->checkAbility(['update-users']);
             $user = User::findOrFail(Crypt::decrypt($id));
             return view('dashboard.users.edit', compact('user'));
         } catch (\Exception $e) {
@@ -79,6 +85,7 @@ class UserController extends Controller
     public function update(UserRequest $request, $id)
     {
         try {
+            $this->checkAbility(['update-users']);
             $user = User::findOrFail(Crypt::decrypt($id));
             $file_name = $user->image;
             $path = '';
@@ -110,6 +117,7 @@ class UserController extends Controller
     public function destroy( $id)
     {
         try {
+            $this->checkAbility(['delete-users']);
             $user = User::findOrFail(Crypt::decrypt($id));
             $this->deleteFiles($user->image);
             $user->delete();
@@ -123,6 +131,7 @@ class UserController extends Controller
 
     public function removeImage($user_id)
     {
+        $this->checkAbility(['delete-users']);
         $user = User::findOrFail($user_id);
 
         $this->deleteFiles($user->image);

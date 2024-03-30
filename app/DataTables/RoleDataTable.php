@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -28,20 +29,12 @@ class RoleDataTable extends DataTable
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row){
             $id = encrypt($row->id);
-            $b = '<div style="width: 150px"> <a href=" ' . route("admin.permission-roles.edit", $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
-            // $b = $b. $this->getShowLink("admin.permissions-role.show", $row->slug, $id);
-            $b = $b . $this->getDeleteLink("admin.permission-roles.destroy", $id);
+            $user_id = auth()->id();
+            $user = User::findOrFail($user_id);
+            $b = $user->hasPermissionTo('update-roles') ? '<div style="width: 150px"> <a href=" ' . route("admin.permission-roles.edit", $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>' : '';
+            $b .= $user->hasPermissionTo('delete-roles') ? $this->getDeleteLink("admin.permission-roles.destroy", $id) : '';
             return $b;
-        })
-            // ->addColumn('action', function($row){
-            //     $id = encrypt($row->id);
-            //     $btn = '<div style="width: 150px"> <a href=" ' . route("admin.permission-roles.edit", $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
-            //     $btn = $btn.' <a href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $id.'" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
-            //     $btn = $btn. $this->getModal('admin.permission-roles.destroy', $id);
-
-            // return $btn;
-            // })
-            ;
+        });
     }
 
     /**

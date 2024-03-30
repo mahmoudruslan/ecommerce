@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -27,9 +28,11 @@ class TagDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row){
                 $id = encrypt($row->id);
-                $b =  $this->getEditLink("admin.tags.edit", $row->slug, $id);
-                $b = $b. $this->getShowLink("admin.tags.show", $row->slug, $id);
-                $b = $b .= $this->getDeleteLink("admin.tags.destroy", $id);
+                $user_id = auth()->id();
+                $user = User::findOrFail($user_id);
+                $b = $user->hasPermissionTo('update-tags') ? $this->getEditLink("admin.tags.edit", $row->slug, $id) : '';
+                $b = $b.$user->hasPermissionTo('show-tags') ? $this->getShowLink("admin.tags.show", $row->slug, $id) : '';
+                $b = $b .= $user->hasPermissionTo('delete-tags') ? $this->getDeleteLink("admin.tags.destroy", $id) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

@@ -7,22 +7,23 @@ use Illuminate\Http\Request;
 use App\DataTables\ProductDataTable;
 use App\Models\Product;
 use App\Models\Category;
-use DataTables;
-use Yajra\DataTables\Html\Builder;
-use App\Http\Requests\ProductRequest;
-use Hash;
+use App\Traits\Helper;
+
 
 use Illuminate\Support\Facades\Crypt;
 class ProductController extends Controller
 {
+    use Helper;
+
     public function index(ProductDataTable $dataTable)
     {
-
+        $this->checkAbility(['products','store-products', 'update-products', 'show-products','delete-products']);
         return $dataTable->render('dashboard.products.index');
     }
 
     public function create()
     {
+        $this->checkAbility(['store-products']);
         $categories = Category::select('id', 'name_ar', 'name_en', 'parent_id')->whereNotNull('parent_id')->with('parent:id,name_ar,name_en')->get();
         // return $categories;
         return view('dashboard.products.create', compact('categories'));
@@ -30,7 +31,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-
+        $this->checkAbility(['store-products']);
         try {
             $product = Product::create([
                 'name_ar' => $request->name_ar,
@@ -57,6 +58,7 @@ class ProductController extends Controller
     public function show($slug, $id)
     {
         try {
+            $this->checkAbility(['show-products']);
             $product = Product::findOrFail(Crypt::decrypt($id));
             return view('dashboard.products.show', compact('product'));
         } catch (\Exception $e) {
@@ -68,6 +70,7 @@ class ProductController extends Controller
     public function edit( $slug, $id)
     {
         try {
+            $this->checkAbility(['update-products']);
             $categories = Category::select('id', 'name_ar', 'name_en', 'parent_id')->whereNotNull('parent_id')->with('parent:id,name_ar,name_en')->get();
             // $categories = Category::whereNotNull('parent_id')->select('id', 'parent_id', 'name_ar', 'name_en')->get();
             $product = Product::findOrFail(Crypt::decrypt($id));
@@ -79,8 +82,8 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        return $request;
         try {
+            $this->checkAbility(['update-products']);
             $product = Product::findOrFail(Crypt::decrypt($id));
             $product->update([
                 'name_ar' => $request->name_ar,
@@ -105,6 +108,7 @@ class ProductController extends Controller
     public function destroy( $id)
     {
         try {
+            $this->checkAbility(['delete-products']);
             $product = Product::findOrFail($id);
             $product->delete();
             return redirect()->route('admin.products.index')->with('success', __('Item Deleted successfully.'));
@@ -117,7 +121,7 @@ class ProductController extends Controller
 
     public function removeImage($product_id)
     {
-
+        $this->checkAbility(['delete-products']);
         $product = Product::findOrFail($product_id);
         $this->deleteFiles($product->image);
         // $product->image = null;

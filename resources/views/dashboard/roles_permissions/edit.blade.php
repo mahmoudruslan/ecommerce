@@ -51,7 +51,7 @@
                                             @foreach ($permissions as $permission)
                                                 <div style="display: inline-block" class="custom-control custom-checkbox small">
                                                     <input @if ($role->hasAllDirectPermissions($permission)) checked @endif name="permissions[]" type="checkbox" class="custom-control-input" value="{{$permission->name}}" id="customCheck{{$loop->index}}">
-                                                    <label class="custom-control-label" for="customCheck{{$loop->index}}">{{ __($permission->name) }}</label>
+                                                    <label class="custom-control-label" for="customCheck{{$loop->index}}">{{ __($permission->name) }}</label> || 
                                                 </div>
                                             @endforeach
 

@@ -26,22 +26,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::controller(BaseController::class)
     ->middleware(['auth', 'if_customer'])
     ->group( function () {
-        Route::get('/', 'dashboard')->name('dashboard')
-        // ->middleware('can:super-admin')
-        ;
+        Route::get('/', 'dashboard')->name('dashboard');
         Route::get('/blank', 'blank')->name('blank');
         Route::get('buttons/', 'buttons')->name('buttons');
         Route::get('/cards', 'cards')->name('cards');
         Route::get('/charts', 'charts')->name('charts');
         Route::get('/tables', 'tables')->name('tables');
 
-        Route::resource('permission-roles', RolePermissionController::class)
-        // ->middleware('can:roles')
-        ;
+        Route::resource('permission-roles', RolePermissionController::class);
         // Route::resource('users', UserController::class)->middleware('can:users');
         //categories users
         Route::controller(UserController::class)
-        // ->middleware(['middleware' => 'can:users'])
         ->group( function(){
             Route::resource('users', UserController::class,['except' => ['show', 'edit']]);
             Route::get('/users/details/{id}/{slug}', 'show')->name('users.show');
@@ -50,7 +45,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
         });
         //categories routes
         Route::controller(CategoryController::class)
-        // ->middleware(['middleware' => 'can:categories'])
         ->group( function(){
             Route::resource('categories', CategoryController::class,['except' => ['show', 'edit']]);
             Route::get('/categories/details/{id}/{slug}', 'show')->name('categories.show');
@@ -59,7 +53,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
         });
         //products routes
         Route::controller(ProductController::class)
-        // ->middleware(['middleware' => 'can:products'])
         ->group( function(){
             Route::resource('products', ProductController::class,['except' => ['show', 'edit']]);
             Route::get('products/details/{id}/{slug}', 'show')->name('products.show');
@@ -69,7 +62,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
 
         //tags routes
         Route::controller(TagController::class)
-        // ->middleware(['middleware' => 'can:tags'])
         ->group( function(){
             Route::resource('tags', TagController::class,['except' => ['show', 'edit']]);
             Route::get('tags/details/{id}/{slug}', 'show')->name('tags.show');

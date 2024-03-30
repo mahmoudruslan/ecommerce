@@ -18,36 +18,12 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         $all_permissions = [
-
-            'users',
-            'show-users',
-            'delete-users',
-            'update-users',
-
-            'roles',
-            'show-roles',
-            'delete-roles',
-            'update-roles',
-
+            'users','show-users','delete-users','update-users','store-users',
+            'roles','show-roles','delete-roles','update-roles','store-roles',
             'main',
-            'show-main',
-            'delete-main',
-            'update-main',
-
-            'categories',
-            'show-categories',
-            'delete-categories',
-            'update-categories',
-
-            'products',
-            'show-products',
-            'delete-products',
-            'update-products',
-
-            'tags',
-            'show-tags',
-            'delete-tags',
-            'update-tags',
+            'categories','show-categories','delete-categories','update-categories','store-categories',
+            'products','show-products','delete-products','update-products','store-products',
+            'tags','show-tags','delete-tags','update-tags','store-tags',
         ];
 
         // Reset cached roles and permissions
@@ -65,9 +41,7 @@ class RolePermissionSeeder extends Seeder
         $admin_role = Role::create(['name' => 'admin']);
         $employee_role = Role::create(['name' => 'employee']);
         $customer = Role::create(['name' => 'customer']);
-        $admin_role->givePermissionTo([ 'users', 'roles', 'main']);
+        $admin_role->givePermissionTo([ 'users', 'roles', 'main', 'update-roles']);
         $employee_role->givePermissionTo(['products', 'categories', 'tags']);
-
-
     }
 }

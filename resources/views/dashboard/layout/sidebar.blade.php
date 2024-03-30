@@ -12,31 +12,25 @@
                 </div>
                 <div class="sidebar-brand-text mx-3"> {{ config('app.name') }}</div>
             </a>
-
             <!-- Divider -->
             @can('main')
                 <hr class="sidebar-divider my-0">
-
                 <li class="nav-item active">
                     <a class="nav-link" href="{{route('admin.dashboard')}}">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>{{__('Main')}}</span></a>
                 </li>
             @endcan
-
             <!-- Divider -->
             <hr class="sidebar-divider">
-
             <!-- Heading -->
             <div class="sidebar-heading">
                 {{__('Pages')}}
             </div>
-
-
             <!-- Divider -->
             <hr class="sidebar-divider">
             {{-- categories --}}
-            @can(['categories'])
+            @canany(['categories','store-categories', 'update-categories', 'show-categories','delete-categories'])
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategory"
@@ -47,14 +41,14 @@
                 <div id="collapseCategory" class="collapse @if($route == 'categories') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">{{__('Categories Screens:')}} </h6>
-                        <a class="collapse-item" href="{{route('admin.categories.create')}}">{{__('Add Categories')}}</a>
+                        @can(['categories-store'])<a class="collapse-item" href="{{route('admin.categories.create')}}">{{__('Add Categories')}}</a>@endcan
                         <a class="collapse-item" href="{{route('admin.categories.index')}}">{{__('Categories')}}</a>
                     </div>
                 </div>
             </li>
-            @endcan
+            @endcanany
             {{-- tags --}}
-            @can(['tags'])
+            @canany(['tags','store-tags', 'update-tags', 'show-tags','delete-tags'])
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTag"
@@ -70,9 +64,9 @@
                     </div>
                 </div>
             </li>
-            @endcan
+            @endcanany
             {{-- Products --}}
-            @can(['products'])
+            @canany(['products','store-products', 'update-products', 'show-products','delete-products'])
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProducts"
@@ -88,9 +82,9 @@
                     </div>
                 </div>
             </li>
-            @endcan
+            @endcanany
             {{-- settings --}}
-            @can(['roles'])
+            @canany(['roles','store-roles', 'update-roles', 'show-roles','delete-roles'])
                 <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSettings"
@@ -101,14 +95,14 @@
                 <div id="collapseSettings" class="collapse @if($route == 'permission-role') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">{{__('Roles and permissions Screens:')}} </h6>
-                        <a class="collapse-item" href="{{route('admin.permission-roles.create')}}">{{__('Add roles and permissions')}}</a>
+                        @can('store-roles')<a class="collapse-item" href="{{route('admin.permission-roles.create')}}">{{__('Add roles and permissions')}}</a>@endcan
                         <a class="collapse-item" href="{{route('admin.permission-roles.index')}}">{{__('Roles and permissions')}}</a>
                     </div>
                 </div>
             </li>
-            @endcan
+            @endcanany
                         {{-- users --}}
-            @can(['users'])
+            @canany(['users','store-users', 'update-users', 'show-users','delete-users'])
                 <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers"
@@ -116,8 +110,6 @@
                     <i class="fas fa-fw fa-folder"></i>
                     <span>{{__('Users')}}</span>
                 </a>
-
-
                 <div id="collapseUsers" class="collapse @if($route == 'users') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">{{__('Users Screens:')}} </h6>
@@ -126,15 +118,11 @@
                     </div>
                 </div>
             </li>
-            @endcan
+            @endcanany
             <!-- Heading -->
             <div class="sidebar-heading">
                 {{ __('Settings') }}
             </div>
-
-
-
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

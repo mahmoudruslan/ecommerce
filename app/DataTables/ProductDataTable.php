@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -28,9 +29,11 @@ class ProductDataTable extends DataTable
 
             ->addColumn('action', function($row){
                 $id = encrypt($row->id);
-                $b =  $this->getEditLink("admin.products.edit", $row->slug, $id);
-                $b = $b. $this->getShowLink("admin.products.show", $row->slug, $id);
-                $b = $b .= $this->getDeleteLink("admin.products.destroy", $id);
+                $user_id = auth()->id();
+                $user = User::findOrFail($user_id);
+                $b = $user->hasPermissionTo('update-products') ? $this->getEditLink("admin.products.edit", $row->slug, $id) : '';
+                $b = $b.$user->hasPermissionTo('show-products') ? $this->getShowLink("admin.products.show", $row->slug, $id) : '';
+                $b = $b .= $user->hasPermissionTo('delete-products') ? $this->getDeleteLink("admin.products.destroy", $id) : '';
                 return $b;
             })
             ->addColumn('parent_category', function($row){
@@ -63,11 +66,11 @@ class ProductDataTable extends DataTable
     public function query(Product $model): QueryBuilder
     {
         return $model->with([
-            'category:id,name_ar,name_en,parent_id' => 
+            'category:id,name_ar,name_en,parent_id' =>
                 ['parent:id,name_ar,name_en'],
             'tags',
             'firstMedia:mediable_id,file_name',
-            
+
             ])->newQuery();
     }
 

@@ -3,31 +3,33 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\DataTables\TagDataTable;
-use Yajra\DataTables\Html\Builder;
 use App\Http\Requests\TagRequest;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Tag;
-use DataTables;
-use Hash;
+use App\Traits\Helper;
+
 
 class TagController extends Controller
 {
+    use Helper;
+
     public function index(TagDataTable $dataTable)
     {
+        $this->checkAbility(['tags','store-tags', 'update-tags', 'show-tags','delete-tags']);
         return $dataTable->render('dashboard.tags.index');
     }
 
     public function create()
     {
-        // $permissions = Permission::get();
+        $this->checkAbility(['store-tags']);
         return view('dashboard.tags.create');
     }
 
     public function store(TagRequest $request)
     {
         try {
+            $this->checkAbility(['store-tags']);
             $tag = Tag::create([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
@@ -44,7 +46,7 @@ class TagController extends Controller
     public function show($slug, $id)
     {
         try {
-            dd('tags show');
+            $this->checkAbility(['show-tags']);
             $tag = Tag::findOrFail(Crypt::decrypt($id));
             return view('dashboard.tags.show', compact('tag'));
         } catch (\Exception $e) {
@@ -57,6 +59,7 @@ class TagController extends Controller
     public function edit( $slug, $id)
     {
         try {
+            $this->checkAbility(['update-tags']);
             $tag = Tag::findOrFail(Crypt::decrypt($id));
             return view('dashboard.tags.edit', compact('tag'));
         } catch (\Exception $e) {
@@ -67,6 +70,7 @@ class TagController extends Controller
     public function update(TagRequest $request, $id)
     {
         try {
+            $this->checkAbility(['update-tags']);
             $tag = Tag::findOrFail(Crypt::decrypt($id));
             $tag->update([
                 'name_ar' => $request->name_ar,
@@ -85,6 +89,7 @@ class TagController extends Controller
     public function destroy( $id)
     {
         try {
+            $this->checkAbility(['delete-tags']);
             $tag = Tag::findOrFail(Crypt::decrypt($id));
             $tag->delete();
             return redirect()->route('admin.tags.index')->with('success', __('Item Deleted successfully.'));
