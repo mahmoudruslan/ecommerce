@@ -130,6 +130,11 @@
                                                         <small>{{ $message }}</small>
                                                     </span>
                                                     @enderror
+                                                    @error('images.0')
+                                                    <span class="text-danger" role="alert">
+                                                        <small>{{ $message }}</small>
+                                                    </span>
+                                                    @enderror
                                                 <br>
                                                 <hr>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -154,7 +159,7 @@
         @push('script')
         <script>
             $("#input-id").fileinput({
-                required: true,
+                // required: true,
                 showUpload: false,
                 showRemove: false,
         });

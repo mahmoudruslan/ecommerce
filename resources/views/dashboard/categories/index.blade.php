@@ -13,10 +13,12 @@
                     <div class="card shadow mb-4">
                         <div style="display: block;width: 100%" class="card-header table-header py-3">
                             <h4 class="m-0 font-weight-bold text-primary">{{__('Categories')}}</h4>
+                            @can('store-categories')
                             <a  href="{{route('admin.categories.create')}}" class="btn btn-primary">
                                 {{__('Add Categories')}}
                                 <i class="fa fa-plus plus"></i>
                             </a>
+                            @endcan
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

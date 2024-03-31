@@ -36,10 +36,8 @@ class ProductRequest extends FormRequest
             'category_id' => 'required|string|max:50',
             'featured' => 'max:1',
             'status' => 'max:1',
-            'images' => 'required',
-            // 'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:1024',
-
-            // 'image' => 'required',
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
 
         ];
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
@@ -54,9 +52,8 @@ class ProductRequest extends FormRequest
                 'category_id' => 'required|string|max:50',
                 'featured' => 'max:1',
                 'status' => 'max:1',
-                'images' => 'required',
+                'images' => 'array',
                 'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
-                // 'image' => 'required',
             ];
         }
 

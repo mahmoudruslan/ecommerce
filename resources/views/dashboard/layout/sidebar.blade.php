@@ -41,7 +41,7 @@
                 <div id="collapseCategory" class="collapse @if($route == 'categories') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">{{__('Categories Screens:')}} </h6>
-                        @can(['categories-store'])<a class="collapse-item" href="{{route('admin.categories.create')}}">{{__('Add Categories')}}</a>@endcan
+                        @can(['store-categories'])<a class="collapse-item" href="{{route('admin.categories.create')}}">{{__('Add Categories')}}</a>@endcan
                         <a class="collapse-item" href="{{route('admin.categories.index')}}">{{__('Categories')}}</a>
                     </div>
                 </div>

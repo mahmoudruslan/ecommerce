@@ -3,7 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Product;
-use App\Models\User;
+use App\Traits\Helper;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -11,12 +11,11 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use App\Traits\HTMLTrait;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\App;
 
 class ProductDataTable extends DataTable
 {
-    use HTMLTrait;
+    use HTMLTrait, Helper;
     /**
      * Build DataTable class.
      *
@@ -29,11 +28,9 @@ class ProductDataTable extends DataTable
 
             ->addColumn('action', function($row){
                 $id = encrypt($row->id);
-                $user_id = auth()->id();
-                $user = User::findOrFail($user_id);
-                $b = $user->hasPermissionTo('update-products') ? $this->getEditLink("admin.products.edit", $row->slug, $id) : '';
-                $b = $b.$user->hasPermissionTo('show-products') ? $this->getShowLink("admin.products.show", $row->slug, $id) : '';
-                $b = $b .= $user->hasPermissionTo('delete-products') ? $this->getDeleteLink("admin.products.destroy", $id) : '';
+                $b = $this->userHasPermission('update-products') ? $this->getEditLink("admin.products.edit", $row->slug, $id) : '';
+                $b = $b.=$this->userHasPermission('show-products') ? $this->getShowLink("admin.products.show", $row->slug, $id) : '';
+                $b = $b .= $this->userHasPermission('delete-products') ? $this->getDeleteLink("admin.products.destroy", $id) : '';
                 return $b;
             })
             ->addColumn('parent_category', function($row){

@@ -5,7 +5,6 @@ namespace App\Traits;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
-use function PHPUnit\Framework\directoryExists;
 
 trait Files
 {

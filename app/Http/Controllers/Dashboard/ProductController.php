@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\DataTables\ProductDataTable;
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Models\Category;
 use App\Traits\Helper;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\Crypt;
 class ProductController extends Controller
@@ -29,7 +30,7 @@ class ProductController extends Controller
         return view('dashboard.products.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $this->checkAbility(['store-products']);
         try {
@@ -45,8 +46,22 @@ class ProductController extends Controller
                 'status' => $request->status
             ]);
             //create media
-                // $product->media()->create(Arr::random($images));
+            foreach ($request->images as $image) {
+                $path = 'images/products/';
+                $extension = $image->getClientOriginalExtension();
+                $image_name = time() . Str::random(6) . '.' . $extension;
+                $image->storeAs($path, $image_name, 'public');
+                $size = $image->getSize();
+                $mimetype = $image->getClientMimeType();//Ge
 
+            $product->media()->create([
+                'file_name' => $path . $image_name,
+                'file_size' => $size,
+                'file_type' => $mimetype,
+                'file_sort' => '0',
+                'status' => true
+            ]);
+        }
             return redirect()->route('admin.products.index')->with([
                 'message' => __('Item Created successfully.'),
                 'alert-type' => 'success']);
@@ -80,7 +95,7 @@ class ProductController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         try {
             $this->checkAbility(['update-products']);
@@ -109,7 +124,7 @@ class ProductController extends Controller
     {
         try {
             $this->checkAbility(['delete-products']);
-            $product = Product::findOrFail($id);
+            $product = Product::findOrFail(Crypt::decrypt($id));
             $product->delete();
             return redirect()->route('admin.products.index')->with('success', __('Item Deleted successfully.'));
         } catch (\Exception $e) {
@@ -124,8 +139,6 @@ class ProductController extends Controller
         $this->checkAbility(['delete-products']);
         $product = Product::findOrFail($product_id);
         $this->deleteFiles($product->image);
-        // $product->image = null;
-        // $product->save();
         return response()->json([]);
     }
 

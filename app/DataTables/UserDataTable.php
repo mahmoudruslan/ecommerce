@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\User;
+use App\Traits\Helper;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -14,7 +15,7 @@ use App\Traits\HTMLTrait;
 
 class UserDataTable extends DataTable
 {
-    use HTMLTrait;
+    use HTMLTrait, Helper;
     /**
      * Build DataTable class.
      *
@@ -26,11 +27,9 @@ class UserDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row){
                 $id = encrypt($row->id);
-                $user_id = auth()->id();
-                $user = User::findOrFail($user_id);
-                $b = $user->hasPermissionTo('update-users') ? $this->getEditLink("admin.users.edit", $row->slug, $id) : '';
-                $b = $b.$user->hasPermissionTo('show-users') ? $this->getShowLink("admin.users.show", $row->slug, $id) : '';
-                $b = $b .= $user->hasPermissionTo('delete-users') ? $this->getDeleteLink("admin.users.destroy", $id) : '';
+                $b = $this->userHasPermission('update-users') ? $this->getEditLink("admin.users.edit", $row->slug, $id) : '';
+                $b = $b.$this->userHasPermission('show-users') ? $this->getShowLink("admin.users.show", $row->slug, $id) : '';
+                $b = $b .= $this->userHasPermission('delete-users') ? $this->getDeleteLink("admin.users.destroy", $id) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

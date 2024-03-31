@@ -9,10 +9,13 @@
                     <div class="card shadow mb-4">
                         <div style="display: block;width: 100%" class="card-header table-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">{{__('Tags')}}</h6>
-                            <a  href="{{route('admin.tags.create')}}" class="btn btn-primary">
-                                {{__('Add Tags')}}
-                                <i class="fa fa-plus plus"></i>
-                            </a>
+                            @can('store-tags')
+                                <a  href="{{route('admin.tags.create')}}" class="btn btn-primary">
+                                    {{__('Add Tags')}}
+                                    <i class="fa fa-plus plus"></i>
+                                </a>
+                            @endcan
+
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
