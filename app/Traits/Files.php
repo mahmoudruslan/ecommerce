@@ -51,5 +51,40 @@ trait Files
         }
     }
 
+    public function createProductMedia($images, $product)
+    {
+         //create media
+        foreach ($images as $image) {
+            $path = 'images/products/';
+            $extension = $image->getClientOriginalExtension();
+            $image_name = time() . Str::random(6) . '.' . $extension;
+            $image->storeAs($path, $image_name, 'public');
+            $size = $image->getSize();
+            $mimetype = $image->getClientMimeType();//Ge
+
+            $product->media()->create([
+                'file_name' => $path . $image_name,
+                'file_size' => $size,
+                'file_type' => $mimetype,
+                'file_sort' => '0',
+                'status' => true
+            ]);
+        }
+    }
+
+    public function deleteProductMedia($product)
+    {
+         //delete media
+        $path = 'storage/';
+        $images = $product->media()->pluck('file_name');
+        foreach($images as $image)
+        {
+            if (File::exists($path . $image)) {
+                File::delete($path . $image);
+            }
+        }
+        $product->media()->delete();
+    }
+
 }
 

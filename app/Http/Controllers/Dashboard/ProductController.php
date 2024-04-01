@@ -7,14 +7,14 @@ use App\DataTables\ProductDataTable;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Models\Category;
+use App\Traits\Files;
 use App\Traits\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
 use Illuminate\Support\Facades\Crypt;
 class ProductController extends Controller
 {
-    use Helper;
+    use Files, Helper;
 
     public function index(ProductDataTable $dataTable)
     {
@@ -45,23 +45,8 @@ class ProductController extends Controller
                 'featured' => $request->featured,
                 'status' => $request->status
             ]);
-            //create media
-            foreach ($request->images as $image) {
-                $path = 'images/products/';
-                $extension = $image->getClientOriginalExtension();
-                $image_name = time() . Str::random(6) . '.' . $extension;
-                $image->storeAs($path, $image_name, 'public');
-                $size = $image->getSize();
-                $mimetype = $image->getClientMimeType();//Ge
-
-            $product->media()->create([
-                'file_name' => $path . $image_name,
-                'file_size' => $size,
-                'file_type' => $mimetype,
-                'file_sort' => '0',
-                'status' => true
-            ]);
-        }
+           //create media
+            $this->createProductMedia($request->images, $product);
             return redirect()->route('admin.products.index')->with([
                 'message' => __('Item Created successfully.'),
                 'alert-type' => 'success']);
@@ -87,7 +72,6 @@ class ProductController extends Controller
         try {
             $this->checkAbility(['update-products']);
             $categories = Category::select('id', 'name_ar', 'name_en', 'parent_id')->whereNotNull('parent_id')->with('parent:id,name_ar,name_en')->get();
-            // $categories = Category::whereNotNull('parent_id')->select('id', 'parent_id', 'name_ar', 'name_en')->get();
             $product = Product::findOrFail(Crypt::decrypt($id));
             return view('dashboard.products.edit', compact('product', 'categories'));
         } catch (\Exception $e) {
@@ -99,6 +83,7 @@ class ProductController extends Controller
     {
         try {
             $this->checkAbility(['update-products']);
+            dd(true);
             $product = Product::findOrFail(Crypt::decrypt($id));
             $product->update([
                 'name_ar' => $request->name_ar,
@@ -125,6 +110,7 @@ class ProductController extends Controller
         try {
             $this->checkAbility(['delete-products']);
             $product = Product::findOrFail(Crypt::decrypt($id));
+            $this->deleteProductMedia($product);
             $product->delete();
             return redirect()->route('admin.products.index')->with('success', __('Item Deleted successfully.'));
         } catch (\Exception $e) {

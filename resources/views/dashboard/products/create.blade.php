@@ -159,7 +159,7 @@
         @push('script')
         <script>
             $("#input-id").fileinput({
-                // required: true,
+                required: true,
                 showUpload: false,
                 showRemove: false,
         });

@@ -27,7 +27,7 @@ class TagDataTable extends DataTable
             ->addColumn('action', function($row){
                 $id = encrypt($row->id);
                 $b = $this->userHasPermission('update-tags') ? $this->getEditLink("admin.tags.edit", $row->slug, $id) : '';
-                $b = $b.$this->userHasPermission('show-tags') ? $this->getShowLink("admin.tags.show", $row->slug, $id) : '';
+                $b = $b.=$this->userHasPermission('show-tags') ? $this->getShowLink("admin.tags.show", $row->slug, $id) : '';
                 $b = $b .= $this->userHasPermission('delete-tags') ? $this->getDeleteLink("admin.tags.destroy", $id) : '';
                 return $b;
             })
