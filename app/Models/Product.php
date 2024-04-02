@@ -13,7 +13,7 @@ class Product extends Model
     use HasFactory, HasSlug;
 
     protected $fillable = ['name_ar','name_en','slug','price','description_ar','description_en' , 'quantity','category_id','featured','status'];
-    // protected $appends = ['first_media'];
+    protected $appends = ['user_permissions'];
     /**
      * Get the options for generating the slug.
      */
@@ -51,8 +51,10 @@ class Product extends Model
     }
 
 
-    // public function getFirstMediaAttribute()
-    // {
-    //     return $this->media->first()->file_name;
-    // }
+    public function getUserPermissionsAttribute()
+    {
+        $user_id = auth()->id();
+        $user = User::find($user_id);
+        return $user->roles->first()->permissions->pluck('name')->toArray();
+    }
 }

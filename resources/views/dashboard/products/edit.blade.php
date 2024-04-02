@@ -96,10 +96,23 @@
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <label><small>{{ __('Choose Category') }}</small></label>
-                                                        <select name="category_id" style="border-radius: 10rem;height:60%" class="form-control">
+                                                        <select name="category_id"  class="form-control">
                                                             <option value="{{ $product->category->id }}" selected>{{ $product->category->parent['name_'. App::currentLocale()] }} | {{ $product->category['name_'. App::currentLocale()] }}</option>
                                                             @foreach ($categories as $category)
-                                                            {{-- {{ $category->id }} --}}
+                                                            <option value="{{ $category->id }}">{{ $category->parent['name_'. App::currentLocale()] }} | {{ $category['name_'. App::currentLocale()] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('category_id')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label><small>{{ __('Choose tags') }}</small></label>
+                                                        <select multiple name="tags"  class="form-control">
+                                                            <option value="{{ $product->category->id }}" selected>{{ $product->category->parent['name_'. App::currentLocale()] }} | {{ $product->category['name_'. App::currentLocale()] }}</option>
+                                                            @foreach ($categories as $category)
                                                             <option value="{{ $category->id }}">{{ $category->parent['name_'. App::currentLocale()] }} | {{ $category['name_'. App::currentLocale()] }}</option>
                                                             @endforeach
                                                         </select>

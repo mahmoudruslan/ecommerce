@@ -67,7 +67,7 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <textarea style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_ar" value="{{ old('description_ar') }}" class="form-control form-control-user
+                                                        <textarea rows="1" style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_ar" value="{{ old('description_ar') }}" class="form-control form-control-user
                                                         @error('description_ar') is-invalid @enderror" placeholder="   {{ __('Enter Description In Arabic') }}"></textarea>
                                                         @error('description_ar')
                                                         <span class="text-danger" role="alert">
@@ -76,7 +76,7 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <textarea  style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_en" value="{{ old('description_en') }}" class="form-control form-control-user
+                                                        <textarea rows="1"  style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_en" value="{{ old('description_en') }}" class="form-control form-control-user
                                                         @error('description_en') is-invalid @enderror" placeholder="   {{ __('Enter Description In English') }}"></textarea>
                                                         @error('description_en')
                                                         <span class="text-danger" role="alert">
@@ -87,7 +87,7 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <select name="category_id" style="border-radius: 10rem;height:100%" class="form-control">
+                                                        <select name="category_id" style="height:100%" class="form-control">
                                                             <option disabled selected>{{ __('Choose Category') }}</option>
                                                             @foreach($categories as $category)
                                                             <option value="{{ $category->id }}">{{ $category->parent['name_'. App::currentLocale()] }} | {{ $category['name_'. App::currentLocale()] }}</option>
@@ -99,6 +99,20 @@
                                                         </span>
                                                         @enderror
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <select multiple name="tags[]" class="form-control">
+                                                            @foreach($tags as $tag)
+                                                            <option value="{{ $tag->id }}">{{ $tag['name_'. App::currentLocale()] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('tags')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <div class="row">
                                                             <div class="col-md-6">

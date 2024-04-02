@@ -19,14 +19,20 @@ trait Helper
         return true;
     }
 
-    public function userHasPermission($permission)
+    public function userHasPermission($permission, $userPermissions)
     {
-        $user_id = auth()->id();
-        $user = User::findOrFail($user_id);
-        if(!($user->hasAnyPermission([$permission]) || $user->hasRole('super-admin'))){
+        if (in_array($permission, $userPermissions)) {
+            return true;
+        }else{
             return false;
         }
-        return true;
+        // $user_id = auth()->id();
+        // $user = User::findOrFail($user_id);
+
+        // if(!($user->hasAnyPermission([$permission]) || $user->hasRole('super-admin'))){
+        //     return false;
+        // }
+        // return true;
     }
 
 }

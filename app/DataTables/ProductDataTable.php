@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Product;
+use App\Models\User;
 use App\Traits\Helper;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -24,13 +25,27 @@ class ProductDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        // $update = false;
+        // $edit = false;
+        // $delete = false;
+        // $user_id = auth()->id();
+        // $user = User::findOrFail($user_id);
+        // $permissions = $user->getAllPermissions()->pluck('name')->toArray();
+        // $roles = $user->getRoleNames();
+
+
+        // if(in_array('update-products', $permissions) || in_array('super-admin', $roles)){
+        //     $update = true;
+        // }
+
         return (new EloquentDataTable($query))
 
             ->addColumn('action', function($row){
                 $id = encrypt($row->id);
-                $b = $this->userHasPermission('update-products') ? $this->getEditLink("admin.products.edit", $row->slug, $id) : '';
-                $b = $b.=$this->userHasPermission('show-products') ? $this->getShowLink("admin.products.show", $row->slug, $id) : '';
-                $b = $b .= $this->userHasPermission('delete-products') ? $this->getDeleteLink("admin.products.destroy", $id) : '';
+
+                $b = $this->userHasPermission('update-products', $row->userPermissions) ? $this->getEditLink("admin.products.edit", $row->slug, $id) : '';
+                $b = $b.=$this->userHasPermission('show-products', $row->userPermissions) ? $this->getShowLink("admin.products.show", $row->slug, $id) : '';
+                $b = $b .= $this->userHasPermission('delete-products', $row->userPermissions) ? $this->getDeleteLink("admin.products.destroy", $id) : '';
                 return $b;
             })
             ->addColumn('parent_category', function($row){
