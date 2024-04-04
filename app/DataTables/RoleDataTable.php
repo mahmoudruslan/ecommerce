@@ -11,6 +11,7 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 use App\Traits\HTMLTrait;
+use App\Models\User;
 
 class RoleDataTable extends DataTable
 {
@@ -23,11 +24,12 @@ class RoleDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-        ->addColumn('action', function($row){
+        $actions = $this->actionsAbility('roles');
+        return (new EloquentDataTable($query, $actions))
+        ->addColumn('action', function($row) use ($actions){
             $id = encrypt($row->id);
-            $b = $this->userHasPermission('update-roles') ? '<div style="width: 150px"> <a href=" ' . route("admin.permission-roles.edit", $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>' : '';
-            $b .= $this->userHasPermission('delete-roles') ? $this->getDeleteLink("admin.permission-roles.destroy", $id) : '';
+            $b = $actions['update'] ? '<div style="width: 150px"> <a href=" ' . route("admin.permission-roles.edit", $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>' : '';
+            $b .= $actions['delete'] ? $this->getDeleteLink("admin.permission-roles.destroy", $id) : '';
             return $b;
         });
     }

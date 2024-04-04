@@ -24,12 +24,13 @@ class UserDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-            ->addColumn('action', function($row){
+        $actions = $this->actionsAbility('users');
+        return (new EloquentDataTable($query, $actions))
+            ->addColumn('action', function($row) use($actions) {
                 $id = encrypt($row->id);
-                $b = $this->userHasPermission('update-users') ? $this->getEditLink("admin.users.edit", $row->slug, $id) : '';
-                $b = $b.$this->userHasPermission('show-users') ? $this->getShowLink("admin.users.show", $row->slug, $id) : '';
-                $b = $b .= $this->userHasPermission('delete-users') ? $this->getDeleteLink("admin.users.destroy", $id) : '';
+                $b = $actions['update'] ? $this->getEditLink("admin.users.edit", $row->slug, $id) : '';
+                $b = $b.= $actions['show'] ? $this->getShowLink("admin.users.show", $row->slug, $id) : '';
+                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.users.destroy", $id) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

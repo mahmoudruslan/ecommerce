@@ -23,12 +23,13 @@ class TagDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-            ->addColumn('action', function($row){
+        $actions = $this->actionsAbility('tags');
+        return (new EloquentDataTable($query, $actions))
+            ->addColumn('action', function($row) use($actions) {
                 $id = encrypt($row->id);
-                $b = $this->userHasPermission('update-tags') ? $this->getEditLink("admin.tags.edit", $row->slug, $id) : '';
-                $b = $b.=$this->userHasPermission('show-tags') ? $this->getShowLink("admin.tags.show", $row->slug, $id) : '';
-                $b = $b .= $this->userHasPermission('delete-tags') ? $this->getDeleteLink("admin.tags.destroy", $id) : '';
+                $b = $actions['update'] ? $this->getEditLink("admin.tags.edit", $row->slug, $id) : '';
+                $b = $b.= $actions['show'] ? $this->getShowLink("admin.tags.show", $row->slug, $id) : '';
+                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.tags.destroy", $id) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

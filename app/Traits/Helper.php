@@ -5,12 +5,10 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 
-
 trait Helper
 {
     public function checkAbility(array $permissions)
     {
-
         $user_id = auth()->id();
         $user = User::findOrFail($user_id);
         if(!($user->hasAnyPermission($permissions) || $user->hasRole('super-admin'))){
@@ -19,20 +17,24 @@ trait Helper
         return true;
     }
 
-    public function userHasPermission($permission, $userPermissions)
+    public function actionsAbility($table)
     {
-        if (in_array($permission, $userPermissions)) {
-            return true;
-        }else{
-            return false;
+        $actions['update'] = true;
+        $actions['show'] = true;
+        $actions['delete'] = true;
+        $user_id = auth()->id();
+        $user = User::findOrFail($user_id);
+        
+        if(!($user->hasAnyPermission('update-'. $table) || $user->hasRole('super-admin'))){
+            $actions['update'] = false;
         }
-        // $user_id = auth()->id();
-        // $user = User::findOrFail($user_id);
-
-        // if(!($user->hasAnyPermission([$permission]) || $user->hasRole('super-admin'))){
-        //     return false;
-        // }
-        // return true;
+        if(!($user->hasAnyPermission('show-'. $table) || $user->hasRole('super-admin'))){
+            $actions['show'] = false;
+        }
+        if(!($user->hasAnyPermission('delete-'. $table) || $user->hasRole('super-admin'))){
+            $actions['delete'] = false;
+        }
+        return $actions;
     }
 
 }

@@ -25,27 +25,16 @@ class ProductDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        // $update = false;
-        // $edit = false;
-        // $delete = false;
-        // $user_id = auth()->id();
-        // $user = User::findOrFail($user_id);
-        // $permissions = $user->getAllPermissions()->pluck('name')->toArray();
-        // $roles = $user->getRoleNames();
-
-
-        // if(in_array('update-products', $permissions) || in_array('super-admin', $roles)){
-        //     $update = true;
-        // }
-
-        return (new EloquentDataTable($query))
-
-            ->addColumn('action', function($row){
+        $actions = $this->actionsAbility('products');
+        
+        return (new EloquentDataTable($query, $actions))
+            
+            ->addColumn('action', function($row) use($actions){
                 $id = encrypt($row->id);
 
-                $b = $this->userHasPermission('update-products', $row->userPermissions) ? $this->getEditLink("admin.products.edit", $row->slug, $id) : '';
-                $b = $b.=$this->userHasPermission('show-products', $row->userPermissions) ? $this->getShowLink("admin.products.show", $row->slug, $id) : '';
-                $b = $b .= $this->userHasPermission('delete-products', $row->userPermissions) ? $this->getDeleteLink("admin.products.destroy", $id) : '';
+                $b = $actions['update'] ? $this->getEditLink("admin.products.edit", $row->slug, $id) : '';
+                $b = $b.= $actions['show'] ? $this->getShowLink("admin.products.show", $row->slug, $id) : '';
+                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.products.destroy", $id) : '';
                 return $b;
             })
             ->addColumn('parent_category', function($row){

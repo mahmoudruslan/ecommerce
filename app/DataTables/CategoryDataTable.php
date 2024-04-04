@@ -20,13 +20,14 @@ class CategoryDataTable extends DataTable
 
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-            ->addColumn('action', function($row){
+        $actions = $this->actionsAbility('roles');
+        return (new EloquentDataTable($query, $actions))
+            ->addColumn('action', function($row) use ($actions) {
                 $id = encrypt($row->id);
 
-                $b = $this->userHasPermission('update-categories') ? $this->getEditLink("admin.categories.edit", $row->slug, $id) : '';
-                $b = $b .= $this->userHasPermission('show-categories') ? $this->getShowLink("admin.categories.show", $row->slug, $id) : '';
-                $b = $b .= $this->userHasPermission('delete-categories') ? $this->getDeleteLink("admin.categories.destroy", $id) : '';
+                $b = $actions['update'] ? $this->getEditLink("admin.categories.edit", $row->slug, $id) : '';
+                $b = $b .= $actions['show'] ? $this->getShowLink("admin.categories.show", $row->slug, $id) : '';
+                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.categories.destroy", $id) : '';
                 return $b;
             })
             ->addColumn('product_count', function($row){
