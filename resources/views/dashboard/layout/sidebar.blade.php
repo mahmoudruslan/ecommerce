@@ -59,7 +59,7 @@
                 <div id="collapseTag" class="collapse @if($route == 'tags') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">{{__('Tags Screens:')}} </h6>
-                        <a class="collapse-item" href="{{route('admin.tags.create')}}">{{__('Add Tags')}}</a>
+                        @can(['store-tags'])<a class="collapse-item" href="{{route('admin.tags.create')}}">{{__('Add Tags')}}</a>@endcan
                         <a class="collapse-item" href="{{route('admin.tags.index')}}">{{__('Tags')}}</a>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                 <div id="collapseProducts" class="collapse @if($route == 'products') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">{{__('Categories Screens:')}} </h6>
-                        <a class="collapse-item" href="{{route('admin.products.create')}}">{{__('Add Products')}}</a>
+                        @can(['store-products'])<a class="collapse-item" href="{{route('admin.products.create')}}">{{__('Add Products')}}</a>@endcan
                         <a class="collapse-item" href="{{route('admin.products.index')}}">{{__('Products')}}</a>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                 <div id="collapseUsers" class="collapse @if($route == 'users') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">{{__('Users Screens:')}} </h6>
-                        <a class="collapse-item" href="{{route('admin.users.create')}}">{{__('Add Users')}}</a>
+                        @can('store-roles')<a class="collapse-item" href="{{route('admin.users.create')}}">{{__('Add Users')}}</a>@endcan
                         <a class="collapse-item" href="{{route('admin.users.index')}}">{{__('Users')}}</a>
                     </div>
                 </div>

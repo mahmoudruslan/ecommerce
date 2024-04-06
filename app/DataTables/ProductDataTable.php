@@ -26,9 +26,9 @@ class ProductDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         $actions = $this->actionsAbility('products');
-        
+
         return (new EloquentDataTable($query, $actions))
-            
+
             ->addColumn('action', function($row) use($actions){
                 $id = encrypt($row->id);
 

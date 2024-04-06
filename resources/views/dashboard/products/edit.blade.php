@@ -67,7 +67,6 @@
                                                                 <small>{{ $message }}</small>
                                                             </span>
                                                             @enderror
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -96,7 +95,7 @@
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <label><small>{{ __('Choose Category') }}</small></label>
-                                                        <select name="category_id"  class="form-control">
+                                                        <select style="height: 103px" name="category_id"  class="form-control">
                                                             <option value="{{ $product->category->id }}" selected>{{ $product->category->parent['name_'. App::currentLocale()] }} | {{ $product->category['name_'. App::currentLocale()] }}</option>
                                                             @foreach ($categories as $category)
                                                             <option value="{{ $category->id }}">{{ $category->parent['name_'. App::currentLocale()] }} | {{ $category['name_'. App::currentLocale()] }}</option>
@@ -109,11 +108,13 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
+
                                                         <label><small>{{ __('Choose tags') }}</small></label>
                                                         <select multiple name="tags"  class="form-control">
-                                                            <option value="{{ $product->category->id }}" selected>{{ $product->category->parent['name_'. App::currentLocale()] }} | {{ $product->category['name_'. App::currentLocale()] }}</option>
-                                                            @foreach ($categories as $category)
-                                                            <option value="{{ $category->id }}">{{ $category->parent['name_'. App::currentLocale()] }} | {{ $category['name_'. App::currentLocale()] }}</option>
+                                                            {{-- {{ $tag_ids = $product->tags->pluck('id')->toArray() }} --}}
+                                                            {{-- <option value="{{ $product->category->id }}" selected>{{ $product->category->parent['name_'. App::currentLocale()] }} | {{ $product->category['name_'. App::currentLocale()] }}</option> --}}
+                                                            @foreach ($tags as $tag)
+                                                            <option {{ in_array($tag->id, $product->tags->pluck('id')->toArray()) ? 'selected' : ''}} value="{{ $tag->id }}">{{ $tag['name_'. App::currentLocale()] }}</option>
                                                             @endforeach
                                                         </select>
                                                         @error('category_id')
@@ -125,7 +126,7 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-3">
-                                                        <input type="checkbox" value="1" name="featured" class="checkbox @error('featured') is-invalid @enderror" placeholder="    {{ __('Enter Featured') }}">
+                                                        <input {{ $product->featured == true ? 'checked' : ''}} type="checkbox" value="1" name="featured" class="checkbox @error('featured') is-invalid @enderror" placeholder="    {{ __('Enter Featured') }}">
                                                         <label><small>{{ __('Featured') }}</small></label>
                                                         @error('featured')
                                                         <span class="text-danger" role="alert">
@@ -134,7 +135,7 @@
                                                         @enderror
                                                     </div>
                                                         <div class="col-md-3">
-                                                        <input type="checkbox" value="1" name="status" class="checkbox" placeholder="{{ __('Status') }}">
+                                                        <input {{ $product->status == true ? 'checked' : ''}} type="checkbox" value="1" name="status" class="checkbox" placeholder="{{ __('Status') }}">
                                                         <label><small>{{ __('Active') }}</small></label>
                                                         @error('status')
                                                         <span class="text-danger" role="alert">
@@ -148,12 +149,17 @@
 
                                                     </div>
                                                 </div>
-                                                <input type="file" name="image" class="file"  id="input-id" data-preview-file-type="text">
-                                                @error('image')
-                                                <span class="text-danger" role="alert">
-                                                    <small>{{ $message }}</small>
-                                                </span>
-                                                @enderror
+                                                <input multiple type="file" name="images[]" class="file"  id="input-id" data-preview-file-type="text">
+                                                @error('images')
+                                                    <span class="text-danger" role="alert">
+                                                        <small>{{ $message }}</small>
+                                                    </span>
+                                                    @enderror
+                                                    @error('images.0')
+                                                    <span class="text-danger" role="alert">
+                                                        <small>{{ $message }}</small>
+                                                    </span>
+                                                    @enderror
                                                 <br>
                                                 <br>
                                                 <hr>
@@ -181,19 +187,31 @@
                 $("#input-id").fileinput({
                     showUpload: false,
                     showRemove: false,
-                    required: true,
+                    // required: true,
                     'initialPreview': [
-                        "{{ asset('storage/' . $product->firstMedia->file_name) }}",
+                    @if ($product->media()->count() > 0)
+                        @foreach ($product->media as $media)
+                            "{{ asset('storage/' . $media->file_name) }}",
+                        @endforeach
+                    @endif
+
                 ],
                 'initialPreviewFileType':'image',
                 'initialPreviewAsData':true,
-                'initialPreviewConfig':[{
-                    // caption: "{{ $category->image }}",
+                'overviewInitial': false,
+                'initialPreviewConfig':[
+                    @if ($product->media()->count() > 0)
+                        @foreach ($product->media as $media)
+                    {
                     size: '1111',
                     width: '120px',
                     url: "{{ route('admin.products.remove-image', [$product->id , '_token' => csrf_token()]) }}",
                     key: {{ $product->id }},
-                }]
+                },
+                @endforeach
+                    @endif
+
+            ],allowedFileExtensions: ["jpg", "png", "gif", "jpeg"]
             });
         </script>
     @endpush

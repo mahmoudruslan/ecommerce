@@ -2,15 +2,21 @@
 
 namespace App\Traits;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 
 trait Helper
 {
-    public function checkAbility(array $permissions)
+    protected function getUser()
     {
         $user_id = auth()->id();
-        $user = User::findOrFail($user_id);
+        return User::find($user_id);
+    }
+
+    public function checkAbility(array $permissions)
+    {
+        $user = $this->getUser();
         if(!($user->hasAnyPermission($permissions) || $user->hasRole('super-admin'))){
             throw UnauthorizedException::forPermissions($permissions);
         }
@@ -19,12 +25,9 @@ trait Helper
 
     public function actionsAbility($table)
     {
-        $actions['update'] = true;
-        $actions['show'] = true;
-        $actions['delete'] = true;
-        $user_id = auth()->id();
-        $user = User::findOrFail($user_id);
-        
+        $actions = ['update' => true, 'show' => true, 'delete' => true];
+
+        $user = $this->getUser();
         if(!($user->hasAnyPermission('update-'. $table) || $user->hasRole('super-admin'))){
             $actions['update'] = false;
         }
@@ -36,6 +39,4 @@ trait Helper
         }
         return $actions;
     }
-
 }
-
