@@ -68,16 +68,6 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <input type="text" name="mobile" value="{{ $user->mobile }}" class="form-control form-control-user @error('mobile') is-invalid @enderror" placeholder="{{ __('Enter Phone Number') }}">
-                                                        @error('mobile')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-6">
                                                         <input type="password" name="password" class="form-control form-control-user @error('password') is-invalid @enderror" placeholder="{{ __('Enter Password') }}">
                                                         @error('password')
                                                         <span class="text-danger" role="alert">
@@ -94,6 +84,29 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                <div class="form-group row">
+                                                    <div class="col-md-6">
+                                                        <input type="text" name="mobile" value="{{ $user->mobile }}" class="form-control form-control-user @error('mobile') is-invalid @enderror" placeholder="{{ __('Enter Phone Number') }}">
+                                                        @error('mobile')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mt-3">
+
+                                                            <input {{ $user->status == 1 ? 'checked' : '' }} type="checkbox" name="status" value="1"  placeholder="{{ __('Enter Name In English') }}">
+                                                            <label>{{ __('Status') }}</label>
+                                                        </div>
+                                                        @error('status')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
                                                 <input type="file" name="image" class="file"  id="input-id" data-preview-file-type="text">
                                                 @error('image')
                                                 <span class="text-danger" role="alert">
@@ -125,11 +138,14 @@
                     showUpload: false,
                     showRemove: true,
                     showCancel: false,
-                    required: true,
+                    // required: true,
                     'initialPreview': [
-                        "{{ asset('storage/' . $user->image) }}",
+                        @if ($user->image)
+                            "{{ asset('storage/' . $user->image) }}",
+                        @endif
                 ],
                 'initialPreviewFileType':'image',
+                'overviewInitial': false,
                 'initialPreviewAsData':true,
                 'initialPreviewConfig':[{
                     size: '1111',

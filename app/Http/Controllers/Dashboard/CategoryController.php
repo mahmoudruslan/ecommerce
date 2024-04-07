@@ -67,7 +67,7 @@ class CategoryController extends Controller
     public function edit( $slug, $id)
     {
         try {
-            $this->checkAbility(['categories'], ['update-categories']);
+            $this->checkAbility(['update-categories']);
             $categories = Category::where('parent_id', null)->get(['id', 'name_ar', 'name_en', 'image']);
             $category = Category::findOrFail(Crypt::decrypt($id));
             return view('dashboard.categories.edit', compact('category', 'categories'));
@@ -134,10 +134,10 @@ class CategoryController extends Controller
     public function removeImage($category_id)
     {
         $category = Category::findOrFail($category_id);
-
         $this->deleteFiles($category->image);
         $category->image = null;
-        $category->save();
+        $category->update();
+
         return response()->json([]);
     }
 

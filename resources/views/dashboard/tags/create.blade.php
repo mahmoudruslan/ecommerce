@@ -42,6 +42,15 @@
                                                     </span>
                                                     @enderror
                                                 </div>
+                                                <div class="form-group">
+                                                    <input type="checkbox" name="status" value="1"  placeholder="{{ __('Enter Name In English') }}">
+                                                    <label>{{ __('Status') }}</label>
+                                                    @error('status')
+                                                    <span class="text-danger" role="alert">
+                                                        <small>{{ $message }}</small>
+                                                    </span>
+                                                    @enderror
+                                                </div>
 
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}

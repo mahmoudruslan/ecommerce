@@ -101,7 +101,7 @@ class UserController extends Controller
                 'username' => $request->username,
                 'email' => $request->email,
                 'mobile' => $request->mobile,
-                'status' => true,
+                'status' => $request->status ?? 0,
                 'image' => $path . $file_name,
                 'password' => Hash::make('password'),
             ]);
@@ -131,12 +131,11 @@ class UserController extends Controller
 
     public function removeImage($user_id)
     {
-        $this->checkAbility(['delete-users']);
         $user = User::findOrFail($user_id);
-
         $this->deleteFiles($user->image);
         $user->image = null;
-        $user->save();
+        $user->update();
+
         return response()->json([]);
     }
 }

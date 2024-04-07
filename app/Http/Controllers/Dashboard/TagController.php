@@ -8,7 +8,7 @@ use App\Http\Requests\TagRequest;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Tag;
 use App\Traits\Helper;
-
+use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
@@ -28,12 +28,13 @@ class TagController extends Controller
 
     public function store(TagRequest $request)
     {
+        // return $request;
         try {
             $this->checkAbility(['store-tags']);
-            $tag = Tag::create([
+            Tag::create([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
-                'image' => 'avatar.png',
+                'status' => $request->status ?? 0,
             ]);
             return redirect()->route('admin.tags.index')->with([
                 'message' => __('Item Created successfully.'),
@@ -75,7 +76,7 @@ class TagController extends Controller
             $tag->update([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
-                'image' => 'avatar.png',
+                'status' => $request->status ?? 0,
             ]);
             return redirect()->route('admin.tags.index')->with([
                 'message' => __('Item Updated successfully.'),
@@ -92,7 +93,9 @@ class TagController extends Controller
             $this->checkAbility(['delete-tags']);
             $tag = Tag::findOrFail(Crypt::decrypt($id));
             $tag->delete();
-            return redirect()->route('admin.tags.index')->with('success', __('Item Deleted successfully.'));
+            return redirect()->route('admin.tags.index')->with([
+                'message' => __('Item Deleted successfully.'),
+                'alert-type' => 'success']);
         } catch (\Exception $e) {
 
             return $e->getMessage();

@@ -23,7 +23,7 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }} : {{ __($product['name_'. App::currentLocale()]) }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.products.update', encrypt($product->id)) }}" method="POST" class="user">
+                                            <form action="{{ route('admin.products.update', encrypt($product->id)) }}" method="POST" class="user" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('patch')
                                                 <div class="form-group row">
@@ -110,7 +110,7 @@
                                                     <div class="col-md-6">
 
                                                         <label><small>{{ __('Choose tags') }}</small></label>
-                                                        <select multiple name="tags"  class="form-control">
+                                                        <select multiple name="tags[]"  class="form-control">
                                                             {{-- {{ $tag_ids = $product->tags->pluck('id')->toArray() }} --}}
                                                             {{-- <option value="{{ $product->category->id }}" selected>{{ $product->category->parent['name_'. App::currentLocale()] }} | {{ $product->category['name_'. App::currentLocale()] }}</option> --}}
                                                             @foreach ($tags as $tag)
@@ -205,7 +205,7 @@
                     {
                     size: '1111',
                     width: '120px',
-                    url: "{{ route('admin.products.remove-image', [$product->id , '_token' => csrf_token()]) }}",
+                    url: "{{ route('admin.products.remove-image', ['product_id' => $product->id ,'media_id' => $media->id , '_token' => csrf_token()]) }}",
                     key: {{ $product->id }},
                 },
                 @endforeach

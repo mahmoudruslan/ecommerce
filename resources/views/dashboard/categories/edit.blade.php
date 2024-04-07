@@ -87,4 +87,31 @@
             </div>
             <!-- Outer Row -->
         @endsection
+        @push('script')
+        <script>
+                $("#input-id").fileinput({
+                    showUpload: false,
+                    showRemove: false,
+                    // required: true,
+                    'initialPreview': [
+                        @if ($category->image)
+                            "{{ asset('storage/' . $category->image) }}",
+                        @endif
+
+
+                ],
+                'initialPreviewFileType':'image',
+                'initialPreviewAsData':true,
+                'overviewInitial': false,
+                'initialPreviewConfig':[{
+                    size: '1111',
+                    width: '120px',
+                    url: "{{ route('admin.categories.remove-image', [$category->id , '_token' => csrf_token()]) }}",
+                    key: {{ $category->id }},
+                }
+
+            ],allowedFileExtensions: ["jpg", "png", "gif", "jpeg"]
+            });
+        </script>
+    @endpush
 

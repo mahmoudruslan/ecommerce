@@ -52,7 +52,7 @@ class ProductRequest extends FormRequest
                 'category_id' => 'required|string|max:50',
                 'featured' => 'max:1',
                 'status' => 'max:1',
-                'images' => 'required|array',
+                // 'images' => 'required|array',
                 'images.*' => 'max:1024',
             ];
         }

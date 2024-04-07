@@ -11,6 +11,7 @@ use App\Models\Tag;
 use App\Models\User;
 use App\Traits\Files;
 use App\Traits\Helper;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 class ProductController extends Controller
 {
@@ -18,17 +19,7 @@ class ProductController extends Controller
 
     public function index(ProductDataTable $dataTable)
     {
-        $user_id = auth()->id();
-        // $user = User::findOrFail($user_id)->roles->first()->permissions->pluck('name')->toArray();
-        // return $user;
-        // $permissions = User::findOrFail($user_id)->with(['roles']);
-        // return $permissions;
-        // $permissions = User::findOrFail($user_id)->roles->first()->permissions->pluck('name')->toArray();
-        // return $permissions;
-        // $product = Product::find(1)->user_permissions;
-        // return $product;
         $actions = $this->checkAbility(['products','store-products', 'update-products', 'show-products','delete-products']);
-        // dd($actions);
         return $dataTable->with('actions' , $actions)->render('dashboard.products.index');
     }
 
@@ -37,7 +28,6 @@ class ProductController extends Controller
         $this->checkAbility(['store-products']);
         $categories = Category::select('id', 'name_ar', 'name_en', 'parent_id')->whereNotNull('parent_id')->with('parent:id,name_ar,name_en')->get();
         $tags = Tag::select('id', 'name_ar', 'name_en')->get();
-        // return $categories;
         return view('dashboard.products.create', compact('categories', 'tags'));
     }
 
@@ -96,10 +86,8 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, $id)
     {
-        // dd($request->all());
         try {
             $this->checkAbility(['update-products']);
-            // dd($request->all());
             $product = Product::findOrFail(Crypt::decrypt($id));
             $input['name_ar'] = $request->name_ar;
             $input['name_en'] = $request->name_en;
@@ -113,11 +101,8 @@ class ProductController extends Controller
             $product->update($input);
             //update media
             if(isset($request->images)){
-                // dd($request->images == null);
-
                 $this->createProductMedia($request->images, $product);
             }
-            // dd(false);
             //update tags
             $product->tags()->sync($request->tags);
 
@@ -149,11 +134,13 @@ class ProductController extends Controller
 
     }
 
-    public function removeImage($product_id)
+    public function removeImage(Request $request)
     {
         $this->checkAbility(['delete-products']);
-        $product = Product::findOrFail($product_id);
-        $this->deleteFiles($product->image);
+        $product = Product::findOrFail($request->product_id);
+        $media = $product->media()->whereId($request->media_id)->first();
+        $this->deleteFiles($media->file_name);
+        $media->delete();
         return response()->json([]);
     }
 

@@ -41,7 +41,7 @@ class ProductDataTable extends DataTable
                 return $row->category->parent['name_' . App::currentLocale()];
             })
             ->addColumn('image', function($row){
-                return '<img style="height: auto;width: 100%" src="'. asset('storage/' . $row->firstMedia->file_name) .'" alt="category photo">';
+                return $row->firstMedia ? '<img style="height: auto;width: 100%" src="'. asset('storage/' . $row->firstMedia->file_name) .'" alt="category photo">' : __('Image Not Found');
             })
             ->addColumn('tags', function($row){
                 return $row->tags->pluck('name_' . App::currentLocale())->join(', ');

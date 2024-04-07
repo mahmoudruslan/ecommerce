@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name_ar');
             $table->string('name_en');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('slug')->unique();
             $table->string('status')->default(1);
             $table->unsignedBigInteger('parent_id')->nullable()->nulOnDelete();

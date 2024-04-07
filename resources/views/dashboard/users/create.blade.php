@@ -68,17 +68,6 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <input type="text" name="mobile" value="{{ old('mobile') }}" class="form-control form-control-user @error('mobile') is-invalid @enderror" placeholder="{{ __('Enter Phone Number') }}">
-                                                        @error('mobile')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
-                                                        @enderror
-                                                    </div>
-
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-6">
                                                         <input type="password" name="password" class="form-control form-control-user @error('password') is-invalid @enderror" placeholder="{{ __('Enter Password') }}">
                                                         @error('password')
                                                         <span class="text-danger" role="alert">
@@ -95,6 +84,30 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                <div class="form-group row">
+                                                    <div class="col-md-6">
+                                                        <input type="text" name="mobile" value="{{ old('mobile') }}" class="form-control form-control-user @error('mobile') is-invalid @enderror" placeholder="{{ __('Enter Phone Number') }}">
+                                                        @error('mobile')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mt-3">
+
+                                                            <input type="checkbox" name="status" value="1"  placeholder="{{ __('Enter Name In English') }}">
+                                                            <label>{{ __('Status') }}</label>
+                                                        </div>
+                                                        @error('status')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+
+                                                </div>
+
                                                 <div class="show-image-container">
                                                     <div  id="parent" class="show-image">
                                                         <div id="image-div" class="image-div"  style="width: 100%;position: relative;">
