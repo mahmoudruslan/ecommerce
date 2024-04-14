@@ -113,8 +113,26 @@
                 <div id="collapseUsers" class="collapse @if($route == 'users') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">{{__('Users Screens:')}} </h6>
-                        @can('store-roles')<a class="collapse-item" href="{{route('admin.users.create')}}">{{__('Add Users')}}</a>@endcan
+                        @can('store-users')<a class="collapse-item" href="{{route('admin.users.create')}}">{{__('Add Users')}}</a>@endcan
                         <a class="collapse-item" href="{{route('admin.users.index')}}">{{__('Users')}}</a>
+                    </div>
+                </div>
+            </li>
+            @endcanany
+            {{-- coupons --}}
+            @canany(['coupons','store-coupons', 'update-coupons', 'show-coupons','delete-coupons'])
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCoupons"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>{{__('Coupons')}}</span>
+                </a>
+                <div id="collapseCoupons" class="collapse @if($route == 'coupons') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">{{__('Coupons Screens:')}} </h6>
+                        @can('store-coupons')<a class="collapse-item" href="{{route('admin.coupons.create')}}">{{__('Add coupons')}}</a>@endcan
+                        <a class="collapse-item" href="{{route('admin.coupons.index')}}">{{__('Coupons')}}</a>
                     </div>
                 </div>
             </li>

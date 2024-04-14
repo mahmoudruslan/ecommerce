@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\RolePermissionController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\BaseController;
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\CouponController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\TagController;
 
@@ -23,19 +24,16 @@ use App\Http\Controllers\Dashboard\TagController;
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
     Route::get('forget-password', [AuthController::class, 'showForgetPasswordForm'])->name('password.request')->middleware('guest');
-    Route::controller(BaseController::class)
-    ->middleware(['auth', 'if_customer'])
+    Route::middleware(['auth', 'if_customer'])
     ->group( function () {
-        Route::get('/', 'dashboard')->name('dashboard');
-        Route::get('/blank', 'blank')->name('blank');
-        Route::get('buttons/', 'buttons')->name('buttons');
-        Route::get('/cards', 'cards')->name('cards');
-        Route::get('/charts', 'charts')->name('charts');
-        Route::get('/tables', 'tables')->name('tables');
+        Route::get('/', [BaseController::class, 'dashboard'])->name('dashboard');
+        // Route::get('/blank', 'blank')->name('blank');
+        // Route::get('buttons/', 'buttons')->name('buttons');
+        // Route::get('/cards', 'cards')->name('cards');
+        // Route::get('/charts', 'charts')->name('charts');
+        // Route::get('/tables', 'tables')->name('tables');
 
         Route::resource('permission-roles', RolePermissionController::class);
-        // Route::resource('users', UserController::class)->middleware('can:users');
-        //categories users
         Route::controller(UserController::class)
         ->group( function(){
             Route::resource('users', UserController::class,['except' => ['show', 'edit']]);
@@ -59,6 +57,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
             Route::get('products/edit/{id}/{slug}', 'edit')->name('products.edit');
             Route::post('/products/delete-image/{product_id}', 'removeImage')->name('products.remove-image');
         });
+        //coupon
+        Route::resource('coupons', CouponController::class);
 
         //tags routes
         Route::controller(TagController::class)
@@ -67,6 +67,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
             Route::get('tags/details/{id}/{slug}', 'show')->name('tags.show');
             Route::get('tags/edit/{id}/{slug}', 'edit')->name('tags.edit');
         });
+
     });
 });
 

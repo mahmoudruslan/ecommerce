@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             TagSeeder::class,
             MediaSeeder::class,
             CategorySeeder::class,
+            CouponSeeder::class,
         ]);
         \App\Models\Product::factory(1000)->create();
         $this->call([
