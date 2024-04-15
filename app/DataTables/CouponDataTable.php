@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Coupon;
 use App\Traits\Helper;
 use App\Traits\HTMLTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -28,10 +29,23 @@ class CouponDataTable extends DataTable
         $actions = $this->actionsAbility('coupons');
         return (new EloquentDataTable($query, $actions))
             ->addColumn('action', function($row) use  ($actions){
-                $b = $actions['update'] ? $this->getEditLink("admin.products.edit", '', $row->id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.products.show", '', $row->id) : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.products.destroy", $row->id) : '';
+                $id = encrypt($row->id);
+                $b = $actions['update'] ? $this->getEditLink("admin.coupons.edit", $id) : '';
+                $b = $b.= $actions['show'] ? $this->getShowLink("admin.coupons.show", $id) : '';
+                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.coupons.destroy", $id) : '';
                 return $b;   
+            })
+            ->editColumn('start_date', function($row){
+                return date('Y-m-d', strtotime($row->start_date));
+            })
+            ->editColumn('expire_date', function($row){
+                return date('Y-m-d', strtotime($row->expire_date));
+            })
+            ->editColumn('created_at', function($row){
+                return date('Y-m-d h:i', strtotime($row->created_at));
+            })
+            ->editColumn('status', function($row){
+                return $row->status ? __('Active') : __('Inactive');
             });
     }
 
@@ -87,7 +101,8 @@ class CouponDataTable extends DataTable
             Column::make('used_times')->title(__('Used times')),
             Column::make('start_date')->title(__('Start date')),
             Column::make('expire_date')->title(__('Expire date')),
-            Column::make('generate_than')->title(__('Greater than')),
+            Column::make('greater_than')->title(__('Greater than')),
+            Column::make('status')->title(__('Status')),
             Column::make('created_at')->title(__('Created At')),
             Column::computed('action')
             ->title( __('Action'))

@@ -44,7 +44,7 @@ class TagController extends Controller
         }
     }
 
-    public function show($slug, $id)
+    public function show($id)
     {
         try {
             $this->checkAbility(['show-tags']);
@@ -57,7 +57,7 @@ class TagController extends Controller
 
     }
 
-    public function edit( $slug, $id)
+    public function edit( $id)
     {
         try {
             $this->checkAbility(['update-tags']);

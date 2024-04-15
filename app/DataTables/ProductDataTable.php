@@ -32,8 +32,8 @@ class ProductDataTable extends DataTable
             ->addColumn('action', function($row) use($actions){
                 $id = encrypt($row->id);
 
-                $b = $actions['update'] ? $this->getEditLink("admin.products.edit", $row->slug, $id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.products.show", $row->slug, $id) : '';
+                $b = $actions['update'] ? $this->getEditLink("admin.products.edit", $id) : '';
+                $b = $b.= $actions['show'] ? $this->getShowLink("admin.products.show", $id) : '';
                 $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.products.destroy", $id) : '';
                 return $b;
             })

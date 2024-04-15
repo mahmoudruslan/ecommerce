@@ -31,7 +31,6 @@
                                     <form action="{{route('admin.permission-roles.update', encrypt($role->id))}}" method="post" class="user">
                                     @method('patch')
                                     @csrf
-                                    <input type="hidden" name="id" value="{{ encrypt($role->id) }}">
                                         <div class="form-group">
                                             <input type="text" name="name" value="{{ $role->name }}" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"

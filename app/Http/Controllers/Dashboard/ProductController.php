@@ -58,7 +58,7 @@ class ProductController extends Controller
         }
     }
 
-    public function show($slug, $id)
+    public function show($id)
     {
         try {
             $this->checkAbility(['show-products']);
@@ -70,7 +70,7 @@ class ProductController extends Controller
 
     }
 
-    public function edit( $slug, $id)
+    public function edit( $id)
     {
         try {
             $this->checkAbility(['update-products']);

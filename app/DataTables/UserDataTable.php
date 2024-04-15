@@ -28,8 +28,8 @@ class UserDataTable extends DataTable
         return (new EloquentDataTable($query, $actions))
             ->addColumn('action', function($row) use($actions) {
                 $id = encrypt($row->id);
-                $b = $actions['update'] ? $this->getEditLink("admin.users.edit", $row->slug, $id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.users.show", $row->slug, $id) : '';
+                $b = $actions['update'] ? $this->getEditLink("admin.users.edit", $id) : '';
+                $b = $b.= $actions['show'] ? $this->getShowLink("admin.users.show", $id) : '';
                 $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.users.destroy", $id) : '';
                 return $b;
             })

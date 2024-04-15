@@ -25,7 +25,7 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }} : {{ __($coupon->code) }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.coupons.update') }}" method="POST" class="user">
+                                            <form action="{{ route('admin.coupons.update', encrypt($coupon->id)) }}" method="POST" class="user">
                                                 @csrf
                                                 @method('patch')
                                                 <div class="form-group row">
@@ -92,7 +92,7 @@
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="start_date" value="{{ $coupon->start_date }}" class="form-control form-control-user @error('start_date') is-invalid @enderror" placeholder="    {{ __('Start date') }}">
+                                                            <input type="text" name="start_date" value="{{ date('Y-m-d', strtotime($coupon->start_date)) }}" class="form-control form-control-user @error('start_date') is-invalid @enderror" placeholder="    {{ __('Start date') }}">
                                                             @error('start_date')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -102,7 +102,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="expire_date" value="{{ $coupon->expire_date }}" class="form-control form-control-user @error('expire_date') is-invalid @enderror" placeholder="    {{ __('Expire date') }}">
+                                                            <input type="text" name="expire_date" value="{{ date('Y-m-d', strtotime($coupon->expire_date)) }}" class="form-control form-control-user @error('expire_date') is-invalid @enderror" placeholder="    {{ __('Expire date') }}">
                                                             @error('expire_date')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -113,8 +113,8 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <textarea rows="1" style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_ar" value="{{ $coupon->description_ar }}" class="form-control form-control-user
-                                                        @error('description_ar') is-invalid @enderror" placeholder="   {{ __('Enter Description In Arabic') }}"></textarea>
+                                                        <textarea rows="1" style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_ar" class="form-control form-control-user
+                                                        @error('description_ar') is-invalid @enderror" placeholder="{{ __('Enter Description In Arabic') }}">{{ $coupon->description_ar }}</textarea>
                                                         @error('description_ar')
                                                         <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
@@ -122,8 +122,8 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <textarea rows="1"  style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_en" value="{{ $coupon->description_en }}" class="form-control form-control-user
-                                                        @error('description_en') is-invalid @enderror" placeholder="   {{ __('Enter Description In English') }}"></textarea>
+                                                        <textarea rows="1"  style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_en" class="form-control form-control-user
+                                                        @error('description_en') is-invalid @enderror" placeholder="{{ __('Enter Description In English') }}">{{ $coupon->description_en }}</textarea>
                                                         @error('description_en')
                                                         <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>

@@ -25,8 +25,8 @@ class CategoryDataTable extends DataTable
             ->addColumn('action', function($row) use ($actions) {
                 $id = encrypt($row->id);
 
-                $b = $actions['update'] ? $this->getEditLink("admin.categories.edit", $row->slug, $id) : '';
-                $b = $b .= $actions['show'] ? $this->getShowLink("admin.categories.show", $row->slug, $id) : '';
+                $b = $actions['update'] ? $this->getEditLink("admin.categories.edit", $id) : '';
+                $b = $b .= $actions['show'] ? $this->getShowLink("admin.categories.show", $id) : '';
                 $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.categories.destroy", $id) : '';
                 return $b;
             })

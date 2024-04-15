@@ -27,8 +27,8 @@ class TagDataTable extends DataTable
         return (new EloquentDataTable($query, $actions))
             ->addColumn('action', function($row) use($actions) {
                 $id = encrypt($row->id);
-                $b = $actions['update'] ? $this->getEditLink("admin.tags.edit", $row->slug, $id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.tags.show", $row->slug, $id) : '';
+                $b = $actions['update'] ? $this->getEditLink("admin.tags.edit", $id) : '';
+                $b = $b.= $actions['show'] ? $this->getShowLink("admin.tags.show", $id) : '';
                 $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.tags.destroy", $id) : '';
                 return $b;
             })

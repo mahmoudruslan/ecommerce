@@ -57,7 +57,7 @@ class UserController extends Controller
         }
     }
 
-    public function show($slug, $id)
+    public function show($id)
     {
         dd('show user');
 
@@ -71,7 +71,7 @@ class UserController extends Controller
         }
     }
 
-    public function edit( $slug, $id)
+    public function edit( $id)
     {
         try {
             $this->checkAbility(['update-users']);

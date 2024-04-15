@@ -38,13 +38,13 @@ trait HTMLTrait {
         }
     }
 
-    public function getEditLink($route, $slug, $id)
+    public function getEditLink($route, $id)
     {
-        return '<div role="group" aria-label="Basic example" class="btn-group" style="width: 150px"> <a href=" ' . route($route, [$slug, $id]) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
+        return '<div role="group" aria-label="Basic example" class="btn-group" style="width: 150px"> <a href=" ' . route($route,  $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
     }
-    public function getShowLink($route, $slug, $id)
+    public function getShowLink($route, $id)
     {
-        return '<a href=" ' . route($route, [$slug, $id]) . '" class=" btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
+        return '<a href=" ' . route($route, $id) . '" class=" btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
     }
     public function getDeleteLink($route, $id)
     {

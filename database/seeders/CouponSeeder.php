@@ -24,7 +24,7 @@ class CouponSeeder extends Seeder
                         'use_times' => 20,
                         'start_date' => Carbon::now(),
                         'expire_date' => Carbon::now()->addMonth(),
-                        'generate_than' => 600,
+                        'greater_than' => 600,
                 ]);
                 Coupon::create([
                         'code' => '3edfetr200',
@@ -35,7 +35,7 @@ class CouponSeeder extends Seeder
                         'use_times' => 20,
                         'start_date' => Carbon::now(),
                         'expire_date' => Carbon::now()->addMonth(),
-                        'generate_than' => 600,
+                        'greater_than' => 600,
                 ]);
         }
 }

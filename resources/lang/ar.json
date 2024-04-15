@@ -165,6 +165,8 @@
     "Description In Arabic": "الوصف بالعربية",
     "Enter Description In Arabic": "أدخل الوصف بالعربية",
     "Active": "نشط",
+    "Inactive": "غير نشط",
+
     "Action": "الإجراءات",
     "Enter Quantity": "الكمية",
     "Enter Price": "السعر",

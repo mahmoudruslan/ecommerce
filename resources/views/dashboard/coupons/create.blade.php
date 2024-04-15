@@ -45,7 +45,7 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <select name="type" style="height:70%" class="form-control">
+                                                        <select name="type" style="height:70%" class="form-control @error('type') is-invalid @enderror" >
                                                             <option disabled selected>{{ __('Choose type') }}</option>
                                                             <option value="fixed">{{ __('Fixed') }}</option>
                                                             <option value="percentage">{{ __('Percentage') }}</option>
@@ -58,7 +58,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="greater_than" value="{{ old('greater_than') }}" class="form-control form-control-user @error('greater_than') is-invalid @enderror" placeholder="    {{ __('Greater than') }}">
+                                                            <input type="text" name="greater_than" value="{{ old('greater_than') }}" class="form-control form-control-user @error('greater_than') is-invalid @enderror" placeholder="{{ __('Greater than') }}">
                                                             @error('greater_than')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -70,7 +70,7 @@
 
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <input type="text" name="use_times" value="{{ old('use_times') }}" class="form-control form-control-user @error('use_times') is-invalid @enderror" placeholder="    {{ __('Use times') }}">
+                                                        <input type="text" name="use_times" value="{{ old('use_times') }}" class="form-control form-control-user @error('use_times') is-invalid @enderror" placeholder="{{ __('Use times') }}">
                                                         @error('use_times')
                                                         <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
@@ -78,7 +78,7 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="text" name="used_times" value="{{ old('used_times') }}" class="form-control form-control-user @error('used_times') is-invalid @enderror" placeholder="    {{  __('Used times') }}">
+                                                        <input type="text" name="used_times" value="{{ old('used_times') }}" class="form-control form-control-user @error('used_times') is-invalid @enderror" placeholder="{{  __('Used times') }}">
                                                         @error('used_times')
                                                         <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
@@ -89,7 +89,8 @@
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="start_date" value="{{ old('start_date') }}" class="form-control form-control-user @error('start_date') is-invalid @enderror" placeholder="    {{ __('Start date') }}">
+                                                            <label><small>{{ __('Start date') }}</small></label>
+                                                            <input type="date" name="start_date" value="{{ old('start_date') }}" class="form-control form-control-user @error('start_date') is-invalid @enderror">
                                                             @error('start_date')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -99,7 +100,8 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="expire_date" value="{{ old('expire_date') }}" class="form-control form-control-user @error('expire_date') is-invalid @enderror" placeholder="    {{ __('Expire date') }}">
+                                                            <label><small>{{ __('Expire date') }}</small></label>
+                                                            <input type="date" name="expire_date" value="{{ old('expire_date') }}" class="form-control form-control-user @error('expire_date') is-invalid @enderror">
                                                             @error('expire_date')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
