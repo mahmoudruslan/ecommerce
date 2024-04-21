@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\BaseController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\CouponController;
 use App\Http\Controllers\Dashboard\ProductController;
+use App\Http\Controllers\Dashboard\ReviewController;
 use App\Http\Controllers\Dashboard\TagController;
 
 /*
@@ -40,6 +41,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
         Route::resource('coupons', CouponController::class);
         //tags routes
         Route::resource('tags', TagController::class);
+        //tags routes
+        Route::resource('reviews', ReviewController::class);
     });
 });
 

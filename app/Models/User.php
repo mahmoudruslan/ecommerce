@@ -70,4 +70,10 @@ class User extends Authenticatable  implements MustVerifyEmail
     {
         return ucfirst($this->first_name . ' ' . $this->last_name);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
 }

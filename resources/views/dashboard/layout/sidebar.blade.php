@@ -137,6 +137,23 @@
                 </div>
             </li>
             @endcanany
+            {{-- reviews --}}
+            @canany(['reviews','store-reviews', 'update-reviews', 'show-reviews','delete-reviews'])
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReviews"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>{{__('Reviews')}}</span>
+                </a>
+                <div id="collapseReviews" class="collapse @if($route == 'reviews') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">{{__('Reviews Screens:')}} </h6>
+                        <a class="collapse-item" href="{{route('admin.reviews.index')}}">{{__('Reviews')}}</a>
+                    </div>
+                </div>
+            </li>
+            @endcanany
             <!-- Heading -->
             <div class="sidebar-heading">
                 {{ __('Settings') }}

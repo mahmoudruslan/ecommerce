@@ -25,6 +25,7 @@ class RolePermissionSeeder extends Seeder
             'products','show-products','delete-products','update-products','store-products',
             'tags','show-tags','delete-tags','update-tags','store-tags',
             'coupons','show-coupons','delete-coupons','update-coupons','store-coupons',
+            'reviews', 'show-reviews','delete-reviews'
         ];
 
         // Reset cached roles and permissions

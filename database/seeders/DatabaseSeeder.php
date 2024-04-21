@@ -20,16 +20,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolePermissionSeeder::class,
             TagSeeder::class,
-            MediaSeeder::class,
             CategorySeeder::class,
             CouponSeeder::class,
         ]);
         \App\Models\Product::factory(1000)->create();
-        $this->call([
-            ProductTagsSeeder::class,
-            ProductMediaSeeder::class,
-            CategoryTagsSeeder::class,
-        ]);
         \App\Models\User::factory(20)->create()->each(function($user){
             $user->assignRole('customer');
         });
@@ -67,14 +61,11 @@ class DatabaseSeeder extends Seeder
         ]);
         $employee->assignRole('employee');
 
-
-
-
-
-                // \App\Models\Category::factory(20)->create()->each(function($category){
-        //     $category->update([
-        //         'parent_id' => Category::all()->random()->id
-        //     ]);
-        // });
+        $this->call([
+            ProductTagsSeeder::class,
+            ProductMediaSeeder::class,
+            CategoryTagsSeeder::class,
+            ReviewSeeder::class,
+        ]);
     }
 }
