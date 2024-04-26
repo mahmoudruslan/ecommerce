@@ -101,13 +101,13 @@
                 </div>
             </li>
             @endcanany
-                        {{-- users --}}
+            {{-- users --}}
             @canany(['users','store-users', 'update-users', 'show-users','delete-users'])
                 <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>{{__('Users')}}</span>
                 </a>
                 <div id="collapseUsers" class="collapse @if($route == 'users') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -115,6 +115,24 @@
                         <h6 class="collapse-header">{{__('Users Screens:')}} </h6>
                         @can('store-users')<a class="collapse-item" href="{{route('admin.users.create')}}">{{__('Add Users')}}</a>@endcan
                         <a class="collapse-item" href="{{route('admin.users.index')}}">{{__('Users')}}</a>
+                    </div>
+                </div>
+            </li>
+            @endcanany
+            {{-- supervisors --}}
+            @canany(['supervisors','store-supervisors', 'update-supervisors', 'show-supervisors','delete-supervisors'])
+                <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSupervisors"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>{{__('Supervisors')}}</span>
+                </a>
+                <div id="collapseSupervisors" class="collapse @if($route == 'supervisors') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">{{__('Supervisors Screens:')}} </h6>
+                        @can('store-supervisors')<a class="collapse-item" href="{{route('admin.supervisors.create')}}">{{__('Add Supervisors')}}</a>@endcan
+                        <a class="collapse-item" href="{{route('admin.supervisors.index')}}">{{__('Supervisors')}}</a>
                     </div>
                 </div>
             </li>
@@ -143,7 +161,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReviews"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-fw fa-comment"></i>
                     <span>{{__('Reviews')}}</span>
                 </a>
                 <div id="collapseReviews" class="collapse @if($route == 'reviews') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">

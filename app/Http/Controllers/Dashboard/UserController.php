@@ -39,7 +39,7 @@ class UserController extends Controller
                 $path = 'images/users/';
                 $file_name = $this->saveImag($path, [$request->image]);
                 $this->resizeImage(400, null, $path, $file_name, $image);
-            $users = User::create([
+            $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'username' => $request->username,
@@ -49,6 +49,8 @@ class UserController extends Controller
                 'image' => $path . $file_name,
                 'password' => Hash::make('password'),
             ]);
+            $user->markEmailAsVerified();
+            $user->assignRole('customer');
             return redirect()->route('admin.users.index')->with([
                 'message' => __('Item Created successfully.'),
                 'alert-type' => 'success']);
@@ -95,6 +97,7 @@ class UserController extends Controller
                 $file_name = $this->saveImag($path, [$request->image]);
                 $this->resizeImage(300, null, $path, $file_name, $image);
             }
+            //no forget make password update optional
             $user->update([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -117,6 +120,7 @@ class UserController extends Controller
     public function destroy( $id)
     {
         try {
+            //make soft delete
             $this->checkAbility(['delete-users']);
             $user = User::findOrFail(Crypt::decrypt($id));
             $this->deleteFiles($user->image);

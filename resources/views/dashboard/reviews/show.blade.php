@@ -21,13 +21,29 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">{{ __("User") }}</th>
-                                    <td>{{ $review->user->full_name }} ({{ $review->user->email }})</td>
+                                    <td>{{ $review->user ? $review->user->full_name . ($review->user->email) : $review->name}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">{{ __("Product") }}</th>
-                                    <td>Mark</td>
+                                    <td>{{ $review->product['name_'. app()->getLocale()] }}</td>
                                 </tr>
-                            
+                                <tr>
+                                    <th scope="row">{{ __("Description") }}</th>
+                                    <td>{{ $review->body }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">{{ __("Title") }}</th>
+                                    <td>{{ $review->title }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">{{ __("Status") }}</th>
+                                    <td>{{ $review->status }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">{{ __("Rating") }}</th>
+                                    <td>{{ $review->rating }}</td>
+                                </tr>
+
                             </tbody>
                         </table>
                     </div>

@@ -43,6 +43,7 @@
     "delete-roles": "حذف الصلاحيات",
     "update-roles": "تعديل الصلاحيات",
     "store-roles": "إضافة الصلاحيات",
+    "Choose Role": "اختر صلاحية",
 
     "First Name": "الإسم الأول",
     "Last Name": "الاسم الأخير",
@@ -55,6 +56,16 @@
     "delete-users": "حذف المستخدمين",
     "update-users": "تعديل المستخدمين",
     "store-users": "إضافة المستخدمين",
+
+    "Supervisors": "المشرفين",
+    "Add Supervisors": "إضافة مشرفين",
+    "Edit Supervisors": "تعديل المشرفين",
+    "Edit Supervisor": "تعديل المستخدم",
+    "Supervisors Screens:": "شاشات المشرفين :",
+    "show-supervisors": "عرض المشرفين",
+    "delete-supervisors": "حذف المشرفين",
+    "update-supervisors": "تعديل المشرفين",
+    "store-supervisors": "إضافة المشرفين",
 
     "Category": "القسم",
     "show-categories": "عرض الأقسام",

@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\CouponController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ReviewController;
+use App\Http\Controllers\Dashboard\SupervisorController;
 use App\Http\Controllers\Dashboard\TagController;
 
 /*
@@ -27,10 +28,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::get('forget-password', [AuthController::class, 'showForgetPasswordForm'])->name('password.request')->middleware('guest');
     Route::middleware(['auth', 'if_customer'])
     ->group( function () {
+        //main dashboard routes
         Route::get('/', [BaseController::class, 'dashboard'])->name('dashboard');
+        //roles and permissions routes
         Route::resource('permission-roles', RolePermissionController::class);
+        //users routes
         Route::resource('users', UserController::class);
         Route::post('/users/delete-image/{user_id}', [UserController::class, 'removeImage'])->name('users.remove-image');
+        //supervisor routes
+        Route::resource('supervisors', SupervisorController::class);
+        Route::post('/supervisors/delete-image/{product_id}', [SupervisorController::class, 'removeImage'] )->name('supervisors.remove-image');
         //categories routes
         Route::resource('categories', CategoryController::class);
         Route::post('/categories/delete-image/{category_id}', [CategoryController::class, 'removeImage'])->name('categories.remove-image');

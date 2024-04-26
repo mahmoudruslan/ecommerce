@@ -17,7 +17,7 @@
                 @csrf
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">{{ __("Cancel") }}</button>
-                    <button class="btn btn-danger" type="submit">{{ __("Delete") }}</button>
+                    <button class="btn btn-danger" type="submit">{{ __("Logout") }}</button>
                 </div>
                 </form>
             </div>

@@ -1,7 +1,7 @@
 @extends('dashboard.layout.master')
 
 @section('title')
-    {{ __('Edit Users') }}
+    {{ __('Edit Supervisor') }}
 @endsection
 @section('content')
     <!-- Content Wrapper -->
@@ -21,14 +21,14 @@
                                     <div class="col-lg-12">
                                         <div class="p-5">
                                             <div class="text-center">
-                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }} : {{ __($user->fullName) }}</h1>
+                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }} : {{ __($supervisor->fullName) }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.users.update', encrypt($user->id)) }}" method="POST" class="user"  enctype="multipart/form-data">
+                                            <form action="{{ route('admin.supervisors.update', encrypt($supervisor->id)) }}" method="POST" class="user"  enctype="multipart/form-data">
                                                 @csrf
                                                 @method('patch')
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <input type="text" name="first_name" value="{{ $user->first_name }}" class="form-control form-control-user @error('first_name') is-invalid @enderror" placeholder="{{ __('Enter First Name') }}">
+                                                        <input type="text" name="first_name" value="{{ $supervisor->first_name }}" class="form-control form-control-user @error('first_name') is-invalid @enderror" placeholder="{{ __('Enter First Name') }}">
                                                         @error('first_name')
                                                         <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
@@ -36,7 +36,7 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="text" name="last_name" value="{{ $user->last_name }}" class="form-control form-control-user @error('last_name') is-invalid @enderror" placeholder="{{ __('Enter Last Name') }}">
+                                                        <input type="text" name="last_name" value="{{ $supervisor->last_name }}" class="form-control form-control-user @error('last_name') is-invalid @enderror" placeholder="{{ __('Enter Last Name') }}">
                                                         @error('last_name')
                                                         <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
@@ -47,7 +47,7 @@
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="username" value="{{ $user->username }}" class="form-control form-control-user @error('username') is-invalid @enderror" placeholder="   {{ __('Enter Username') }}">
+                                                            <input type="text" name="username" value="{{ $supervisor->username }}" class="form-control form-control-user @error('username') is-invalid @enderror" placeholder="   {{ __('Enter Username') }}">
                                                             @error('username')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -57,7 +57,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="email" value="{{ $user->email }}" class="form-control form-control-user @error('email') is-invalid @enderror" placeholder="   {{ __('Enter Email') }}">
+                                                            <input type="text" name="email" value="{{ $supervisor->email }}" class="form-control form-control-user @error('email') is-invalid @enderror" placeholder="   {{ __('Enter Email') }}">
                                                             @error('email')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -86,7 +86,7 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <input type="text" name="mobile" value="{{ $user->mobile }}" class="form-control form-control-user @error('mobile') is-invalid @enderror" placeholder="{{ __('Enter Phone Number') }}">
+                                                        <input type="text" name="mobile" value="{{ $supervisor->mobile }}" class="form-control form-control-user @error('mobile') is-invalid @enderror" placeholder="{{ __('Enter Phone Number') }}">
                                                         @error('mobile')
                                                         <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
@@ -96,7 +96,7 @@
                                                     <div class="col-md-6">
                                                         <div class="mt-3">
 
-                                                            <input {{ $user->status == 1 ? 'checked' : '' }} type="checkbox" name="status" value="1"  placeholder="{{ __('Enter Name In English') }}">
+                                                            <input {{ $supervisor->status == 1 ? 'checked' : '' }} type="checkbox" name="status" value="1"  placeholder="{{ __('Enter Name In English') }}">
                                                             <label>{{ __('Status') }}</label>
                                                         </div>
                                                         @error('status')
@@ -140,8 +140,8 @@
                     showCancel: false,
                     // required: true,
                     'initialPreview': [
-                        @if ($user->image)
-                            "{{ asset('storage/' . $user->image) }}",
+                        @if ($supervisor->image)
+                            "{{ asset('storage/' . $supervisor->image) }}",
                         @endif
                 ],
                 'initialPreviewFileType':'image',
@@ -150,8 +150,8 @@
                 'initialPreviewConfig':[{
                             size: '1111',
                             width: '120px',
-                            url: "{{ route('admin.users.remove-image', [$user->id , '_token' => csrf_token()]) }}",
-                            key: {{ $user->id }}
+                            url: "{{ route('admin.supervisors.remove-image', [$supervisor->id , '_token' => csrf_token()]) }}",
+                            key: {{ $supervisor->id }}
                         }]
             });
         </script>

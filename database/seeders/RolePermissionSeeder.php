@@ -17,9 +17,11 @@ class RolePermissionSeeder extends Seeder
      */
     public function run()
     {
+
         $all_permissions = [
             'main',
             'users','show-users','delete-users','update-users','store-users',
+            'supervisors','show-supervisors','delete-supervisors','update-supervisors','store-supervisors',
             'roles','show-roles','delete-roles','update-roles','store-roles',
             'categories','show-categories','delete-categories','update-categories','store-categories',
             'products','show-products','delete-products','update-products','store-products',
@@ -40,9 +42,10 @@ class RolePermissionSeeder extends Seeder
         Permission::insert($permissions->toArray());
 
         Role::create(['name' => 'super-admin']);
+        Role::create(['name' => 'customer']);
         $admin_role = Role::create(['name' => 'admin']);
         $employee_role = Role::create(['name' => 'employee']);
-        $customer = Role::create(['name' => 'customer']);
+
         $admin_role->givePermissionTo([ 'users', 'roles', 'main', 'update-roles']);
         $employee_role->givePermissionTo(['products', 'categories', 'tags']);
     }

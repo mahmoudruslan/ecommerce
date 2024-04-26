@@ -66,6 +66,7 @@ class DatabaseSeeder extends Seeder
             ProductMediaSeeder::class,
             CategoryTagsSeeder::class,
             ReviewSeeder::class,
+            GovernorateCitiesSeeder::class,
         ]);
     }
 }

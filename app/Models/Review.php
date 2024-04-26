@@ -20,4 +20,8 @@ class Review extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function getStatusAttribute($value){
+        return $value ? __('Active') : __('Not active');
+    }
 }
