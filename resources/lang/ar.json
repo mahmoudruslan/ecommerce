@@ -59,6 +59,7 @@
 
     "Supervisors": "المشرفين",
     "Add Supervisors": "إضافة مشرفين",
+    "Add Supervisor": "إضافة مشرفين",
     "Edit Supervisors": "تعديل المشرفين",
     "Edit Supervisor": "تعديل المستخدم",
     "Supervisors Screens:": "شاشات المشرفين :",
@@ -112,6 +113,30 @@
     "Edit Products": "تعديل المنتجات",
     "Edit Product": "تعديل المنتج",
     "Product Count": "عدد المنتجات",
+
+    "Governorate": "المحافظة",
+    "show-governorates": "عرض المحافظات",
+    "delete-governorates": "حذف المحافظات",
+    "update-governorates": "تعديل المحافظات",
+    "Governorates": "المحافظات",
+    "Governorates Screens:": "شاشات المحافظات :",
+    "Edit governorates": "تعديل المحافظات",
+    "Show governorate": "عرض محافظة",
+    "Add governorates": "إضافة محافظات",
+
+    "Citiy": "المدينة",
+    "show-cities": "عرض المدن",
+    "delete-cities": "حذف المدن",
+    "update-cities": "تعديل المدن",
+    "Cities": "المدن",
+    "Cities Screens:": "شاشات المدن :",
+    "Edit cities": "تعديل المدن",
+    "Edit citiy": "تعديل المنتج",
+    "Show citiy": "عرض مدينة",
+    "Add cities": "إضافة مدن",
+    "Choose governorate": "اختر محافظة",
+
+
 
     "Review": "المراجعة",
     "show-reviews": "عرض المراجعات",

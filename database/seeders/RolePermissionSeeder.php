@@ -27,6 +27,8 @@ class RolePermissionSeeder extends Seeder
             'products','show-products','delete-products','update-products','store-products',
             'tags','show-tags','delete-tags','update-tags','store-tags',
             'coupons','show-coupons','delete-coupons','update-coupons','store-coupons',
+            'governorates','show-governorates','delete-governorates','update-governorates','store-governorates',
+            'cities','show-cities','delete-cities','update-cities','store-cities',
             'reviews', 'show-reviews','delete-reviews'
         ];
 

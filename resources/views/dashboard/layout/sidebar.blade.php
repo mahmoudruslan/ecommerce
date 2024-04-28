@@ -35,7 +35,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategory"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-boxes"></i>
                     <span>{{__('Categories')}}</span>
                 </a>
                 <div id="collapseCategory" class="collapse @if($route == 'categories') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -53,7 +53,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTag"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-pen"></i>
                     <span>{{__('Tags')}}</span>
                 </a>
                 <div id="collapseTag" class="collapse @if($route == 'tags') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -71,7 +71,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProducts"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-store"></i>
                     <span>{{__('Products')}}</span>
                 </a>
                 <div id="collapseProducts" class="collapse @if($route == 'products') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -89,7 +89,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSettings"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-low-vision"></i>
                     <span>{{__('Roles and permissions')}}</span>
                 </a>
                 <div id="collapseSettings" class="collapse @if($route == 'permission-role') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -125,7 +125,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSupervisors"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-users"></i>
+                    <i class="fas fa-user-cog"></i>
                     <span>{{__('Supervisors')}}</span>
                 </a>
                 <div id="collapseSupervisors" class="collapse @if($route == 'supervisors') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -143,7 +143,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCoupons"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-money-check-alt"></i>
                     <span>{{__('Coupons')}}</span>
                 </a>
                 <div id="collapseCoupons" class="collapse @if($route == 'coupons') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -151,6 +151,41 @@
                         <h6 class="collapse-header">{{__('Coupons Screens:')}} </h6>
                         @can('store-coupons')<a class="collapse-item" href="{{route('admin.coupons.create')}}">{{__('Add coupons')}}</a>@endcan
                         <a class="collapse-item" href="{{route('admin.coupons.index')}}">{{__('Coupons')}}</a>
+                    </div>
+                </div>
+            </li>
+            @endcanany
+            {{-- governorates --}}
+            @canany(['governorates','store-governorates', 'update-governorates', 'show-governorates','delete-governorates'])
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGovernorates"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    {{-- <i class="fa fa-map-marker"></i> --}}
+                    <i class="fa fa-map-marker-alt"></i>
+                    <span>{{__('Governorates')}}</span>
+                </a>
+                <div id="collapseGovernorates" class="collapse @if($route == 'governorates') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">{{__('Governorates Screens:')}} </h6>
+                        <a class="collapse-item" href="{{route('admin.governorates.index')}}">{{__('Governorates')}}</a>
+                    </div>
+                </div>
+            </li>
+            @endcanany
+            {{-- cities --}}
+            @canany(['cities','store-cities', 'update-cities', 'show-cities','delete-cities'])
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCities"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-map-pin"></i>
+                    <span>{{__('Cities')}}</span>
+                </a>
+                <div id="collapseCities" class="collapse @if($route == 'cities') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">{{__('Cities Screens:')}} </h6>
+                        <a class="collapse-item" href="{{route('admin.cities.index')}}">{{__('Cities')}}</a>
                     </div>
                 </div>
             </li>

@@ -31,7 +31,7 @@
                                                         <input type="text" name="first_name"
                                                             value="{{ old('first_name') }}"
                                                             class="form-control form-control-user @error('first_name') is-invalid @enderror"
-                                                            placeholder="{{ __('Enter First Name') }}">
+                                                            placeholder="{{ __('First Name') }}">
                                                         @error('first_name')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -42,7 +42,7 @@
                                                         <input type="text" name="last_name"
                                                             value="{{ old('last_name') }}"
                                                             class="form-control form-control-user @error('last_name') is-invalid @enderror"
-                                                            placeholder="{{ __('Enter Last Name') }}">
+                                                            placeholder="{{ __('Last Name') }}">
                                                         @error('last_name')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -56,7 +56,7 @@
                                                             <input type="text" name="username"
                                                                 value="{{ old('username') }}"
                                                                 class="form-control form-control-user @error('username') is-invalid @enderror"
-                                                                placeholder="   {{ __('Enter Username') }}">
+                                                                placeholder="   {{ __('Username') }}">
                                                             @error('username')
                                                                 <span class="text-danger" role="alert">
                                                                     <small>{{ $message }}</small>
@@ -69,7 +69,7 @@
                                                             <input type="text" name="email"
                                                                 value="{{ old('email') }}"
                                                                 class="form-control form-control-user @error('email') is-invalid @enderror"
-                                                                placeholder="   {{ __('Enter Email') }}">
+                                                                placeholder="   {{ __('Email') }}">
                                                             @error('email')
                                                                 <span class="text-danger" role="alert">
                                                                     <small>{{ $message }}</small>
@@ -82,7 +82,7 @@
                                                     <div class="col-md-6">
                                                         <input type="password" name="password"
                                                             class="form-control form-control-user @error('password') is-invalid @enderror"
-                                                            placeholder="{{ __('Enter Password') }}">
+                                                            placeholder="{{ __('Password') }}">
                                                         @error('password')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -92,7 +92,7 @@
                                                     <div class="col-md-6">
                                                         <input type="password" name="password_confirmation"
                                                             class="form-control form-control-user"
-                                                            placeholder="{{ __('Confirm Password') }}">
+                                                            placeholder="{{ __('Confirm password') }}">
                                                         @error('confirm')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -104,7 +104,7 @@
                                                     <div class="col-md-6">
                                                         <input type="text" name="mobile" value="{{ old('mobile') }}"
                                                             class="form-control form-control-user @error('mobile') is-invalid @enderror"
-                                                            placeholder="{{ __('Enter Phone Number') }}">
+                                                            placeholder="{{ __('Phone number') }}">
                                                         @error('mobile')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -112,7 +112,7 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <select name="role" class="form-control" style="height: 100%">
+                                                        <select name="role" class="form-control select-radius">
                                                             <option selected disabled>{{ __('Choose Role') }}</option>
                                                             @foreach ($roles as $role)
                                                                 <option value="{{ $role->name }}">{{ $role->name }}
@@ -132,7 +132,7 @@
                                                         <div class="col-md-6">
                                                             <div class="mt-3">
                                                                 <input type="checkbox" name="status" value="1"
-                                                                    placeholder="{{ __('Enter Name In English') }}">
+                                                                    placeholder="{{ __('Name In English') }}">
                                                                 <label>{{ __('Status') }}</label>
                                                             </div>
                                                             @error('status')

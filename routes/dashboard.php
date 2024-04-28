@@ -6,11 +6,14 @@ use App\Http\Controllers\Dashboard\RolePermissionController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\BaseController;
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\CityController;
 use App\Http\Controllers\Dashboard\CouponController;
+use App\Http\Controllers\Dashboard\GovernorateController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ReviewController;
 use App\Http\Controllers\Dashboard\SupervisorController;
 use App\Http\Controllers\Dashboard\TagController;
+use App\Models\Governorate;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +53,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
         Route::resource('tags', TagController::class);
         //tags routes
         Route::resource('reviews', ReviewController::class);
+        //governorate routes
+        Route::resource('governorates', GovernorateController::class);
+        //city routes
+        Route::resource('cities', CityController::class);
     });
 });
 
