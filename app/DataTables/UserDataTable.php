@@ -24,11 +24,13 @@ class UserDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         $actions = $this->actionsAbility('users');
+        $actions['store'] = $this->checkAbility(['store-users']);
         return (new EloquentDataTable($query, $actions))
             ->addColumn('action', function($row) use($actions) {
                 $id = encrypt($row->id);
                 $b = $actions['update'] ? $this->getEditLink("admin.users.edit", $id) : '';
                 $b = $b.= $actions['show'] ? $this->getShowLink("admin.users.show", $id) : '';
+                $b = $b.= $actions['store'] ? '<a href="'. route('admin.user-addresses.create-address', $id) .'" class="btn btn-primary btn-sm"><i class="fa fa-map-marker-alt"></i></a>' : '';
                 $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.users.destroy", $id) : '';
                 return $b;
             })

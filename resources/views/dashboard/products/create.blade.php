@@ -1,7 +1,7 @@
 @extends('dashboard.layout.master')
 
 @section('title')
-    {{ __('Add Products') }}
+ {{ __('Add Products') }}
 @endsection
 @section('content')
     <!-- Content Wrapper -->
@@ -27,7 +27,7 @@
                                                 @csrf
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <input type="text" name="name_ar" value="{{ old('name_ar') }}" class="form-control form-control-user @error('name_ar') is-invalid @enderror" placeholder="    {{ __('Enter Name In Arabic') }}">
+                                                        <input type="text" name="name_ar" value="{{ old('name_ar') }}" class="form-control form-control-user @error('name_ar') is-invalid @enderror" placeholder=" {{ __('Enter Name In Arabic') }}">
                                                         @error('name_ar')
                                                         <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
@@ -35,7 +35,7 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="text" name="name_en" value="{{ old('name_en') }}" class="form-control form-control-user @error('name_en') is-invalid @enderror" placeholder="    {{  __('Enter Name In English') }}">
+                                                        <input type="text" name="name_en" value="{{ old('name_en') }}" class="form-control form-control-user @error('name_en') is-invalid @enderror" placeholder=" {{  __('Enter Name In English') }}">
                                                         @error('name_en')
                                                         <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
@@ -46,7 +46,7 @@
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="price" value="{{ old('price') }}" class="form-control form-control-user @error('price') is-invalid @enderror" placeholder="    {{ __('Enter Price') }}">
+                                                            <input type="text" name="price" value="{{ old('price') }}" class="form-control form-control-user @error('price') is-invalid @enderror" placeholder=" {{ __('Enter Price') }}">
                                                             @error('price')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -56,7 +56,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="quantity" value="{{ old('quantity') }}" class="form-control form-control-user @error('quantity') is-invalid @enderror" placeholder="    {{ __('Enter Quantity') }}">
+                                                            <input type="text" name="quantity" value="{{ old('quantity') }}" class="form-control form-control-user @error('quantity') is-invalid @enderror" placeholder=" {{ __('Enter Quantity') }}">
                                                             @error('quantity')
                                                             <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
@@ -67,8 +67,8 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <textarea rows="1" style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_ar" value="{{ old('description_ar') }}" class="form-control form-control-user
-                                                        @error('description_ar') is-invalid @enderror" placeholder="   {{ __('Enter Description In Arabic') }}"></textarea>
+                                                        <textarea rows="1" style="background-position: 0%" type="text" name="description_ar" value="{{ old('description_ar') }}" class="form-control form-control-user
+                                                        @error('description_ar') is-invalid @enderror" placeholder="{{ __('Enter Description In Arabic') }}"></textarea>
                                                         @error('description_ar')
                                                         <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
@@ -76,8 +76,8 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <textarea rows="1"  style="background-position: top calc(0.375em + 2.1875rem) right calc(0.375em + 0.1875rem);" type="text" name="description_en" value="{{ old('description_en') }}" class="form-control form-control-user
-                                                        @error('description_en') is-invalid @enderror" placeholder="   {{ __('Enter Description In English') }}"></textarea>
+                                                        <textarea rows="1"  style="background-position: 0%" type="text" name="description_en" value="{{ old('description_en') }}" class="form-control form-control-user
+                                                        @error('description_en') is-invalid @enderror" placeholder="{{ __('Enter Description In English') }}"></textarea>
                                                         @error('description_en')
                                                         <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
@@ -116,7 +116,7 @@
                                                     <div class="col-md-6">
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <input type="checkbox" value="1" name="featured" class="checkbox @error('featured') is-invalid @enderror" placeholder="    {{ __('Enter Featured') }}">
+                                                                <input type="checkbox" value="1" name="featured" class="checkbox @error('featured') is-invalid @enderror" placeholder=" {{ __('Enter Featured') }}">
                                                                 <label><small>{{ __('Featured') }}</small></label>
                                                                 @error('featured')
                                                                 <span class="text-danger" role="alert">
@@ -152,7 +152,7 @@
                                                 <br>
                                                 <hr>
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
-                                                        {{ __('Save') }}
+                                                     {{ __('Save') }}
                                                     </button>
                                                 </form>
                                             </div>

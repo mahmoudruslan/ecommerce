@@ -57,6 +57,26 @@
     "update-users": "تعديل المستخدمين",
     "store-users": "إضافة المستخدمين",
 
+
+    "Users addresses": "عناوين المستخدمين",
+    "Add user address": "إضافة عنوان للمستخدم",
+    "Add address to": "إضافة عنوان لـ",
+    "Edit address to": "تعديل عنوان ",
+    "Edit user address": "تعديل عنوان المستخدم",
+    "Users addresses screens:": "شاشات عناوين المستخدمين :",
+    "show-user-addresses": "عرض عناويين المستخدمين",
+    "delete-user-addresses": "حذف عناويين المستخدمين",
+    "update-user-addresses": "تعديل عناويين المستخدمين",
+    "store-user-addresses": "إضافة عناويين المستخدمين",
+    "Address in arabic": "العنوان بالعربية",
+    "Address in english": "العنوان بالإنجليزية",
+    "Second address in arabic": "العنوان الثاني بالعربية",
+    "Second address in english": "العنوان الثاني بالإنجليزية",
+
+    "Address title in arabic": "عنوان العنوان بالعربية",
+    "Address title in english": "عنوان العنوان بالإنجليزية",
+    "Default address": "العنوان الافتراضى",
+
     "Supervisors": "المشرفين",
     "Add Supervisors": "إضافة مشرفين",
     "Add Supervisor": "إضافة مشرفين",
@@ -124,7 +144,7 @@
     "Show governorate": "عرض محافظة",
     "Add governorates": "إضافة محافظات",
 
-    "Citiy": "المدينة",
+    "City": "المدينة",
     "show-cities": "عرض المدن",
     "delete-cities": "حذف المدن",
     "update-cities": "تعديل المدن",
@@ -135,6 +155,7 @@
     "Show citiy": "عرض مدينة",
     "Add cities": "إضافة مدن",
     "Choose governorate": "اختر محافظة",
+    "Choose city": "اختر محافظة",
 
 
 
@@ -194,6 +215,7 @@
     "Message Center": "الرسائل",
     "Add to cart": "أضف إلى السلة",
     "Related products": "منتجات ذات صلة",
+    "Optional": "اختيارى",
 
 
     "Description": "الوصف",

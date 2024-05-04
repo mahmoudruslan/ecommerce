@@ -13,7 +13,8 @@ use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ReviewController;
 use App\Http\Controllers\Dashboard\SupervisorController;
 use App\Http\Controllers\Dashboard\TagController;
-use App\Models\Governorate;
+use App\Http\Controllers\Dashboard\UserAddressController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,31 +33,25 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::middleware(['auth', 'if_customer'])
     ->group( function () {
         //main dashboard routes
-        Route::get('/', [BaseController::class, 'dashboard'])->name('dashboard');
-        //roles and permissions routes
-        Route::resource('permission-roles', RolePermissionController::class);
-        //users routes
-        Route::resource('users', UserController::class);
-        Route::post('/users/delete-image/{user_id}', [UserController::class, 'removeImage'])->name('users.remove-image');
-        //supervisor routes
-        Route::resource('supervisors', SupervisorController::class);
-        Route::post('/supervisors/delete-image/{product_id}', [SupervisorController::class, 'removeImage'] )->name('supervisors.remove-image');
-        //categories routes
-        Route::resource('categories', CategoryController::class);
-        Route::post('/categories/delete-image/{category_id}', [CategoryController::class, 'removeImage'])->name('categories.remove-image');
-        //products routes
-        Route::resource('products', ProductController::class);
-        Route::post('/products/delete-image/{product_id}', [ProductController::class, 'removeImage'] )->name('products.remove-image');
-        //coupon
-        Route::resource('coupons', CouponController::class);
-        //tags routes
-        Route::resource('tags', TagController::class);
-        //tags routes
-        Route::resource('reviews', ReviewController::class);
-        //governorate routes
-        Route::resource('governorates', GovernorateController::class);
-        //city routes
-        Route::resource('cities', CityController::class);
+        Route::view('/', 'dashboard.index')->name('dashboard');//main page
+        Route::post('/users/delete-image/{user_id}', [UserController::class, 'removeImage'])->name('users.remove-image');//delete user image
+        Route::post('/supervisors/delete-image/{product_id}', [SupervisorController::class, 'removeImage'] )->name('supervisors.remove-image');//delete supervisor image
+        Route::post('/categories/delete-image/{category_id}', [CategoryController::class, 'removeImage'])->name('categories.remove-image');//delete category image
+        Route::post('/products/delete-image/{product_id}', [ProductController::class, 'removeImage'] )->name('products.remove-image');//delete product image
+        Route::get('/user-addresses/create/{user_id}', [UserAddressController::class, 'createAddress'] )->name('user-addresses.create-address');//delete product image
+        Route::resources([
+            'permission-roles' => RolePermissionController::class,//roles and permissions routes
+            'users' => UserController::class,//users routes
+            'supervisors' => SupervisorController::class,//supervisor routes
+            'categories' => CategoryController::class,//categories routes
+            'products' => ProductController::class,//products routes
+            'coupons' => CouponController::class,//coupon routes
+            'tags' => TagController::class,//tags routes
+            'reviews' => ReviewController::class,//tags routes
+            'governorates' => GovernorateController::class,//governorate routes
+            'cities' => CityController::class,//city routes
+            'user-addresses' => UserAddressController::class,//user_address routes
+        ]);
     });
 });
 

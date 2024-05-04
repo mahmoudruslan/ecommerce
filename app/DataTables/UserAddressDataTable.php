@@ -2,17 +2,17 @@
 
 namespace App\DataTables;
 
-use App\Models\Tag;
+use App\Models\UserAddress;
 use App\Traits\Helper;
+use App\Traits\HTMLTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
-use App\Traits\HTMLTrait;
 
-class TagDataTable extends DataTable
+class UserAddressDataTable extends DataTable
 {
     use HTMLTrait, Helper;
     /**
@@ -23,31 +23,37 @@ class TagDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('tags');
+        $actions = $this->actionsAbility('user-addresses');
         return (new EloquentDataTable($query, $actions))
             ->addColumn('action', function($row) use($actions) {
                 $id = encrypt($row->id);
-                $b = $actions['update'] ? $this->getEditLink("admin.tags.edit", $id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.tags.show", $id) : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.tags.destroy", $id) : '';
+                $b = $actions['update'] ? $this->getEditLink("admin.user-addresses.edit", $id) : '';
+                $b = $b.= $actions['show'] ? $this->getShowLink("admin.user-addresses.show", $id) : '';
+                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.user-addresses.destroy", $id) : '';
                 return $b;
             })
-            ->editColumn('status', function($row){
-                return $this->getStatusIcon($row->status);
+            ->editColumn('user_id', function($row){
+                return $row->user->fullName;
+            })
+            ->editColumn('governorate_id', function($row){
+                return $row->governorate['name_'. app()->getLocale()];
+            })
+            ->editColumn('city_id', function($row){
+                return $row->city['name_'. app()->getLocale()];
             })
             ->editColumn('created_at', function($row){
                 return date('Y-m-d', strtotime($row->created_at));
             })
-            ->rawColumns(['status', 'action']);
+            ->rawColumns(['user_id', 'action']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Tag $model
+     * @param \App\Models\UserAddress $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Tag $model): QueryBuilder
+    public function query(UserAddress $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -60,11 +66,11 @@ class TagDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('tag-table')
+                    ->setTableId('useraddress-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(0)
+                    ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -84,15 +90,26 @@ class TagDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
+            
             Column::make('id'),
-            Column::make('name_ar')->title(__('Name In Arabic')),
-            Column::make('name_en')->title(__('Name In English')),
-            Column::make('slug')->title(__('Slug')),
-            Column::make('status')->title(__('Status')),
+            Column::make('user_id')->title(__('User')),
+            Column::make('default_address')->title(__('Default address')),
+            Column::make('address_title_en')->title(__('Address title in english')),
+            Column::make('address_title_ar')->title(__('Address title in arabic')),
+            Column::make('first_name')->title(__('First name')),
+            Column::make('last_name')->title(__('Last name')),
+            Column::make('email')->title(__('Email')),
+            Column::make('mobile')->title(__('Mobile')),
+            Column::make('address_ar')->title(__('Address in arabic')),
+            Column::make('address_en')->title(__('Address in english')),
+            Column::make('address2_ar')->title(__('Second address in arabic')),
+            Column::make('address2_en')->title(__('Second address in english')),
+            Column::make('governorate_id')->title(__('Governorate')),
+            Column::make('city_id')->title(__('City')),
+            Column::make('zip_code')->title(__('zip_code')),
+            Column::make('po_box')->title(__('po_box')),
             Column::make('created_at')->title(__('Created At')),
-            // Column::make('updated_at'),
-            Column::computed('action')->title(__('Action'))
+            Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
@@ -107,6 +124,6 @@ class TagDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Tag_' . date('YmdHis');
+        return 'UserAddress_' . date('YmdHis');
     }
 }
