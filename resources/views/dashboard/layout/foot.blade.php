@@ -28,7 +28,7 @@
     <script src="{{asset('dashboard/vendor/bootstrap-file-input/js/fileinput.min.js')}}"></script>
     {{-- <script src="{{asset('dashboard/vendor/bootstrap-file-input/js/locales/ar.js')}}"></script> --}}
 
-
+    @livewireScripts
 
    <!--  data table -->
    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js" > </script>

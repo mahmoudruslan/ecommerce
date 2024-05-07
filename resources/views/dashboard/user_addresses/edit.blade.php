@@ -91,7 +91,7 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
+                                                {{-- <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <select name="governorate_id" class="form-control select-radius 
                                                         @error('governorate_id') is-invalid @enderror">
@@ -122,7 +122,8 @@
                                                             </span>
                                                         @enderror
                                                     </div>
-                                                </div>
+                                                </div> --}}
+                                                @livewire('cascading-dropdown', ['governorates'=> $governorates, $user_address])
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <input type="text" name="address_ar" value="{{ $user_address->address_ar }}" 
@@ -193,7 +194,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-check">
                                                                 <input value="1" class="form-check-input" type="radio" 
-                                                                name="default_address" id="flexRadioDefault1" checked>
+                                                                name="default_address" id="flexRadioDefault1" {{ $user_address->default_address == 1 ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="flexRadioDefault1">
                                                                 {{ __("Active") }}
                                                                 </label>
@@ -202,7 +203,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-check">
                                                                 <input value="0" class="form-check-input" type="radio" 
-                                                                name="default_address" id="flexRadioDefault2">
+                                                                name="default_address" id="flexRadioDefault2" {{ $user_address->default_address == 0 ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="flexRadioDefault2">
                                                                     {{ __("Inactive") }}
                                                                 </label>

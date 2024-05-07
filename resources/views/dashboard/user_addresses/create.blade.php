@@ -91,7 +91,7 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
+                                                {{-- <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <select name="governorate_id" class="form-control select-radius 
                                                         @error('governorate_id') is-invalid @enderror">
@@ -122,7 +122,9 @@
                                                             </span>
                                                         @enderror
                                                     </div>
-                                                </div>
+                                                </div> --}}
+                                                {{-- <livewire:cascading-dropdown /> --}}
+                                                @livewire('cascading-dropdown', ['governorates'=> $governorates, null])
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <input type="text" name="address_ar" value="{{ old('mobile') }}" 

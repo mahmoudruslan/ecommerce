@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\DataTables\UserAddressDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserAddressRequest;
+use App\Models\City;
 use App\Models\Governorate;
 use App\Models\User;
 use App\Models\UserAddress;
@@ -27,7 +28,7 @@ class UserAddressController extends Controller
         $this->checkAbility(['store-user-addresses']);
         $user = User::findOrFail(Crypt::decrypt($id));
         $governorates = Governorate::get(['id', 'name_ar', 'name_en']);
-        $cities = Governorate::get(['id', 'name_ar', 'name_en']);
+        $cities = City::get(['id', 'name_ar', 'name_en']);
         return view('dashboard.user_addresses.create', compact('user', 'governorates', 'cities'));
     }
 

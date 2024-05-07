@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.4",
+        "livewire/livewire": "^2.12",
         "spatie/laravel-permission": "^6.3",
         "spatie/laravel-sluggable": "^3.6",
         "yajra/laravel-datatables": "^9.0",
