@@ -91,38 +91,6 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                {{-- <div class="form-group row">
-                                                    <div class="col-md-6">
-                                                        <select name="governorate_id" class="form-control select-radius 
-                                                        @error('governorate_id') is-invalid @enderror">
-                                                            <option selected disabled>{{ __('Choose governorate') }}</option>
-                                                            @foreach ($governorates as $governorate)
-                                                                <option value="{{ $governorate->id }}">{{ $governorate['name_' . app()->getLocale()] }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('governorate_id')
-                                                            <span class="text-danger" role="alert">
-                                                                <small>{{ $message }}</small>
-                                                            </span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <select name="city_id" class="form-control select-radius 
-                                                        @error('city_id') is-invalid @enderror">
-                                                            <option selected disabled>{{ __('Choose city') }}</option>
-                                                            @foreach ($cities as $city)
-                                                                <option value="{{ $city->id }}">{{ $city['name_' . app()->getLocale()] }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('city_id')
-                                                            <span class="text-danger" role="alert">
-                                                                <small>{{ $message }}</small>
-                                                            </span>
-                                                        @enderror
-                                                    </div>
-                                                </div> --}}
                                                 {{-- <livewire:cascading-dropdown /> --}}
                                                 @livewire('cascading-dropdown', ['governorates'=> $governorates, null])
                                                 <div class="form-group row">

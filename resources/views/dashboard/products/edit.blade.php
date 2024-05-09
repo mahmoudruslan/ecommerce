@@ -108,11 +108,8 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-
                                                         <label><small>{{ __('Choose tags') }}</small></label>
                                                         <select multiple name="tags[]"  class="form-control">
-                                                            {{-- {{ $tag_ids = $product->tags->pluck('id')->toArray() }} --}}
-                                                            {{-- <option value="{{ $product->category->id }}" selected>{{ $product->category->parent['name_'. App::currentLocale()] }} | {{ $product->category['name_'. App::currentLocale()] }}</option> --}}
                                                             @foreach ($tags as $tag)
                                                             <option {{ in_array($tag->id, $product->tags->pluck('id')->toArray()) ? 'selected' : ''}} value="{{ $tag->id }}">{{ $tag['name_'. App::currentLocale()] }}</option>
                                                             @endforeach
@@ -146,7 +143,6 @@
                                                 </div><br>
                                                 <div class="show-image-container">
                                                     <div id="parent" class="show-image" >
-
                                                     </div>
                                                 </div>
                                                 <input multiple type="file" name="images[]" class="file"  id="input-id" data-preview-file-type="text">
@@ -166,53 +162,50 @@
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                                         {{ __('Save') }}
                                                     </button>
-                                                </form>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
-
-
                 </div>
             </div>
-            <!-- Outer Row -->
-        @endsection
-        @push('script')
-        <script>
-                $("#input-id").fileinput({
-                    showUpload: false,
-                    showRemove: false,
-                    // required: true,
-                    'initialPreview': [
-                    @if ($product->media()->count() > 0)
-                        @foreach ($product->media as $media)
-                            "{{ asset('storage/' . $media->file_name) }}",
-                        @endforeach
-                    @endif
+        </div>
+    </div>
+    <!-- Outer Row -->
+@endsection
+@push('script')
+    <script>
+            $("#input-id").fileinput({
+                showUpload: false,
+                showRemove: false,
+                // required: true,
+                'initialPreview': [
+                @if ($product->media()->count() > 0)
+                    @foreach ($product->media as $media)
+                        "{{ asset('storage/' . $media->file_name) }}",
+                    @endforeach
+                @endif
 
-                ],
-                'initialPreviewFileType':'image',
-                'initialPreviewAsData':true,
-                'overviewInitial': false,
-                'initialPreviewConfig':[
-                    @if ($product->media()->count() > 0)
-                        @foreach ($product->media as $media)
-                    {
-                    size: '1111',
-                    width: '120px',
-                    url: "{{ route('admin.products.remove-image', ['product_id' => $product->id ,'media_id' => $media->id , '_token' => csrf_token()]) }}",
-                    key: {{ $product->id }},
-                },
-                @endforeach
-                    @endif
+            ],
+            'initialPreviewFileType':'image',
+            'initialPreviewAsData':true,
+            'overviewInitial': false,
+            'initialPreviewConfig':[
+                @if ($product->media()->count() > 0)
+                    @foreach ($product->media as $media)
+                {
+                size: '1111',
+                width: '120px',
+                url: "{{ route('admin.products.remove-image', ['product_id' => $product->id ,'media_id' => $media->id , '_token' => csrf_token()]) }}",
+                key: {{ $product->id }},
+            },
+            @endforeach
+                @endif
 
-            ],allowedFileExtensions: ["jpg", "png", "gif", "jpeg"]
-            });
-        </script>
-    @endpush
+        ],allowedFileExtensions: ["jpg", "png", "gif", "jpeg"]
+        });
+    </script>
+@endpush
 

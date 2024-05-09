@@ -11,6 +11,7 @@ use App\Http\Controllers\Dashboard\CouponController;
 use App\Http\Controllers\Dashboard\GovernorateController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ReviewController;
+use App\Http\Controllers\Dashboard\ShippingCompanyController;
 use App\Http\Controllers\Dashboard\SupervisorController;
 use App\Http\Controllers\Dashboard\TagController;
 use App\Http\Controllers\Dashboard\UserAddressController;
@@ -51,6 +52,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
             'governorates' => GovernorateController::class,//governorate routes
             'cities' => CityController::class,//city routes
             'user-addresses' => UserAddressController::class,//user_address routes
+            'shipping-companies' => ShippingCompanyController::class,//user_address routes
         ]);
     });
 });

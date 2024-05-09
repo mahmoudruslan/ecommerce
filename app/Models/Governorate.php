@@ -11,4 +11,9 @@ class Governorate extends Model
 
     protected $fillable = ['id', 'name_ar', 'name_en', 'status'];
     public $timestamps = false;
+
+    public function shippingCompanies()
+    {
+        return $this->belongsToMany(ShippingCompany::class);
+    }
 }

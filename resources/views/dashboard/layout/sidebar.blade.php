@@ -224,6 +224,24 @@
                 </div>
             </li>
             @endcanany
+            {{-- shipping companies --}}
+            @canany(['shipping-companies','show-shipping-companies','delete-shipping-companies','update-shipping-companies','store-shipping-companies'])
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseShippingCompanies"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-comment"></i>
+                    <span>{{__('Shipping companies')}}</span>
+                </a>
+                <div id="collapseShippingCompanies" class="collapse @if($route == 'shipping-companies') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">{{__('Shipping companies screens:')}} </h6>
+                        <a class="collapse-item" href="{{route('admin.shipping-companies.index')}}">{{__('Shipping companies')}}</a>
+                        <a class="collapse-item" href="{{route('admin.shipping-companies.create')}}">{{__('Add shipping companies')}}</a>
+                    </div>
+                </div>
+            </li>
+            @endcanany
             <!-- Heading -->
             <div class="sidebar-heading">
                 {{ __('Settings') }}
