@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\Coupon;
-use App\Traits\Helper;
 use App\Traits\HTMLTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -17,7 +16,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class CouponDataTable extends DataTable
 {
-    use HTMLTrait, Helper;
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -26,13 +25,13 @@ class CouponDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('coupons');
-        return (new EloquentDataTable($query, $actions))
-            ->addColumn('action', function($row) use  ($actions){
+        return (new EloquentDataTable($query))
+        ->addColumn('action', function($row) {
+                $permissions = $this->permissions; // receiving permissions variable from controller
                 $id = encrypt($row->id);
-                $b = $actions['update'] ? $this->getEditLink("admin.coupons.edit", $id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.coupons.show", $id) : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.coupons.destroy", $id) : '';
+                $b = checkAbility('update-coupons', $permissions) ? $this->getEditLink("admin.coupons.edit", $id) : '';
+                $b = $b.= checkAbility('show-coupons', $permissions) ? $this->getShowLink("admin.coupons.show", $id) : '';
+                $b = $b .= checkAbility('delete-coupons', $permissions) ? $this->getDeleteLink("admin.coupons.destroy", $id) : '';
                 return $b;   
             })
             ->editColumn('start_date', function($row){

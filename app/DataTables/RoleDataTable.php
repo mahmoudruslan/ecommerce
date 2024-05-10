@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Traits\Helper;
+
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -15,7 +15,7 @@ use App\Models\User;
 
 class RoleDataTable extends DataTable
 {
-    use HTMLTrait, Helper;
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -24,12 +24,13 @@ class RoleDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('roles');
-        return (new EloquentDataTable($query, $actions))
-        ->addColumn('action', function($row) use ($actions){
+        
+        return (new EloquentDataTable($query))
+        ->addColumn('action', function($row) {
+            $permissions = $this->permissions; // receiving permissions variable from controller
             $id = encrypt($row->id);
-            $b = $actions['update'] ? '<div style="width: 150px"> <a href=" ' . route("admin.permission-roles.edit", $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>' : '';
-            $b .= $actions['delete'] ? $this->getDeleteLink("admin.permission-roles.destroy", $id) : '';
+            $b = checkAbility('update-roles', $permissions) ? '<div style="width: 150px"> <a href=" ' . route("admin.permission-roles.edit", $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>' : '';
+            $b .= checkAbility('delete-roles', $permissions) ? $this->getDeleteLink("admin.permission-roles.destroy", $id) : '';
             return $b;
         });
     }

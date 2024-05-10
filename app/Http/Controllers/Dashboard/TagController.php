@@ -7,22 +7,19 @@ use App\DataTables\TagDataTable;
 use App\Http\Requests\TagRequest;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Tag;
-use App\Traits\Helper;
-use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    use Helper;
 
     public function index(TagDataTable $dataTable)
     {
-        $this->checkAbility(['tags','store-tags', 'update-tags', 'show-tags','delete-tags']);
-        return $dataTable->render('dashboard.tags.index');
+        $permissions = userAbility(['tags','store-tags', 'update-tags', 'show-tags','delete-tags']);
+        return $dataTable->with('permissions' , $permissions)->render('dashboard.tags.index');
     }
 
     public function create()
     {
-        $this->checkAbility(['store-tags']);
+        userAbility(['store-tags']);
         return view('dashboard.tags.create');
     }
 
@@ -30,7 +27,7 @@ class TagController extends Controller
     {
         // return $request;
         try {
-            $this->checkAbility(['store-tags']);
+            userAbility(['store-tags']);
             Tag::create([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
@@ -47,7 +44,7 @@ class TagController extends Controller
     public function show($id)
     {
         try {
-            $this->checkAbility(['show-tags']);
+            userAbility(['show-tags']);
             $tag = Tag::findOrFail(Crypt::decrypt($id));
             return view('dashboard.tags.show', compact('tag'));
         } catch (\Exception $e) {
@@ -60,7 +57,7 @@ class TagController extends Controller
     public function edit( $id)
     {
         try {
-            $this->checkAbility(['update-tags']);
+            userAbility(['update-tags']);
             $tag = Tag::findOrFail(Crypt::decrypt($id));
             return view('dashboard.tags.edit', compact('tag'));
         } catch (\Exception $e) {
@@ -71,7 +68,7 @@ class TagController extends Controller
     public function update(TagRequest $request, $id)
     {
         try {
-            $this->checkAbility(['update-tags']);
+            userAbility(['update-tags']);
             $tag = Tag::findOrFail(Crypt::decrypt($id));
             $tag->update([
                 'name_ar' => $request->name_ar,
@@ -90,7 +87,7 @@ class TagController extends Controller
     public function destroy( $id)
     {
         try {
-            $this->checkAbility(['delete-tags']);
+            userAbility(['delete-tags']);
             $tag = Tag::findOrFail(Crypt::decrypt($id));
             $tag->delete();
             return redirect()->route('admin.tags.index')->with([

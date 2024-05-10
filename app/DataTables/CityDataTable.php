@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\City;
-use App\Traits\Helper;
 use App\Traits\HTMLTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -14,7 +13,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class CityDataTable extends DataTable
 {
-    use HTMLTrait, Helper;
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -23,13 +22,13 @@ class CityDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('cities');
-        return (new EloquentDataTable($query, $actions))
-            ->addColumn('action', function($row) use($actions) {
+        return (new EloquentDataTable($query))
+        ->addColumn('action', function($row) {
+                $permissions = $this->permissions; // receiving permissions variable from controller
                 $id = encrypt($row->id);
-                $b = $actions['update'] ? $this->getEditLink("admin.cities.edit", $id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.cities.show", $id) : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.cities.destroy", $id) : '';
+                $b = checkAbility('update-cities', $permissions) ? $this->getEditLink("admin.cities.edit", $id) : '';
+                $b = $b.= checkAbility('show-cities', $permissions) ? $this->getShowLink("admin.cities.show", $id) : '';
+                $b = $b .= checkAbility('delete-cities', $permissions) ? $this->getDeleteLink("admin.cities.destroy", $id) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Traits\Files;
-use App\Traits\Helper;
 use App\Http\Controllers\Controller;
 use App\DataTables\CategoryDataTable;
 use App\Models\Category;
@@ -14,16 +13,16 @@ use Illuminate\Support\Facades\Crypt;
 
 class CategoryController extends Controller
 {
-    use Files, Helper;
+    use Files;
     public function index(CategoryDataTable $dataTable)
     {
-        $this->checkAbility(['categories','store-categories', 'update-categories', 'show-categories','delete-categories']);
-        return $dataTable->render('dashboard.categories.index');
+        $permissions = userAbility(['categories','store-categories', 'update-categories', 'show-categories','delete-categories']);
+        return $dataTable->with('permissions' , $permissions)->render('dashboard.categories.index');
     }
 
     public function create()
     {
-        $this->checkAbility(['store-categories']);
+        userAbility(['store-categories']);
         $categories = Category::where('parent_id', null)->get(['id', 'name_ar', 'name_en']);
         return view('dashboard.categories.create', compact('categories'));
     }
@@ -31,7 +30,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         try{
-                $this->checkAbility(['store-categories']);
+                userAbility(['store-categories']);
                 $image = $request->file('image');
                 $path = 'images/categories/';
                 $file_name = $this->saveImag($path, [$request->image]);
@@ -55,7 +54,7 @@ class CategoryController extends Controller
     {
 
         try {
-            $this->checkAbility(['show-categories']);
+            userAbility(['show-categories']);
             $category = Category::findOrFail(Crypt::decrypt($id));
             return view('dashboard.categories.show', compact('category'));
         } catch (\Exception $e) {
@@ -67,7 +66,7 @@ class CategoryController extends Controller
     public function edit( $id)
     {
         try {
-            $this->checkAbility(['update-categories']);
+            userAbility(['update-categories']);
             $categories = Category::where('parent_id', null)->get(['id', 'name_ar', 'name_en', 'image']);
             $category = Category::findOrFail(Crypt::decrypt($id));
             return view('dashboard.categories.edit', compact('category', 'categories'));
@@ -80,7 +79,7 @@ class CategoryController extends Controller
     {
 
         try {
-            $this->checkAbility(['update-categories']);
+            userAbility(['update-categories']);
             $category = Category::findOrFail(Crypt::decrypt($id));
             $file_name = $category->image;
             $path = '';
@@ -107,7 +106,7 @@ class CategoryController extends Controller
     public function destroy( $id)
     {
         try {
-            $this->checkAbility(['delete-categories']);
+            userAbility(['delete-categories']);
             $category = Category::findOrFail(Crypt::decrypt($id));
             if(count($category->children) > 0){
                 return redirect()->route('admin.categories.index')->with([

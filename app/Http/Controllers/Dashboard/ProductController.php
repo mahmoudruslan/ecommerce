@@ -10,22 +10,23 @@ use App\Models\Category;
 use App\Models\Tag;
 use App\Models\User;
 use App\Traits\Files;
-use App\Traits\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+
 class ProductController extends Controller
 {
-    use Files, Helper;
+    use Files;
 
     public function index(ProductDataTable $dataTable)
     {
-        $actions = $this->checkAbility(['products','store-products', 'update-products', 'show-products','delete-products']);
-        return $dataTable->with('actions' , $actions)->render('dashboard.products.index');
+        //userAbility() method => App/Helpers/Helper.php
+        $permissions = userAbility(['products','store-products', 'update-products', 'show-products','delete-products']);//pass to dataTable class
+        return $dataTable->with('permissions' , $permissions)->render('dashboard.products.index');
     }
 
     public function create()
     {
-        $this->checkAbility(['store-products']);
+        userAbility(['store-products']);
         $categories = Category::select('id', 'name_ar', 'name_en', 'parent_id')->whereNotNull('parent_id')->with('parent:id,name_ar,name_en')->get();
         $tags = Tag::select('id', 'name_ar', 'name_en')->get();
         return view('dashboard.products.create', compact('categories', 'tags'));
@@ -33,7 +34,7 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        $this->checkAbility(['store-products']);
+        userAbility(['store-products']);
         try {
             $product = Product::create([
                 'name_ar' => $request->name_ar,
@@ -61,7 +62,7 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $this->checkAbility(['show-products']);
+            userAbility(['show-products']);
             $product = Product::findOrFail(Crypt::decrypt($id));
             return view('dashboard.products.show', compact('product'));
         } catch (\Exception $e) {
@@ -73,7 +74,7 @@ class ProductController extends Controller
     public function edit( $id)
     {
         try {
-            $this->checkAbility(['update-products']);
+            userAbility(['update-products']);
             $categories = Category::select('id', 'name_ar', 'name_en', 'parent_id')->whereNotNull('parent_id')->with('parent:id,name_ar,name_en')->get();
             $product = Product::findOrFail(Crypt::decrypt($id));
             $tags = Tag::select('id', 'name_ar', 'name_en')->get();
@@ -87,7 +88,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, $id)
     {
         try {
-            $this->checkAbility(['update-products']);
+            userAbility(['update-products']);
             $product = Product::findOrFail(Crypt::decrypt($id));
             $input['name_ar'] = $request->name_ar;
             $input['name_en'] = $request->name_en;
@@ -117,7 +118,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         try {
-            $this->checkAbility(['delete-products']);
+            userAbility(['delete-products']);
             $product = Product::findOrFail(Crypt::decrypt($id));
             $this->deleteProductMedia($product);
             $product->tags()->detach();
@@ -136,7 +137,7 @@ class ProductController extends Controller
 
     public function removeImage(Request $request)
     {
-        $this->checkAbility(['delete-products']);
+        userAbility(['delete-products']);
         $product = Product::findOrFail($request->product_id);
         $media = $product->media()->whereId($request->media_id)->first();
         $this->deleteFiles($media->file_name);

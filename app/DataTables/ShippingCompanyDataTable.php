@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\ShippingCompany;
-use App\Traits\Helper;
 use App\Traits\HTMLTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -16,7 +15,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class ShippingCompanyDataTable extends DataTable
 {
-    use HTMLTrait, Helper;
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -25,13 +24,14 @@ class ShippingCompanyDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('shipping-companies');
-        return (new EloquentDataTable($query, $actions))
-            ->addColumn('action', function($row) use($actions) {
+        
+        return (new EloquentDataTable($query))
+            ->addColumn('action', function($row) {
                 $id = encrypt($row->id);
-                $b = $actions['update'] ? $this->getEditLink("admin.shipping-companies.edit", $id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.shipping-companies.show", $id) : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.shipping-companies.destroy", $id) : '';
+                $permissions = $this->permissions; // receiving permissions variable from controller
+                $b = checkAbility('update-shipping-companies', $permissions) ? $this->getEditLink("admin.shipping-companies.edit", $id) : '';
+                $b = $b.= checkAbility('show-shipping-companies', $permissions) ? $this->getShowLink("admin.shipping-companies.show", $id) : '';
+                $b = $b .= checkAbility('delete-shipping-companies', $permissions) ? $this->getDeleteLink("admin.shipping-companies.destroy", $id) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

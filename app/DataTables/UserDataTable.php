@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\User;
-use App\Traits\Helper;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -14,7 +13,7 @@ use App\Traits\HTMLTrait;
 
 class UserDataTable extends DataTable
 {
-    use HTMLTrait, Helper;
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -23,15 +22,15 @@ class UserDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('users');
-        $actions['store'] = $this->checkAbility(['store-users']);
-        return (new EloquentDataTable($query, $actions))
-            ->addColumn('action', function($row) use($actions) {
+        
+        return (new EloquentDataTable($query))
+            ->addColumn('action', function($row) {
                 $id = encrypt($row->id);
-                $b = $actions['update'] ? $this->getEditLink("admin.users.edit", $id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.users.show", $id) : '';
-                $b = $b.= $actions['store'] ? '<a href="'. route('admin.user-addresses.create-address', $id) .'" class="btn btn-primary btn-sm"><i class="fa fa-map-marker-alt"></i></a>' : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.users.destroy", $id) : '';
+                $permissions = $this->permissions; // receiving permissions variable from controller
+                $b = checkAbility('update-users', $permissions) ? $this->getEditLink("admin.users.edit", $id) : '';
+                $b = $b.= checkAbility('show-users', $permissions) ? $this->getShowLink("admin.users.show", $id) : '';
+                $b = $b.= checkAbility('store-users', $permissions) ? '<a href="'. route('admin.user-addresses.create-address', $id) .'" class="btn btn-primary btn-sm"><i class="fa fa-map-marker-alt"></i></a>' : '';
+                $b = $b .= checkAbility('delete-users', $permissions) ? $this->getDeleteLink("admin.users.destroy", $id) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

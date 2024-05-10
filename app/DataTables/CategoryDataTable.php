@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\Category;
-use App\Traits\Helper;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -15,19 +14,18 @@ use Illuminate\Support\Facades\App;
 
 class CategoryDataTable extends DataTable
 {
-    use HTMLTrait, Helper;
+    use HTMLTrait;
 
 
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('categories');
-        return (new EloquentDataTable($query, $actions))
-            ->addColumn('action', function($row) use ($actions) {
+        return (new EloquentDataTable($query))
+        ->addColumn('action', function($row) {
+                $permissions = $this->permissions; // receiving permissions variable from controller
                 $id = encrypt($row->id);
-
-                $b = $actions['update'] ? $this->getEditLink("admin.categories.edit", $id) : '';
-                $b = $b .= $actions['show'] ? $this->getShowLink("admin.categories.show", $id) : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.categories.destroy", $id) : '';
+                $b = checkAbility('update-categories', $permissions) ? $this->getEditLink("admin.categories.edit", $id) : '';
+                $b = $b .= checkAbility('show-categories', $permissions) ? $this->getShowLink("admin.categories.show", $id) : '';
+                $b = $b .= checkAbility('delete-categories', $permissions) ? $this->getDeleteLink("admin.categories.destroy", $id) : '';
                 return $b;
             })
             ->addColumn('product_count', function($row){

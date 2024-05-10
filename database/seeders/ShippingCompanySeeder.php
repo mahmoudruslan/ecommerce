@@ -16,16 +16,19 @@ class ShippingCompanySeeder extends Seeder
      */
     public function run()
     {
-        $aramex = ShippingCompany::create([
-            'name_ar' => 'أرامكس',
-            'name_en' => 'aramex',
-            'code' => '2356448',
+        for ($i=0; $i < 100; $i++) { 
+            $aramex = ShippingCompany::create([
+            'name_ar' => 'أرامكس' . $i,
+            'name_en' => 'aramex' . $i,
+            'code' => '2356448' . $i,
             'description_ar' => 'من 2 يوم إلى 6 أيام',
             'description_en' => '2 - 6 days',
             'fast' => false,
             'coast' => '60',
             'status' => true,
             ]);
+        }
+       
         $governorate_ids = Governorate::inRandomOrder()->limit(15)->pluck('id');
         $aramex->governorates()->attach($governorate_ids);
         $fedex = ShippingCompany::create([

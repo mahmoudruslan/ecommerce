@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\UserAddress;
-use App\Traits\Helper;
 use App\Traits\HTMLTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -14,7 +13,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class UserAddressDataTable extends DataTable
 {
-    use HTMLTrait, Helper;
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -23,13 +22,14 @@ class UserAddressDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('user-addresses');
-        return (new EloquentDataTable($query, $actions))
-            ->addColumn('action', function($row) use($actions) {
+        
+        return (new EloquentDataTable($query))
+            ->addColumn('action', function($row) {
                 $id = encrypt($row->id);
-                $b = $actions['update'] ? $this->getEditLink("admin.user-addresses.edit", $id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.user-addresses.show", $id) : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.user-addresses.destroy", $id) : '';
+                $permissions = $this->permissions; // receiving permissions variable from controller
+                $b = checkAbility('update-users', $permissions) ? $this->getEditLink("admin.user-addresses.edit", $id) : '';
+                $b = $b.= checkAbility('show-users', $permissions) ? $this->getShowLink("admin.user-addresses.show", $id) : '';
+                $b = $b .= checkAbility('delete-users', $permissions) ? $this->getDeleteLink("admin.user-addresses.destroy", $id) : '';
                 return $b;
             })
             ->editColumn('user_id', function($row){
@@ -55,7 +55,7 @@ class UserAddressDataTable extends DataTable
      */
     public function query(UserAddress $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->with(['governorate', 'city', 'user:id,first_name,last_name'])->newQuery();
     }
 
     /**

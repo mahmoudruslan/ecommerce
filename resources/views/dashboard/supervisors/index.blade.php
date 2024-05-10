@@ -10,7 +10,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div style="display: block;width: 100%" class="card-header table-header py-3">
-                            <h4 class="m-0 font-weight-bold text-primary">{{__('Supervisor')}}</h4>
+                            <h4 class="m-0 font-weight-bold text-primary">{{__('Supervisors')}}</h4>
                             @can('store-categories')
                                 <a  href="{{route('admin.supervisors.create')}}" class="btn btn-primary">
                                     {{__('Add Supervisor')}}

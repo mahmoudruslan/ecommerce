@@ -213,7 +213,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUserAddresses"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-comment"></i>
+                    <i class="fa fa-home" aria-hidden="true"></i>
                     <span>{{__('Users addresses')}}</span>
                 </a>
                 <div id="collapseUserAddresses" class="collapse @if($route == 'user-addresses') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -230,7 +230,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseShippingCompanies"
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-comment"></i>
+                    <i class="fas fa-shipping-fast"></i>
                     <span>{{__('Shipping companies')}}</span>
                 </a>
                 <div id="collapseShippingCompanies" class="collapse @if($route == 'shipping-companies') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">

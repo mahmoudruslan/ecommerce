@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\Governorate;
-use App\Traits\Helper;
 use App\Traits\HTMLTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -14,7 +13,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class GovernorateDataTable extends DataTable
 {
-    use HTMLTrait, Helper;
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -23,13 +22,13 @@ class GovernorateDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('governorates');
-        return (new EloquentDataTable($query, $actions))
-            ->addColumn('action', function($row) use($actions) {
+        return (new EloquentDataTable($query))
+        ->addColumn('action', function($row) {
+                $permissions = $this->permissions; // receiving permissions variable from controller
                 $id = encrypt($row->id);
-                $b = $actions['update'] ? $this->getEditLink("admin.governorates.edit", $id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.governorates.show", $id) : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.governorates.destroy", $id) : '';
+                $b = checkAbility('update-governorates', $permissions) ? $this->getEditLink("admin.governorates.edit", $id) : '';
+                $b = $b.= checkAbility('show-governorates', $permissions) ? $this->getShowLink("admin.governorates.show", $id) : '';
+                $b = $b .= checkAbility('delete-governorates', $permissions) ? $this->getDeleteLink("admin.governorates.destroy", $id) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

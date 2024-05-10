@@ -6,28 +6,26 @@ use App\DataTables\CouponDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CouponRequest;
 use App\Models\Coupon;
-use App\Traits\Helper;
 use Illuminate\Support\Facades\Crypt;
 
 class CouponController extends Controller
 {
-    use Helper;
     public function index(CouponDataTable $dataTable)
     {
-        $this->checkAbility(['coupons','store-coupons', 'update-coupons', 'show-coupons','delete-coupons']);
-        return $dataTable->render('dashboard.coupons.index');
+        $permissions = userAbility(['coupons','store-coupons', 'update-coupons', 'show-coupons','delete-coupons']);
+        return $dataTable->with('permissions' , $permissions)->render('dashboard.coupons.index');
     }
 
     public function create()
     {
-        $this->checkAbility(['store-coupons']);
+        userAbility(['store-coupons']);
         return view('dashboard.coupons.create');
     }
 
     public function store(CouponRequest $request)
     {
         try{
-                $this->checkAbility(['store-coupons']);
+                userAbility(['store-coupons']);
                 Coupon::create($request->validated());
 
                 return redirect()->route('admin.coupons.index')->with([
@@ -42,7 +40,7 @@ class CouponController extends Controller
     {
         // dd('show');
         try {
-            $this->checkAbility(['show-coupons']);
+            userAbility(['show-coupons']);
             $coupon = Coupon::findOrFail(Crypt::decrypt($id));
             return view('dashboard.coupons.show', compact('coupon'));
         } catch (\Exception $e) {
@@ -54,7 +52,7 @@ class CouponController extends Controller
     public function edit($id)
     {
         try {
-            $this->checkAbility(['update-coupons']);
+            userAbility(['update-coupons']);
             $coupon = Coupon::findOrFail(Crypt::decrypt($id));
             return view('dashboard.coupons.edit', compact('coupon'));
         } catch (\Exception $e) {
@@ -65,7 +63,7 @@ class CouponController extends Controller
     public function update(CouponRequest $request, $id)
     {
         try {
-            $this->checkAbility(['update-coupons']);
+            userAbility(['update-coupons']);
             $coupon = Coupon::findOrFail(Crypt::decrypt($id));
             if(!$request->status){$coupon->status= 0;$coupon->save();}
 
@@ -81,7 +79,7 @@ class CouponController extends Controller
     public function destroy( $id)
     {
         try {
-            $this->checkAbility(['delete-coupons']);
+            userAbility(['delete-coupons']);
             $coupon = Coupon::findOrFail(Crypt::decrypt($id));
             $coupon->delete();
             return redirect()->route('admin.coupons.index')->with([

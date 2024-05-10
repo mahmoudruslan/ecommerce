@@ -7,23 +7,21 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Crypt;
-use App\Traits\Helper;
 use App\Http\Requests\RolePermissionRequest;
 
 
 class RolePermissionController extends Controller
 {
-    use Helper;
 
     public function index(RoleDataTable $dataTable)
     {
-        $this->checkAbility(['roles','store-roles', 'update-roles', 'show-roles','delete-roles']);
-        return $dataTable->render('dashboard.roles_permissions.index');
+        $permissions = userAbility(['roles','store-roles', 'update-roles', 'show-roles','delete-roles']);
+        return $dataTable->with('permissions' , $permissions)->render('dashboard.roles_permissions.index');
     }
 
     public function create()
     {
-        $this->checkAbility(['store-roles']);
+        userAbility(['store-roles']);
         $permissions = Permission::get();
         return view('dashboard.roles_permissions.create', compact('permissions'));
     }
@@ -31,7 +29,7 @@ class RolePermissionController extends Controller
     public function store(RolePermissionRequest $request)
     {
         try {
-            $this->checkAbility(['store-roles']);
+            userAbility(['store-roles']);
             $role = Role::create([
                 'name' => $request->name,
                 'guard_name' => 'web',
@@ -48,7 +46,7 @@ class RolePermissionController extends Controller
     public function edit($id)
     {
         try {
-            $this->checkAbility(['update-roles']);
+            userAbility(['update-roles']);
             $permissions = Permission::get();
             $role = Role::findOrFail(Crypt::decrypt($id));
             return view('dashboard.roles_permissions.edit', compact('permissions', 'role'));
@@ -61,7 +59,7 @@ class RolePermissionController extends Controller
     public function update(RolePermissionRequest $request, $id)
     {
         try {
-            $this->checkAbility(['update-roles']);
+            userAbility(['update-roles']);
             $role = Role::findOrFail(Crypt::decrypt($id));
             $role->update(['name' => $request->name , 'guard_name'=> 'web' ]);
             $permissions = $request->permissions ?? [];
@@ -78,7 +76,7 @@ class RolePermissionController extends Controller
     public function destroy(Role $role, $id)
     {
         try {
-            $this->checkAbility(['delete-roles']);
+            userAbility(['delete-roles']);
             $role = Role::findOrFail(Crypt::decrypt($id));
             $permissions = $role->permissions->pluck('name');
             $role->revokePermissionTo($permissions);

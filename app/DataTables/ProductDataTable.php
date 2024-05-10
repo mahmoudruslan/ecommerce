@@ -4,7 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Product;
 use App\Models\User;
-use App\Traits\Helper;
+
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\App;
 
 class ProductDataTable extends DataTable
 {
-    use HTMLTrait, Helper;
+    use HTMLTrait;
+    // protected $actions=[];
     /**
      * Build DataTable class.
      *
@@ -25,16 +26,14 @@ class ProductDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('products');
+        return (new EloquentDataTable($query))
 
-        return (new EloquentDataTable($query, $actions))
-
-            ->addColumn('action', function($row) use($actions){
+            ->addColumn('action', function($row) {
+                $permissions = $this->permissions; // receiving permissions variable from controller
                 $id = encrypt($row->id);
-
-                $b = $actions['update'] ? $this->getEditLink("admin.products.edit", $id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.products.show", $id) : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.products.destroy", $id) : '';
+                $b = checkAbility('update-products', $permissions) ? $this->getEditLink("admin.products.edit", $id) : '';
+                $b = $b.= checkAbility('show-products', $permissions) ? $this->getShowLink("admin.products.show", $id) : '';
+                $b = $b .= checkAbility('delete-products', $permissions) ? $this->getDeleteLink("admin.products.destroy", $id) : '';
                 return $b;
             })
             ->addColumn('parent_category', function($row){
@@ -74,7 +73,6 @@ class ProductDataTable extends DataTable
 
             ])->newQuery();
     }
-
     /**
      * Optional method if you want to use html builder.
      *

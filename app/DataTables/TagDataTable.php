@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\Tag;
-use App\Traits\Helper;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -14,7 +13,7 @@ use App\Traits\HTMLTrait;
 
 class TagDataTable extends DataTable
 {
-    use HTMLTrait, Helper;
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -23,13 +22,14 @@ class TagDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('tags');
-        return (new EloquentDataTable($query, $actions))
-            ->addColumn('action', function($row) use($actions) {
+        
+        return (new EloquentDataTable($query))
+            ->addColumn('action', function($row) {
                 $id = encrypt($row->id);
-                $b = $actions['update'] ? $this->getEditLink("admin.tags.edit", $id) : '';
-                $b = $b.= $actions['show'] ? $this->getShowLink("admin.tags.show", $id) : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.tags.destroy", $id) : '';
+                $permissions = $this->permissions; // receiving permissions variable from controller
+                $b = checkAbility('update-tags', $permissions) ? $this->getEditLink("admin.tags.edit", $id) : '';
+                $b = $b.= checkAbility('show-tags', $permissions) ? $this->getShowLink("admin.tags.show", $id) : '';
+                $b = $b .= checkAbility('delete-tags', $permissions) ? $this->getDeleteLink("admin.tags.destroy", $id) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

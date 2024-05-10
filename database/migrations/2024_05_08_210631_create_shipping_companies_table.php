@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('name_ar');
             $table->string('name_en');
             $table->string('code')->unique();
-            $table->string('description_ar')->unique();
-            $table->string('description_en')->nullable()->unique();
+            $table->string('description_ar');
+            $table->string('description_en')->nullable();
             $table->boolean('fast')->default(false);
             $table->unsignedDecimal('coast')->default(0.00);
             $table->boolean('status')->default(false);

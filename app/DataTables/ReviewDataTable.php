@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\Review;
-use App\Traits\Helper;
 use App\Traits\HTMLTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -16,7 +15,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class ReviewDataTable extends DataTable
 {
-    use HTMLTrait, Helper;
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -25,12 +24,13 @@ class ReviewDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('reviews');
-        return (new EloquentDataTable($query, $actions))
-            ->addColumn('action', function($row) use ($actions) {
+        
+        return (new EloquentDataTable($query))
+            ->addColumn('action', function($row) {
+                $permissions = $this->permissions; // receiving permissions variable from controller
                 $id = encrypt($row->id);
-                $b = $actions['show'] ? $this->getShowLink("admin.reviews.show", $id) : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.reviews.destroy", $id) : '';
+                $b = checkAbility('show-reviews', $permissions) ? $this->getShowLink("admin.reviews.show", $id) : '';
+                $b = $b .= checkAbility('delete-reviews', $permissions) ? $this->getDeleteLink("admin.reviews.destroy", $id) : '';
                 return $b;
             })
             ->editColumn('user_id', function($row){

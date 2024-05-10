@@ -42,7 +42,7 @@ class SupervisorRequest extends FormRequest
             'mobile' => 'required|numeric|digits_between:6,50|unique:users,mobile,'.$id,
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
             'email' => 'required|string|email|max:255|unique:users,email,'.$id,
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'nullable|string|min:8|confirmed',
             ];
         }
 

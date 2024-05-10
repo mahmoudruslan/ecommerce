@@ -3,9 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\User;
-use App\Traits\Helper;
 use App\Traits\HTMLTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -14,7 +14,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class SupervisorDataTable extends DataTable
 {
-    use HTMLTrait, Helper;
+    use HTMLTrait;
     /**
      * Build DataTable class.
      *
@@ -23,13 +23,14 @@ class SupervisorDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $actions = $this->actionsAbility('supervisors');
-        return (new EloquentDataTable($query, $actions))
-            ->addColumn('action', function ($row) use ($actions) {
+        
+        return (new EloquentDataTable($query))
+            ->addColumn('action', function ($row) {
                 $id = encrypt($row->id);
-                $b = $actions['update'] ? $this->getEditLink("admin.supervisors.edit", $id) : '';
-                $b = $b .= $actions['show'] ? $this->getShowLink("admin.supervisors.show", $id) : '';
-                $b = $b .= $actions['delete'] ? $this->getDeleteLink("admin.supervisors.destroy", $id) : '';
+                $permissions = $this->permissions; // receiving permissions variable from controller
+                $b = checkAbility('update-supervisors', $permissions) ? $this->getEditLink("admin.supervisors.edit", $id) : '';
+                $b = $b .= checkAbility('show-supervisors', $permissions) ? $this->getShowLink("admin.supervisors.show", $id) : '';
+                $b = $b .= checkAbility('delete-supervisors', $permissions) ? $this->getDeleteLink("admin.supervisors.destroy", $id) : '';
                 return $b;
             })
             ->editColumn('status', function ($row) {
@@ -51,7 +52,7 @@ class SupervisorDataTable extends DataTable
     {
         return $model->whereHas('roles', function($query){
             $query->where('name', '!=', 'customer');
-        })->newQuery();
+        })->where('id', '<>', Auth::id())->newQuery();
     }
     /**
      * Optional method if you want to use html builder.

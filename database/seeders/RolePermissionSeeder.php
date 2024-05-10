@@ -21,7 +21,7 @@ class RolePermissionSeeder extends Seeder
         $all_permissions = [
             'main',
             'users','show-users','delete-users','update-users','store-users',
-            'user-addresses','show-user-addresses','delete-user-addresses','update-user-addresses','store-user-addresses',
+            'shipping-companies','show-shipping-companies','delete-shipping-companies','update-shipping-companies','store-shipping-companies',
             'supervisors','show-supervisors','delete-supervisors','update-supervisors','store-supervisors',
             'roles','show-roles','delete-roles','update-roles','store-roles',
             'categories','show-categories','delete-categories','update-categories','store-categories',

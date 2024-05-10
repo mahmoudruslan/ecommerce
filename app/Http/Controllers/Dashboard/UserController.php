@@ -9,12 +9,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use App\Traits\Files;
 use App\Models\User;
-use App\Traits\Helper;
 
 
 class UserController extends Controller
 {
-    use Files, Helper;
+    use Files;
     /**
      * Display a listing of the resource.
      *
@@ -22,19 +21,19 @@ class UserController extends Controller
      */
     public function index(UserDataTable $dataTable)
     {
-        $this->checkAbility(['users','store-users', 'update-users', 'show-users','delete-users']);
-        return $dataTable->render('dashboard.users.index');
+        $permissions = userAbility(['users','store-users', 'update-users', 'show-users','delete-users']);
+        return $dataTable->with('permissions' , $permissions)->render('dashboard.users.index');
     }
 
     public function create()
     {
-        $this->checkAbility(['store-users']);
+        userAbility(['store-users']);
         return view('dashboard.users.create');
     }
     public function store(UserRequest $request)
     {
         try {
-            $this->checkAbility(['store-users']);
+            userAbility(['store-users']);
                 $image = $request->file('image');
                 $path = 'images/users/';
                 $file_name = $this->saveImag($path, [$request->image]);
@@ -64,7 +63,7 @@ class UserController extends Controller
         dd('show user');
 
         try {
-            $this->checkAbility(['show-users']);
+            userAbility(['show-users']);
             $users = User::findOrFail(Crypt::decrypt($id));
             return view('dashboard.users.show', compact('user'));
         } catch (\Exception $e) {
@@ -76,7 +75,7 @@ class UserController extends Controller
     public function edit( $id)
     {
         try {
-            $this->checkAbility(['update-users']);
+            userAbility(['update-users']);
             $user = User::findOrFail(Crypt::decrypt($id));
             return view('dashboard.users.edit', compact('user'));
         } catch (\Exception $e) {
@@ -87,7 +86,7 @@ class UserController extends Controller
     public function update(UserRequest $request, $id)
     {
         try {
-            $this->checkAbility(['update-users']);
+            userAbility(['update-users']);
             $user = User::findOrFail(Crypt::decrypt($id));
             $file_name = $user->image;
             $path = '';
@@ -121,7 +120,7 @@ class UserController extends Controller
     {
         try {
             //make soft delete
-            $this->checkAbility(['delete-users']);
+            userAbility(['delete-users']);
             $user = User::findOrFail(Crypt::decrypt($id));
             $this->deleteFiles($user->image);
             $user->delete();
