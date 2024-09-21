@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'mahmoud@gmail.com',
             'password' => Hash::make('00000000'),
             'mobile' => '01092199386',
-            'image' => 'images/users/avatar.svg',
+            'image' => 'images/users/user.svg.png',
             'status' => 1,
 
         ]);
@@ -69,7 +69,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'rezk@gmail.com',
             'password' => Hash::make('00000000'),
             'mobile' => '010545445446',
-            'image' => 'images/users/avatar.svg',
+            'image' => 'images/users/user.svg.png',
             'status' => 1,
         ]);
         $admin->assignRole('admin');
@@ -80,7 +80,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'ebraheem@gmail.com',
             'password' => Hash::make('00000000'),
             'mobile' => '01097978898986',
-            'image' => 'images/users/avatar.svg',
+            'image' => 'images/users/user.svg.png',
             'status' => 1,
         ]);
         $employee->assignRole('employee');

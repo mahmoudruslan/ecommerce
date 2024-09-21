@@ -1,5 +1,5 @@
       <!--  Modal -->
-      <div class="modal fade" id="productView" tabindex="-1">
+      <div class="modal fade" id="productView{{$product->id}}" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content overflow-hidden border-0">
             <button class="btn-close p-4 position-absolute top-0 end-0 z-index-20 shadow-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>

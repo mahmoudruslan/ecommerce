@@ -54,4 +54,25 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function scopeFeatured($query)
+    {
+        return $query->whereFeatured(true);
+    }
+    public function scopeActive($query)
+    {
+        return $query->whereStatus(true);
+    }
+
+    public function scopeHasQuantity($query)
+    {
+        return $query->where('quantity', '>', 0);
+    }
+
+    public function scopeActiveCategory($query)
+    {
+        return $query->whereHas('category', function($query) {
+            return $query->whereStatus(true);
+        });
+    }
+
 }
