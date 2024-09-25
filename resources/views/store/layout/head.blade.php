@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="{{asset('store/css/custom.css')}}">
     <!-- Favicon-->
     <link rel="shortcut icon" href="{{asset('store/img/favicon.png')}}">
+    @livewireStyles
   </head>
   <body @if(Config::get('app.locale') == 'ar') dir="rtl" @endif>
     <div class="page-holder">

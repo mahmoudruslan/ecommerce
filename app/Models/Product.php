@@ -54,6 +54,11 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function scopeRating($query)
+    {
+        return $query->withAvg('reviews', 'rating');
+    }
+
     public function scopeFeatured($query)
     {
         return $query->whereFeatured(true);

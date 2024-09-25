@@ -267,6 +267,11 @@
     "Item Created successfully.": "تم إنشاء العنصر بنجاح",
     "Item Updated successfully.": "تم تحديث العنصر بنجاح",
     "Item Deleted successfully.": "تم حذف العنصر بنجاح",
+    "Product added to wish list successfully.": "تمت إضافة المنتج إلى قائمة الرغبات بنجاح.",
+    "Product added to cart successfully.": "تمت إضافة المنتج إلى السلة بنجاح.",
+    "This is the available quantity of the product.": "هذه هى الكمية المتاحة من المنتج",
+    "This product is already in your wish list.": "هذا المنتج موجود بالفعل في قائمتك المفضلة.",
+    "This product is already in your cart.": "هذا المنتج موجود بالفعل في سلة الشراء .",
 
 
 

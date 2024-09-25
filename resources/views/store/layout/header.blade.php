@@ -36,7 +36,7 @@
 
             @if (auth()->check())
                 <li class="nav-item dropdown">
-                    <a style="display : inline-block; padding-left: 0.0rem" class="nav-link" id="pagesDropdown" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a style="display : inline-block; padding: 0.5rem0.8rem;" class="nav-link" id="pagesDropdown" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{auth()->user()->full_name}}
                     </a>
                     <img style="max-width : 26px;border-radius : 50%" src="{{asset('store/img/product-1.jpg')}}" class="me-1 text-gray fw-normal">

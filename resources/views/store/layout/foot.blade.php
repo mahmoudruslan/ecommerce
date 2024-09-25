@@ -5,6 +5,12 @@
       <script src="{{asset('store/vendor/swiper/swiper-bundle.min.js')}}"></script>
       <script src="{{asset('store/vendor/choices.js/public/assets/scripts/choices.min.js')}}"></script>
       <script src="{{asset('store/js/front.js')}}"></script>
+      <script src="{{asset('store/js/custom.js')}}"></script>
+      {{-- livewire scripts | alert --}}
+      @livewireScripts
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+      <x-livewire-alert::scripts />
       <script>
         // ------------------------------------------------------- //
         //   Inject SVG Sprite -

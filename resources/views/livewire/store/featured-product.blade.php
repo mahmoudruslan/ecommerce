@@ -7,7 +7,7 @@
         @endphp
         @foreach ($featured_products as $product)
             <div class="col-xl-3 col-lg-4 col-sm-6">
-                <div class="product text-center">
+                <div class="product text-center"> 
                     <div class="position-relative mb-3">
                         <div class="badge text-white bg-"></div>
                         <a class="d-block" href="{{ route('detail') }}">
@@ -17,12 +17,13 @@
                         <div class="product-overlay">
                             <ul class="mb-0 list-inline">
                                 <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark"
-                                        href="#!"><i class="far fa-heart"></i></a></li>
-                                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="cart.html">
+                                    wire:click="addToWishList({{$product->id}})"><i class="far fa-heart"></i></a></li>
+                                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark"  wire:click="addToCart({{$product->id}})">
                                     {{__('Add to cart')}}</a></li>
                                 <li class="list-inline-item me-0">
-                                    <a class="btn btn-sm btn-outline-dark"
-                                        href="#productView{{$product->id}}" data-bs-toggle="modal">
+                                    <a  wire:click="resetQuantity()" href="#productView{{$product->slug}}" 
+                                        class="btn btn-sm btn-outline-dark" 
+                                        data-bs-toggle="modal">
                                         <i class="fas fa-expand"></i>
                                     </a>
                                 </li>
@@ -33,7 +34,9 @@
                     <p class="small text-muted">LE. {{$product->price}}</p>
                 </div>
             </div>
-            @include('store.layout.modal')
-        @endforeach
+            <!-- Modal -->
+                @include('store.layout.modal')
+            @endforeach
+            
     </div>
 </div>
