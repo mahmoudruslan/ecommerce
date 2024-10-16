@@ -5,7 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Darryldecode\Cart\Cart;
 
-class WishListProvider extends ServiceProvider
+
+class CartProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -14,11 +15,11 @@ class WishListProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('wishList', function($app)
+        $this->app->singleton('cart', function($app)
         {
             $storage = $app['session'];
             $events = $app['events'];
-            $instanceName = 'cart_2';
+            $instanceName = 'cart_1';
             $session_key = '88uuiioo99888';
             return new Cart(
                 $storage,
@@ -28,8 +29,6 @@ class WishListProvider extends ServiceProvider
                 config('shopping_cart')
             );
         });
-
-    
     }
 
     /**

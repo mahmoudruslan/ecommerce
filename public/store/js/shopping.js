@@ -237,7 +237,7 @@ function ajaxRequest(method, url, formData = null) {
         }).catch((error) => {
             loaderDiv.style.display = 'none';
             showAlert({
-                message: "An error occurred while processing your request. Please try again later.",
+                message: error,
                 type: "error",
                 title: 'error',
                 status: true

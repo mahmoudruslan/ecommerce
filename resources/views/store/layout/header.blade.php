@@ -50,7 +50,7 @@
                                 <i class="fas fa-dolly-flatbed me-1 text-gray"></i>
                                 {{-- {{ __('Cart') }} --}}
                                 <small id="cart-count"
-                                    class="text-gray fw-normal">({{ \Cart::getContent()->count() }})</small>
+                                    class="text-gray fw-normal">({{ \Cart::session('cart')->getContent()->count() }})</small>
                             </a>
                         </li>
                         <li class="nav-item">

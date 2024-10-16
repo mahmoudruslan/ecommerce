@@ -8,6 +8,7 @@ use App\Http\Controllers\Store\CartController;
 use App\Http\Controllers\Store\CheckoutController;
 use App\Http\Controllers\Store\IndexController;
 use App\Http\Controllers\Store\ShoppingController;
+use App\Http\Controllers\Store\WishListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,6 @@ Route::get('/', [IndexController::class, 'index'])->name('store');
 Route::group(['middleware' => ['auth', 'if_admin']], function(){
 
     Route::get('/cart', [CartController::class, 'cart'])->name('cart');
-    Route::get('/wishlist', [CartController::class, 'wishlist'])->name('wishlist');
     Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
     // Route::get('/detail', [IndexController::class, 'detail'])->name('detail');
     Route::get('/shopping/{type?}/{param?}', [ShoppingController::class, 'shoppingInProducts'])->name('shopping');
@@ -32,12 +32,15 @@ Route::group(['middleware' => ['auth', 'if_admin']], function(){
     Route::any('/shopping-sort-by/{type?}/{param?}', [ShoppingController::class, 'shoppingInProducts'])->name('products.sortBy');
 
     Route::get('/product/{slug}', [ShoppingController::class, 'productDetails'])->name('product.detail');
-    Route::post('add-to-wishlist/{product_id}', [CartController::class, 'addToWishList'])->name('add.wishlist');
     Route::post('add-to-cart/{product_id}', [CartController::class, 'addToCart'])->name('add.cart');
     Route::post('cart-increase-quantity/{product_id}', [CartController::class, 'increaseQuantity'])->name('cart.increase.quantity');
     Route::post('cart-decrease-quantity/{product_id}', [CartController::class, 'decreaseQuantity'])->name('cart.decrease.quantity');
     Route::post('remove-from-cart/{product_id}', [CartController::class, 'removeFromCart'])->name('remove.from.cart');
-    Route::post('remove-from-wishlist/{product_id}', [CartController::class, 'removeFromWishList'])->name('remove.from.wishlist');
+    Route::post('add-to-wishlist/{product_id}', [WishListController::class, 'addToWishList'])->name('add.wishlist');
+    
+    Route::get('/wishlist', [WishListController::class, 'wishlist'])->name('wishlist');
+
+    Route::post('remove-from-wishlist/{product_id}', [WishListController::class, 'removeFromWishList'])->name('remove.from.wishlist');
 });
 
 Route::get('/lang/{lang}', function($lang){

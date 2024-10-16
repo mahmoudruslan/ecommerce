@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Category;
 use App\Models\Tag;
+use App\Models\Category;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,11 +36,15 @@ class ViewServiceProvider extends ServiceProvider
                     $tags = Tag::whereStatus(true)->get();
                     Cache::forever('sopping_tags_menu', $tags);
                 }
-                $sopping_categories_menu = Cache::get('sopping_categories_menu');
+                $cart_count = \Cart::getContent()->count();
+                $wishlist_count = \Cart::session('wishList')->getContent()->count();      
+      $sopping_categories_menu = Cache::get('sopping_categories_menu');
                 $sopping_tags_menu = Cache::get('sopping_tags_menu');
                 $view->with([
                     'sopping_categories_menu' => $sopping_categories_menu,
                     'sopping_tags_menu' => $sopping_tags_menu,
+                    'wishlist_count' => $wishlist_count,
+                    'cart_count' => $cart_count,
 
                 ]);
             });

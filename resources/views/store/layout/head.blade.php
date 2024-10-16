@@ -33,17 +33,13 @@
     <link rel="stylesheet" href="{{ asset('store/css/custom-alert.css') }}">
     <link rel="stylesheet" href="{{ asset('store/css/custom-loading.css') }}">
     @yield('style')
-    <style>
-    </style>
+
     <!-- Favicon-->
     <link rel="shortcut icon" href="{{ asset('store/img/favicon.png') }}">
     @livewireStyles
 </head>
 
 <body @if (Config::get('app.locale') == 'ar') dir="rtl" @endif>
-    {{-- <div id="loader" class="loader" style="background: url({{asset('store/icons/25.gif')}}) 50% 50% no-repeat
-        rgba(255, 255, 255, 0.8);
-    vertical-align: middle"></div> --}}
     <div style="display: none" class="loader">
         <div class="loadingio-spinner-spinner-nq4q5u6dq7r">
             <div class="ldio-x2uulkbinbj">
