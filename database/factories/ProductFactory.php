@@ -27,7 +27,7 @@ class ProductFactory extends Factory
                 'quantity' => rand(1, 200),
                 'category_id' => $categories->random(),
                 'featured' => rand(0, 1),
-                'status' => rand(0, 1),
+                'status' => rand(1, 1),
         ];
     }
 }

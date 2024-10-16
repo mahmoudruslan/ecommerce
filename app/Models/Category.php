@@ -59,4 +59,17 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id', 'id')->where('status', true);
     }
+    public function scopeActive($query)
+    {
+        return $query->whereStatus(true);
+    }
+
+    public static function tree($level = 1)
+    {
+        return static::with(implode('.', array_fill(0 , $level, 'children')))
+        ->whereNull('parent_id')
+        ->whereStatus(true)
+        ->orderBy('id', 'asc')
+        ->get();
+    }
 }

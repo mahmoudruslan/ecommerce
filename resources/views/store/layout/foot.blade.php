@@ -6,7 +6,13 @@
       <script src="{{asset('store/vendor/choices.js/public/assets/scripts/choices.min.js')}}"></script>
       <script src="{{asset('store/js/front.js')}}"></script>
       <script src="{{asset('store/js/custom.js')}}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      
+      
+      @yield('js')
+      <script src="{{ asset('store/js/shopping.js') }}" type="text/javascript"></script>
       {{-- livewire scripts | alert --}}
+
       @livewireScripts
       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   

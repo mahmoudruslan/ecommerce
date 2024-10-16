@@ -3,14 +3,13 @@
         <!-- PRODUCT-->
         @php
             $lang = app()->getLocale();
-            
         @endphp
-        @foreach ($featured_products as $product)
+        @foreach ($products as $product)
             <div class="col-xl-3 col-lg-4 col-sm-6">
                 <div class="product text-center"> 
                     <div class="position-relative mb-3">
                         <div class="badge text-white bg-"></div>
-                        <a class="d-block" href="{{ route('detail') }}">
+                        <a class="d-block" href="{{ route('product.detail', $product->slug) }}">
                             <img class="img-fluid w-100" src="{{ asset('storage/' . $product->firstMedia['file_name']) }}"
                                 alt="...">
                         </a>
@@ -30,7 +29,7 @@
                             </ul>
                         </div>
                     </div>
-                    <h6> <a class="reset-anchor" href="{{ route('detail') }}">{{$product['name_' . $lang]}}</a></h6>
+                    <h6> <a class="reset-anchor" href="{{ route('product.detail', $product->slug) }}">{{$product['name_' . $lang]}}</a></h6>
                     <p class="small text-muted">LE. {{$product->price}}</p>
                 </div>
             </div>

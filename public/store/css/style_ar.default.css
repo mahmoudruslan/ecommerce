@@ -708,7 +708,7 @@ progress {
   width: 100%;
   max-width: 100%;
   padding-right: calc(var(--bs-gutter-x) * .5);
-  padding-right: calc(var(--bs-gutter-x) * .5);
+  padding-left: calc(var(--bs-gutter-x) * .5);
   margin-top: var(--bs-gutter-y);
 }
 
@@ -4338,7 +4338,7 @@ fieldset:disabled .btn {
     position: absolute;
   }
   .navbar-expand-lg .navbar-nav .nav-link {
-    padding-right: 0.5rem;
+    padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
   .navbar-expand-lg .navbar-nav-scroll {
@@ -12207,3 +12207,16 @@ STYLE SWITCHER FOR DEMO
 #style-switch h4, #style-switch .h4 {
   color: #495057;
 }
+
+
+.inc-btn, .increase {
+  margin-left : 5px;
+  cursor: pointer;
+}
+.dec-btn, .increase, .decrease {
+  cursor: pointer;
+}
+.bold {
+  font-weight: bolder !important;
+}
+

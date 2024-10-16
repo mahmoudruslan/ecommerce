@@ -2,13 +2,6 @@
         
     @php
         $lang = app()->getLocale();
-        $sum_rating = $product->reviews->sum('rating');
-        $count_reviews = count($product->reviews);
-        if ($sum_rating > 0 && $count_reviews > 0) {
-            $product_rating = $sum_rating / $count_reviews;
-        }else{
-            $product_rating = 0;
-        }
     @endphp
     <div class="modal-dialog modal-lg modal-dialog-centered">
 
@@ -21,7 +14,7 @@
                             <ul class="list-inline mb-2">
                                 @for ($i = 0; $i < 5; $i++)
                                     
-                                <li class="list-inline-item m-0"><i class="{{round($product_rating) > $i ? 'fas' : 'far'}} fa-star small text-warning"></i>
+                                <li class="list-inline-item m-0"><i class="{{round($product->reviews_avg_rating) > $i ? 'fas' : 'far'}} fa-star small text-warning"></i>
                                 @endfor
                                 </li>
                             </ul>

@@ -12208,3 +12208,10 @@ STYLE SWITCHER FOR DEMO
 #style-switch h4, #style-switch .h4 {
   color: #495057;
 }
+
+.dec-btn, .inc-btn, .increase, .decrease {
+  cursor: pointer;
+}
+.bold {
+  font-weight: bolder !important;
+}

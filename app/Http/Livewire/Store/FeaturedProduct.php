@@ -10,7 +10,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 class FeaturedProduct extends Component
 {
     use LivewireAlert;
-    public $featured_products;
+    public $products;
     public $quantity = 1;
     public $product;
 
@@ -73,7 +73,7 @@ class FeaturedProduct extends Component
     public function render()
     {
         return view('livewire.store.featured-product', [
-            'featured_products' => $this->featured_products
+            'products' => $this->products
         ]);
     }
 }
