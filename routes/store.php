@@ -20,30 +20,31 @@ use App\Http\Controllers\Store\WishListController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Auth::routes(['verify' => true]);
-Route::get('/', [IndexController::class, 'index'])->name('store');
-Route::group(['middleware' => ['auth', 'if_admin']], function(){
 
-    Route::get('/cart', [CartController::class, 'cart'])->name('cart');
-    Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
-    // Route::get('/detail', [IndexController::class, 'detail'])->name('detail');
+Route::group(['middleware' => [/*'auth',*/'if_admin']], function () {
+    Route::get('/', [IndexController::class, 'index'])->name('store');
     Route::get('/shopping/{type?}/{param?}', [ShoppingController::class, 'shoppingInProducts'])->name('shopping');
-    // Route::get('/shopping-tag/{tag}', [CartController::class, 'shoppingInTagProducts'])->name('shopping.tag');
-    Route::any('/shopping-sort-by/{type?}/{param?}', [ShoppingController::class, 'shoppingInProducts'])->name('products.sortBy');
-
-    Route::get('/product/{slug}', [ShoppingController::class, 'productDetails'])->name('product.detail');
     Route::post('add-to-cart/{product_id}', [CartController::class, 'addToCart'])->name('add.cart');
+    Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+    Route::post('apply-coupon', [CheckoutController::class, 'applyCoupon'])->name('apply.coupon');
+    Route::post('remove-coupon', [CheckoutController::class, 'removeCoupon'])->name('remove.coupon');
+    Route::any('/shopping-sort-by/{type?}/{param?}', [ShoppingController::class, 'shoppingInProducts'])->name('products.sortBy');
+    Route::get('/product/{slug}', [ShoppingController::class, 'productDetails'])->name('product.detail');
     Route::post('cart-increase-quantity/{product_id}', [CartController::class, 'increaseQuantity'])->name('cart.increase.quantity');
     Route::post('cart-decrease-quantity/{product_id}', [CartController::class, 'decreaseQuantity'])->name('cart.decrease.quantity');
     Route::post('remove-from-cart/{product_id}', [CartController::class, 'removeFromCart'])->name('remove.from.cart');
     Route::post('add-to-wishlist/{product_id}', [WishListController::class, 'addToWishList'])->name('add.wishlist');
-    
     Route::get('/wishlist', [WishListController::class, 'wishlist'])->name('wishlist');
-
     Route::post('remove-from-wishlist/{product_id}', [WishListController::class, 'removeFromWishList'])->name('remove.from.wishlist');
+    Route::group(['middleware' => ['auth']], function () {
+
+        Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+    });
 });
 
-Route::get('/lang/{lang}', function($lang){
+Route::get('/lang/{lang}', function ($lang) {
     app()->setLocale($lang);
     session()->put('local', $lang);
     return redirect()->back();

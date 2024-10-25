@@ -54,7 +54,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('wishlist')}}">
+                            <a class="nav-link" href="{{ route('wishlist') }}">
                                 <i class="far fa-heart me-1"></i>
                                 <small id="wishlist-count"
                                     class="text-gray fw-normal">({{ \Cart::session('wishList')->getContent()->count() }})</small>
@@ -63,9 +63,8 @@
 
                         @if (auth()->check())
                             <li class="nav-item dropdown">
-                                <a style="display : inline-block;" class="nav-link"
-                                    id="pagesDropdown" href="#" data-bs-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                <a style="display : inline-block;" class="nav-link" id="pagesDropdown" href="#"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ auth()->user()->full_name }}
                                 </a>
                                 <img style="max-width : 26px;border-radius : 50%"
@@ -88,16 +87,5 @@
                     </ul>
                 </div>
             </nav>
-            <div class="ajax-alert">
-                <div class="ajax-alert-content">
-                    <i id="check" class="fas fa-solid fa-check check"></i>
-                    <div class="message">
-                        <span id="title" class="text text-1"></span>
-                        <span id="message" class="text text-2"></span>
-                    </div>
-                </div>
-                <i class="fa-solid fa-xmark close"></i>
-                <div id="progress" class="progress active"></div>
-            </div>
         </div>
     </header>

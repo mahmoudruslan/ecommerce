@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             GovernorateCitiesSeeder::class,
         ]);
         $cities = City::select('id', 'governorate_id')->get();
-        
+
         \App\Models\Product::factory(1000)->create();
         \App\Models\User::factory(20)->create()->each(function($user) use ($cities){
             $user->assignRole('customer');
@@ -33,16 +33,13 @@ class DatabaseSeeder extends Seeder
             $user->addresses()->create([
             'user_id' => $user->id,
             'default_address' => rand(0, 1),
-            'address_title_en' => fake()->sentence(4),
-            'address_title_ar' => fake()->sentence(4),
+            'address_title' => fake()->sentence(4),
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'email' => fake()->safeEmail(),
             'mobile' => fake()->phoneNumber(),
-            'address_ar' => fake()->address(),
-            'address_en' => fake()->address(),
-            'address2_ar' => fake()->address(),
-            'address2_en' => fake()->address(),
+            'address' => fake()->address(),
+            'address2' => fake()->address(),
             'governorate_id' => $rand_city->governorate_id,
             'city_id' => $rand_city->id,
             'zip_code' => rand(111111, 999999),
@@ -91,7 +88,7 @@ class DatabaseSeeder extends Seeder
             CategoryTagsSeeder::class,
             ReviewSeeder::class,
             ShippingCompanySeeder::class
-            
+
         ]);
     }
 }

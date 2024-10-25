@@ -55,7 +55,7 @@
                                 </div>
                             </form>
                             <form action="">
-                                <a class="add-wishlist-btn btn btn-link text-dark text-decoration-none p-0"
+                                <a class="add-wishlist-btn{{$product->id}} btn btn-link text-dark text-decoration-none p-0"
                                     onclick="addToWishList({{ $product->id }}, 'http\://{{ request()->httpHost() }}/add-to-wishlist')">
                                     <i class="{{\Cart::session('wishList')->getContent()->pluck('id')->contains($product->id) ? 'bold' : ''}} far fa-heart me-2"></i>
                                     {{ __('Add to wish list') }}

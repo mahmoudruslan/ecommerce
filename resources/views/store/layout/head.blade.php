@@ -23,15 +23,14 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;800&amp;display=swap">
     <!-- theme stylesheet-->
-
     @if (Config::get('app.locale') == 'ar')
         <link rel="stylesheet" href="{{ asset('store/css/style_ar.default.css') }}" id="theme-stylesheet">
     @else
         <link rel="stylesheet" href="{{ asset('store/css/style_en.default.css') }}" id="theme-stylesheet">
     @endif
     <!-- Custom stylesheet - for your changes-->
-    <link rel="stylesheet" href="{{ asset('store/css/custom-alert.css') }}">
-    <link rel="stylesheet" href="{{ asset('store/css/custom-loading.css') }}">
+    <link rel="stylesheet" href="{{ asset('store/css/alert.css') }}">
+    <link rel="stylesheet" href="{{ asset('store/css/loading.css') }}">
     @yield('style')
 
     <!-- Favicon-->
@@ -43,18 +42,9 @@
     <div style="display: none" class="loader">
         <div class="loadingio-spinner-spinner-nq4q5u6dq7r">
             <div class="ldio-x2uulkbinbj">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
+                <div></div><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div>
             </div>
         </div>
     </div>

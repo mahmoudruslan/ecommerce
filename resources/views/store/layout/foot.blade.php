@@ -6,17 +6,16 @@
       <script src="{{asset('store/vendor/choices.js/public/assets/scripts/choices.min.js')}}"></script>
       <script src="{{asset('store/js/front.js')}}"></script>
       <script src="{{asset('store/js/custom.js')}}"></script>
+      <script src="{{asset('store/js/alert.js')}}"></script>
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-      
-      
+
       @yield('js')
-      <script src="{{ asset('store/js/shopping.js') }}" type="text/javascript"></script>
-      {{-- livewire scripts | alert --}}
+            {{-- alert icons--}}
+            <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+            <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+            <script src="{{ asset('store/js/shopping.js') }}" type="text/javascript"></script>
 
       @livewireScripts
-      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  
-      <x-livewire-alert::scripts />
       <script>
         // ------------------------------------------------------- //
         //   Inject SVG Sprite -

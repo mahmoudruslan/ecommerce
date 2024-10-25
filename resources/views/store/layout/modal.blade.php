@@ -36,8 +36,11 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div><a class="btn btn-link text-dark text-decoration-none p-0" wire:click="addToWishList({{$product->id}})"><i
-                                    class="far fa-heart me-2"></i>{{__('Add to wish list')}}</a>
+                            </div>
+                            <a class="btn btn-link text-dark text-decoration-none p-0" wire:click="addToWishList({{$product->id}})">
+                                <i class="far fa-heart me-2"></i>
+                                {{__('Add to wish list')}}
+                                </a>
                         </div>
                     </div>
                     <button class="btn-close p-4 position-absolute top-0 end-0 z-index-20 shadow-0" type="button"

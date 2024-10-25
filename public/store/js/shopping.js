@@ -1,48 +1,44 @@
 //start show alerts
-let toast = document.querySelector(".ajax-alert");
-let progress = document.querySelector(".progress");
+// let toast = document.querySelector(".ajax-alert");
+
+// let progress = document.querySelector(".progress");
 let token = document.getElementsByName("csrf-token")[0].getAttribute("content");
 
-function showAlert(result) {
-    let check = document.getElementById("check");
-    let alertType = result.type;
+// function showAlert(result) {
+//     let check = document.getElementById("check");
 
-    document.getElementById("title").innerHTML = result.title; //get alert title
-    document.getElementById("message").innerHTML = result.message; //get alert message
-    //add classes
-    toast.classList.add("active");
-    progress.classList.add("active");
-    check.classList.add(alertType);
+//     let alertType = result.type;
 
-    //add background color to (before) progress
-    let styleElem = document.head.appendChild(document.createElement("style"));
-    styleElem.innerHTML =
-        "#progress:before {background-color: var(--" + alertType + ")}";
+//     document.getElementById("title").innerHTML = result.title; //get alert title
+//     document.getElementById("message").innerHTML = result.message; //get alert message
+//     //add classes
+//     toast.classList.add("active");
+//     progress.classList.add("active");
+//     check.classList.add(alertType);
 
-    timer1 = setTimeout(() => {
-        toast.classList.remove("active");
-    }, 2000); //1s = 1000 milliseconds
+//     //add background color to (before) progress
+//     let styleElem = document.head.appendChild(document.createElement("style"));
+//     styleElem.innerHTML =
+//         "#progress:before {background-color: var(--" + alertType + ")}";
 
-    timer2 = setTimeout(() => {
-        progress.classList.remove("active");
-    }, 2500);
-}
-function resetAlert() {
-    //to remove old classes
-    toast.classList.remove("active");
+//     timer1 = setTimeout(() => {
+//         toast.classList.remove("active");
+//     }, 2000); //1s = 1000 milliseconds
 
-    setTimeout(() => {
-        progress.classList.remove("active");
-    }, 300);
-    check.classList.remove("success", "info", "warning", "error");
-}
-function clearTime() {
-    //clear timer
-    setTimeout(() => {
-        clearTimeout(timer1);
-        clearTimeout(timer2);
-    }, 5000);
-}
+//     timer2 = setTimeout(() => {
+//         progress.classList.remove("active");
+//     }, 2500);
+// }
+// function resetAlert() {
+//     //to remove old classes
+//     toast.classList.remove("active");
+
+//     setTimeout(() => {
+//         progress.classList.remove("active");
+//     }, 300);
+//     check.classList.remove("success", "info", "warning", "error");
+// }
+
 // end show alerts
 // ====================================================================================
 
@@ -78,40 +74,30 @@ document.querySelectorAll(".inc-btn").forEach((el) => {
             quantityField.value = parseInt(quantityField.value, 10) + 1;
             quantity = quantityField.value;
         } else {
-            showAlert({
-                message: maxQuantityMessage,
-                status: true,
+            alert({
                 title: success,
                 type: "success",
+                message: maxQuantityMessage,
             });
         }
     });
 });
-
 // end increase and decrease quantity functions
 //===================================================================================
 
-    document.querySelectorAll('.add-wishlist-btn').forEach((btn) => {
-    btn.addEventListener("click", () => {
-        btn.firstElementChild.classList.add('bold');
-        
-    });
-});
 // add to cart function with ajax with javaScript
-function addToCart(withoutQuantity, productId, url)
-{
-
-  
+function addToCart(withoutQuantity, productId, url) {
     // if new product => reset quantity
-    if ( parseInt(quantityIncreasedProductId) !== parseInt(productId) &&
-        parseInt(quantity) !== 1 ) { 
+    if (
+        parseInt(quantityIncreasedProductId) !== parseInt(productId) &&
+        parseInt(quantity) !== 1
+    ) {
         quantity = 1;
     }
-    resetAlert(); //to remove old classes
+    // resetAlert(); //to remove old classes
     document.getElementById("quantity").value =
-        /* if no quantity => quantity = 1*/ withoutQuantity.status === true
-            ? 1
-            : quantity;
+        /* if no quantity => quantity = 1*/
+        withoutQuantity.status === true ? 1 : quantity;
     let cartForm = document.getElementById("cartForm");
     let formData = new FormData(cartForm);
 
@@ -120,9 +106,15 @@ function addToCart(withoutQuantity, productId, url)
 }
 //===================================================================================
 
-// add to wish list 
+// add to wish list
 function addToWishList(productId, url) {
-    resetAlert(); //to remove old classes
+    // resetAlert(); //to remove old classes
+    // to heart icon shading
+    document
+        .querySelectorAll(".add-wishlist-btn" + productId)
+        .forEach((btn) => {
+            btn.firstElementChild.classList.add("bold");
+        });
     url = url + "/" + productId;
     ajaxRequest("POST", url);
 }
@@ -132,8 +124,24 @@ function removeFromCart(itemId, url) {
     url = url + "/" + itemId;
     ajaxRequest("POST", url);
 
-    let htmlRow = document.querySelector('#cart-' + itemId);
+    let htmlRow = document.querySelector("#cart-" + itemId);
     htmlRow.remove();
+    //if no products in cart show not found products in your cart
+    let cartRows = document.querySelectorAll(".cart-row").length;
+    if (cartRows === 0) {
+        tBodyEl = document.querySelector(".t-body");
+        let th = createThTag();
+        th.innerHTML = noProducts;
+        tBodyEl.appendChild(th);
+    }
+}
+
+function createThTag() {
+    const th = document.createElement("th");
+    th.setAttribute("class", "text-center ps-0 py-6 border-light");
+    th.setAttribute("colspan", "4");
+    th.setAttribute("scope", "row");
+    return th;
 }
 //===================================================================================
 // remove form wishlist
@@ -142,8 +150,17 @@ function removeFromWishList(itemId, url) {
     ajaxRequest("POST", url);
 
     // let htmlRow = document.getElementById(itemId);
-    let htmlRow = document.querySelector('#wish-' + itemId);
+    let htmlRow = document.querySelector("#wish-" + itemId);
     htmlRow.remove();
+
+    //if no products in wishlist show not found products in your wishlist
+    let wishlistRows = document.querySelectorAll(".wishlist-row").length;
+    if (wishlistRows === 0) {
+        tBodyEl = document.querySelector(".t-body");
+        let th = createThTag();
+        th.innerHTML = noProducts;
+        tBodyEl.appendChild(th);
+    }
 }
 
 function cartIncreaseQuantity(itemId, url) {
@@ -176,18 +193,18 @@ function cartDecreaseQuantity(itemId, url) {
 
 //update cart data
 function updateCartData(result) {
-    document.getElementById("cart-count").innerHTML = "(" + result.cart.count + ")";
-    
+    if (result.cart) {
+        document.getElementById("cart-count").innerHTML =
+            "(" + result.cart.count + ")";
+        let totalEl = document.getElementById("cart-total");
+        let subTotalEl = document.getElementById("cart-subtotal");
 
-    let totalEl = document.getElementById("cart-total");
-    let subTotalEl = document.getElementById("cart-subtotal");
-
-    if (totalEl != null && subTotalEl != null) {
-        totalEl.innerHTML = result.cart.total;
-        subTotalEl.innerHTML = result.cart.subTotal;
+        if (totalEl != null && subTotalEl != null) {
+            totalEl.innerHTML = result.cart.total;
+            subTotalEl.innerHTML = result.cart.subTotal;
+        }
     }
 }
-
 
 // product view three block or two block
 let productBlocks = document.querySelectorAll("#product-block");
@@ -211,36 +228,68 @@ threeBlock.addEventListener("click", function () {
 function ajaxRequest(method, url, formData = null) {
     let loaderDiv = document.querySelector(".loader"); // access loader div
     // loaderDiv.classList.add("loader");
-    loaderDiv.style.display = 'block';
-    fetch(url, {
+    loaderDiv.style.display = "block";
+        return fetch(url, {
         method: method,
         headers: {
             "x-csrf-token": token,
         },
         body: formData,
-    })
-        .then((response) => response.json())
+    }).then((response) => response.json())
         .then((data) => {
-            if (typeof data.wishListCount  != 'undefined') {
-                document.querySelector("#wishlist-count").innerHTML = "(" + data.wishListCount + ")";
-
-            }else{
+            if (typeof data.wishListCount != "undefined") {
+                document.querySelector("#wishlist-count").innerHTML =
+                    "(" + data.wishListCount + ")";
+            } else {
                 updateCartData(data);
             }
             return data;
         })
         .then((data) => {
-            loaderDiv.style.display = 'none';
+            loaderDiv.style.display = "none";
             if (typeof data.message != "undefined") {
-                showAlert(data);
+                alert(data.title, data.type, data.message);
             }
-        }).catch((error) => {
-            loaderDiv.style.display = 'none';
-            showAlert({
-                message: error,
-                type: "error",
-                title: 'error',
-                status: true
-            })
+            return data;
+        })
+        .catch((error) => {
+            loaderDiv.style.display = "none";
+            alert("error", error);
         });
+
+}
+
+
+function applyCoupon(url) {
+    // if input have value
+    let couponField = document.querySelector("#coupon_code");
+    if (couponField.value.trim() == "") {
+        couponField.classList.add("is-invalid");
+        return;
+    }
+    let couponForm = document.getElementById("coupon-form");
+    let formData = new FormData(couponForm);
+    let response = ajaxRequest("POST", url, formData);
+    response.then((result) => {
+          if(result.status == true) {
+            let removeCouponBtn = document.querySelector("#remove-coupon-btn");
+            let applyCouponDiv = document.querySelector("#apply-coupon-div");
+            let couponValue = document.querySelector("#coupon-value");
+
+            applyCouponDiv.classList.add("hidden");
+            removeCouponBtn.classList.remove("hidden");
+            couponValue.classList.remove("hidden");
+          }
+        });
+}
+
+function removeCoupon(url) {
+    ajaxRequest("POST", url);
+    let removeCouponBtn = document.querySelector("#remove-coupon-btn");
+    let applyCouponDiv = document.querySelector("#apply-coupon-div");
+    let couponValue = document.querySelector("#coupon-value");
+    applyCouponDiv.classList.remove("hidden");
+    removeCouponBtn.classList.add("hidden");
+    couponValue.classList.add("hidden");
+
 }

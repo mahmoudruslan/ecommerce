@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		breakpoints: {
 			560: {
 				direction: 'vertical',
-				slidesPerView: 1,
+				// slidesPerView: 1,
 				spaceBetween: 0,
 			},
 		},
@@ -94,21 +94,4 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 	});
 
-	/* ===============================================================
-         PRODUCT QUNATITY
-      =============================================================== */
-	// document.querySelectorAll('.dec-btn').forEach((el) => {
-	// 	el.addEventListener('click', () => {
-	// 		var siblings = el.parentElement.querySelector('input');
-	// 		if (parseInt(siblings.value, 10) > 1) {
-	// 			siblings.value = parseInt(siblings.value, 10) - 1;
-	// 		}
-	// 	});
-	// });
-	// document.querySelectorAll('.inc-btn').forEach((el) => {
-	// 	el.addEventListener('click', () => {
-	// 		var siblings = el.parentElement.querySelector('input');
-	// 		siblings.value = parseInt(siblings.value, 10) + 1;
-	// 	});
-	// });
 });

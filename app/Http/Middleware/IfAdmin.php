@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IfAdmin
 {
@@ -12,7 +13,7 @@ class IfAdmin
 
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->user()->hasRole('customer')) {
+        if (Auth::check() && !$request->user()->hasRole('customer')) {
             return redirect('/admin');
         }
         return $next($request);

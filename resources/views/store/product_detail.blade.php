@@ -86,7 +86,7 @@
                     </div>
                     <form id="cartForm" action="">
                         <input type="hidden" id="token" name="token" value="{{ csrf_token() }}">
-                        <a class="add-wishlist-btn text-dark p-0 mb-4 d-inline-block" href="javascript:void();"
+                        <a class="add-wishlist-btn{{$d_product->id}}  text-dark p-0 mb-4 d-inline-block" href="javascript:void();"
                             onclick="addToWishList({{ $d_product->id }}, 'http\://{{ request()->httpHost() }}/add-to-wishlist')">
                             <i class="{{\Cart::session('wishList')->getContent()->pluck('id')->contains($d_product->id) ? 'bold' : ''}} far fa-heart me-2"></i>
                             {{ __('Add to wish list') }}

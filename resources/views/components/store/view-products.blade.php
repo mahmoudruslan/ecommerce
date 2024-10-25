@@ -18,7 +18,7 @@
                                 <form action="">
                                     <a onclick="addToWishList({{ $product->id }}, 'http\://{{ request()->httpHost() }}/add-to-wishlist')"
                                         id="add-to-wishList-buttons"
-                                        class="add-wishlist-btn btn btn-sm btn-outline-dark">
+                                        class="add-wishlist-btn{{$product->id}} btn btn-sm btn-outline-dark">
                                         <i class="{{\Cart::session('wishList')->getContent()->pluck('id')->contains($product->id) ? 'bold' : ''}} far fa-heart heart"></i>
                                     </a>
                                 </form>

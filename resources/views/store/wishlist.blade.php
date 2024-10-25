@@ -37,12 +37,13 @@
                                         class="text-sm text-uppercase">{{ __('Price') }}</strong></th>
                         
                                 <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase"></strong>
+                                <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase"></strong>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="border-0">
+                        <tbody class="t-body" class="border-0">
                             @forelse ($wishlist_items as $item)
-                                <tr id="wish-{{ $item->associatedModel->id }}">
+                                <tr id="wish-{{ $item->associatedModel->id }}" class="wishlist-row">
                                     <th class="ps-0 py-3 border-light" scope="row">
                                         <div class="d-flex align-items-center">
                                             <a class="reset-anchor d-block animsition-link"
@@ -61,26 +62,16 @@
                                     <td class="p-3 align-middle border-light">
                                         <p id="price-{{$item->id}}" class="mb-0 small">{{ $item->price }}</p>
                                     </td>
-                                    {{-- <td class="p-3 align-middle border-light">
-                                        <form id="cartForm{{ $item->id }}" action="">
-                                            <div class="border d-flex align-items-center justify-content-between px-3"><span
-                                                    class="small text-uppercase text-gray headings-font-family">{{ __('Quantity') }}</span>
-                                                <div class="quantity">
-                                                    <span onclick="cartDecreaseQuantity({{ $item->id }}, 'http\://{{ request()->httpHost() }}/cart-decrease-quantity')" class="decrease p-0"><i class="fas fa-caret-left"></i></span>
-                                                    <input name="quantity" id="quantity-{{ $item->id }}"
-                                                        class="form-control form-control-sm border-0 shadow-0 p-0"
-                                                        type="text" value="{{ $item->quantity }}" />
-                                                    <span onclick="cartIncreaseQuantity({{ $item->id }}, 'http\://{{ request()->httpHost() }}/cart-increase-quantity')"
-                                                        class="increase p-0"><i class="fas fa-caret-right"></i></span>
-                                                </div>
-                                            </div>
+                                    <td class="p-3 align-middle border-light">
+                                        <form id="cartForm" action="">
+                                            <input type="hidden" name="quantity" id="quantity" value="1">
+                                        <a href="javascript:void(0)" class="reset-anchor animsition-link" onclick="addToCart( {{json_encode(['status' => true])}} , {{ $item->id }}, 'http\://{{ request()->httpHost() }}/add-to-cart')">
+                                            {{ __('Add to cart') }}
+                                        </a>
                                         </form>
                                     </td>
                                     <td class="p-3 align-middle border-light">
-                                        <p id="total-quantity-{{$item->id}}" class="mb-0 small">{{ $item->quantity * $item->price }}</p>
-                                    </td> --}}
-                                    <td class="p-3 align-middle border-light">
-                                        <a href="javascript:void(0)" class="reset-anchor"
+                                        <a href="javascript:void(0)" class="reset-anchor  animsition-link"
                                             onclick="removeFromWishList({{ $item->id }}, 'http\://{{ request()->httpHost() }}/remove-from-wishlist')">
                                             <i class="fas fa-trash-alt small text-muted"></i>
                                         </a>
@@ -102,9 +93,6 @@
                         <div class="col-md-6 mb-3 mb-md-0 text-md-start"><a class="btn btn-link p-0 text-dark btn-sm"
                                 href="{{ route('shopping') }}"><i class="fas fa-long-arrow-alt-left me-2">
                                 </i>{{ __('Continue shopping') }}</a></div>
-                        {{-- <div class="col-md-6 text-md-end"><a class="btn btn-outline-dark btn-sm"
-                                href="{{ route('checkout') }}">{{ __('Checkout') }}<i
-                                    class="fas fa-long-arrow-alt-right ms-2"></i></a></div> --}}
                     </div>
                 </div>
             </div>
@@ -115,5 +103,7 @@
     <script>
         let maxQuantityMessage = "{{ __('This is the available quantity of the product.') }}";
         let success = "{{ __('Success') }}";
+        let noProducts = "{{ __('Not found products') }}";
+
     </script>
 @endsection

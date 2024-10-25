@@ -230,6 +230,12 @@
     "Add to cart": "أضف إلى السلة",
     "Related products": "منتجات ذات صلة",
     "Optional": "اختيارى",
+    "Order Summary": "ملخص الطلب",
+    "Discount": "الخصم",
+    "Remove coupon": "إزالة الكوبون",
+    "No products available in your cart.": "لا يوجد منتجات في سلة مشترياتك.",
+
+
 
 
     "Description": "الوصف",
@@ -276,7 +282,7 @@
     "This product is already in your wish list.": "هذا المنتج موجود بالفعل في قائمتك المفضلة.",
     "This product is already in your cart.": "هذا المنتج موجود بالفعل في سلة الشراء .",
     "product data updated successfully in your cart.": "تم تحديث بيانات المنتج بنجاح في سلة التسوق الخاصة بك .",
-    "Success": "تم", 
+    "Success": "تم",
     "Deleted Successfully.": "تم الحذف بنجاح .",
     "Wishlist": "قائمة الرغبات",
 

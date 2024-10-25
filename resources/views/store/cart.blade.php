@@ -43,9 +43,9 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="border-0">
+                        <tbody class="t-body" class="border-0">
                             @forelse ($cart_items as $item)
-                                <tr id="cart-{{ $item->associatedModel->id }}">
+                                <tr id="cart-{{ $item->associatedModel->id }}" class="cart-row">
                                     <th class="ps-0 py-3 border-light" scope="row">
                                         <div class="d-flex align-items-center">
                                             <a class="reset-anchor d-block animsition-link"
@@ -54,7 +54,7 @@
                                                     alt="..." width="70" />
                                             </a>
                                             <div class="ms-3"><strong class="h6">
-                                                    <a class="reset-anchor animsition-link" href="#">
+                                                    <a class="reset-anchor animsition-link" href="{{ route('product.detail', $item->associatedModel->slug) }}">
                                                         {{ $item->associatedModel['name_' . $lang] }}
                                                     </a>
                                                 </strong>
@@ -122,7 +122,7 @@
                                     {{ __('Subtotal') }}
                                 </strong>
                                 <span id="cart-subtotal" class="text-muted small">
-                                    {{ \Cart::getSubTotal() }}
+                                    {{ \Cart::session('cart')->getSubTotal() }}
                                 </span>
                             </li>
                             <li class="border-bottom my-2"></li>
@@ -131,19 +131,10 @@
                                     {{ __('Total') }}
                                 </strong>
                                 <span id="cart-total">
-                                    {{ \Cart::getTotal() }}
+                                    {{ \Cart::session('cart')->getTotal() }}
                                 </span>
                             </li>
-                            <li>
-                                <form action="#">
-                                    <div class="input-group mb-0">
-                                        <input class="form-control" type="text"
-                                            placeholder="{{ __('Enter your coupon') }}">
-                                        <button class="btn btn-dark btn-sm w-100" type="submit"> <i
-                                                class="fas fa-gift me-2"></i>{{ __('Apply coupon') }}</button>
-                                    </div>
-                                </form>
-                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -155,5 +146,6 @@
     <script>
         let maxQuantityMessage = "{{ __('This is the available quantity of the product.') }}";
         let success = "{{ __('Success') }}";
+        let noProducts = "{{ __('Not found products') }}";
     </script>
 @endsection

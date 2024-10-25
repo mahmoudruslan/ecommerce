@@ -34,7 +34,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::middleware(['auth', 'if_customer'])
     ->group( function () {
         //main dashboard routes
-        Route::view('/', 'dashboard.index')->name('dashboard');//main page
+        Route::view('/', 'dashboard.index')->name('dashboard')->can('main');//main page
         Route::post('/users/delete-image/{user_id}', [UserController::class, 'removeImage'])->name('users.remove-image');//delete user image
         Route::post('/supervisors/delete-image/{product_id}', [SupervisorController::class, 'removeImage'] )->name('supervisors.remove-image');//delete supervisor image
         Route::post('/categories/delete-image/{category_id}', [CategoryController::class, 'removeImage'])->name('categories.remove-image');//delete category image
