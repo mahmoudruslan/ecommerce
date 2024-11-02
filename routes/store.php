@@ -40,8 +40,11 @@ Route::group(['middleware' => [/*'auth',*/'if_admin']], function () {
     Route::post('remove-from-wishlist/{product_id}', [WishListController::class, 'removeFromWishList'])->name('remove.from.wishlist');
     Route::group(['middleware' => ['auth']], function () {
 
-        Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     });
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+    Route::get('/governorate-cost/{id}', [CheckoutController::class, 'governorateCost'])->name('governorate.cost');
+    Route::post('customer-add-address', [CheckoutController::class, 'addAddress'])->name('add.address');
+
 });
 
 Route::get('/lang/{lang}', function ($lang) {

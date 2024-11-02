@@ -66,7 +66,7 @@ class User extends Authenticatable  implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function getFullNameAttribute($value)
+    public function getFullNameAttribute()
     {
         return ucfirst($this->first_name . ' ' . $this->last_name);
     }
@@ -80,6 +80,8 @@ class User extends Authenticatable  implements MustVerifyEmail
     {
         return $this->hasMany(UserAddress::class);
     }
-    
-
+    public function defaultAddress()
+    {
+        return $this->addresses()->where('default_address', true);
+    }
 }

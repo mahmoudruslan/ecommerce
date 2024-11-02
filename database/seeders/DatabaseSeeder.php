@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'address_title' => fake()->sentence(4),
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'email' => fake()->safeEmail(),
+            // 'email' => fake()->safeEmail(),
             'mobile' => fake()->phoneNumber(),
             'address' => fake()->address(),
             'address2' => fake()->address(),

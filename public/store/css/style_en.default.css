@@ -2352,6 +2352,8 @@ textarea.form-control-lg {
 
 .form-check-input[type="radio"] {
   border-radius: 50%;
+  margin-right: 5px;
+
 }
 
 .form-check-input:active {
@@ -12204,6 +12206,18 @@ STYLE SWITCHER FOR DEMO
   border: solid 1px #ced4da;
   z-index: 2000;
 }
+
+.dropdown-toggle2::after {
+    display: inline-block;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.4em solid;
+    border-left: 0.4em solid transparent;
+    border-bottom: 0;
+    border-right: 0.4em solid transparent;
+    position: absolute;
+    right: 5px;
+  }
 
 #style-switch h4, #style-switch .h4 {
   color: #495057;

@@ -3,11 +3,46 @@
     @php
         $lang = app()->getLocale();
         $coupon_count = Cart::session('cart')->getConditionsByType('sale')->count();
+        $customer = auth()->user();
+
+        $customer_addresses = $customer ? auth()->user()->addresses : null;
+        $default_address = $customer ? $customer->defaultAddress : [];
+        $default_address_count = count($default_address);
+
     @endphp
 @section('style')
     <style>
         .hidden {
             display: none !important;
+        }
+
+        #expand-container {
+            overflow: hidden;
+        }
+
+        #expand-contract {
+            margin-top: 0;
+            transition: all 0.25s;
+            text-align: center;
+
+        }
+
+        #expand-contract.expanded {
+            margin-top: -100%;
+            text-align: center;
+            /* transition: all 1s; */
+
+        }
+
+        .card-background {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .card-head {
+            padding: 0.5rem 1rem;
+            margin-bottom: 0;
+
+            border-bottom: 1px solid rgba(0, 0, 0, 0.125);
         }
     </style>
 @endsection
@@ -34,156 +69,123 @@
     </div>
 </section>
 <section class="py-5">
-    <!-- BILLING ADDRESS-->
-    <h2 class="h5 text-uppercase mb-4">Billing details</h2>
+
     <div class="row">
-        <div class="col-lg-8">
-            <form action="#">
-                <div class="row gy-3">
-                    <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="firstName">{{ __('First name') }} </label>
-                        <input class="form-control form-control-lg" type="text" id="firstName"
-                            placeholder="{{ __('Enter your first name') }}">
+        <div class="col-md-8">
+            <div class="row gy-1">
+                <!-- BILLING ADDRESS-->
+                <h2 class="h5 text-uppercase">{{ __('Delivery') }}</h2>
+                {{-- <form action="#"> --}}
+                @if (\Auth::check() && count($customer_addresses) > 0)
+                    {{-- <div class="row gy-3"> --}}
+                    <div style="position: relative;" class="dropdown-toggle2" data-bs-toggle="collapse"
+                        data-bs-target="#alternateAddress3">
+                        {{ $customer->email }}...
                     </div>
-                    <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="lastName">{{ __('Last name') }} </label>
-                        <input class="form-control form-control-lg" type="text" id="lastName"
-                            placeholder="{{ __('Enter your last name') }}">
+                    <div class="collapse row gy-3" id="alternateAddress3">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-dark">{{ __('Logout') }}
+                            </button>
+                        </form>
                     </div>
-                    <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="email">{{ __('Email address') }}
-                        </label>
-                        <input class="form-control form-control-lg" type="email" id="email"
-                            placeholder="e.g. Jason@example.com">
+                    <hr>
+                    <div id="displayed-address" style="position: relative;" class="dropdown-toggle2"
+                        data-bs-toggle="collapse" data-bs-target="#alternateAddress2">
+                        {{ $default_address_count > 0 ? $default_address->first()->address : $customer_addresses[0]['address'] }}...
                     </div>
-                    <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="phone">{{ __('Phone number') }}
-                        </label>
-                        <input class="form-control form-control-lg" type="tel" id="phone"
-                            placeholder="e.g. +02 245354745">
+                    <hr>
+
+                    <div class="collapse" id="alternateAddress2">
+                        <div class="row gy-3" id="alternateAddress2x">
+                            @foreach ($customer_addresses as $address)
+                                <div id="collapseOne" aria-labelledby="headingOne" data-parent="#accordion"
+                                    class="col-lg-6 collapse show">
+                                    <input onclick="chooseAddress({{ $address }})"
+                                        {{ $address->default_address == true ? 'checked' : '' }}
+                                        class="form-check-input" type="radio" name="address"
+                                        id="address-{{ $address->id }}">
+                                    <label class="form-label text-sm text-uppercase"
+                                        for="address-{{ $address->id }}">{{ $address->address }}</label>
+                                </div>
+                            @endforeach
+
+
+                        </div>
+                        <a class="btn-sm d-block text-center" href="#add-address" data-bs-toggle="modal">
+                            <i class="fas fa-plus" aria-hidden="true"></i>
+                            <small>{{ __('Use different address.') }}</small>
+                        </a>
+                        @include('store.layout.add_address')
                     </div>
-                    <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="company">{{ __('Company name') }}
-                            ({{ __('optional') }}) </label>
-                        <input class="form-control form-control-lg" type="text" id="company"
-                            placeholder="{{ __('Your company name') }}">
+                @else
+                    <x-store.add-address-form :governorates="$governorates"></x-add-address-form>
+                @endif
+                <br>
+                <h2 class="h5 text-uppercase mb-4">{{ __('Shipping method') }}</h2>
+                <div style="border-color: black;margin-left: 0;margin-right: 0" class="row alert bg-light">
+                    <div class="col-md-10">
+                        <span>{{ __('Home delivery') }}</span>
                     </div>
-                    <div class="col-lg-6 form-group">
-                        <label class="form-label text-sm text-uppercase" for="country">{{ __('Country') }}</label>
-                        <select class="form-control form-control-lg country" id="country"
-                            data-customclass="form-control form-control-lg rounded-0">
-                            <option value>{{ __('Choose your country') }}</option>
-                        </select>
+                    <div class="col-md-2">
+                        <span
+                            class="shippingCost">{{ $default_address_count > 0 ? $default_address->first()->governorate->cost : '' }}</span>
                     </div>
-                    <div class="col-lg-12">
-                        <label class="form-label text-sm text-uppercase" for="address">{{ __('Address line 1') }}
-                        </label>
-                        <input class="form-control form-control-lg" type="text" id="address"
-                            placeholder="{{ __('House number and street name') }}">
-                    </div>
-                    <div class="col-lg-12">
-                        <label class="form-label text-sm text-uppercase" for="addressalt">{{ __('Address line 2') }}
-                        </label>
-                        <input class="form-control form-control-lg" type="text" id="addressalt"
-                            placeholder="{{ __('Apartment, Suite, Unit, etc (optional)') }}">
-                    </div>
-                    <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="city">{{ __('Town/City') }} </label>
-                        <input class="form-control form-control-lg" type="text" id="city">
-                    </div>
-                    <div class="col-lg-6">
-                        <label class="form-label text-sm text-uppercase" for="state">{{ __('State/County') }}
-                        </label>
-                        <input class="form-control form-control-lg" type="text" id="state">
-                    </div>
-                    <div class="col-lg-6">
-                        <button class="btn btn-link text-dark p-0 shadow-0" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#alternateAddress">
-                            <div class="form-check">
-                                <input class="form-check-input" id="alternateAddressCheckbox" type="checkbox">
-                                <label class="form-check-label"
-                                    for="alternateAddressCheckbox">{{ __('Alternate billing address') }}</label>
+                </div>
+
+                <h2 class="h5 text-uppercase mb-0">{{ __('Payment') }}</h2>
+                <small>{{ __('All transactions are secure and encrypted.') }}</small>
+                <br>
+                <br>
+                <div id="accordion">
+                    <div id="pay-via-credit"
+                        style="border-bottom: 0px; border-radius: 0.25rem 0.25rem 0px 0px;border-color: black"
+                        class="card">
+                        <div class="card-head">
+                            <div class="row">
+                                <div class="col-md-1 d-flex">
+                                    <input onclick="openCollapse()" name="payment" class="form-check-input"
+                                        type="radio">
+                                </div>
+                                <div class="col-md-11">
+                                    <span>{{ __('Pay via (Debit/Credit cards/Wallets/Installments)') }}</span>
+                                </div>
                             </div>
-                        </button>
-                    </div>
-                    <div class="collapse" id="alternateAddress">
-                        <div class="row gy-3">
-                            <div class="col-12 mt-4">
-                                <h2 class="h4 text-uppercase mb-4">{{ __('Alternative billing details') }}</h2>
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="form-label text-sm text-uppercase"
-                                    for="firstName2">{{ __('First name') }} </label>
-                                <input class="form-control form-control-lg" type="text" id="firstName2"
-                                    placeholder="{{ __('Enter your first name') }}">
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="form-label text-sm text-uppercase"
-                                    for="lastName2">{{ __('Last name') }} </label>
-                                <input class="form-control form-control-lg" type="text" id="lastName2"
-                                    placeholder="{{ __('Enter your last name') }}">
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="form-label text-sm text-uppercase"
-                                    for="email2">{{ __('Email address') }} </label>
-                                <input class="form-control form-control-lg" type="email" id="email2"
-                                    placeholder="e.g. Jason@example.com">
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="form-label text-sm text-uppercase"
-                                    for="phone2">{{ __('Phone number') }} </label>
-                                <input class="form-control form-control-lg" type="tel" id="phone2"
-                                    placeholder="e.g. +02 245354745">
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="form-label text-sm text-uppercase"
-                                    for="company2">{{ __('Company name') }} ({{ __('optional') }}) </label>
-                                <input class="form-control form-control-lg" type="text" id="company2"
-                                    placeholder="{{ __('Your company name') }}">
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label class="form-label text-sm text-uppercase"
-                                    for="countryAlt">{{ __('Country') }}</label>
-                                <select class="country" id="countryAlt"
-                                    data-customclass="form-control form-control-lg rounded-0">
-                                    <option value>Choose your country</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-12">
-                                <label class="form-label text-sm text-uppercase"
-                                    for="address2">{{ __('Address line 1') }} </label>
-                                <input class="form-control form-control-lg" type="text" id="address2"
-                                    placeholder="{{ __('House number and street name') }}">
-                            </div>
-                            <div class="col-lg-12">
-                                <label class="form-label text-sm text-uppercase"
-                                    for="addressalt2">{{ __('Address line 2') }} </label>
-                                <input class="form-control form-control-lg" type="text" id="addressalt2"
-                                    placeholder="{{ __('Apartment, Suite, Unit, etc (optional)') }}">
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="form-label text-sm text-uppercase" for="city2">{{ __('Town/City') }}
-                                </label>
-                                <input class="form-control form-control-lg" type="text" id="city2">
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="form-label text-sm text-uppercase"
-                                    for="state2">{{ __('State/County') }} </label>
-                                <input class="form-control form-control-lg" type="text" id="state2">
+                        </div>
+
+                        <div id="expand-container">
+                            <div id="expand-contract" class="expanded card-body">
+                                <img style="max-width: 100px" src="{{ asset('store/img/share.png') }}"
+                                    alt=""><br>
+                                <small>{{ __('After clicking “Pay now”, you will be redirected to Pay via (Debit/Credit cards/Wallets/Installments) to complete your purchase securely.') }}</small>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 form-group">
-                        <button class="btn btn-dark" type="submit">{{ __('Place order') }}</button>
+                    <div style="border-radius: 0px 0px 0.25rem 0.25rem;border-color: black" class="card">
+                        <div class="card-head card-background" id="cash-on-delivery">
+                            <div class="row">
+                                <div class="col-md-1 d-flex">
+                                    <input checked onclick="closeCollapse()" name="payment" class="form-check-input"
+                                        type="radio">
+                                </div>
+                                <div class="col-md-11">
+                                    <span>{{ __('Cash on Delivery (COD)') }}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </form>
+                <br>
+                <div class="col-lg-12 form-group">
+                    <button class="btn btn-dark" type="submit">{{ __('Place order') }}</button>
+                </div>
+            </div>
         </div>
         <!-- ORDER SUMMARY-->
-        <div class="col-lg-4">
+        <div class="col-md-4">
             <div class="card border-0 rounded-0 p-lg-4 bg-light">
                 <div class="card-body">
-                    <h5 class="text-uppercase mb-4">{{ __('Order Summary') }}</h5>
+                    <h5 class="text-uppercase mb-2">{{ __('Order Summary') }}</h5>
                     <ul class="list-unstyled mb-0">
                         {{-- @foreach ($cart as $item)
                             <li class="d-flex align-items-center justify-content-between">
@@ -193,22 +195,26 @@
                             <li class="border-bottom my-2"></li>
                             <br>
                         @endforeach --}}
-                        <li class="d-flex align-items-center justify-content-between">
+                        <li class="d-flex align-items-center justify-content-between mb-2">
                             <strong class="text-uppercase small fw-bold">{{ __('Subtotal') }}</strong>
                             <span id="cart-subtotal">{{ $sub_total }}</span>
                         </li>
-                        <br>
-
-                        <li id="coupon-value" class="{{ !$coupon_count > 0 ? 'hidden' : '' }} d-flex align-items-center justify-content-between">
-                            <strong class="text-uppercase small fw-bold">{{ __('Discount') }}</strong>
-                            <span id="cart-subtotal">{{ $sub_total - $total }}</span>
+                        <li id="shipping-li"
+                            class="{{ $default_address_count > 0 ? '' : 'hidden' }} d-flex align-items-center justify-content-between mb-2">
+                            <strong class="text-uppercase small fw-bold">{{ __('Shipping') }}</strong>
+                            <span class="shippingCost"
+                                id="shipping-value">{{ $default_address_count > 0 ? $default_address->first()->governorate->cost : '--' }}</span>
                         </li>
-                        <br>
-                        <li class="d-flex align-items-center justify-content-between">
+                        <li id="coupon-li"
+                            class="{{ !$coupon_count > 0 ? 'hidden' : '' }} d-flex align-items-center justify-content-between mb-2">
+                            <strong class="text-uppercase small fw-bold">{{ __('Discount') }}</strong>
+                            <span id="coupon-value">{{ \Cart::session('cart')->getConditionsByType('sale')->sum('parsedRawValue')}}</span>
+                        </li>
+                        <hr>
+                        <li class="d-flex align-items-center justify-content-between mb-2">
                             <strong class="text-uppercase small fw-bold">{{ __('Total') }}</strong>
                             <span id="cart-total">{{ $total }}</span>
                         </li>
-                        <br>
                         <li>
                             <form action="" id="coupon-form">
                                 <div class="input-group mb-0">
@@ -218,14 +224,14 @@
                                             type="text" placeholder="{{ __('Enter your coupon') }}">
                                         <input name="total" type="hidden" value="{{ $total }}">
                                         <span onclick="applyCoupon('{{ route('apply.coupon') }}')"
-                                            class="btn btn-dark btn-sm w-100">
+                                            class="btn btn-dark btn-sm w-100 ">
                                             <i class="fas fa-gift me-2"></i>
                                             {{ __('Apply coupon') }}
                                         </span>
                                     </div>
                                     <span id="remove-coupon-btn"
                                         onclick="removeCoupon('{{ route('remove.coupon') }}')"
-                                        class="{{ !$coupon_count > 0 ? 'hidden' : '' }} btn btn-danger btn-sm w-100">
+                                        class="{{ !$coupon_count > 0 ? 'hidden' : '' }} btn btn-danger btn-sm w-100 input-group mb-0">
                                         <i class="fas fa-gift me-2"></i>
                                         {{ __('Remove coupon') }}
                                     </span>
@@ -239,8 +245,3 @@
     </div>
 </section>
 @endsection
-{{-- @section('script')
-<script>
-    cartEmptyMessage = "{{ __('No products available in your cart.') }}";
-</script>
-@endsection --}}

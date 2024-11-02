@@ -8,13 +8,13 @@ use Livewire\Component;
 class CascadingDropdown extends Component
 {
     public $governorates,$governorate_id,$city_id, $user_address, $cities = [];
-    
+
 
     public function mount($governorates, $user_address)
     {
         $this->governorates = $governorates;
         $this->user_address = $user_address;
-        
+
     }
 
     public function render()

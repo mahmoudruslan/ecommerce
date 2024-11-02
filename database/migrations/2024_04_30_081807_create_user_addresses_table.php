@@ -20,9 +20,8 @@ return new class extends Migration
             $table->string('address_title')->default('Main');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('email')->nullable();
             $table->string('mobile')->nullable();
-            $table->string('address')->nullable();
+            $table->string('address');
             $table->string('address2')->nullable();
             $table->foreignId('governorate_id')->constrained()->cascadeOnDelete();
             $table->foreignId('city_id')->constrained()->cascadeOnDelete();
