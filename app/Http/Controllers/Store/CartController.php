@@ -13,12 +13,16 @@ use Darryldecode\Cart\Facades\CartFacade as Cart;
 
 class CartController extends Controller
 {
-    // use Alert;
-
 
     public function cart()
     {
+        Cart::session('cart')->clearCartConditions();
         $cart_items = Cart::session('cart')->getContent();
+        if (count($cart_items)  == 0) {
+            return redirect()->back()->with([
+                'message' => __('Item Created successfully.'),
+                'alert-type' => 'success']);;
+        }
         // return $cart_items;
         return view('store.cart', compact('cart_items'));
     }

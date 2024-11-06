@@ -16,18 +16,17 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-
-        // $cartConditions = Cart::session('cart')->getConditions();
-
-        // return response()->json($cartConditions);
-
-        //auth user has default address get the cost governorate
-        if(Auth::check())
-        {
+        $cart_items = Cart::session('cart')->getContent();
+        if (count($cart_items)  == 0) {
+            return redirect()->back()->with([
+                'message' => __('Item Created successfully.'),
+                'alert-type' => 'success'
+            ]);;
+        }
+        if (Auth::check()) {
             $user = Auth::user();
             $default_address = UserAddress::where('user_id', $user->id)->where('default_address', 1)->first();
-            if($default_address)
-            {
+            if ($default_address) {
                 $condition = new \Darryldecode\Cart\CartCondition(array(
                     'name' => 'Shipping',
                     'type' => 'shipping',
@@ -36,8 +35,9 @@ class CheckoutController extends Controller
                     'order' => 2
                 ));
                 Cart::session('cart')->condition($condition);
+            } else {
+                Cart::session('cart')->clearCartConditions();
             }
-
         }
         $cart = Cart::session('cart')->getContent();
         $total = Cart::session('cart')->getTotal();
@@ -64,7 +64,7 @@ class CheckoutController extends Controller
             ]);
         }
         if ($coupon) {
-            if ($coupon->checkUsedTimes() && $coupon->checkDate() && $coupon->checkGreaterThan($request->total)) {
+            if ($coupon->checkUsedTimes() && $coupon->checkDate() && $coupon->checkGreaterThan($total)) {
                 // return response()->json(['message' => 'true']);
 
                 Cart::session('cart')->removeConditionsByType('sale');
@@ -99,10 +99,9 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function removeCoupon(Request $request)
+    public function removeCoupon()
     {
         Cart::session('cart')->removeConditionsByType('sale');
-
         $cart = [];
         $cart['count'] = Cart::session('cart')->getContent()->count();
         $cart['total'] = Cart::session('cart')->getTotal();
@@ -116,9 +115,9 @@ class CheckoutController extends Controller
 
         ]);
     }
-    public function governorateCost($id){
+    public function addShippingCost($id)
+    {
         $governorate = Governorate::find($id);
-
         $condition = new \Darryldecode\Cart\CartCondition(array(
             'name' => 'Shipping',
             'type' => 'shipping',
@@ -130,54 +129,44 @@ class CheckoutController extends Controller
         $cart = [];
         $cart['total'] = Cart::session('cart')->getTotal();
         $cart['subTotal'] = Cart::session('cart')->getSubTotal();
-
         return response()->json([
             'cost' => $governorate->cost,
             'cart' => $cart
-
         ]);
     }
 
-        public function addAddress(Request $request)
-        {
-            // return $request;
-            // return response()->json($request);
-            $validator = Validator::make($request->all(), $this->rules());
-
-            if ($validator->fails())
-            {
-                return response()->json([
-                    'status' => false,
-                    'errors' => $validator->errors()
-                ]);
-            }
-            $address = UserAddress::create($validator->validated());
-            $addresses = UserAddress::where('user_id', auth()->id())->get();
+    public function addAddress(Request $request)
+    {
+        $validator = Validator::make($request->all(), $this->addressRules());
+        if ($validator->fails()) {
             return response()->json([
-                'message' => __('data created successfully.'),
-                'type' => 'success',
-                'title' => __('Success'),
-                'status' => true,
-                'addresses' => $addresses,
-                'governorate_id' => $address->governorate_id
-
+                'status' => false,
+                'errors' => $validator->errors()
             ]);
-
-
-
         }
-        public function rules()
-        {
-            return [
-                'first_name' => 'required|string|max:255',
-                'last_name' => 'required|string|max:255',
-                'mobile' => 'required|numeric|digits_between:6,50',
-                'user_id' => 'nullable',
-                'address' => 'required|string|max:255',
-                'zip_code' => 'required|numeric|digits_between:1,10',
-                'governorate_id' => 'required|numeric',
-                'city_id' => 'required|numeric',
-            ];
-        }
-
+        $address = UserAddress::create($validator->validated());
+        $addresses = UserAddress::where('user_id', auth()->id())->get();
+        return response()->json([
+            'message' => __('data created successfully.'),
+            'type' => 'success',
+            'title' => __('Success'),
+            'status' => true,
+            'addresses' => $addresses,
+            'governorate_id' => $address->governorate_id
+        ]);
+    }
+    public function addressRules()
+    {
+        return [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'mobile' => 'required|numeric|digits_between:6,50',
+            'user_id' => 'required|numeric',
+            'email' => 'required|email',
+            'address' => 'required|string|max:255',
+            'zip_code' => 'required|numeric|digits_between:1,10',
+            'governorate_id' => 'required|numeric',
+            'city_id' => 'required|numeric',
+        ];
+    }
 }

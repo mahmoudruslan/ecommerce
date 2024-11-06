@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('mobile')->nullable();
+            $table->string('email')->nullable();
             $table->string('address');
             $table->string('address2')->nullable();
             $table->foreignId('governorate_id')->constrained()->cascadeOnDelete();

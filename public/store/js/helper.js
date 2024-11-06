@@ -23,8 +23,6 @@ function updateTotals(total, subTotal) {
 
     let totalEl = document.querySelector("#cart-total");
     let subTotalEl = document.querySelector("#cart-subtotal");
-    console.log(totalEl);
-    console.log(subTotalEl);
     totalEl.innerHTML = total;
     subTotalEl.innerHTML = subTotal;
 }
@@ -33,8 +31,6 @@ function updateCartCount(cartCount) {
     document.getElementById("cart-count").innerHTML = "(" + cartCount + ")";
 }
 function updateWishlistCount(wishListCount) {
-    console.log(wishListCount);
-
     document.querySelector("#wishlist-count").innerHTML =
         "(" + wishListCount + ")";
 }

@@ -1,6 +1,8 @@
-<div class="row gy-3">
+<div class="row gy-2">
+    <h2 class="h5 text-uppercase m-0">{{ __('Delivery') }}</h2>
     <div class="col-lg-6">
         <input name="user_id" type="hidden" value="{{ auth()->id() }}">
+        {{-- <input name="email" type="hidden" value="{{ auth()->email()->email }}"> --}}
         <input name="first_name" class="form-control form-control-lg" type="text" id="first_name"
             placeholder="{{ __('Enter your first name') }}">
         <small class="error text-danger" id="first_name_error"></small>

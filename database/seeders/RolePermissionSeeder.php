@@ -30,6 +30,7 @@ class RolePermissionSeeder extends Seeder
             'coupons','show-coupons','delete-coupons','update-coupons','store-coupons',
             'governorates','show-governorates','delete-governorates','update-governorates','store-governorates',
             'cities','show-cities','delete-cities','update-cities','store-cities',
+            'payment-methods','delete-payment-methods','update-payment-methods','store-payment-methods',
             'reviews', 'show-reviews','delete-reviews'
         ];
 

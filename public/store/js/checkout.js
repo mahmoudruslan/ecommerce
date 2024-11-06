@@ -4,25 +4,32 @@ let displayedAddress = document.querySelector("#displayed-address");
 let cashOnDelivery = document.querySelector("#cash-on-delivery");
 let payViaCredit = document.querySelector("#pay-via-credit");
 const el = document.getElementById("expand-contract");
-
-// governorateSelect.addEventListener("change", function(e) {
-//     addShippingCost(this.value);
-// }, false);
+let shippingLi = document.querySelector("#shipping-li");
+let closeModalBtn = document.querySelector("#close-modal");
+let modal = document.querySelector("#add-address");
 
 function addShippingCost(governorate_id) {
-    let url = "governorate-cost/" + parseInt(governorate_id);
+    let url = "add-shipping-cost/" + parseInt(governorate_id);
     let result = ajaxRequest("GET", url);
     result.then((data) => {
         updateTotals(data.cart.total, data.cart.subTotal);
+        shippingLi.classList.remove("hidden");
         shippingCostElements.forEach((element) => {
             element.innerHTML = data.cost ? data.cost : "";
         });
     });
 }
 
-function chooseAddress(address) {
+governorateSelect.addEventListener("change", () => {
+
+    if ( modal == null) {
+        addShippingCost(governorateSelect.value);
+    }
+});
+function chooseShippingAddress(address) {
     addShippingCost(address.governorate_id);
     displayedAddress.innerHTML = address.address;
+    shippingLi.classList.remove("hidden");
 }
 
 function openCollapse() {
@@ -40,7 +47,7 @@ function closeCollapse() {
 }
 
 function addAddress() {
-    let form = document.querySelector("#addAddressForm");
+    let form = document.querySelector("#orderForm");
     // form.reset();
     let failds = [
         "address",
@@ -56,28 +63,27 @@ function addAddress() {
         let element = document.querySelector("#" + field + "_error");
         if (element) element.innerHTML = "";
     });
-
     let formData = new FormData(form);
     let url = "customer-add-address";
     let response = ajaxRequest("POST", url, formData);
     response.then((data) => {
-        if (data.status == false) {
+        if (data.status == true) {
+            addShippingCost(data.governorate_id);
+            form.reset();
+            showAddresses(data.addresses);
+            alert(data.title, data.type, data.message);
+        } else {
             Object.entries(data.errors).forEach(([key, value]) => {
                 document.querySelector("#" + key).classList.add("is-invalid");
                 document.querySelector("#" + key + "_error").innerHTML = value;
             });
-        } else {
-            addShippingCost(data.governorate_id);
-            form.reset();
-            showAddresses(data.addresses);
         }
     });
 }
 
 function showAddresses(addresses) {
     addressessDiv = document.querySelector("#alternateAddress2x");
-    modal = document.querySelector("#close-modal");
-    modal.click();
+    closeModalBtn.click();
     addressessDiv.innerHTML = "";
     addresses.forEach((address) => {
         const fragment = document.createDocumentFragment();
@@ -98,7 +104,7 @@ function showAddresses(addresses) {
         radioInput.setAttribute("id", "address-" + address.id);
         radioInput.setAttribute(
             "onclick",
-            `chooseAddress(${JSON.stringify(address)})`
+            `chooseShippingAddress(${JSON.stringify(address)})`
         );
 
         label.setAttribute("class", "form-check-label text-sm text-uppercase");
@@ -111,4 +117,37 @@ function showAddresses(addresses) {
         addressessDiv.appendChild(fragment);
         displayedAddress.innerHTML = address.address;
     });
+}
+
+function calcShipping() {
+    let governorate_id = governorateSelect.value;
+    if (governorate_id.trim() == "") {
+        addClass([governorateSelect], ["is-invalid"]);
+        return;
+    }
+    if (governorate_id) {
+        addShippingCost(governorate_id);
+        shippingLi.classList.remove("hidden");
+    }
+}
+
+function completeOrder() {
+    let form = document.querySelector("#orderForm");
+    let formData = new FormData(form);
+
+    let response = ajaxRequest("POST", "complete-order", formData);
+    response.then((data) => {
+        if (data.status != true) {
+            Object.entries(data.errors).forEach(([key, value]) => {
+                document.querySelector("#" + key).classList.add("is-invalid");
+                document.querySelector("#" + key + "_error").innerHTML = value;
+            });
+        } else {
+            addShippingCost(data.governorate_id);
+            form.reset();
+            showAddresses(data.addresses);
+        }
+    });
+
+    console.log(formData);
 }

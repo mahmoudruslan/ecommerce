@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\CityController;
 use App\Http\Controllers\Dashboard\CouponController;
 use App\Http\Controllers\Dashboard\GovernorateController;
+use App\Http\Controllers\Dashboard\PaymentMethodController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ReviewController;
 use App\Http\Controllers\Dashboard\ShippingCompanyController;
@@ -53,6 +54,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
             'cities' => CityController::class,//city routes
             'user-addresses' => UserAddressController::class,//user_address routes
             'shipping-companies' => ShippingCompanyController::class,//user_address routes
+            'payment-methods' => PaymentMethodController::class,//user_address routes
         ]);
     });
 });

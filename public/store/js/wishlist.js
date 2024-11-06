@@ -10,8 +10,6 @@ function addToWishList(productId, url) {
     let response = ajaxRequest("POST", url);
     response.then((response) => {
         if (response.status === true) {
-            console.log(response);
-
             updateWishlistCount(response.wishListCount);
             alert(response.title, response.type, response.message);
         }

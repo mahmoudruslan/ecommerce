@@ -2,7 +2,7 @@
     "Test": "اختبر",
     "Close": "إغلاق",
     "Guest": "زائر",
-    "Username": "الاسم",
+    "Username": "اسم المستخدم",
     "User": "المستخدم",
     "Name": "الاسم",
     "Rating": "التقييم",
@@ -57,6 +57,7 @@
     "delete-users": "حذف المستخدمين",
     "update-users": "تعديل المستخدمين",
     "store-users": "إضافة المستخدمين",
+    "Contact": "التواصل",
 
 
     "Users addresses": "عناوين المستخدمين",
@@ -159,6 +160,16 @@
     "Fast": "سريع",
     "Coast": "التكلفة",
     "Normal": "طبيعى",
+
+
+    "delete-payment-methods": "حذف عمليات الدفع",
+    "update-payment-methods": "تعديل عمليات الدفع",
+    "store-payment-methods": "إضافة عمليات الدفع",
+    "Payment methods": "عمليات الدفع",
+    "Add payment methods": "إضافة عمليات دفع",
+    "Payment methods screens:": "شاشات عمليات الدفع :",
+    "Edit payment methods": "تعديل عمليات الدفع",
+    "Edit payment method": "تعديل شركة الشحن",
 
     "Governorate": "المحافظة",
     "show-governorates": "عرض المحافظات",

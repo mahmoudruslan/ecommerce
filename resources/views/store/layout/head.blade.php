@@ -32,6 +32,7 @@
         <link rel="stylesheet" href="{{ asset('store/css/style_en.default.css') }}" id="theme-stylesheet">
     @endif
     <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{{ asset('store/css/ar_en.css') }}">
     <link rel="stylesheet" href="{{ asset('store/css/alert.css') }}">
     <link rel="stylesheet" href="{{ asset('store/css/loading.css') }}">
     @yield('style')

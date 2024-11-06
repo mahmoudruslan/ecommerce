@@ -1,14 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Store\CartController;
-use App\Http\Controllers\Store\CheckoutController;
 use App\Http\Controllers\Store\IndexController;
+use App\Http\Controllers\Store\OrderController;
+use App\Http\Controllers\Store\CheckoutController;
 use App\Http\Controllers\Store\ShoppingController;
 use App\Http\Controllers\Store\WishListController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,8 +43,9 @@ Route::group(['middleware' => [/*'auth',*/'if_admin']], function () {
 
     });
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-    Route::get('/governorate-cost/{id}', [CheckoutController::class, 'governorateCost'])->name('governorate.cost');
+    Route::get('/add-shipping-cost/{id}', [CheckoutController::class, 'addShippingCost'])->name('shipping.cost');
     Route::post('customer-add-address', [CheckoutController::class, 'addAddress'])->name('add.address');
+    Route::post('complete-order', [OrderController::class, 'completeOrder'])->name('complete.order');
 
 });
 

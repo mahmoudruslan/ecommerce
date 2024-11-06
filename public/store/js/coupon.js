@@ -8,7 +8,7 @@ function applyCoupon(url) {
         addClass([couponField], ["is-invalid"]);
         return;
     }
-    let couponForm = document.getElementById("coupon-form");
+    let couponForm = document.getElementById("orderForm");
     let formData = new FormData(couponForm);
     let response = ajaxRequest("POST", url, formData);
     response.then((result) => {

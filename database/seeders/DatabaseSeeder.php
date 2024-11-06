@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             CouponSeeder::class,
             GovernorateCitiesSeeder::class,
+            PaymentMethodSeeder::class,
         ]);
         $cities = City::select('id', 'governorate_id')->get();
 
@@ -36,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'address_title' => fake()->sentence(4),
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            // 'email' => fake()->safeEmail(),
+            'email' => $user->email,
             'mobile' => fake()->phoneNumber(),
             'address' => fake()->address(),
             'address2' => fake()->address(),
