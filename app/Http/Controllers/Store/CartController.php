@@ -19,7 +19,7 @@ class CartController extends Controller
         Cart::session('cart')->clearCartConditions();
         $cart_items = Cart::session('cart')->getContent();
         if (count($cart_items)  == 0) {
-            return redirect()->back()->with([
+            return redirect()->route('store')->with([
                 'message' => __('Item Created successfully.'),
                 'alert-type' => 'success']);;
         }

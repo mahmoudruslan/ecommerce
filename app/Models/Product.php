@@ -48,7 +48,7 @@ class Product extends Model
     {
         return $this->morphToMany(Tag::class, 'taggable');
     }
-    
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
@@ -78,6 +78,11 @@ class Product extends Model
         return $query->whereHas('category', function($query) {
             return $query->whereStatus(true);
         });
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class)->withPivot('quantity');
     }
 
 }

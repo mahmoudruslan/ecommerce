@@ -20,7 +20,6 @@ function ajaxRequest(method, url, formData = null) {
         });
 }
 function updateTotals(total, subTotal) {
-
     let totalEl = document.querySelector("#cart-total");
     let subTotalEl = document.querySelector("#cart-subtotal");
     totalEl.innerHTML = total;
@@ -48,3 +47,26 @@ function removeClass(elements, classes) {
         element.classList.remove(classes[i] ? classes[i] : classes[0]);
     });
 }
+
+function inputsValidation(inputs) {
+    let valid = true;
+    inputs.forEach((input) => {
+        if (input.value.trim() === "") {
+            input.classList.add("is-invalid");
+            document.querySelector(`#${input.name}_error`).innerHTML = requiredMessage;
+            valid = false;
+        } else {
+            if (input.name == 'email') {
+                var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                if (!input.value.match(validRegex)) {
+                    input.classList.add("is-invalid");
+                    document.querySelector(`#${input.name}_error`).innerHTML = emailMessage;
+                    return false;
+                }
+            }
+            input.classList.remove("is-invalid");
+        }
+    });
+    return valid;
+}
+

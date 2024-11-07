@@ -12,6 +12,7 @@
                     <option value="{{$item->id}}" >{{$item->name_ar}}</option>
                 @endforeach
             </select>
+            <span id="governorate_id_error" class="text-danger" role="alert">
             @error('governorate_id')
                 <span class="text-danger" role="alert">
                     <small>{{ $message }}</small>
@@ -26,6 +27,8 @@
                     <option value="{{$item->id}}" >{{$item->name_ar}}</option>
                 @endforeach
             </select>
+            <span id="city_id_error" class="text-danger" role="alert">
+            </span>
             @error('city_id')
                 <span class="text-danger" role="alert">
                     <small>{{ $message }}</small>

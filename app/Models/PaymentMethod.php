@@ -11,6 +11,10 @@ class PaymentMethod extends Model
 
     protected $guarded = [];
 
+    public function order()
+    {
+        return $this->hasMany(Order::class);
+    }
     public function status()
     {
         return $this->status ? __('Active') : __('Inactive');

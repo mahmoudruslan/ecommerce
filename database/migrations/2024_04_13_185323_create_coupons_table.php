@@ -25,7 +25,7 @@ return new class extends Migration
             $table->dateTime('start_date')->nullable();
             $table->dateTime('expire_date')->nullable();
             $table->unsignedDecimal('greater_than')->nullable();
-            $table->boolean('status')->default(false);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

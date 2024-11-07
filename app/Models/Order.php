@@ -21,6 +21,11 @@ class Order extends Model
     const REFUNDED = 7;
     const RETURNED = 8;
 
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
+
 
     public function user()
     {
@@ -31,13 +36,20 @@ class Order extends Model
     {
         return $this->belongsTo(UserAddress::class);
     }
+
     public function paymentMethod()
     {
         return $this->belongsTo(PaymentMethod::class);
     }
+
     public function orderAddress()
     {
         return $this->belongsTo(OrderAddress::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(OrderTransaction::class);
     }
 
     public function status()
@@ -54,9 +66,10 @@ class Order extends Model
             case 8: $result = __('Returned'); break;
 
             default:
-                # code...
+                $result = __('Some problem'); break;
                 break;
         }
+        return $result;
     }
 
 }

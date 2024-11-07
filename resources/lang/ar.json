@@ -309,6 +309,7 @@
     "Success": "تم",
     "Deleted Successfully.": "تم الحذف بنجاح .",
     "Wishlist": "قائمة الرغبات",
+    "Choose an address.": "اختر عنواناً",
 
 
 
@@ -331,5 +332,12 @@
     "Reset password": "إعادة تعيين كلمة المرور",
     "Are you sure you want to delete the item?": "متأكد أنك تريد حذف العنصر؟",
     "Are you sure you want to logput?": "متأكد أنك تريد تسجيل الخروج؟"
+
+
+
+
+
+
+
 
 }

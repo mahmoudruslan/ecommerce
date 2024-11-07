@@ -100,7 +100,8 @@ function showAddresses(addresses) {
         radioInput.setAttribute("checked", true);
         radioInput.setAttribute("class", "form-check-input");
         radioInput.setAttribute("type", "radio");
-        radioInput.setAttribute("name", "address");
+        radioInput.setAttribute("name", "address_id");
+        radioInput.setAttribute("value", address.id);
         radioInput.setAttribute("id", "address-" + address.id);
         radioInput.setAttribute(
             "onclick",
@@ -131,23 +132,48 @@ function calcShipping() {
     }
 }
 
-function completeOrder() {
-    let form = document.querySelector("#orderForm");
-    let formData = new FormData(form);
+function orderValidation() {
 
-    let response = ajaxRequest("POST", "complete-order", formData);
-    response.then((data) => {
-        if (data.status != true) {
-            Object.entries(data.errors).forEach(([key, value]) => {
-                document.querySelector("#" + key).classList.add("is-invalid");
-                document.querySelector("#" + key + "_error").innerHTML = value;
-            });
-        } else {
-            addShippingCost(data.governorate_id);
-            form.reset();
-            showAddresses(data.addresses);
-        }
-    });
+    addressInput = document.querySelector('input[name="address_id"]');
+    checkedAddressInput = document.querySelector('input[name="address_id"]:checked');
+    if(addressInput && checkedAddressInput == null)
+    {
+        document.querySelector('#address-id').innerHTML = chooseAddressMessage;
+        return ;
+    }
+    let inputs = [
+    document.querySelector('#first_name'),
+    document.querySelector('#last_name'),
+    document.querySelector('#address'),
+    document.querySelector('#mobile'),
+    document.querySelector('#email'),
+    document.querySelector('#governorate_id'),
+    document.querySelector('#city_id'),
+    ];
+    if (checkedAddressInput || inputsValidation(inputs)) {
+        let form = document.querySelector("#orderForm");
+        form.submit();
+    }
 
-    console.log(formData);
+    // return ;
+
+    // let form = document.querySelector("#orderForm");
+    // let formData = new FormData(form);
+
+    // let response = ajaxRequest("POST", "complete-order", formData);
+    // response.then((data) => {
+    //     if (data.status != true) {
+    //         Object.entries(data.errors).forEach(([key, value]) => {
+    //             document.querySelector("#" + key).classList.add("is-invalid");
+    //             document.querySelector("#" + key + "_error").innerHTML = value;
+    //         });
+    //     } else {
+    //         addShippingCost(data.governorate_id);
+    //         form.reset();
+    //         showAddresses(data.addresses);
+    //     }
+    // });
+
+    // console.log(formData);
 }
+

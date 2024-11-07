@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete('cascade');
-            $table->foreignId('user_address_id')->nullable()->constrained()->nullOnDelete('cascade');
-            $table->foreignId('payment_method_id')->constrained()->nullOnDelete('cascade');
-            $table->foreignId('order_address_id')->nullable()->constrained()->nullOnDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('user_address_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('payment_method_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('order_address_id')->nullable()->constrained()->nullOnDelete();
             $table->string('discount_code')->nullable();
             $table->string('ref_id')->nullable();
             $table->string('currency')->default('LE');
