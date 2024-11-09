@@ -1,0 +1,109 @@
+<?php
+
+namespace App\Services;
+
+use GuzzleHttp\Client;
+use Paymob\Library\Paymob;
+
+class PaymobService {
+
+    private $secret_key;
+    private $public_key;
+    private $integration_ids;
+    private $hmac;
+    public function __construct()
+    {
+        $this->secret_key = config('paymob.secret_key');
+        $this->public_key = config('paymob.public_key');
+        $this->integration_ids = config('paymob.integration_id');
+        $this->hmac = config('paymob.hmac');
+        // $this->callback_url = config('paymob.callback_url');
+    }
+
+    public function process($billing, $order_id, $total, $currency)
+    {
+        try {
+            $integrations = explode(',', $this->integration_ids);
+            $integration_ids = [];
+            foreach ($integrations as $id) {
+                $id = (int) $id;
+                if ($id > 0) {
+                    array_push($integration_ids, $id);
+                }
+            }
+
+            // Prepare order data
+            $country = Paymob::getCountryCode($this->secret_key);
+            $cents = $country == 'omn' ? 1000 : 100;
+            $round = 2;
+            $total = round((round($total, $round)) * $cents, $round);
+
+            $data = [
+            "amount" => $total,
+            "currency" => $currency,
+            "payment_methods" => $integration_ids,
+            "billing_data" => $billing,
+                "extras" => ["merchant_intention_id" => $order_id . '_' . time()],
+                "special_reference" => $order_id . '_' . time()
+            ];
+
+            // Create Paymob intention
+            $paymobReq = new Paymob('', '');
+
+            $status = $paymobReq->createIntention($this->secret_key, $data, $order_id);
+
+            // Process the response
+            if (!$status['success']) {
+                $response = ['IsSuccess' => 'false', 'Message' => $status['message']];
+            } else {
+                $countryCode = $paymobReq->getCountryCode($this->secret_key);
+                $apiUrl = $paymobReq->getApiUrl($countryCode);
+                $cs = $status['cs'];
+                $to = $apiUrl . "unifiedcheckout/?publicKey=$this->public_key&clientSecret=$cs";
+                // Redirect the user to Paymob checkout page
+                return redirect($to);
+            }
+        } catch (\Exception $e) {
+            // Handle exceptions
+            $response = ['IsSuccess' => 'false', 'Message' => $e->getMessage()];
+        }
+        return response()->json($response);
+    }
+
+
+    public function callback($request)
+    {
+        try {
+            // Verify HMAC
+            if (!Paymob::verifyHmac($this->hmac, $_GET)) {
+                $response = ['IsSuccess' => 'false', 'Message' => 'Ops, you are accessing wrong data'];
+                return response()->json($response);
+            }
+
+            // Extract intention ID from request parameters
+            $orderId = Paymob::getIntentionId(Paymob::filterVar('merchant_order_id'));
+
+            // Check if intention ID is valid
+            if (empty($orderId)) {
+                $response = ['IsSuccess' => 'false', 'Message' => 'Ops, you are accessing wrong data'];
+                return response()->json($response);
+            }
+
+            // Check payment status
+            $success = Paymob::filterVar('success') === "true";
+            $is_voided = Paymob::filterVar('is_voided') === "true";
+            $is_refunded = Paymob::filterVar('is_refunded') === "true";
+            $msg = $success && !$is_voided && !$is_refunded ? 'Paymob : Payment Approved' : 'Paymob : Payment is not completed';
+
+            // Prepare response
+            $response = ['IsSuccess' => $success ? 'true' : 'false', 'Message' => $msg];
+        } catch (\Exception $e) {
+            // Handle exceptions
+            $response = ['IsSuccess' => 'false', 'Message' => $e->getMessage()];
+        }
+        return response()->json($response);
+    }
+
+
+
+}

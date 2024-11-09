@@ -7,7 +7,6 @@ use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\OrderAddress;
 use App\Models\OrderTransaction;
-use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 
@@ -15,6 +14,7 @@ class OrderService
 {
     public function createOrder($request)
     {
+        //data
         $cart = Cart::session('cart')->getContent();
         $total = Cart::session('cart')->getTotal();
         $sub_total = Cart::session('cart')->getSubTotal();
@@ -23,7 +23,8 @@ class OrderService
         $coupon_code = count($sale_condition) > 0 ? $sale_condition->first()->getName() : null;
         $shipping = Cart::session('cart')->getConditionsByType('shipping')->sum('parsedRawValue');
         $order_address_id = null;
-        if (!isset($request['address_id'])) {
+
+        if (!isset($request['address_id'])) { // if no address
             $order_address = OrderAddress::create([
                 'governorate_id' => $request['governorate_id'],
                 'city_id' => $request['city_id'],
@@ -36,44 +37,59 @@ class OrderService
             ]);
             $order_address_id = $order_address->id;
         }
-        $latestOrder = Order::orderBy('created_at','DESC')->first();
+        $latest_order = Order::orderBy('created_at', 'DESC')->first();
         $order = Order::create([
             'user_id' => auth()->user() ? auth()->id() : null,
             'payment_method_id' => 1,
             'user_address_id' => $request['address_id'] ?? null,
             'order_address_id' => $order_address_id,
             'discount_code' => $coupon_code,
-            'ref_id' => '#'.str_pad(($latestOrder ? $latestOrder->id : 0) + 1, 8, "0", STR_PAD_LEFT),
+            'ref_id' => '#' . str_pad(($latest_order ? $latest_order->id : 0) + 1, 8, "0", STR_PAD_LEFT),
             'total' => $total,
             'sub_total' => $sub_total,
             'shipping' => $shipping,
             'discount' => $discount,
             'status' => 0
         ]);
+        //order products
         foreach ($cart as $item) {
-            //create order products with relationship
             DB::table('order_product')->insert([
                 'product_id' => $item->id,
                 'order_id' => $order->id,
                 'quantity' => $item->quantity,
             ]);
+            //update product quantity
             $product = Product::find($item->id);
             $product->update([
                 'quantity' => $product->quantity - $item->quantity,
             ]);
-
         }
+        //increase used_times in coupon
         $coupon = Coupon::where('code', $coupon_code)->first();
-            if ($coupon) {
-                $coupon->increment('used_times');
+        if ($coupon) {
+            $coupon->increment('used_times');
+        }
+        $order->transactions()->create([
+            'transaction' => OrderTransaction::NEW_ORDER,
 
-            }
-            $order->transactions()->create([
-                'transaction' => OrderTransaction::NEW_ORDER,
-
-            ]);
+        ]);
         Cart::session('cart')->clear();
-        return $order;
+        $address = isset($request['address_id']) ? $order->userAddress : $order->orderAddress;
+            $order = [
+                'id' => $order->id,
+                'total' => $order->total,
+                'email' => $address->email,
+                'first_name' => $address->first_name,
+                'last_name' => $address->last_name,
+                'phone_number' => $address->mobile,
+                'country' => 'Egypt',
+                'state' => $address->governorate['name_' . app()->getLocale()],
+                'city' => $address->city['name_' . app()->getLocale()],
+                "street" => $address->zip_code,
+                "postal_code" => $address->zip_code,
 
+            ];
+
+        return $order;
     }
 }

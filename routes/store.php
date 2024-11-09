@@ -10,6 +10,8 @@ use App\Http\Controllers\Store\CheckoutController;
 use App\Http\Controllers\Store\ShoppingController;
 use App\Http\Controllers\Store\WishListController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\PaymobController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +48,14 @@ Route::group(['middleware' => [/*'auth',*/'if_admin']], function () {
     Route::get('/add-shipping-cost/{id}', [CheckoutController::class, 'addShippingCost'])->name('shipping.cost');
     Route::post('customer-add-address', [CheckoutController::class, 'addAddress'])->name('add.address');
     Route::post('complete-order', [OrderController::class, 'completeOrder'])->name('complete.order');
+    Route::get('pay', [PaymobController::class, 'process'])->name('pay');
+
+    Route::get('paymob-error', function(){
+        return 'false';
+    });
+    Route::get('paymob/callback', function(Request  $request){
+        return $request->all();
+    });
 
 });
 
