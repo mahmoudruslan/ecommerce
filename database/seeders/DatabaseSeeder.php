@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $cities = City::select('id', 'governorate_id')->get();
 
-        \App\Models\Product::factory(1)->create();
+        \App\Models\Product::factory(50)->create();
         \App\Models\User::factory(20)->create()->each(function($user) use ($cities){
             $user->assignRole('customer');
             $rand_city = $cities->random();

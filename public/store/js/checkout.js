@@ -20,12 +20,15 @@ function addShippingCost(governorate_id) {
     });
 }
 
-governorateSelect.addEventListener("change", () => {
+if(governorateSelect){
+    governorateSelect.addEventListener("change", () => {
 
     if ( modal == null) {
         addShippingCost(governorateSelect.value);
     }
 });
+}
+
 function chooseShippingAddress(address) {
     addShippingCost(address.governorate_id);
     displayedAddress.innerHTML = address.address;

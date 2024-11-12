@@ -42,17 +42,22 @@ document.querySelectorAll(".inc-btn").forEach((el) => {
 let productBlocks = document.querySelectorAll("#product-block");
 //two block
 let twoBlock = document.getElementById("tow-block");
-twoBlock.addEventListener("click", function () {
-    productBlocks.forEach((block) => {
-        removeClass([block], ["col-4"]);
-        addClass([block], ["col-6"]);
+
+if (twoBlock) {
+    twoBlock.addEventListener("click", function () {
+        productBlocks.forEach((block) => {
+            removeClass([block], ["col-4"]);
+            addClass([block], ["col-6"]);
+        });
     });
-});
+}
 //three block
 let threeBlock = document.getElementById("three-block");
-threeBlock.addEventListener("click", function () {
-    productBlocks.forEach((block) => {
-        removeClass([block], ["col-6"]);
-        addClass([block], ["col-4"]);
+if (threeBlock) {
+    threeBlock.addEventListener("click", function () {
+        productBlocks.forEach((block) => {
+            removeClass([block], ["col-6"]);
+            addClass([block], ["col-4"]);
+        });
     });
-});
+}
