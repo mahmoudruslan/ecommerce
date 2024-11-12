@@ -11,9 +11,9 @@ class Order extends Model
 
     protected $guarded = [];
 
-    const NEW_ORDER = 0;
+    const PENDING = 0;
     const PAYMENT_COMPLETED = 1;
-    const UNDER_PROCESS = 2;
+    const PROCESSING = 2;
     const FINISHED = 3;
     const REJECTED = 4;
     const CANCELED = 5;
@@ -23,7 +23,7 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot('quantity');
     }
 
 

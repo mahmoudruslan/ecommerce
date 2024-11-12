@@ -133,7 +133,7 @@
                                 <div class="card-head">
                                     <div class="row">
                                         <div class="col-md-1 d-flex">
-                                            <input onclick="openCollapse()" name="payment_method" value="pay"
+                                            <input onclick="openCollapse()" name="payment_method" value="card"
                                                 class="form-check-input" type="radio">
                                         </div>
                                         <div class="col-md-11">

@@ -53,11 +53,10 @@ Route::group(['middleware' => [/*'auth',*/'if_admin']], function () {
     Route::get('paymob-error', function(){
         return 'false';
     });
-    Route::get('paymob/callback', function(Request  $request){
-        return $request->all();
-    });
+    Route::get('paymob/callback', [OrderController::class, 'callback']);
 
 });
+
 
 Route::get('/lang/{lang}', function ($lang) {
     app()->setLocale($lang);

@@ -2,10 +2,17 @@
 
 namespace App\Services;
 
+use App\Models\Order;
+use App\Models\Coupon;
 use GuzzleHttp\Client;
 use Paymob\Library\Paymob;
+use App\Models\OrderTransaction;
+use RealRashid\SweetAlert\Facades\Alert;
+use Darryldecode\Cart\Facades\CartFacade as Cart;
 
-class PaymobService {
+
+class PaymobService
+{
 
     private $secret_key;
     private $public_key;
@@ -39,10 +46,10 @@ class PaymobService {
             $total = round((round($total, $round)) * $cents, $round);
 
             $data = [
-            "amount" => $total,
-            "currency" => $currency,
-            "payment_methods" => $integration_ids,
-            "billing_data" => $billing,
+                "amount" => $total,
+                "currency" => $currency,
+                "payment_methods" => $integration_ids,
+                "billing_data" => $billing,
                 "extras" => ["merchant_intention_id" => $order_id . '_' . time()],
                 "special_reference" => $order_id . '_' . time()
             ];
@@ -71,39 +78,79 @@ class PaymobService {
     }
 
 
-    public function callback($request)
+    public function callback()
     {
         try {
             // Verify HMAC
             if (!Paymob::verifyHmac($this->hmac, $_GET)) {
-                $response = ['IsSuccess' => 'false', 'Message' => 'Ops, you are accessing wrong data'];
-                return response()->json($response);
+                Alert::error(__('Payment'), __('Ops, you are accessing wrong data'));
+                return redirect()->route('store');
             }
-
             // Extract intention ID from request parameters
             $orderId = Paymob::getIntentionId(Paymob::filterVar('merchant_order_id'));
-
             // Check if intention ID is valid
             if (empty($orderId)) {
-                $response = ['IsSuccess' => 'false', 'Message' => 'Ops, you are accessing wrong data'];
-                return response()->json($response);
+                Alert::error(__('Payment'), __('Ops, you are accessing wrong data'));
+                return redirect()->route('store');
             }
-
+            $order = Order::find($orderId);
             // Check payment status
             $success = Paymob::filterVar('success') === "true";
             $is_voided = Paymob::filterVar('is_voided') === "true";
             $is_refunded = Paymob::filterVar('is_refunded') === "true";
-            $msg = $success && !$is_voided && !$is_refunded ? 'Paymob : Payment Approved' : 'Paymob : Payment is not completed';
 
             // Prepare response
-            $response = ['IsSuccess' => $success ? 'true' : 'false', 'Message' => $msg];
+            if ($success && !$is_voided && !$is_refunded) {
+
+                $order->update([
+                    'status' => Order::PAYMENT_COMPLETED,
+                ]);
+                $order->transactions()->create([
+                    'transaction' => OrderTransaction::PAYMENT_COMPLETED,
+                    'transaction_number' => Paymob::filterVar('id'),
+                    'payment_result' =>  'success',
+                    'payment_method' =>  'card',
+                ]);
+                //increase used_times in coupon
+                $sale_condition = Cart::session('cart')->getConditionsByType('sale');
+                $coupon_code = count($sale_condition) > 0 ? $sale_condition->first()->getName() : null;
+                $coupon = Coupon::where('code', $coupon_code)->first();
+                if ($coupon) {
+                    $coupon->increment('used_times');
+                }
+                Cart::session('cart')->clear();
+                Alert::success(__('Payment'), __('Payment Approved!'));
+            } else {
+                $order->update([
+                    'status' => Order::REJECTED,
+                ]);
+                //decrease order products quantity once again and return products to cart
+                $order->products()->each(function ($product) {
+                    $product->quantity += $product->pivot->quantity;
+                });
+                $order->transactions()->create([
+                    'transaction' => OrderTransaction::REJECTED,
+                    'payment_result' =>  'failed',
+                ]);
+                Alert::error(__('Payment'), __('Payment is not completed'));
+            }
         } catch (\Exception $e) {
-            // Handle exceptions
-            $response = ['IsSuccess' => 'false', 'Message' => $e->getMessage()];
+            Alert::error(__('Error'), $e->getMessage());
         }
-        return response()->json($response);
+        return redirect()->route('store');
     }
 
-
-
+    protected function returnProductToCart($order)
+    {
+        $order->products()->each(function ($product) {
+            $product->quantity += $product->pivot->quantity;
+            Cart::session('cart')->add([
+                'id' => $product->id,
+                'name' => $product->name_ar,
+                'price' => $product->price,
+                'quantity' => $product->pivot->quantity,
+                'associatedModel' => $product,
+            ]);
+        });
+    }
 }

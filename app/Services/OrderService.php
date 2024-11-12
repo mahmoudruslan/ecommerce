@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\OrderAddress;
 use App\Models\OrderTransaction;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 
 class OrderService
@@ -40,7 +41,7 @@ class OrderService
         $latest_order = Order::orderBy('created_at', 'DESC')->first();
         $order = Order::create([
             'user_id' => auth()->user() ? auth()->id() : null,
-            'payment_method_id' => 1,
+            'payment_method' => $request['payment_method'],
             'user_address_id' => $request['address_id'] ?? null,
             'order_address_id' => $order_address_id,
             'discount_code' => $coupon_code,
@@ -60,36 +61,38 @@ class OrderService
             ]);
             //update product quantity
             $product = Product::find($item->id);
+
             $product->update([
                 'quantity' => $product->quantity - $item->quantity,
             ]);
         }
-        //increase used_times in coupon
-        $coupon = Coupon::where('code', $coupon_code)->first();
-        if ($coupon) {
-            $coupon->increment('used_times');
-        }
-        $order->transactions()->create([
-            'transaction' => OrderTransaction::NEW_ORDER,
 
+        $cache = $request['payment_method'] == 'cash-on-delivery';
+        $order->update([
+            'status' => $cache  ? OrderTransaction::PROCESSING : OrderTransaction::PENDING,
+        ]);
+        $order->transactions()->create([
+            'transaction' => $cache  ? OrderTransaction::PROCESSING : OrderTransaction::PENDING,
+            'payment_method' => $cache  ? 'cash-on-delivery' : 'card',
         ]);
         Cart::session('cart')->clear();
         $address = isset($request['address_id']) ? $order->userAddress : $order->orderAddress;
-            $order = [
-                'id' => $order->id,
-                'total' => $order->total,
-                'email' => $address->email,
-                'first_name' => $address->first_name,
-                'last_name' => $address->last_name,
-                'phone_number' => $address->mobile,
-                'country' => 'Egypt',
-                'state' => $address->governorate['name_' . app()->getLocale()],
-                'city' => $address->city['name_' . app()->getLocale()],
-                "street" => $address->zip_code,
-                "postal_code" => $address->zip_code,
+        $data = [
+            'id' => $order->id,
+            'total' => $order->total,
+            'email' => $address->email,
+            'first_name' => $address->first_name,
+            'last_name' => $address->last_name,
+            'phone_number' => $address->mobile,
+            'country' => 'Egypt',
+            'state' => $address->governorate['name_' . app()->getLocale()],
+            'city' => $address->city['name_' . app()->getLocale()],
+            "street" => $address->zip_code,
+            "postal_code" => $address->zip_code,
+            "order" => $order,
 
-            ];
+        ];
 
-        return $order;
+        return $data;
     }
 }

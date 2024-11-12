@@ -10,9 +10,9 @@ class OrderTransaction extends Model
     use HasFactory;
     protected $guarded = [];
 
-    const NEW_ORDER = 0;
+    const PENDING = 0;
     const PAYMENT_COMPLETED = 1;
-    const UNDER_PROCESS = 2;
+    const PROCESSING = 2;
     const FINISHED = 3;
     const REJECTED = 4;
     const CANCELED = 5;

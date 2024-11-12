@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Store;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
+use App\Models\Order;
+use App\Models\Product;
+use Paymob\Library\Paymob;
 use App\Services\OrderService;
 use App\Services\PaymobService;
+use App\Models\OrderTransaction;
 use App\Http\Requests\OrderRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Store\PaymobController;
+use RealRashid\SweetAlert\Facades\Alert;
+use Darryldecode\Cart\Facades\CartFacade as Cart;
+
 
 class OrderController extends Controller
 {
@@ -23,15 +27,21 @@ class OrderController extends Controller
 
     public function completeOrder(OrderRequest $request)
     {
+        // $cart = Cart::session('cart')->getContent();
+        // foreach ($cart as $item) {
+        //     $product = Product::find($item->id);
+        //     if ($item->quantity > $product->quantity) {
+        //         Alert::toast(__('Only pieces of the product are currently available', [
+        //             'quantity' => $product->quantity,
+        //             'product' => $product->name_ar,
+        //         ]), 'warning');
+        //         return redirect()->back();
+        //     }
+        // }
+
         $order = $this->order_service->createOrder($request->all());
 
-        // return redirect()->route('store');
-
-        if ($request['payment_method'] == 'cash-on-delivery') {
-            dd('cash-on-delivery');
-            //code.......
-
-        } else if ($request['payment_method'] == 'pay') {
+        if ($request['payment_method'] == 'card') {
 
             $billing = [
                 "email" => $order['email'],
@@ -44,20 +54,15 @@ class OrderController extends Controller
                 "state" => $order['state'],
                 "postal_code" => '',
             ];
-            // return $billing;
-           return $this->paymob->process($billing, $order['id'], $order['total'], 'EGP');
 
-            // return redirect()->route('pay');
-
-
-            // return $this->paymob->sendPayment($data);
-        } else {
-            return redirect()->back();
+            return $this->paymob->process($billing, $order['id'], $order['total'], 'EGP');
         }
+        Alert::success(__('Order created successfully.'));
+        return redirect()->route('store');
     }
 
-    public function callback(Request $request)
+    public function callback()
     {
-        $this->paymob->callback($request);
+        return $this->paymob->callback();
     }
 }

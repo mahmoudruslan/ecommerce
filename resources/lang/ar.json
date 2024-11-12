@@ -297,6 +297,9 @@
     "Not found reviews": "لا يوجد مراجعات",
     "Not found products": "لا يوجد منتجات",
     "Not found related products": "لم يتم العثور على منتجات ذات صلة",
+    "Order created successfully.": "تم إنشاء الطلب بنجاح",
+    "Order updated successfully.": "تم إنشاء الطلب بنجاح",
+    "Order deleted successfully.": "تم إنشاء الطلب بنجاح",
     "Item Created successfully.": "تم إنشاء العنصر بنجاح",
     "Item Updated successfully.": "تم تحديث العنصر بنجاح",
     "Item Deleted successfully.": "تم حذف العنصر بنجاح",
@@ -310,6 +313,7 @@
     "Deleted Successfully.": "تم الحذف بنجاح .",
     "Wishlist": "قائمة الرغبات",
     "Choose an address.": "اختر عنواناً",
+    "Only pieces of the product are currently available": "متوفر حاليا :quantity قطع فقط من المنتج : :product.",
 
 
 

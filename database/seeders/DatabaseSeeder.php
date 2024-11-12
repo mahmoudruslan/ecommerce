@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $cities = City::select('id', 'governorate_id')->get();
 
-        \App\Models\Product::factory(1000)->create();
+        \App\Models\Product::factory(1)->create();
         \App\Models\User::factory(20)->create()->each(function($user) use ($cities){
             $user->assignRole('customer');
             $rand_city = $cities->random();
@@ -82,6 +82,18 @@ class DatabaseSeeder extends Seeder
             'status' => 1,
         ]);
         $employee->assignRole('employee');
+
+        $customer = User::factory()->create([
+            'first_name' => 'ahmed',
+            'last_name' => 'hossam',
+            'username' => 'ahmedhossam',
+            'email' => 'ahmedhossam@gmail.com',
+            'password' => Hash::make('00000000'),
+            'mobile' => '010979788989',
+            'image' => 'images/users/user.svg.png',
+            'status' => 1,
+        ]);
+        $customer->assignRole('customer');
 
         $this->call([
             ProductTagsSeeder::class,
