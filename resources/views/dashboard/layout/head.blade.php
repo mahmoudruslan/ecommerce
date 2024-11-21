@@ -28,7 +28,7 @@
 {{-- @if(Config::get('app.locale') == 'ar')
     <link rel="stylesheet" href="{{ asset("dashboard/vendor/bootstrap-file-input/css/fileinput-rtl.css") }}">
 @else --}}
-    <link rel="stylesheet" href="{{ asset("dashboard/vendor/bootstrap-file-input/css/fileinput.min.css") }}">
+
 {{-- @endif --}}
 
 
@@ -41,6 +41,7 @@
         <link href="{{asset('dashboard/css/sb-admin-2-en.min.css')}}" rel="stylesheet">
 
     @endif
+    <link rel="stylesheet" href="{{ asset("dashboard/vendor/bootstrap-file-input/css/fileinput.min.css") }}">
 </head>
 
 <body @if(Config::get('app.locale') == 'ar') dir="rtl" @endif id="page-top">

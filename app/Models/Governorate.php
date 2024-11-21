@@ -16,4 +16,8 @@ class Governorate extends Model
     {
         return $this->belongsToMany(ShippingCompany::class);
     }
+    public function cities()
+    {
+        return $this->hasMany(City::class);
+    }
 }

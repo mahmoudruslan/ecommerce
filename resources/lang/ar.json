@@ -10,6 +10,7 @@
     "Review text": "نص المراجعة",
     "Mobile": "رقم الهاتف",
     "Email": "البريد الإلكترونى",
+    "Enter your email": "ادخل بريدك الإلكترونى",
     "Confirm password": "تأكيد كلمة السر",
     "Language": "اللغة",
     "Arabic": "العربية",
@@ -22,6 +23,8 @@
     "Forgot Your Password?": "نسيت كلمة السر؟",
     "Password": "كلمة السر",
     "Profile": "الملف الشخصى",
+    "Update": "تحديث",
+    "Update order status": "تحديث حالة الطلب",
     "Settings": "الإعدادات",
     "users": "المستخدمين",
     "roles": "الصلاحيات",
@@ -32,7 +35,14 @@
     "super-admin": "المشرف الفائق",
     "admin": "المسئول",
     "employee": "موظف",
-
+    "Are you sure you want to change the order status?": "متأكد أنك تريد تغيير حالة الطلب؟",
+    "Order status changed successfully": "تم تغيير حالة الطلب بنجاح",
+    "Order status is already updated": "تم تحديث حالة الطلب بالفعل",
+    "You can return order in":"بإمكانك طلب إرجاع الطلب خلال",
+    "Days": "أيام",
+    "Refund request sent successfully": "تم إرسال طلب استرداد المبلغ بنجاح",
+    "Refund successfully": "تم استرداد المبلغ بنجاح",
+    "Choose status": "اختر الحالة",
     "tags": "الكلمات المفتاحية",
     "Permissions": "الأذونات",
     "Enter Role Name...": "أدخل اسم الصلاحية ...",
@@ -45,6 +55,8 @@
     "update-roles": "تعديل الصلاحيات",
     "store-roles": "إضافة الصلاحيات",
     "Choose Role": "اختر صلاحية",
+    "Data updated successfully.": "تم تحديث البيانات بنجاح",
+    "Image deleted successfully.": "تم حذف الصورة بنجاح",
 
     "First Name": "الإسم الأول",
     "Last Name": "الاسم الأخير",
@@ -59,11 +71,12 @@
     "store-users": "إضافة المستخدمين",
     "Contact": "التواصل",
 
-
     "Users addresses": "عناوين المستخدمين",
+    "Addresses": "العناوين",
     "Add user address": "إضافة عنوان للمستخدم",
     "Add address to": "إضافة عنوان لـ",
     "Add address": "إضافة عنوان",
+    "Add new address": "إضافة عنوان جديد",
     "Edit address to": "تعديل عنوان ",
     "Edit user address": "تعديل عنوان المستخدم",
     "Users addresses screens:": "شاشات عناوين المستخدمين :",
@@ -71,7 +84,9 @@
     "delete-user-addresses": "حذف عناويين المستخدمين",
     "update-user-addresses": "تعديل عناويين المستخدمين",
     "store-user-addresses": "إضافة عناويين المستخدمين",
+    "Default": "افتراضى",
     "Address": "العنوان",
+    "Address2": "عنوان اخر",
     "Delivery": "التوصيل",
     "Shipping": "الشحن",
     "Payment": "الدفع",
@@ -161,13 +176,16 @@
     "Coast": "التكلفة",
     "Normal": "طبيعى",
 
-
     "delete-payment-methods": "حذف عمليات الدفع",
     "update-payment-methods": "تعديل عمليات الدفع",
     "store-payment-methods": "إضافة عمليات الدفع",
     "Payment methods": "عمليات الدفع",
     "Add payment methods": "إضافة عمليات دفع",
     "Payment methods screens:": "شاشات عمليات الدفع :",
+    "Transactions": "المعاملات",
+    "Payment result": "نتيجة الدفع",
+    "Transaction number": "رقم المعاملة",
+    "Transaction date": "تاريخ المعاملة",
     "Edit payment methods": "تعديل عمليات الدفع",
     "Edit payment method": "تعديل شركة الشحن",
 
@@ -193,8 +211,6 @@
     "Add cities": "إضافة مدن",
     "Choose governorate": "اختر محافظة",
     "Choose city": "اختر مدينة",
-
-
 
     "Review": "المراجعة",
     "show-reviews": "عرض المراجعات",
@@ -241,26 +257,47 @@
     "Town/City": "بلدة/مدينة",
     "State/County": "ولاية/دولة",
     "Alternate billing address": "فاتورة بديلة",
-    "Your order": "طلبك",
     "Enter your first name": "أدخل الاسم الأول",
     "Enter your last name": "أدخل الاسم الأخير",
     "Your company name": "اسم شركتك",
     "House number and street name": "رقم هاتف المنزل و اسم الشارع",
     "Apartment, Suite, Unit, etc (optional)": "شقة، مبنى، حي، إلخ (اختياري)",
     "Quantity": "الكمية",
+    "Customer": "عميل",
     "Alerts Center": "الإشعارات",
     "Message Center": "الرسائل",
     "Add to cart": "أضف إلى السلة",
     "Related products": "منتجات ذات صلة",
     "Optional": "اختيارى",
     "Order Summary": "ملخص الطلب",
+    "Order created successfully.": "تم إنشاء الطلب بنجاح",
+    "Order updated successfully.": "تم إنشاء الطلب بنجاح",
+    "Order deleted successfully.": "تم إنشاء الطلب بنجاح",
+    "Orders": "الطلبات",
+    "Customer type": "نوع العميل",
+    "Authenticated": "لديه حساب",
+    "Pending": "قيد الانتظار",
+    "Payment completed": "تم الدفع",
+    "Processing": "التجهيز للشحن",
+    "Finished": "تم الانتهاء",
+    "Rejected": "مرفوض",
+    "Canceled": "تم الإلغاء",
+    "Refund request": "طلب استرداد المبلغ",
+    "Refunded": "إرجاع المبلغ",
+    "Returned": "تم الارجاع",
+    "Returned order": "تم إرجاع الطلب",
+    "Reference ID": "المرجع",
+    "Created at:": "تم الإنشاء فى :",
+    "Payment method": "طريقة الدفع",
+    "Your order": "طلبك",
     "Discount": "الخصم",
     "Use different address.": "استخدم عنواناً مختلفاً.",
     "Remove coupon": "إزالة الكوبون",
+    "Remove": "حذف",
+    "Address deleted successfully.": "تم حذف العنوان بنجاح",
+    "Address updated successfully.": "تم تحديث العنوان بنجاح",
+    "Address created successfully.": "تم تحديث العنوان بنجاح",
     "No products available in your cart.": "لا يوجد منتجات في سلة مشترياتك.",
-
-
-
 
     "Description": "الوصف",
     "Warning": "تحذير",
@@ -284,7 +321,7 @@
     "Active": "نشط",
     "Inactive": "غير نشط",
     "Choose": "اختر",
-    "Featured products":"منتجات مميزة",
+    "Featured products": "منتجات مميزة",
 
     "Action": "الإجراءات",
     "Enter Quantity": "الكمية",
@@ -297,9 +334,7 @@
     "Not found reviews": "لا يوجد مراجعات",
     "Not found products": "لا يوجد منتجات",
     "Not found related products": "لم يتم العثور على منتجات ذات صلة",
-    "Order created successfully.": "تم إنشاء الطلب بنجاح",
-    "Order updated successfully.": "تم إنشاء الطلب بنجاح",
-    "Order deleted successfully.": "تم إنشاء الطلب بنجاح",
+
     "Item Created successfully.": "تم إنشاء العنصر بنجاح",
     "Item Updated successfully.": "تم تحديث العنصر بنجاح",
     "Item Deleted successfully.": "تم حذف العنصر بنجاح",
@@ -314,10 +349,6 @@
     "Wishlist": "قائمة الرغبات",
     "Choose an address.": "اختر عنواناً",
     "Only pieces of the product are currently available": "متوفر حاليا :quantity قطع فقط من المنتج : :product.",
-
-
-
-
 
     "Main": "الصفحة الرئيسية",
     "Image Not Found": "لايوجد صورة",
@@ -336,12 +367,4 @@
     "Reset password": "إعادة تعيين كلمة المرور",
     "Are you sure you want to delete the item?": "متأكد أنك تريد حذف العنصر؟",
     "Are you sure you want to logput?": "متأكد أنك تريد تسجيل الخروج؟"
-
-
-
-
-
-
-
-
 }

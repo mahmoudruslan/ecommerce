@@ -17,7 +17,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
                             <li class="breadcrumb-item"><a class="text-dark"
-                                    href="{{ route('store') }}">{{ __('Home') }}</a></li>
+                                    href="{{ route('customer.store') }}">{{ __('Home') }}</a></li>
                             <li class="breadcrumb-item active" aria-current="page">{{ __('Shop') }}</li>
                         </ol>
                     </nav>
@@ -40,7 +40,7 @@
                             @forelse ($parent_category->appearChildren as $category)
                                 <li class="mb-2"><a
                                         class="reset-anchor {{ strpos($current_url, $category->slug) && strpos($current_url, 'category') == true ? ' active-sub-category' : '' }}"
-                                        href="{{ route('shopping', ['category', $category->slug]) }}">{{ $category['name_' . $lang] }}</a>
+                                        href="{{ route('customer.shopping', ['category', $category->slug]) }}">{{ $category['name_' . $lang] }}</a>
                                 </li>
                             @empty
                                 <li class="mb-2">
@@ -57,7 +57,7 @@
                         @forelse ($sopping_tags_menu as $tag)
                             <li class="mb-2"><a
                                     class="reset-anchor {{ strpos($current_url, $tag->slug) && strpos($current_url, 'tag') == true ? ' active-sub-category' : '' }}"
-                                    href="{{ route('shopping', ['tag', $tag->slug]) }}">{{ $tag['name_' . $lang] }}</a>
+                                    href="{{ route('customer.shopping', ['tag', $tag->slug]) }}">{{ $tag['name_' . $lang] }}</a>
                             </li>
                         @empty
                             <li class="mb-2"><a class="reset-anchor" href="#!">{{ __('Not found tags') }}</a></li>
@@ -80,7 +80,7 @@
                                         href="javascript:void(0)"><i class="fas fa-th"></i></a></li>
                                 <li class="list-inline-item">
                                     {{-- create form with method get --}}
-                                    <form action="{{ route('products.sortBy', [$type, $slug]) }}">
+                                    <form action="{{ route('customer.products.sortBy', [$type, $slug]) }}">
                                         <select name="sortBy" onchange="this.form.submit()" class="selectpicker"
                                             data-customclass="form-control form-control-sm">
                                             <option value>Sort By </option>

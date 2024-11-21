@@ -50,17 +50,4 @@ class UserRequest extends FormRequest
 
         return $rules;
     }
-
-    // public function messages(): array
-    // {
-    //     return [
-    //         'first_name.required' => __('This field is required'),
-    //         'last_name.required' => __('This field is required'),
-    //         'username.required' => __('This field is required'),
-    //         'mobile.required' => __('This field is required'),
-    //         'image.required' => __('This field is required'),
-    //         'email.required' => __('This field is required'),
-
-    //     ];
-    // }
 }

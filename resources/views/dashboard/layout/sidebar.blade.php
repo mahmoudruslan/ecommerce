@@ -226,6 +226,23 @@
                     </div>
                 </li>
             @endcanany
+            {{-- orders --}}
+            @canany(['orders', 'store-orders', 'update-orders', 'show-orders', 'delete-orders'])
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrders"
+                        aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-dolly-flatbed text-gray"></i>
+                        <span>{{ __('Orders') }}</span>
+                    </a>
+                    <div id="collapseOrders" class="collapse @if ($route == 'orders') show @endif"
+                        aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">{{ __('Orders Screens:') }} </h6>
+                            <a class="collapse-item" href="{{ route('admin.orders.index') }}">{{ __('Orders') }}</a>
+                        </div>
+                    </div>
+                </li>
+            @endcanany
             {{-- reviews --}}
             @canany(['reviews', 'store-reviews', 'update-reviews', 'show-reviews', 'delete-reviews'])
                 <!-- Nav Item - Pages Collapse Menu -->

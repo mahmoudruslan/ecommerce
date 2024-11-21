@@ -34,6 +34,8 @@
    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js" > </script>
    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.bootstrap4.min.js" ></script>
 @stack('script')
+@include('sweetalert::alert')
+
 <script>
     //hide alert after 2 second
     window.onload = function flashAlert() {

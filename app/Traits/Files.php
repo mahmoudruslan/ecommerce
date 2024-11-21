@@ -40,7 +40,7 @@ trait Files
     {
         try{
             $file_path = 'storage/'. $file_name;
-            if (File::exists($file_path)) {
+            if (File::exists($file_path) && $file_name != 'images/users/avatar.png') {
                 File::delete($file_path);
                 return true;
             }

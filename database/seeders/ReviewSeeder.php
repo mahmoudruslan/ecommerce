@@ -23,14 +23,14 @@ class ReviewSeeder extends Seeder
         $products_ids = Product::pluck('id')->toArray();
         $users_ids = User::pluck('id')->toArray();
 
-        for ($i = 0; $i < 4000; $i++) { 
+        for ($i = 0; $i < 2000; $i++) {
             Review::create([
-                'user_id' => Arr::random($users_ids), 
+                'user_id' => Arr::random($users_ids),
                 'product_id' => Arr::random($products_ids),
-                'name' => fake()->username(), 
-                'email' => fake()->safeEmail(), 
-                'title' => fake()->sentence(5),  
-                'rating' => rand(1,5), 
+                'name' => fake()->username(),
+                'email' => fake()->safeEmail(),
+                'title' => fake()->sentence(5),
+                'rating' => rand(1,5),
                 'body' => fake()->paragraph(),
                 'status' => rand(0, 1),
             ]);

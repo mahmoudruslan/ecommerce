@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Coupon;
 use GuzzleHttp\Client;
 use Paymob\Library\Paymob;
+use GuzzleHttp\Psr7\Request;
 use App\Models\OrderTransaction;
 use RealRashid\SweetAlert\Facades\Alert;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
@@ -84,14 +85,14 @@ class PaymobService
             // Verify HMAC
             if (!Paymob::verifyHmac($this->hmac, $_GET)) {
                 Alert::error(__('Payment'), __('Ops, you are accessing wrong data'));
-                return redirect()->route('store');
+                return redirect()->route('customer.store');
             }
             // Extract intention ID from request parameters
             $orderId = Paymob::getIntentionId(Paymob::filterVar('merchant_order_id'));
             // Check if intention ID is valid
             if (empty($orderId)) {
                 Alert::error(__('Payment'), __('Ops, you are accessing wrong data'));
-                return redirect()->route('store');
+                return redirect()->route('customer.store');
             }
             $order = Order::find($orderId);
             // Check payment status
@@ -104,6 +105,7 @@ class PaymobService
 
                 $order->update([
                     'status' => Order::PAYMENT_COMPLETED,
+                    'ref_id' => Paymob::filterVar('id')
                 ]);
                 $order->transactions()->create([
                     'transaction' => OrderTransaction::PAYMENT_COMPLETED,
@@ -137,7 +139,7 @@ class PaymobService
         } catch (\Exception $e) {
             Alert::error(__('Error'), $e->getMessage());
         }
-        return redirect()->route('store');
+        return redirect()->route('customer.store');
     }
 
     protected function returnProductToCart($order)
@@ -153,4 +155,50 @@ class PaymobService
             ]);
         });
     }
+    public function refund($order_id)
+    {
+        $order = Order::find($order_id);
+        if (!$order) {
+            Alert::toast(__('Order not found'), 'error');
+            return redirect()->back();
+        }
+        $client = new Client();
+        $headers = [
+            'Authorization' => 'Token ' . $this->secret_key,
+            'Content-Type' => 'application/json'
+        ];
+        $body = [
+            "transaction_id" => $order->ref_id,
+            "amount_cents" => $order->total * 100
+        ];
+
+        $request = new Request('POST', 'https://accept.paymob.com/api/acceptance/void_refund/refund', $headers, json_encode($body));
+        $response = $client->sendAsync($request)->wait();
+        $response = json_decode($response->getBody());
+
+        if($response->success == true && $response->is_refund == true)
+        {
+            $order->update([
+                'status' => Order::REFUNDED,
+            ]);
+            $order->transactions()->create([
+                'transaction' => OrderTransaction::REFUNDED,
+                'transaction_number' => $response->id,
+                'payment_result' => 'success',
+            ]);
+            $order->products()->each(function ($product) {
+                $product->update([
+                    'quantity' => $product->quantity + $product->pivot->quantity,
+                ]);
+            });
+            Alert::success(__('Refund successfully'), 'success');
+            return redirect()->back();
+
+        }else{
+            return json_decode($response->getBody());
+        }
+
+
+    }
+
 }

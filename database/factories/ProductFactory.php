@@ -24,7 +24,7 @@ class ProductFactory extends Factory
                 'price' => rand(50, 5000),
                 'description_ar' => fake()->sentence(),
                 'description_en' => fake()->sentence(),
-                'quantity' => rand(1, 200),
+                'quantity' => rand(1, 10),
                 'category_id' => $categories->random(),
                 'featured' => rand(0, 1),
                 'status' => rand(1, 1),

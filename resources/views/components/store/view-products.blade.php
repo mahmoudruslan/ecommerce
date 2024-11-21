@@ -8,7 +8,7 @@
             <div class="product text-center">
                 <div class="mb-3 position-relative">
                     <div class="badge text-white bg-"></div><a class="d-block"
-                        href="{{ route('product.detail', $product->slug) }}"><img
+                        href="{{ route('customer.product.detail', $product->slug) }}"><img
                             class="img-fluid w-100"
                             src="{{ asset('storage/' . $product->media->first()->file_name) }}"
                             alt="..."></a>
@@ -33,18 +33,18 @@
                                 </form>
                             </li>
                             <li class="list-inline-item mr-0"><a class="btn btn-sm btn-outline-dark"
-                                    href="#productView{{ $product->slug }}" data-bs-toggle="modal"><i
-                                        class="fas fa-expand"></i></a></li>
+                                    href="#productView{{ $product->slug }}" data-bs-toggle="modal">
+                                    <i class="fas fa-expand"></i></a></li>
                         </ul>
                     </div>
                 </div>
                 <h6> <a class="reset-anchor"
-                        href="{{ route('product.detail', $product->slug) }}">{{ $product['name_' . $lang] }}</a>
+                        href="{{ route('customer.product.detail', $product->slug) }}">{{ $product['name_' . $lang] }}</a>
                 </h6>
                 <p class="small text-muted">LE. {{ $product->price }}</p>
             </div>
         </div>
-        @include('store.layout.product_details_modal')
+        @include('store.modals.product_details_modal')
     @empty
         {{-- <div class="col-lg-4 col-sm-6"> --}}
         <div class="text-center">

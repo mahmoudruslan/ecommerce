@@ -31,12 +31,12 @@ class UserAddressRequest extends FormRequest
             // 'email' => 'nullable|string|email|max:255',
             'user_id' => 'nullable',
             'default_address' => 'nullable|numeric|max:1',
-            'address_title' => 'required|string|max:255',
+            'address_title' => 'nullable|string|max:255',
             'address' => 'required|string|max:255',
             'address2' => 'nullable|string|max:255',
             'governorate_id' => 'required|numeric',
             'city_id' => 'required|numeric',
-            'zip_code' => 'required|numeric|digits_between:6,50',
+            'zip_code' => 'nullable|numeric|digits_between:6,50',
             'po_box' => 'nullable|numeric|digits_between:6,50',
         ];
     }

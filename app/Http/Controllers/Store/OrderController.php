@@ -8,7 +8,7 @@ use Paymob\Library\Paymob;
 use App\Services\OrderService;
 use App\Services\PaymobService;
 use App\Models\OrderTransaction;
-use App\Http\Requests\OrderRequest;
+use App\Http\Requests\Customer\OrderRequest;
 use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
@@ -27,18 +27,6 @@ class OrderController extends Controller
 
     public function completeOrder(OrderRequest $request)
     {
-        // $cart = Cart::session('cart')->getContent();
-        // foreach ($cart as $item) {
-        //     $product = Product::find($item->id);
-        //     if ($item->quantity > $product->quantity) {
-        //         Alert::toast(__('Only pieces of the product are currently available', [
-        //             'quantity' => $product->quantity,
-        //             'product' => $product->name_ar,
-        //         ]), 'warning');
-        //         return redirect()->back();
-        //     }
-        // }
-
         $order = $this->order_service->createOrder($request->all());
 
         if ($request['payment_method'] == 'card') {
@@ -59,6 +47,11 @@ class OrderController extends Controller
         }
         Alert::success(__('Order created successfully.'));
         return redirect()->route('store');
+    }
+
+    public function refund($order_id)
+    {
+        return $this->paymob->refund($order_id);
     }
 
     public function callback()

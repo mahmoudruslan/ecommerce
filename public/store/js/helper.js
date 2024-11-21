@@ -65,6 +65,7 @@ function inputsValidation(inputs) {
                 }
             }
             input.classList.remove("is-invalid");
+            document.querySelector(`#${input.name}_error`).innerHTML = '';
         }
     });
     return valid;

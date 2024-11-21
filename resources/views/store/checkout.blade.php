@@ -21,10 +21,9 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
                             <li class="breadcrumb-item"><a class="text-dark"
-                                    href="{{ route('store') }}">{{ __('Home') }}</a></li>
+                                    href="{{ route('customer.store') }}">{{ __('Home') }}</a></li>
                             <li class="breadcrumb-item"><a class="text-dark"
-                                    href="{{ route('cart') }}">{{ __('Cart') }}</a></li>
-
+                                    href="{{ route('customer.cart') }}">{{ __('Cart') }}</a></li>
                             <li class="breadcrumb-item active" aria-current="page">{{ __('Checkout') }}</li>
                         </ol>
                     </nav>
@@ -38,7 +37,7 @@
             <button id="logout" style="display: none" type="submit" class="btn btn-sm btn-dark">{{ __('Logout') }}
             </button>
         </form>
-        <form id="orderForm" action="{{ route('complete.order') }}" method="POST">
+        <form id="orderForm" action="{{ route('customer.complete.order') }}" method="POST">
             @csrf
             <div class="row">
                 <div class="col-md-8">
@@ -85,7 +84,7 @@
                                         <i class="fas fa-plus" aria-hidden="true"></i>
                                         <small>{{ __('Use different address.') }}</small>
                                     </a>
-                                    @include('store.layout.add_address')
+                                    @include('store.modals.add_order_address')
                                 </div>
                             @else
                                 <x-store.add-address-form :governorates="$governorates"></x-add-address-form>
@@ -213,14 +212,14 @@
                                             <input id="coupon_code" name="coupon_code" class="form-control"
                                                 type="text" placeholder="{{ __('Enter your coupon') }}">
                                             {{-- <input name="total" type="hidden" value="{{ $total }}"> --}}
-                                            <span onclick="applyCoupon('{{ route('apply.coupon') }}')"
+                                            <span onclick="applyCoupon('{{ route('customer.apply.coupon') }}')"
                                                 class="btn btn-dark btn-sm w-100 ">
                                                 <i class="fas fa-gift me-2"></i>
                                                 {{ __('Apply coupon') }}
                                             </span>
                                         </div>
                                         <span id="remove-coupon-btn"
-                                            onclick="removeCoupon('{{ route('remove.coupon') }}')"
+                                            onclick="removeCoupon('{{ route('customer.remove.coupon') }}')"
                                             class="{{ !$coupon_count > 0 ? 'hidden' : '' }} btn btn-danger btn-sm w-100 input-group mb-0">
                                             <i class="fas fa-gift me-2"></i>
                                             {{ __('Remove coupon') }}

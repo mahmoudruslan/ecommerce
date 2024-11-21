@@ -17,7 +17,7 @@
                 <div class="modal-footer">
                     <button id="close-modal" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                         aria-label="Close">{{ __('Close') }}</button>
-                    <span onclick="addAddress()" class="btn btn-primary">{{ __('Save') }} </span>
+                    <span onclick="addOrderAddress()" class="btn btn-primary">{{ __('Save') }} </span>
                 </div>
             {{-- </form> --}}
         </div>

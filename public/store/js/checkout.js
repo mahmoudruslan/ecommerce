@@ -49,7 +49,7 @@ function closeCollapse() {
     removeClass([payViaCredit], ["card-background"]);
 }
 
-function addAddress() {
+function addOrderAddress() {
     let form = document.querySelector("#orderForm");
     // form.reset();
     let failds = [

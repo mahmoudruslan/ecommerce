@@ -97,7 +97,7 @@
                         <li class="px-3 py-2 mb-1 bg-white text-muted">
                             <strong class="text-uppercase text-dark">{{ __('Category') }}:</strong>
                             <a class="reset-anchor ms-2"
-                                href="{{ route('shopping', ['category', $d_product->category->slug]) }}">
+                                href="{{ route('customer.shopping', ['category', $d_product->category->slug]) }}">
                                 {{ $d_product->category['name_' . $lang] }}
                             </a>
                         </li>
@@ -105,7 +105,7 @@
                             <strong class="text-uppercase text-dark">{{ __('Tags') }}:</strong>
                             @foreach ($d_product->tags as $tag)
                                 <a class="reset-anchor ms-2"
-                                    href="{{ route('shopping', ['tag', $tag->slug]) }}">{{ $tag['name_' . $lang] }}</a> |
+                                    href="{{ route('customer.shopping', ['tag', $tag->slug]) }}">{{ $tag['name_' . $lang] }}</a> |
                             @endforeach
                         </li>
                     </ul>

@@ -29,11 +29,11 @@ document.querySelectorAll(".inc-btn").forEach((el) => {
             quantityField.value = parseInt(quantityField.value, 10) + 1;
             quantity = quantityField.value;
         } else {
-            alert({
-                title: success,
-                type: "success",
-                message: maxQuantityMessage,
-            });
+            alert(
+                success,
+                "success",
+                maxQuantityMessage,
+            );
         }
     });
 });

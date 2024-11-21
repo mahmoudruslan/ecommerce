@@ -14,7 +14,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
                             <li class="breadcrumb-item"><a class="text-dark"
-                                    href="{{ route('store') }}">{{ __('Home') }}</a></li>
+                                    href="{{ route('customer.store') }}">{{ __('Home') }}</a></li>
                             <li class="breadcrumb-item active" aria-current="page">{{ __('Wishlist') }}</li>
                         </ol>
                     </nav>
@@ -35,7 +35,7 @@
                                         class="text-sm text-uppercase">{{ __('Product') }}</strong></th>
                                 <th class="border-0 p-3" scope="col"> <strong
                                         class="text-sm text-uppercase">{{ __('Price') }}</strong></th>
-                        
+
                                 <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase"></strong>
                                 <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase"></strong>
                                 </th>
@@ -47,7 +47,7 @@
                                     <th class="ps-0 py-3 border-light" scope="row">
                                         <div class="d-flex align-items-center">
                                             <a class="reset-anchor d-block animsition-link"
-                                                href="{{ route('product.detail', $item->associatedModel->slug) }}">
+                                                href="{{ route('customer.product.detail', $item->associatedModel->slug) }}">
                                                 <img src="{{ asset('storage/' . $item->associatedModel->firstMedia->file_name) }}"
                                                     alt="..." width="70" />
                                             </a>
@@ -91,7 +91,7 @@
                 <div class="bg-light px-4 py-3">
                     <div class="row align-items-center text-center">
                         <div class="col-md-6 mb-3 mb-md-0 text-md-start"><a class="btn btn-link p-0 text-dark btn-sm"
-                                href="{{ route('shopping') }}"><i class="fas fa-long-arrow-alt-left me-2">
+                                href="{{ route('customer.shopping') }}"><i class="fas fa-long-arrow-alt-left me-2">
                                 </i>{{ __('Continue shopping') }}</a></div>
                     </div>
                 </div>

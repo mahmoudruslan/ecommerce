@@ -16,10 +16,10 @@ class User extends Authenticatable  implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug;
 
 
-        /**
+    /**
      * Get the options for generating the slug.
      */
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('username')
@@ -83,5 +83,9 @@ class User extends Authenticatable  implements MustVerifyEmail
     public function defaultAddress()
     {
         return $this->addresses()->where('default_address', true);
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

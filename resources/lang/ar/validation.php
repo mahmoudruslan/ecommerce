@@ -105,18 +105,18 @@ return [
     'required_without_all' => 'حقل  مطلوب في حالة عدم وجود أي من:values.',
     'same' => ' و :other يجب ان تكونا متطابقتان',
     "size" => [
-    'numeric' => 'يجب أن يكون: attribute: size.',
-        'file' => 'يجب أن يكون: attribute: size كيلوبايت.',
-        'string' => 'يجب أن يكون: attribute: حجم الأحرف.',
-        'array' => 'يجب أن يحتوي: attribute على: size items.',
+    'numeric' => 'يجب أن يكون :attribute: size.',
+        'file' => 'يجب أن يكون :attribute: size كيلوبايت.',
+        'string' => 'يجب أن يكون :attribute: حجم الأحرف.',
+        'array' => 'يجب أن يحتوي :attribute على: size items.',
     ] ,
     'begin_with' => ': يجب أن تبدأ السمة بواحد مما يلي: القيم.',
-    'string' => 'يجب أن يكون: attribute عبارة عن سلسلة.',
-    'timezone' => 'يجب أن يكون: attribute منطقة صالحة.',
-    'unique' => ': attribute مستخدمة بالفعل.',
-    'uploaded' => 'فشل تحميل: attribute.',
+    'string' => 'يجب أن يكون :attribute عبارة عن سلسلة.',
+    'timezone' => 'يجب أن يكون :attribute منطقة صالحة.',
+    'unique' => ' مستخدمة بالفعل.',
+    'uploaded' => 'فشل تحميل :attribute.',
     'url' => 'تنسيق السمة غير صالح.',
-    'uuid' => ': attribute يجب أن يكون UUID صالحًا.',
+    'uuid' => ' يجب أن يكون UUID صالحًا.',
 
     /*
     |--------------------------------------------------------------------------

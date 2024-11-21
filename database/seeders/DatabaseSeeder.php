@@ -27,16 +27,16 @@ class DatabaseSeeder extends Seeder
         ]);
         $cities = City::select('id', 'governorate_id')->get();
 
-        \App\Models\Product::factory(50)->create();
-        \App\Models\User::factory(20)->create()->each(function($user) use ($cities){
+        $rand_city = $cities->random();
+        \App\Models\Product::factory(5)->create();
+        \App\Models\User::factory(20)->create()->each(function($user) use ($cities, $rand_city){
             $user->assignRole('customer');
-            $rand_city = $cities->random();
             $user->addresses()->create([
-            'user_id' => $user->id,
-            'default_address' => rand(0, 1),
-            'address_title' => fake()->sentence(4),
-            'first_name' => fake()->firstName(),
-            'last_name' => fake()->lastName(),
+                'user_id' => $user->id,
+                'default_address' => rand(0, 1),
+                'address_title' => fake()->sentence(4),
+                'first_name' => fake()->firstName(),
+                'last_name' => fake()->lastName(),
             'email' => $user->email,
             'mobile' => fake()->phoneNumber(),
             'address' => fake()->address(),
@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'mahmoud@gmail.com',
             'password' => Hash::make('00000000'),
             'mobile' => '01092199386',
-            'image' => 'images/users/user.svg.png',
+            'image' => 'images/users/avatar.png',
             'status' => 1,
 
         ]);
@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'rezk@gmail.com',
             'password' => Hash::make('00000000'),
             'mobile' => '010545445446',
-            'image' => 'images/users/user.svg.png',
+            'image' => 'images/users/avatar.png',
             'status' => 1,
         ]);
         $admin->assignRole('admin');
@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'ebraheem@gmail.com',
             'password' => Hash::make('00000000'),
             'mobile' => '01097978898986',
-            'image' => 'images/users/user.svg.png',
+            'image' => 'images/users/avatar.png',
             'status' => 1,
         ]);
         $employee->assignRole('employee');
@@ -90,17 +90,31 @@ class DatabaseSeeder extends Seeder
             'email' => 'ahmedhossam@gmail.com',
             'password' => Hash::make('00000000'),
             'mobile' => '010979788989',
-            'image' => 'images/users/user.svg.png',
+            'image' => 'images/users/avatar.png',
             'status' => 1,
         ]);
         $customer->assignRole('customer');
-
+        $customer->addresses()->create([
+            'default_address' => rand(0, 1),
+            'address_title' => fake()->sentence(4),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'email' => $customer->email,
+            'mobile' => fake()->phoneNumber(),
+            'address' => fake()->address(),
+            'address2' => fake()->address(),
+            'governorate_id' => 1,
+            'city_id' => City::where('governorate_id', 1)->first()->id,
+            'zip_code' => rand(111, 999),
+            'po_box' => rand(111111, 999999),
+            ]);
         $this->call([
             ProductTagsSeeder::class,
             ProductMediaSeeder::class,
             CategoryTagsSeeder::class,
             ReviewSeeder::class,
-            ShippingCompanySeeder::class
+            ShippingCompanySeeder::class,
+            OrderSeeder::class
 
         ]);
     }

@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\RolePermissionController;
 use App\Http\Controllers\Dashboard\UserController;
-use App\Http\Controllers\Dashboard\BaseController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\CityController;
 use App\Http\Controllers\Dashboard\CouponController;
@@ -16,7 +15,7 @@ use App\Http\Controllers\Dashboard\ShippingCompanyController;
 use App\Http\Controllers\Dashboard\SupervisorController;
 use App\Http\Controllers\Dashboard\TagController;
 use App\Http\Controllers\Dashboard\UserAddressController;
-
+use App\Http\Controllers\Dashboard\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,10 +27,14 @@ use App\Http\Controllers\Dashboard\UserAddressController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::view('/404', 'dashboard.404');
+Route::view('/blank', 'dashboard.blank');
+Route::view('/cards', 'dashboard.cards');
+Route::view('/charts', 'dashboard.charts');
+Route::view('/tables', 'dashboard.tables');
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
-    Route::get('forget-password', [AuthController::class, 'showForgetPasswordForm'])->name('password.request')->middleware('guest');
+    // Route::get('forget-password', [AuthController::class, 'showForgetPasswordForm'])->name('password.request')->middleware('guest');
     Route::middleware(['auth', 'if_customer'])
     ->group( function () {
         //main dashboard routes
@@ -55,7 +58,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
             'user-addresses' => UserAddressController::class,//user_address routes
             'shipping-companies' => ShippingCompanyController::class,//user_address routes
             'payment-methods' => PaymentMethodController::class,//user_address routes
+            'orders' => OrderController::class,//user_address routes
         ]);
+        Route::post('orders.refund/{order_id}', [OrderController::class, 'refund'])->name('orders.refund');
     });
 });
 
