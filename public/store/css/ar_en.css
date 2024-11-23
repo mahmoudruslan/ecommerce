@@ -31,3 +31,12 @@
 
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
+
+.active-sub-category {
+    /* color: #dcb14a; */
+
+    background-color: #dcb14a;
+}
+.shadow-top {
+    box-shadow: 0px 0px 8px rgb(0 0 0 / 75%);
+}

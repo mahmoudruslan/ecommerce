@@ -18,7 +18,7 @@ class CartController extends Controller
     public function cart()
     {
         Cart::session('cart')->clearCartConditions();
-        $cart_items = Cart::session('cart')->getContent();
+        $cart_items = Cart::session('cart')->getContent()->sort();
         if (count($cart_items)  == 0) {
             return redirect()->route('customer.store')->with([
                 'message' => __('Item Created successfully.'),
@@ -66,12 +66,14 @@ class CartController extends Controller
                 'cart' => $cart
             ]);
         } else {
-            //add to as user wishlist
             Cart::session('cart')->add([
                 'id' => $product->id,
                 'name' => $product->name_ar,
                 'price' => $product->price,
                 'quantity' => $request->quantity ?? 1,
+                'attributes' => [
+                    'created_at' => now(),
+                    ],
                 'associatedModel' => $product,
             ]);
             $cart = $this->cartData();
@@ -131,8 +133,11 @@ class CartController extends Controller
             ]);
         }
     }
+
     protected function cartData()
     {
+        //get cart data order by created attribute
+
         $cart = [];
         $cart['count'] = Cart::session('cart')->getContent()->count();
         $cart['total'] = Cart::session('cart')->getTotal();

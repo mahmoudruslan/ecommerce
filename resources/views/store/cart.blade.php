@@ -69,12 +69,13 @@
                                             <div class="border d-flex align-items-center justify-content-between px-3"><span
                                                     class="small text-uppercase text-gray headings-font-family">{{ __('Quantity') }}</span>
                                                 <div class="quantity">
-                                                    <span onclick="cartDecreaseQuantity({{ $item->id }}, 'http\://{{ request()->httpHost() }}/cart-decrease-quantity')" class="decrease p-0"><i class="fas fa-caret-left"></i></span>
+                                                    <span onclick="cartDecreaseQuantity({{ $item->id }}, 'http\://{{ request()->httpHost() }}/cart-decrease-quantity')" class="decrease p-0">
+                                                        <i class="fas fa-caret-{{app()->getLocale() === 'ar' ? 'right' : 'left'}}"></i></span>
                                                     <input name="quantity" id="quantity-{{ $item->id }}"
                                                         class="form-control form-control-sm border-0 shadow-0 p-0"
                                                         type="text" value="{{ $item->quantity }}" />
                                                     <span onclick="cartIncreaseQuantity({{ $item->id }}, 'http\://{{ request()->httpHost() }}/cart-increase-quantity')"
-                                                        class="increase p-0"><i class="fas fa-caret-right"></i></span>
+                                                        class="increase p-0"><i class="fas fa-caret-{{app()->getLocale() === 'ar' ? 'left' : 'right'}}"></i></span>
                                                 </div>
                                             </div>
                                         </form>
@@ -103,7 +104,7 @@
                 <div class="bg-light px-4 py-3">
                     <div class="row align-items-center text-center">
                         <div class="col-md-6 mb-3 mb-md-0 text-md-start"><a class="btn btn-link p-0 text-dark btn-sm"
-                                href="{{ route('customer.shopping') }}"><i class="fas fa-long-arrow-alt-left me-2">
+                                href="{{  strpos(url()->previous(), 'shopping') ? url()->previous() : route('customer.shopping') }}"><i class="fas fa-long-arrow-alt-left me-2">
                                 </i>{{ __('Continue shopping') }}</a></div>
                         <div class="col-md-6 text-md-end"><a class="btn btn-outline-dark btn-sm"
                                 href="{{ route('customer.checkout') }}">{{ __('Checkout') }}<i

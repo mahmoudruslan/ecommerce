@@ -72,7 +72,6 @@ class PaymobService
                 return redirect($to);
             }
         } catch (\Exception $e) {
-            // Handle exceptions
             $response = ['IsSuccess' => 'false', 'Message' => $e->getMessage()];
         }
         return response()->json($response);

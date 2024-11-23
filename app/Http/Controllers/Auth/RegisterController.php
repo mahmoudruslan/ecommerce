@@ -59,6 +59,11 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function showRegistrationForm()
+    {
+        return view('store.auth.register');
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -73,7 +78,7 @@ class RegisterController extends Controller
             'username' => $data['username'],
             'email' => $data['email'],
             'mobile' => $data['mobile'],
-            'image' => 'product-1',
+            'image' => 'images/users/avatar.png',
             'password' => Hash::make($data['password']),
         ]);
         $user->assignRole('customer');

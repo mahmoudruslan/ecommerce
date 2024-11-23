@@ -38,9 +38,9 @@
                                 {{ $parent_category['name_' . $lang] }}</strong></div>
                         <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
                             @forelse ($parent_category->appearChildren as $category)
-                                <li class="mb-2"><a
-                                        class="reset-anchor {{ strpos($current_url, $category->slug) && strpos($current_url, 'category') == true ? ' active-sub-category' : '' }}"
-                                        href="{{ route('customer.shopping', ['category', $category->slug]) }}">{{ $category['name_' . $lang] }}</a>
+                                <li class="mb-2  {{ strpos($current_url, $category->slug) && strpos($current_url, 'category') == true ? ' active-sub-category' : '' }}"><a
+                                        class="reset-anchor"
+                                        href="{{ route('customer.shopping', ['category', $category->slug]) }}"><h6>{{ $category['name_' . $lang] }}</h6></a>
                                 </li>
                             @empty
                                 <li class="mb-2">
@@ -55,9 +55,11 @@
                     <h5 class="text-uppercase mb-4">{{ __('Tags') }}</h5>
                     <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
                         @forelse ($sopping_tags_menu as $tag)
-                            <li class="mb-2"><a
-                                    class="reset-anchor {{ strpos($current_url, $tag->slug) && strpos($current_url, 'tag') == true ? ' active-sub-category' : '' }}"
-                                    href="{{ route('customer.shopping', ['tag', $tag->slug]) }}">{{ $tag['name_' . $lang] }}</a>
+                            <li class="mb-2 {{ strpos($current_url, $tag->slug) && strpos($current_url, 'tag') == true ? ' active-sub-category' : '' }}">
+                                <a class="reset-anchor" href="{{ route('customer.shopping', ['tag', $tag->slug]) }}">
+                                    <h6>{{ $tag['name_' . $lang] }}</h6>
+
+                                </a>
                             </li>
                         @empty
                             <li class="mb-2"><a class="reset-anchor" href="#!">{{ __('Not found tags') }}</a></li>

@@ -16,12 +16,18 @@ function addToCart(withoutQuantity, productId, url) {
 
     url = url + "/" + productId;
     let response = ajaxRequest("POST", url, formData);
-    response.then((response) => {
-        if (response.status === true) {
-            updateCartCount(response.cart.count);
-            alert(response.title, response.type, response.message);
-        }
-    });
+    response
+        .then((response) => {
+            if (response.status === true) {
+                updateCartCount(response.cart.count);
+                // alert(response.title, response.type, response.message);
+            }
+        })
+        .then(() => {
+            var myOffcanvas = document.getElementById("offcanvasExample");
+            var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+            bsOffcanvas.show();
+        });
 }
 // remove form cart
 function removeFromCart(itemId, url) {
@@ -61,8 +67,7 @@ function cartIncreaseQuantity(itemId, url) {
     url = url + "/" + itemId;
     let response = ajaxRequest("POST", url);
     response.then((response) => {
-            updateTotals(response.cart.total, response.cart.subTotal);
-
+        updateTotals(response.cart.total, response.cart.subTotal);
     });
     totalQuantity.innerHTML = total; // show new total
 }

@@ -91,7 +91,7 @@
                 <div class="bg-light px-4 py-3">
                     <div class="row align-items-center text-center">
                         <div class="col-md-6 mb-3 mb-md-0 text-md-start"><a class="btn btn-link p-0 text-dark btn-sm"
-                                href="{{ route('customer.shopping') }}"><i class="fas fa-long-arrow-alt-left me-2">
+                                href="{{  strpos(url()->previous(), 'shopping') ? url()->previous() : route('customer.shopping') }}"><i class="fas fa-long-arrow-alt-left me-2">
                                 </i>{{ __('Continue shopping') }}</a></div>
                     </div>
                 </div>

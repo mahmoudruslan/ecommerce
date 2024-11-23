@@ -1,8 +1,8 @@
 @extends('store.layout.master')
 @section('content')
-@php
-    $lang = App::getLocale();
-@endphp
+    @php
+        $lang = App::getLocale();
+    @endphp
     <!-- HERO SECTION-->
 
     <section class="hero pb-3 bg-cover bg-center d-flex align-items-center"
@@ -14,41 +14,50 @@
                 <div class="col-lg-6">
                     <p class="text-muted small text-uppercase mb-2">New Inspiration 2020</p>
                     <h1 class="h2 text-uppercase mb-3">20% off on new season</h1><a class="btn btn-dark"
-                        href="{{route('customer.shopping')}}">Browse collections</a>
+                        href="{{ route('customer.shopping') }}">Browse collections</a>
                 </div>
             </div>
         </div>
     </section>
     <!-- CATEGORIES SECTION-->
+
     <section class="pt-5">
         <header class="text-center">
             <p class="small text-muted small text-uppercase mb-1">Carefully created collections</p>
             <h2 class="h5 text-uppercase mb-4">Browse our categories</h2>
         </header>
-            <div class="row">
-                <div class="col-md-4"><a class="category-item" href="{{ route('customer.shopping', ['category', $categories[0]->slug]) }}"><img class="img-fluid"
-                            src="{{ asset('store/img/cat-img-1.jpg') }}" alt="" /><strong
-                            class="category-item-title">{{$categories[0]['name_' . $lang]}}</strong></a>
-                </div>
-                <div class="col-md-4"><a class="category-item mb-4" href="{{ route('customer.shopping', ['category', $categories[1]->slug]) }}"><img class="img-fluid"
-                            src="{{ asset('store/img/cat-img-2.jpg') }}" alt="" /><strong
-                            class="category-item-title">{{$categories[1]['name_' . $lang]}}</strong></a>
-                    <a class="category-item" href="{{ route('customer.shopping', ['category', $categories[2]->slug]) }}"><img class="img-fluid"
-                            src="{{ asset('store/img/cat-img-3.jpg') }}" alt="" /><strong
-                            class="category-item-title">{{$categories[2]['name_' . $lang]}}</strong></a>
-                </div>
-                <div class="col-md-4"><a class="category-item" href="{{ route('customer.shopping', ['category', $categories[3]->slug]) }}"><img class="img-fluid"
-                            src="{{ asset('store/img/cat-img-4.jpg') }}" alt="" /><strong
-                            class="category-item-title">{{$categories[3]['name_' . $lang]}}</strong></a>
-                </div>
+        <div class="row">
+            <div class="col-md-4"><a class="category-item"
+                    href="{{ route('customer.shopping', ['category', $categories[0]->slug]) }}"><img class="img-fluid"
+                        src="{{ asset('store/img/cat-img-1.jpg') }}" alt="" /><strong
+                        class="category-item-title">{{ $categories[0]['name_' . $lang] }}</strong></a>
             </div>
+            <div class="col-md-4"><a class="category-item mb-4"
+                    href="{{ route('customer.shopping', ['category', $categories[1]->slug]) }}"><img class="img-fluid"
+                        src="{{ asset('store/img/cat-img-2.jpg') }}" alt="" /><strong
+                        class="category-item-title">{{ $categories[1]['name_' . $lang] }}</strong></a>
+                <a class="category-item" href="{{ route('customer.shopping', ['category', $categories[2]->slug]) }}"><img
+                        class="img-fluid" src="{{ asset('store/img/cat-img-3.jpg') }}" alt="" /><strong
+                        class="category-item-title">{{ $categories[2]['name_' . $lang] }}</strong></a>
+            </div>
+            <div class="col-md-4"><a class="category-item"
+                    href="{{ route('customer.shopping', ['category', $categories[3]->slug]) }}"><img class="img-fluid"
+                        src="{{ asset('store/img/cat-img-4.jpg') }}" alt="" /><strong
+                        class="category-item-title">{{ $categories[3]['name_' . $lang] }}</strong></a>
+            </div>
+        </div>
 
     </section>
     <!-- TRENDING PRODUCTS-->
     <section class="py-5">
+
         <header>
-            {{-- <p class="small text-muted small text-uppercase mb-1">Made the hard way</p> --}}
-            <h2 class="h5 text-uppercase mb-4">{{__('Featured products')}}</h2>
+            {{-- <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+                aria-controls="offcanvasExample">
+                Link with href
+            </a> --}}
+
+            <h2 class="h5 text-uppercase mb-4">{{ __('Featured products') }}</h2>
         </header>
         {{-- feachered products --}}
         <x-store.view-products :products="$featured_products" class="col-xl-3 col-lg-4 col-sm-6"></x-view-products>
@@ -123,8 +132,8 @@
 @endsection
 @section('js')
     <script>
-    let maxQuantityMessage = "{{ __('This is the available quantity of the product.') }}";
-    let success = "{{ __('Success') }}";
+        let maxQuantityMessage = "{{ __('This is the available quantity of the product.') }}";
+        let success = "{{ __('Success') }}";
     </script>
 
     {{-- <script src="{{ asset('store/js/shopping.js') }}"></script> --}}

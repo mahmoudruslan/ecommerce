@@ -6629,7 +6629,7 @@ fieldset:disabled .btn {
 
 .offcanvas-start {
   top: 0;
-  right: 0;
+  left: 0;
   width: 400px;
   border-right: 1px solid rgba(0, 0, 0, 0.2);
   transform: translateX(-100%);
@@ -6639,7 +6639,7 @@ fieldset:disabled .btn {
   top: 0;
   right: 0;
   width: 400px;
-  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
   transform: translateX(100%);
 }
 
