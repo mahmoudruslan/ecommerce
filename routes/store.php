@@ -29,7 +29,7 @@ Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => [/*'auth',*/'if_admin'], 'as' => 'customer.'], function () {
     Route::get('/', [IndexController::class, 'index'])->name('store');
-    Route::get('/shopping/{type?}/{param?}', [ShoppingController::class, 'shoppingInProducts'])->name('shopping');
+    Route::get('/shopping/{type?}/{parent?}/{category?}', [ShoppingController::class, 'shoppingInProducts'])->name('shopping');
     Route::post('add-to-cart/{product_id}', [CartController::class, 'addToCart'])->name('add.cart');
     Route::get('/cart', [CartController::class, 'cart'])->name('cart');
     Route::post('apply-coupon', [CheckoutController::class, 'applyCoupon'])->name('apply.coupon');

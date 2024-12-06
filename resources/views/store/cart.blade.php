@@ -62,7 +62,7 @@
                                         </div>
                                     </th>
                                     <td class="p-3 align-middle border-light">
-                                        <p id="price-{{$item->id}}" class="mb-0 small">{{ $item->price }}</p>
+                                        {{getCurrency()}}<p id="price-{{$item->id}}" class="mb-0 small d-inline-block">{{ number_format($item->price, 2) }}</p>
                                     </td>
                                     <td class="p-3 align-middle border-light">
                                         <form id="cartForm{{ $item->id }}" action="">
@@ -71,8 +71,8 @@
                                                 <div class="quantity">
                                                     <span onclick="cartDecreaseQuantity({{ $item->id }}, 'http\://{{ request()->httpHost() }}/cart-decrease-quantity')" class="decrease p-0">
                                                         <i class="fas fa-caret-{{app()->getLocale() === 'ar' ? 'right' : 'left'}}"></i></span>
-                                                    <input name="quantity" id="quantity-{{ $item->id }}"
-                                                        class="form-control form-control-sm border-0 shadow-0 p-0"
+                                                    <input readonly name="quantity" id="quantity-{{ $item->id }}"
+                                                        class="form-control form-control-sm border-0 shadow-0 p-0 bg-white"
                                                         type="text" value="{{ $item->quantity }}" />
                                                     <span onclick="cartIncreaseQuantity({{ $item->id }}, 'http\://{{ request()->httpHost() }}/cart-increase-quantity')"
                                                         class="increase p-0"><i class="fas fa-caret-{{app()->getLocale() === 'ar' ? 'left' : 'right'}}"></i></span>
@@ -81,7 +81,7 @@
                                         </form>
                                     </td>
                                     <td class="p-3 align-middle border-light">
-                                        <p id="total-quantity-{{$item->id}}" class="mb-0 small">{{ $item->quantity * $item->price }}</p>
+                                        <p id="total-quantity-{{$item->id}}" class="mb-0 small">{{ getCurrency() . number_format($item->quantity * $item->price, 2) }}</p>
                                     </td>
                                     <td class="p-3 align-middle border-light">
                                         <a href="javascript:void(0)" class="reset-anchor"
@@ -123,7 +123,7 @@
                                     {{ __('Subtotal') }}
                                 </strong>
                                 <span id="cart-subtotal" class="text-muted small">
-                                    {{ \Cart::session('cart')->getSubTotal() }}
+                                    {{ getCurrency() . number_format(\Cart::session('cart')->getSubTotal(), 2) }}
                                 </span>
                             </li>
                             <li class="border-bottom my-2"></li>
@@ -132,7 +132,7 @@
                                     {{ __('Total') }}
                                 </strong>
                                 <span id="cart-total">
-                                    {{ \Cart::session('cart')->getTotal() }}
+                                    {{ getCurrency() . number_format(\Cart::session('cart')->getTotal(), 2) }}
                                 </span>
                             </li>
 

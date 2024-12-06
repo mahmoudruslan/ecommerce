@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Store;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use RealRashid\SweetAlert\Facades\Alert;
+use Carbon\Carbon;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 
 
@@ -18,7 +18,8 @@ class CartController extends Controller
     public function cart()
     {
         Cart::session('cart')->clearCartConditions();
-        $cart_items = Cart::session('cart')->getContent()->sort();
+        $cart_items = Cart::session('cart')->getContent();
+
         if (count($cart_items)  == 0) {
             return redirect()->route('customer.store')->with([
                 'message' => __('Item Created successfully.'),
@@ -72,7 +73,7 @@ class CartController extends Controller
                 'price' => $product->price,
                 'quantity' => $request->quantity ?? 1,
                 'attributes' => [
-                    'created_at' => now(),
+                    'created_at' => Carbon::now(),
                     ],
                 'associatedModel' => $product,
             ]);
@@ -136,12 +137,40 @@ class CartController extends Controller
 
     protected function cartData()
     {
-        //get cart data order by created attribute
+
+
+
+// $cart = Cart::session('cart')->getContent();
+// $cartData = [];
+// foreach ($cart as $item) {
+//     $cartData[] = [
+//         'id' => $item->id,
+//         'name' => $item->name,
+//         'price' => $item->price,
+//         'quantity' => $item->quantity,
+//         'image' => $item->firstMedia->file,
+//         ];
+//         }
+//         return $cartData;
+
+
 
         $cart = [];
         $cart['count'] = Cart::session('cart')->getContent()->count();
         $cart['total'] = Cart::session('cart')->getTotal();
         $cart['subTotal'] = Cart::session('cart')->getSubTotal();
+        $cart_collection = Cart::session('cart')->getContent()->reverse();
+        foreach ($cart_collection as $item) {
+            $cart['items'][] = [
+                'id' => $item->id,
+                'name' => $item->name,
+                'price' => $item->price,
+                'quantity' => $item->quantity,
+                'associatedModel' => $item->associatedModel,
+                'created_at' => $item->attributes->created_at,
+
+                ];
+            }
         return $cart;
     }
 }

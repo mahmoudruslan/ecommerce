@@ -37,7 +37,7 @@
             <button id="logout" style="display: none" type="submit" class="btn btn-sm btn-dark">{{ __('Logout') }}
             </button>
         </form>
-        <form id="orderForm" action="{{ route('customer.complete.order') }}" method="POST">
+        <form id="orderForm" name="orderForm" action="{{ route('customer.complete.order') }}" method="POST">
             @csrf
             <div class="row">
                 <div class="col-md-8">
@@ -46,7 +46,6 @@
                         <!-- BILLING ADDRESS-->
                         @if (\Auth::check())
                             <h2 class="h5 text-uppercase">{{ __('Contact') }}</h2>
-                            <input type="hidden" id="email" name="email" value="{{ $customer->email }}">
                             <div style="position: relative;" class="dropdown-toggle2" data-bs-toggle="collapse"
                                 data-bs-target="#alternateAddress3">
                                 {{ $customer->email }}...
@@ -101,7 +100,6 @@
                                         style="float: left;text-decoration: underline;">{{ __('Login') }}</a>
                                 </div>
                                 <div class="col-lg-12">
-
                                     <input class="form-control" id="email" type="email" name="email"
                                         placeholder="{{ __('Email') }}">
                                     <small class="error text-danger" id="email_error">@error('email') {{$message}} @enderror </small>
@@ -184,14 +182,14 @@
                         @endforeach --}}
                                 <li class="d-flex align-items-center justify-content-between mb-2">
                                     <strong class="text-uppercase small fw-bold">{{ __('Subtotal') }}</strong>
-                                    <span id="cart-subtotal">{{ $sub_total }}</span>
+                                    {{getCurrency()}}<span id="cart-subtotal">{{ number_format($sub_total, 2) }}</span>
                                     {{-- <input id="cart-subtotal" name="subtotal" disabled type="text" value="{{ $sub_total }}" style="border: none"> --}}
                                 </li>
                                 <li id="shipping-li"
                                     class="{{ $default_address_count > 0 ? '' : 'hidden' }} d-flex align-items-center justify-content-between mb-2">
                                     <strong class="text-uppercase small fw-bold">{{ __('Shipping') }}</strong>
                                     <span
-                                        class="shippingCost">{{ $default_address_count > 0 ? $default_address->first()->governorate->cost : '--' }}</span>
+                                        class="shippingCost">{{ $default_address_count > 0 ? number_format($default_address->first()->governorate->cost, 2) : '--' }}</span>
                                 </li>
                                 <li id="coupon-li"
                                     class="{{ !$coupon_count > 0 ? 'hidden' : '' }} d-flex align-items-center justify-content-between mb-2">
@@ -202,7 +200,7 @@
                                 <hr>
                                 <li class="d-flex align-items-center justify-content-between mb-2">
                                     <strong class="text-uppercase small fw-bold">{{ __('Total') }}</strong>
-                                    <span id="cart-total">{{ $total }}</span>
+                                    {{getCurrency()}}<span id="cart-total">{{ number_format($total, 2) }}</span>
                                 </li>
                                 <li>
                                     {{-- <form action="" id="coupon-form"> --}}

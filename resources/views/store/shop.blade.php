@@ -38,9 +38,10 @@
                                 {{ $parent_category['name_' . $lang] }}</strong></div>
                         <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
                             @forelse ($parent_category->appearChildren as $category)
-                                <li class="mb-2  {{ strpos($current_url, $category->slug) && strpos($current_url, 'category') == true ? ' active-sub-category' : '' }}"><a
-                                        class="reset-anchor"
-                                        href="{{ route('customer.shopping', ['category', $category->slug]) }}"><h6>{{ $category['name_' . $lang] }}</h6></a>
+
+                                <li class="mb-2  {{ strpos($current_url, $parent_category->slug) && strpos($current_url, $category->slug) && strpos($current_url, 'category')  == true ? ' active-sub-category' : '' }}">
+                                    <a class="reset-anchor"
+                                        href="{{ route('customer.shopping', ['category', $parent_category->slug, $category->slug]) }}"><h6>{{ $category['name_' . $lang] }}</h6></a>
                                 </li>
                             @empty
                                 <li class="mb-2">

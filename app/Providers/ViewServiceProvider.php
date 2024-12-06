@@ -37,8 +37,8 @@ class ViewServiceProvider extends ServiceProvider
                     Cache::forever('sopping_tags_menu', $tags);
                 }
                 $cart_count = \Cart::getContent()->count();
-                $wishlist_count = \Cart::session('wishList')->getContent()->count();      
-      $sopping_categories_menu = Cache::get('sopping_categories_menu');
+                $wishlist_count = \Cart::session('wishList')->getContent()->count();
+                $sopping_categories_menu = Cache::get('sopping_categories_menu');
                 $sopping_tags_menu = Cache::get('sopping_tags_menu');
                 $view->with([
                     'sopping_categories_menu' => $sopping_categories_menu,

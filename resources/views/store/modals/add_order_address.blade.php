@@ -11,6 +11,16 @@
             </div>
             {{-- <form action="" id="addAddressForm"> --}}
                 <div class="modal-body">
+                    <div class="row gy-2">
+                        <h2 class="h5 text-uppercase m-0">{{ __('Contact') }}</h2>
+                        <div class="col-md-12">
+                            <input name="email" class="form-control form-control-lg" type="email" id="email"
+                            placeholder="{{ __('Email') }}">
+                        <small class="error text-danger" id="email_error">@error('email') {{$message}} @enderror</small>
+                        </div>
+
+                    </div>
+                    <br>
                         <x-store.add-address-form :governorates="$governorates"></x-add-address-form>
                     <br>
                 </div>

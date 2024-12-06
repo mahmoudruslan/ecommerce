@@ -51,7 +51,7 @@
                         @endfor
                     </ul>
                     <h1>{{ $d_product['name_' . $lang] }}</h1>
-                    <p class="text-muted lead">LE.{{ $d_product->price }}</p>
+                    {{getCurrency()}}<p class="text-muted lead">{{ number_format($d_product->price, 2) }}</p>
                     <p class="text-sm mb-4">{!! $d_product['description_' . $lang] !!}</p>
                     <div class="row align-items-stretch mb-4">
                         <div class="col-sm-5 pr-sm-0">

@@ -46,7 +46,7 @@ class OrderController extends Controller
             return $this->paymob->process($billing, $order['id'], $order['total'], 'EGP');
         }
         Alert::success(__('Order created successfully.'));
-        return redirect()->route('store');
+        return redirect()->route('customer.store');
     }
 
     public function refund($order_id)

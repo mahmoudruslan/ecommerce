@@ -9,15 +9,18 @@ let closeModalBtn = document.querySelector("#close-modal");
 let modal = document.querySelector("#add-address");
 
 function addShippingCost(governorate_id) {
-    let url = "add-shipping-cost/" + parseInt(governorate_id);
-    let result = ajaxRequest("GET", url);
-    result.then((data) => {
-        updateTotals(data.cart.total, data.cart.subTotal);
-        shippingLi.classList.remove("hidden");
-        shippingCostElements.forEach((element) => {
-            element.innerHTML = data.cost ? data.cost : "";
+    if (governorate_id > 0) {
+         let url = "add-shipping-cost/" + parseInt(governorate_id);
+        let result = ajaxRequest("GET", url);
+        result.then((response) => {
+            updateTotal(response.cart.total);
+            shippingLi.classList.remove("hidden");
+            shippingCostElements.forEach((element) => {
+                element.innerHTML = response.cost ? currency + numeral(response.cost).format("0,0.00") : "";
+            });
         });
-    });
+    }
+
 }
 
 if(governorateSelect){
@@ -50,22 +53,10 @@ function closeCollapse() {
 }
 
 function addOrderAddress() {
+    let fields = ["address", "city_id", "governorate_id", "mobile", "first_name", "last_name", "zip_code"];
+    resetValidateErrors(fields);
+
     let form = document.querySelector("#orderForm");
-    // form.reset();
-    let failds = [
-        "address",
-        "city_id",
-        "governorate_id",
-        "mobile",
-        "first_name",
-        "last_name",
-        "zip_code",
-    ];
-    failds.forEach((field) => {
-        document.querySelector("#" + field).classList.remove("is-invalid");
-        let element = document.querySelector("#" + field + "_error");
-        if (element) element.innerHTML = "";
-    });
     let formData = new FormData(form);
     let url = "customer-add-address";
     let response = ajaxRequest("POST", url, formData);
@@ -81,6 +72,7 @@ function addOrderAddress() {
                 document.querySelector("#" + key + "_error").innerHTML = value;
             });
         }
+
     });
 }
 
@@ -137,13 +129,16 @@ function calcShipping() {
 
 function orderValidation() {
 
-    addressInput = document.querySelector('input[name="address_id"]');
-    checkedAddressInput = document.querySelector('input[name="address_id"]:checked');
+    let addressInput = document.querySelector('input[name="address_id"]');
+    let checkedAddressInput = document.querySelector('input[name="address_id"]:checked');
+    let form = document.querySelector("#orderForm");
     if(addressInput && checkedAddressInput == null)
     {
         document.querySelector('#address-id').innerHTML = chooseAddressMessage;
         return ;
     }
+    if (checkedAddressInput) form.submit();
+
     let inputs = [
     document.querySelector('#first_name'),
     document.querySelector('#last_name'),
@@ -153,30 +148,8 @@ function orderValidation() {
     document.querySelector('#governorate_id'),
     document.querySelector('#city_id'),
     ];
-    if (checkedAddressInput || inputsValidation(inputs)) {
-        let form = document.querySelector("#orderForm");
+    if (inputsValidation(inputs)) {
         form.submit();
     }
-
-    // return ;
-
-    // let form = document.querySelector("#orderForm");
-    // let formData = new FormData(form);
-
-    // let response = ajaxRequest("POST", "complete-order", formData);
-    // response.then((data) => {
-    //     if (data.status != true) {
-    //         Object.entries(data.errors).forEach(([key, value]) => {
-    //             document.querySelector("#" + key).classList.add("is-invalid");
-    //             document.querySelector("#" + key + "_error").innerHTML = value;
-    //         });
-    //     } else {
-    //         addShippingCost(data.governorate_id);
-    //         form.reset();
-    //         showAddresses(data.addresses);
-    //     }
-    // });
-
-    // console.log(formData);
 }
 

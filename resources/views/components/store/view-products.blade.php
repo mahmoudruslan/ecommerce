@@ -41,7 +41,7 @@
                 <h6> <a class="reset-anchor"
                         href="{{ route('customer.product.detail', $product->slug) }}">{{ $product['name_' . $lang] }}</a>
                 </h6>
-                <p class="small text-muted">LE. {{ $product->price }}</p>
+                <p class="small text-muted d-inline-block">{{getCurrency(). number_format($product->price, 2) }}</p>
             </div>
         </div>
         @include('store.modals.product_details_modal')

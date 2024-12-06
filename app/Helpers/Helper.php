@@ -13,7 +13,7 @@ use Spatie\Permission\Exceptions\UnauthorizedException;
         {
             $user_permissions = $user->getAllPermissions()->pluck('name')->toArray();// get all user permissions
             foreach ($permissions as  $permission){
-                if(in_array($permission, $user_permissions)) 
+                if(in_array($permission, $user_permissions))
                 {
                     //if user have permissions from required permissions => push this permissions in identical_permissions array
                     $identical_permissions[] = $permission;
@@ -30,11 +30,15 @@ use Spatie\Permission\Exceptions\UnauthorizedException;
 
     function checkAbility(string $permission, array $permissions)
     {
-        //if the require permission exists in user permissions 
+        //if the require permission exists in user permissions
         if(in_array($permission, $permissions) || $permissions[0] == 'super-admin')
         {
             return true;
         }
         return false;
+    }
+    function getCurrency()
+    {
+        echo ' EGP ';
     }
 

@@ -9,8 +9,9 @@ use App\Http\Controllers\Controller;
 
 class ShoppingController extends Controller
 {
-    public function shoppingInProducts(Request $request, $type = null, $slug = null)
+    public function shoppingInProducts(Request $request, $type = null, $parent = null, $slug = null)
     {
+        // \Cart::session('cart')->clear();
         $products = Product::with('media');
         if ($type === 'tag' && !empty($slug)) {
             $products = Product::whereHas('tags', function ($query) use ($slug) {

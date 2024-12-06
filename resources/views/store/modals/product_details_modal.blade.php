@@ -18,7 +18,7 @@
                                 </li>
                             </ul>
                             <h2 class="h4">{{ $product['name_' . $lang] }}</h2>
-                            <p class="text-muted">LE. {{ $product->price }}</p>
+                            <p class="text-muted">{{ getCurrency() . number_format($product->price, 2) }}</p>
                             <p class="text-sm mb-4">{{ $product['description_' . $lang] }}</p>
                             <form id="cartForm" action="">
                                 <div class="row align-items-stretch mb-4 gx-0">
@@ -31,9 +31,7 @@
                                     </div>
                                     <div class="col-sm-7">
                                         <div class="border d-flex align-items-center justify-content-between py-1 px-3">
-                                            <span
-                                                class="small text-uppercase text-gray mr-4 no-select">{{ __('Quantity') }}</span>
-
+                                            <span class="small text-uppercase text-gray mr-4 no-select">{{ __('Quantity') }}</span>
                                             <div class="quantity">
                                                 <input type="hidden" class="available_quantity" id="available_quantity"
                                                 value="{{ $product->quantity }}">

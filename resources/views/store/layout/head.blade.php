@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="lang" value="{{ app()->getLocale() }}">
+    <meta name="host" value="{{ request()->httpHost() }}">
     <!-- gLightbox gallery-->
     <link rel="stylesheet" href="{{ asset('store/vendor/glightbox/css/glightbox.min.css') }}">
     <!-- Range slider-->
@@ -20,6 +22,8 @@
     <!-- jquery-->
     <!-- Google fonts-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    {{-- float numbers --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;700&amp;display=swap">
     <link rel="stylesheet"

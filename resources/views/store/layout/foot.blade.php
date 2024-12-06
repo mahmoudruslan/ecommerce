@@ -43,9 +43,13 @@
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
           integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
       </div>
+      <script>
+            let currency = "{{getCurrency()}}";
+      </script>
       <script src="{{ asset('store/js/helper.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/index.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/cart.js') }}" type="text/javascript"></script>
+      <script src="{{ asset('store/js/cartSidebar.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/wishlist.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/coupon.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/checkout.js') }}" type="text/javascript"></script>

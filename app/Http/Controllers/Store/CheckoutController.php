@@ -16,6 +16,7 @@ class CheckoutController extends Controller
 {
     public function index()
     {
+        Cart::session('cart')->clearCartConditions();
         $cart_items = Cart::session('cart')->getContent();
         if (count($cart_items)  == 0) {
             return redirect()->back()->with([
@@ -163,9 +164,9 @@ class CheckoutController extends Controller
             'last_name' => 'required|string|max:255',
             'mobile' => 'required|numeric|digits_between:6,50',
             'user_id' => 'required|numeric',
-            'email' => 'required|email',
+            'email' => 'nullable|email',
             'address' => 'required|string|max:255',
-            'zip_code' => 'required|numeric|digits_between:1,10',
+            'zip_code' => 'nullable|numeric|digits_between:1,10',
             'governorate_id' => 'required|numeric',
             'city_id' => 'required|numeric',
         ];
