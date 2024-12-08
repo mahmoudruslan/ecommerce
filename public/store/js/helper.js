@@ -24,7 +24,7 @@ function ajaxRequest(method, url, formData = null) {
 function updateTotal(total) {
     let totalElements = document.querySelectorAll("#cart-total");
     totalElements.forEach((element) => {
-        element.innerHTML = currency + numeral(total).format("0,0.00");
+        element.innerHTML = numeral(total).format("0,0.00");
     });
 }
 

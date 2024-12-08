@@ -6,7 +6,7 @@
 
         @include('store.parts.cart_sidebar')
         <div class="container px-lg-3 m-auto">
-            <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="index.html"><span
+            <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="{{route('customer.store')}}"><span
                         class="fw-bold text-uppercase text-dark">{{ __(config('app.name')) }}</span></a>
                 <button class="navbar-toggler navbar-toggler-end" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"

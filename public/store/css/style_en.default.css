@@ -3534,6 +3534,11 @@ fieldset:disabled .btn {
   font-size: 0.875rem;
   border-radius: 0;
 }
+.custom-btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 0;
+  }
 
 .fade {
   transition: opacity 0.15s linear;
@@ -3983,7 +3988,10 @@ fieldset:disabled .btn {
   padding-right: 0.5625rem;
   padding-left: 0.5625rem;
 }
-
+.custom-btn-sm {
+    padding-right: 0.5625rem;
+    padding-right: 0.5625rem;
+  }
 .btn-lg + .dropdown-toggle-split, .btn-group-lg > .btn + .dropdown-toggle-split {
   padding-right: 0.75rem;
   padding-left: 0.75rem;
@@ -12169,9 +12177,9 @@ a.text-hover-dark:focus, a.text-hover-dark:hover {
   z-index: 999 !important;
 }
 
-.choices {
+/* .choices {
   min-width: 12rem;
-}
+} */
 
 .choices__list--dropdown .choices__item {
   padding-right: 10px !important;
@@ -12229,3 +12237,88 @@ STYLE SWITCHER FOR DEMO
 .bold {
   font-weight: bolder !important;
 }
+
+.add-to-cart-btn-mobile {
+    display: none !important;
+  }
+  .price-mb {
+    margin-bottom: 1rem !important;
+  }
+  .product-options-btn {
+
+    display: none;
+
+  }
+
+
+  @media (max-width: 767px) {
+
+    .pagination {
+        display: flex;
+        padding-left: 0;
+        list-style: none;
+        overflow: scroll;
+
+      }
+    .product-options-btn {
+        position: absolute;
+        top: 5%;
+        right: 5%;
+        display: inline-block;
+        z-index: 1;
+      }
+      .product-options-btn .wishlist-icon a{
+       padding: 0 !important;
+      }
+      .product-options-btn  .modal-icon a{
+        padding: 0 !important;
+       }
+    .price-mb {
+        margin-bottom: 0 !important;
+      }
+    .add-to-cart-btn-mobile {
+        display: block !important;
+        margin-bottom: 1rem;
+      }
+      .product:hover img {
+        opacity: 1;
+      }
+    .product-overlay {
+       display: none;
+       opacity: 1;
+      }
+      .product-overlay ul li {
+        transition: none;
+        opacity: 1;
+      }
+
+      .product-overlay ul li:first-of-type {
+        transform: none;
+        opacity: 1;
+      }
+
+      .product-overlay ul li:last-of-type {
+        transform: none;
+        opacity: 1;
+      }
+      .product:hover .product-overlay {
+        opacity: 1;
+      }
+
+      .product:hover .product-overlay li {
+        opacity: 1;
+        transform: none;
+      }
+
+      .custom-btn-sm {
+        padding: 0.2rem 0.2rem;
+      }
+      }
+
+
+      /* *{
+        margin: 0;
+        box-sizing: border-box;
+        Border: 1px solid red;
+
+        } */

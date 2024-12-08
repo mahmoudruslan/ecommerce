@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 
     // note :  super-admin role have all permissions and roles
@@ -40,5 +41,13 @@ use Spatie\Permission\Exceptions\UnauthorizedException;
     function getCurrency()
     {
         echo ' EGP ';
+    }
+
+    function checkImg($img_src)
+    {
+        $image_src =  File::exists($img_src) ?
+        asset($img_src) :
+        asset('storage/images/products/no-img.svg');
+        return $image_src;
     }
 

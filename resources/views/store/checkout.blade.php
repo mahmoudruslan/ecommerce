@@ -182,7 +182,7 @@
                         @endforeach --}}
                                 <li class="d-flex align-items-center justify-content-between mb-2">
                                     <strong class="text-uppercase small fw-bold">{{ __('Subtotal') }}</strong>
-                                    {{getCurrency()}}<span id="cart-subtotal">{{ number_format($sub_total, 2) }}</span>
+                                    <span>{{getCurrency()}}<span id="cart-subtotal">{{ number_format($sub_total, 2) }}</span></span>
                                     {{-- <input id="cart-subtotal" name="subtotal" disabled type="text" value="{{ $sub_total }}" style="border: none"> --}}
                                 </li>
                                 <li id="shipping-li"
@@ -200,7 +200,7 @@
                                 <hr>
                                 <li class="d-flex align-items-center justify-content-between mb-2">
                                     <strong class="text-uppercase small fw-bold">{{ __('Total') }}</strong>
-                                    {{getCurrency()}}<span id="cart-total">{{ number_format($total, 2) }}</span>
+                                    <span>{{getCurrency()}}<span id="cart-total">{{ number_format($total, 2) }}</span></span>
                                 </li>
                                 <li>
                                     {{-- <form action="" id="coupon-form"> --}}

@@ -24,7 +24,7 @@ class UserFactory extends Factory
             'last_name' => fake()->lastName(),
             'username' => fake()->unique()->username(),
             'mobile' => fake()->phoneNumber(),
-            'image' => 'images/users/avatar.svg.png',
+            'image' => 'images/users/avatar.png',
             'status' => '1',
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

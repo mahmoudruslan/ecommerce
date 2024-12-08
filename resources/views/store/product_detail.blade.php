@@ -1,4 +1,9 @@
 @extends('store.layout.master')
+{{-- @php
+    $image_src = File::exists('storage/' . $d_product->media->first()->file_name) ?
+                        asset('storage/' . $d_product->media->first()->file_name) :
+                        asset('storage/images/products/no-img.svg');
+@endphp --}}
 @section('content')
 
     <section class="py-5">
@@ -15,7 +20,7 @@
                                 <div class="swiper-wrapper">
                                     @foreach ($d_product->media as $media)
                                         <div class="swiper-slide h-auto swiper-thumb-item mb-3">
-                                            <img class="w-100" src="{{ asset('storage/' . $media->file_name) }}"
+                                            <img class="w-100" src="{{ checkImg('storage/' . $media->file_name) }}"
                                                 alt="{{ $d_product['name_' . $lang] }}">
                                         </div>
                                     @endforeach
@@ -28,10 +33,10 @@
                                     @foreach ($d_product->media as $media)
                                         <div class="swiper-slide h-auto">
                                             <a class="glightbox product-view"
-                                                href="{{ asset('storage/' . $media->file_name) }}" data-gallery="gallery2"
+                                                href="{{ checkImg('storage/' . $media->file_name) }}" data-gallery="gallery2"
                                                 data-glightbox="Product item 1">
                                                 <img class="img-fluid w-100"
-                                                    src="{{ asset('storage/' . $media->file_name) }}"
+                                                    src="{{ checkImg('storage/' . $media->file_name) }}"
                                                     alt="{{ $d_product['name_' . $lang] }}">
                                             </a>
                                         </div>
