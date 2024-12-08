@@ -12,8 +12,6 @@ function removeFromCartBar(itemId, url)
         htmlRow.remove();
     //if no products in cart show not found products in your cart
     let cartRows = document.querySelectorAll(".cart-bar-row").length;
-    console.log(cartRows.length);
-
     if (cartRows === 0) {
         bsOffcanvas.hide();
     }

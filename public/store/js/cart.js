@@ -1,5 +1,5 @@
-var myOffcanvas = document.getElementById("offcanvasExample");
-var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+let myOffcanvas = document.getElementById("offcanvasExample");
+let bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
 // add to cart function with ajax with javaScript
 function addToCart(withoutQuantity, productId, url) {
     // if new product => reset quantity
@@ -22,12 +22,11 @@ function addToCart(withoutQuantity, productId, url) {
             if (response.status === true) {
                 updateCartCount(response.cart.count);
                 updateSubTotal(response.cart.subTotal);
-                // alert(response.title, response.type, response.message);
             }
             return response.cart.items;
         }).then((items) => {
             addItemInCartSidebar(items);
-            bsOffcanvas.show();
+            openCartSidBar();
         });
 }
 // remove form cart
@@ -38,6 +37,7 @@ function removeFromCart(itemId, url) {
         if (response.status === true) {
             updateCartCount(response.cart.count);
             updateSubTotal(response.cart.subTotal);
+            updateTotal(response.cart.subTotal);
         }
     });
     let htmlRows = document.querySelectorAll("#cart-" + itemId);
@@ -47,32 +47,18 @@ function removeFromCart(itemId, url) {
     //if no products in cart show not found products in your cart
     let cartRows = document.querySelectorAll(".cart-row").length;
     if (cartRows === 0) {
-        bsOffcanvas.hide();
-        tBodyEl = document.querySelector(".t-body");
-        let th = createThTag();
-        th.innerHTML = noProducts;
-        tBodyEl.appendChild(th);
+        let cartDiv = document.querySelector(".cart-div-main");
+        let cartRow = createCartRow();
+        cartRow.innerHTML = noProducts;
+        cartDiv.appendChild(cartRow);
     }
 }
-function createThTag() {
-    const th = document.createElement("th");
-    th.setAttribute("class", "text-center ps-0 py-6 border-light");
-    th.setAttribute("colspan", "4");
-    th.setAttribute("scope", "row");
-    return th;
-}
-function cartIncreaseQuantity(itemId, url) {
-    let totalQuantity = document.getElementById("total-quantity-" + itemId); // get total quantity element
-    let total = increaseQuantity(url, itemId);
-    totalQuantity.innerHTML = currency + numeral(total).format("0,0.00"); // show new total
-}
-function cartDecreaseQuantity(itemId, url) {
-    let totalQuantity = document.getElementById("total-quantity-" + itemId); // get total quantity element
-   let total = decreaseQuantity(url, itemId);
-   totalQuantity.innerHTML = currency + numeral(total).format("0,0.00"); // show new total
+function createCartRow() {
+    const div = document.createElement("div");
+    div.setAttribute("class", "align-items-center my-4 text-center");
+    return div;
 }
 function addItemInCartSidebar(items) {
-
     let cartSidebarBody = document.querySelector(".offcanvas-body");
     cartSidebarBody.innerHTML = '';
     Object.entries(items).forEach((ObjItem) => {
@@ -100,15 +86,15 @@ function addItemInCartSidebar(items) {
                                         class="small text-uppercase text-gray headings-font-family">${Quantity}</span>
                                     <div class="quantity">
                                         <span
-                                            onclick="cartDecreaseQuantitySidebar(${item.id}, 'http\://${ host }/cart-decrease-quantity')"
+                                            onclick="decreaseQuantity(${item.id}, 'http\://${ host }/cart-decrease-quantity')"
                                             class="decrease p-0">
                                             <i
                                                 class="fas fa-caret-${lang === 'ar' ? 'right' : 'left'}"></i></span>
-                                        <input name="quantity" id="quantity-${item.id}"
-                                            class="form-control form-control-sm border-0 shadow-0 p-0" type="text"
+                                        <input readonly name="quantity" id="quantity-${item.id}"
+                                            class="bg-white form-control form-control-sm border-0 shadow-0 p-0" type="text"
                                             value="${ item.quantity }" />
                                         <span
-                                            onclick="cartIncreaseQuantitySidebar(${item.id}, 'http\://${ host }/cart-increase-quantity')"
+                                            onclick="increaseQuantity(${item.id}, 'http\://${ host }/cart-increase-quantity')"
                                             class="increase p-0"><i
                                                 class="fas fa-caret-${lang === 'ar' ? 'left' : 'right'}"></i></span>
                                     </div>
@@ -121,10 +107,15 @@ function addItemInCartSidebar(items) {
                                 <i class="fas fa-trash-alt small text-muted"></i>
                             </a>
                         </div>
-
                     </div><hr style="margin: 0%">`;
     });
-
-
-
+}
+function openCartSidBar()
+{
+    let cartRows = document.querySelectorAll(".cart-bar-row").length;
+    if (cartRows === 0) {
+        let el = document.querySelector(".offcanvas-body");
+        el.innerHTML = `<p class="text-center">${noProducts}</p>`;
+    }
+    bsOffcanvas.show();
 }

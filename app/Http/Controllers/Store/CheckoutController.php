@@ -8,9 +8,10 @@ use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Darryldecode\Cart\CartCondition;
+use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
-use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
@@ -19,10 +20,8 @@ class CheckoutController extends Controller
         Cart::session('cart')->clearCartConditions();
         $cart_items = Cart::session('cart')->getContent();
         if (count($cart_items)  == 0) {
-            return redirect()->back()->with([
-                'message' => __('Item Created successfully.'),
-                'alert-type' => 'success'
-            ]);;
+            Alert::toast(__('No products available in your cart.'), 'error');
+            return redirect()->route('customer.store');
         }
         if (Auth::check()) {
             $user = Auth::user();

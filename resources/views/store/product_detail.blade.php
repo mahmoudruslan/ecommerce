@@ -1,9 +1,4 @@
 @extends('store.layout.master')
-{{-- @php
-    $image_src = File::exists('storage/' . $d_product->media->first()->file_name) ?
-                        asset('storage/' . $d_product->media->first()->file_name) :
-                        asset('storage/images/products/no-img.svg');
-@endphp --}}
 @section('content')
 
     <section class="py-5">

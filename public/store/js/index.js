@@ -62,10 +62,3 @@ if (threeBlock) {
     });
 }
 
-function cartIncreaseQuantitySidebar(itemId, url) {
-    increaseQuantity(url, itemId)
-}
-
-function cartDecreaseQuantitySidebar(itemId, url) {
-    decreaseQuantity(url, itemId);
-}

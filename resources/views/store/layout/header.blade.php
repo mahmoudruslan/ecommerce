@@ -21,10 +21,17 @@
                             <!-- Link--><a class="nav-link"
                                 href="{{ route('customer.shopping') }}">{{ __('Shop') }}</a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <!-- Link--><a class="nav-link" href="{{ route('detail') }}">{{ __('Product detail') }}</a>
-                        </li> --}}
                         <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="pagesDropdown"
+                            href="#" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">{{ __('Language') }}</a>
+                        <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown">
+                            <a class="dropdown-item border-0 transition-link"
+                                href="{{ route('setlang', 'ar') }}">{{ __('Arabic') }}</a>
+                            <a class="dropdown-item border-0 transition-link"
+                                href="{{ route('setlang', 'en') }}">{{ __('English') }}</a>
+                        </div>
+                    </li>
+                        {{-- <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="pagesDropdown"
                                 href="#" data-bs-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">{{ __('Pages') }}</a>
                             <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown">
@@ -32,28 +39,17 @@
                                     href="{{ route('customer.store') }}">{{ __('Homepage') }}</a>
                                 <a class="dropdown-item border-0 transition-link"
                                     href="{{ route('customer.shopping') }}">{{ __('Category') }}</a>
-                                {{-- <a class="dropdown-item border-0 transition-link"
-                                    href="{{ route('detail') }}">{{ __('Product detail') }}</a> --}}
                                 <a class="dropdown-item border-0 transition-link"
                                     href="{{ route('customer.cart') }}">{{ __('Shopping cart') }}</a>
                                 <a class="dropdown-item border-0 transition-link"
                                     href="{{ route('customer.checkout') }}">{{ __('Checkout') }}</a>
                             </div>
-                        </li>
+                        </li> --}}
                     </ul>
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="pagesDropdown"
-                                href="#" data-bs-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">{{ __('Language') }}</a>
-                            <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown">
-                                <a class="dropdown-item border-0 transition-link"
-                                    href="{{ route('setlang', 'ar') }}">{{ __('Arabic') }}</a>
-                                <a class="dropdown-item border-0 transition-link"
-                                    href="{{ route('setlang', 'en') }}">{{ __('English') }}</a>
-                            </div>
-                        </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('customer.cart') }}">
+                            <a class="nav-link" href="#" onclick="openCartSidBar();">
                                 <i class="fas fa-dolly-flatbed text-gray"></i>
                                 {{-- {{ __('Cart') }} --}}
                                 <small id="cart-count"

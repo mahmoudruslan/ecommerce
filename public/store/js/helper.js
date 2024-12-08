@@ -86,34 +86,36 @@ function resetValidateErrors(fields) {
         if (element) element.innerHTML = "";
     });
 }
-function increaseQuantity(url, itemId) {
-    console.log('new');
-
-    let quantityField = document.getElementById("quantity-" + itemId); // get quantity input element
-    let price = document.getElementById("price-" + itemId).innerHTML; // get product price
-    let totalPriceQuantity = parseInt(quantityField.value) * parseInt(numeral(price).format("00.00")); // quantity * price
-    quantityField.value++; //increase quantity
+function increaseQuantity(itemId, url) {
+    let quantityFields = document.querySelectorAll("#quantity-" + itemId); // get quantity input element
+    quantityFields.forEach((field)=>{
+        field.value++;
+    });
     url = url + "/" + itemId;
     let response = ajaxRequest("POST", url);
     response.then((response) => {
         updateTotal(response.cart.total);
         updateSubTotal(response.cart.subTotal);
     });
-    return totalPriceQuantity;
-
 }
-function decreaseQuantity(url, itemId) {
-    let quantityField = document.getElementById("quantity-" + itemId); // get quantity input element
-    if (quantityField.value > 1) {
-        let price = document.getElementById("price-" + itemId).innerHTML; // get product price
-        let total = parseInt(quantityField.value) * parseInt(numeral(price).format("00.00")); // quantity * price
-        quantityField.value--; //increase quantity
+
+function decreaseQuantity(itemId, url) {
+    let decrease = false;
+    let quantityFields = document.querySelectorAll("#quantity-" + itemId); // get quantity input element
+    quantityFields.forEach((field)=>{
+        if (field.value > 1) {
+            field.value--;
+            decrease = true;
+        }
+    });
+    if (decrease) {
         url = url + "/" + itemId;
-        let response = ajaxRequest("POST", url);
-        response.then((response) => {
-            updateTotal(response.cart.total);
-            updateSubTotal(response.cart.subTotal);
-        });
-        return total;
+            let response = ajaxRequest("POST", url);
+            response.then((response) => {
+                updateTotal(response.cart.total);
+                updateSubTotal(response.cart.subTotal);
+            });
     }
+
+
 }

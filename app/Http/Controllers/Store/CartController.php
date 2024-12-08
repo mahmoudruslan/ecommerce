@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Store;
 
+use Carbon\Carbon;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
+use RealRashid\SweetAlert\Facades\Alert;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 
 
@@ -21,10 +22,8 @@ class CartController extends Controller
         $cart_items = Cart::session('cart')->getContent();
 
         if (count($cart_items)  == 0) {
-            return redirect()->route('customer.store')->with([
-                'message' => __('Item Created successfully.'),
-                'alert-type' => 'success'
-            ]);;
+            Alert::toast(__('No products available in your cart.'), 'error');
+            return redirect()->route('customer.store');
         }
         // return $cart_items;
         return view('store.cart', compact('cart_items'));
@@ -137,24 +136,6 @@ class CartController extends Controller
 
     protected function cartData()
     {
-
-
-
-// $cart = Cart::session('cart')->getContent();
-// $cartData = [];
-// foreach ($cart as $item) {
-//     $cartData[] = [
-//         'id' => $item->id,
-//         'name' => $item->name,
-//         'price' => $item->price,
-//         'quantity' => $item->quantity,
-//         'image' => $item->firstMedia->file,
-//         ];
-//         }
-//         return $cartData;
-
-
-
         $cart = [];
         $cart['count'] = Cart::session('cart')->getContent()->count();
         $cart['total'] = Cart::session('cart')->getTotal();
