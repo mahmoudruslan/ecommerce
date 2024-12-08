@@ -6,7 +6,6 @@
     @forelse ($products as $product)
         <!-- PRODUCT-->
         <div class="{{ $class }}" id="product-block">
-
             <div class="product text-center">
                 <div class="mb-3 position-relative">
                     {{-- mobile devices --}}
@@ -27,7 +26,6 @@
                             <i class="fas fa-expand"></i>
                         </a>
                         </div>
-
                     </div>
                     {{-- end mobile devices --}}
                     <div class="badge text-white bg-">
@@ -74,7 +72,7 @@
                     {{ getCurrency() . number_format($product->price, 2) }}
                 </p>
                 {{-- mobile screens --}}
-                <div class="add-to-cart-btn-mobile">
+                <div class="mobile-devices mb-2">
                     <form action="">
                         <a class="btn custom-btn-sm btn-dark" {{-- status = quantity status --}}
                             onclick="addToCart( {{ json_encode(['status' => true]) }} , {{ $product->id }}, 'http\://{{ request()->httpHost() }}/add-to-cart')">

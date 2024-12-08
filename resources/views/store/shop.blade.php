@@ -80,6 +80,11 @@
                         </div>
                         <div class="col-lg-6">
                             <ul class="list-inline d-flex align-items-center justify-content-lg-end mb-0">
+                                <li class="list-inline-item text-muted me-3 mobile-devices">
+                                    <a id="one-block" class="reset-anchor p-0" href="javascript:void(0)">
+                                        <i class="fas fa-stream"></i>
+                                    </a>
+                                </li>
                                 <li class="list-inline-item text-muted me-3">
                                     <a id="tow-block" class="reset-anchor p-0" href="javascript:void(0)">
                                         <i class="fas fa-th-large"></i>
@@ -90,6 +95,7 @@
                                         <i class="fas fa-th"></i>
                                     </a>
                                 </li>
+
                                 <li class="list-inline-item w-75">
                                     {{-- create form with method get --}}
                                     <form action="{{ route('customer.products.sortBy', [$type, $slug]) }}">
@@ -109,22 +115,12 @@
                             </ul>
                         </div>
                     </div>
-                    <x-store.view-products :products="$products" class="col-xl-4"></x-view-products>
-                        {{-- <x-store.view-products :products="$featured_products" class="col-xl-3 col-lg-4 col-sm-6"></x-view-products> --}}
+                    <x-store.view-products :products="$products" class="default-view"></x-view-products>
                         <!-- PAGINATION-->
+                        {{ $products->onEachSide(1)->appends(request()->input())->links() }}
 
-                                    {{ $products->onEachSide(1)->appends(request()->input())->links() }}
-
-                </div>
+            </div>
             </div>
         </div>
     </section>
-@endsection
-@section('js')
-    <script>
-        let maxQuantityMessage = "{{ __('This is the available quantity of the product.') }}";
-        let success = "{{ __('Success') }}";
-    </script>
-
-    {{-- <script src="{{ asset('store/js/shopping.js') }}"></script> --}}
 @endsection

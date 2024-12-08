@@ -25,6 +25,8 @@
                     <small>{{getCurrency()}}</small><small id="price-{{$item->id}}" >{{ number_format($item->price, 2) }}</small>
                 </p>
                 <form id="cartForm{{$item->id}}" action="">
+                    <input type="hidden" class="available_quantity" id="available_quantity"
+                        value="{{ $item->associatedModel->quantity }}">
                     <div class="w-75 border d-flex align-items-center justify-content-between px-3"><span
                             class="small text-uppercase text-gray headings-font-family">{{__('Quantity')}}</span>
                         <div class="quantity">

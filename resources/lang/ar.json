@@ -299,6 +299,7 @@
     "Address updated successfully.": "تم تحديث العنوان بنجاح",
     "Address created successfully.": "تم تحديث العنوان بنجاح",
     "No products available in your cart.": "لا يوجد منتجات في سلة مشترياتك.",
+    "No products available in your wishlist.": "لا يوجد منتجات في قائمة مفضلاتك.",
 
     "Description": "الوصف",
     "Warning": "تحذير",
@@ -349,7 +350,7 @@
     "Deleted Successfully.": "تم الحذف بنجاح .",
     "Wishlist": "قائمة الرغبات",
     "Choose an address.": "اختر عنواناً",
-    "Only pieces of the product are currently available": "متوفر حاليا :quantity قطع فقط من المنتج : :product.",
+    "Only :quantity pieces of the :product are currently available": "متوفر حاليا :quantity قطع فقط من المنتج : :product.",
 
     "Main": "الصفحة الرئيسية",
     "Image Not Found": "لايوجد صورة",

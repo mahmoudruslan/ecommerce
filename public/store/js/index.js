@@ -40,13 +40,23 @@ document.querySelectorAll(".inc-btn").forEach((el) => {
 
 // product view three block or two block
 let productBlocks = document.querySelectorAll("#product-block");
+//one block
+let oneBlock = document.getElementById("one-block");
+
+if (oneBlock) {
+    oneBlock.addEventListener("click", function () {
+        productBlocks.forEach((block) => {
+            block.classList.remove("col-4", "col-6", "default-view");
+            addClass([block], ["col-12"]);
+        });
+    });
+}
 //two block
 let twoBlock = document.getElementById("tow-block");
-
 if (twoBlock) {
     twoBlock.addEventListener("click", function () {
         productBlocks.forEach((block) => {
-            removeClass([block], ["col-4"]);
+            block.classList.remove("col-4", "col-12", "default-view");
             addClass([block], ["col-6"]);
         });
     });
@@ -56,7 +66,8 @@ let threeBlock = document.getElementById("three-block");
 if (threeBlock) {
     threeBlock.addEventListener("click", function () {
         productBlocks.forEach((block) => {
-            removeClass([block], ["col-6"]);
+            
+            block.classList.remove("col-6", "col-12", "default-view");
             addClass([block], ["col-4"]);
         });
     });

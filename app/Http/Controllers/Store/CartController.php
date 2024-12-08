@@ -103,6 +103,19 @@ class CartController extends Controller
         $product = Product::with('firstMedia')->find($product_id);
         $items = Cart::session('cart')->getContent()->pluck('id');
         if ($items->contains($product_id)) {
+            $item = Cart::session('cart')->get($product_id);
+            if($product->quantity < $item->quantity + 1)
+            {
+                return response()->json([
+                    'status' => false,
+                    'message' => __('Only :quantity pieces of the :product are currently available', [
+                        'quantity' =>  $product->quantity - $item->quantity,
+                        'product' => $product['name_'. app()->getLocale()],
+                    ]),
+                    'type' => 'warning',
+                    'title' => __('Warning'),
+                ]);
+            }
             // update the item on cart
             Cart::session('cart')->update($product_id, [
                 'quantity' => 1,

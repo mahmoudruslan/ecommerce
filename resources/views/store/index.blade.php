@@ -50,13 +50,7 @@
     </section>
     <!-- TRENDING PRODUCTS-->
     <section class="py-5">
-
         <header>
-            {{-- <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-                aria-controls="offcanvasExample">
-                Link with href
-            </a> --}}
-
             <h2 class="h5 text-uppercase mb-4">{{ __('Featured products') }}</h2>
         </header>
         {{-- feachered products --}}
@@ -129,14 +123,4 @@
             </div>
         </div>
     </section>
-@endsection
-@section('js')
-    <script>
-        let maxQuantityMessage = "{{ __('This is the available quantity of the product.') }}";
-        let success = "{{ __('Success') }}";
-        let noProducts = "{{ __('Not found products') }}";
-
-    </script>
-
-    {{-- <script src="{{ asset('store/js/shopping.js') }}"></script> --}}
 @endsection

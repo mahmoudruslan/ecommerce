@@ -88,21 +88,32 @@ function resetValidateErrors(fields) {
 }
 function increaseQuantity(itemId, url) {
     let quantityFields = document.querySelectorAll("#quantity-" + itemId); // get quantity input element
-    quantityFields.forEach((field)=>{
+    quantityFields.forEach((field) => {
         field.value++;
     });
     url = url + "/" + itemId;
     let response = ajaxRequest("POST", url);
-    response.then((response) => {
-        updateTotal(response.cart.total);
-        updateSubTotal(response.cart.subTotal);
-    });
+    response
+        .then((response) => {
+            if (response.status == false && response.message) {
+                alert(response.title, response.type, response.message);
+                quantityFields.forEach((field) => {
+                    field.value--;
+                });
+            }
+
+            return;
+        })
+        .then((response) => {
+            updateTotal(response.cart.total);
+            updateSubTotal(response.cart.subTotal);
+        });
 }
 
 function decreaseQuantity(itemId, url) {
     let decrease = false;
     let quantityFields = document.querySelectorAll("#quantity-" + itemId); // get quantity input element
-    quantityFields.forEach((field)=>{
+    quantityFields.forEach((field) => {
         if (field.value > 1) {
             field.value--;
             decrease = true;
@@ -110,12 +121,10 @@ function decreaseQuantity(itemId, url) {
     });
     if (decrease) {
         url = url + "/" + itemId;
-            let response = ajaxRequest("POST", url);
-            response.then((response) => {
-                updateTotal(response.cart.total);
-                updateSubTotal(response.cart.subTotal);
-            });
+        let response = ajaxRequest("POST", url);
+        response.then((response) => {
+            updateTotal(response.cart.total);
+            updateSubTotal(response.cart.subTotal);
+        });
     }
-
-
 }

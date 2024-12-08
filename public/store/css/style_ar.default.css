@@ -12250,7 +12250,7 @@ STYLE SWITCHER FOR DEMO
 }
 
 
-  .add-to-cart-btn-mobile {
+  .mobile-devices {
     display: none !important;
   }
   .price-mb {
@@ -12259,22 +12259,24 @@ STYLE SWITCHER FOR DEMO
   .product-options-btn {
 
     display: none;
-
   }
 
-
+  .default-view{
+    flex: 0 0 auto;
+    width: 33.33333%;
+  }
   @media (max-width: 767px) {
 
+    .default-view{
+      flex: 0 0 auto;
+      width: 50%;
+    }
     .pagination {
         display: flex;
         padding-left: 0;
         list-style: none;
         overflow: scroll;
-
       }
-    /* .choices {
-        min-width: 100% !important;
-      } */
     .product-options-btn {
         position: absolute;
         top: 5%;
@@ -12291,9 +12293,8 @@ STYLE SWITCHER FOR DEMO
     .price-mb {
         margin-bottom: 0 !important;
       }
-    .add-to-cart-btn-mobile {
+    .mobile-devices {
         display: block !important;
-        margin-bottom: 1rem;
       }
       .product:hover img {
         opacity: 1;
@@ -12328,18 +12329,3 @@ STYLE SWITCHER FOR DEMO
         padding: 0.2rem 0.2rem;
       }
       }
-
-
-
-
-
-
-
-/*
-      *{
-        margin: 0;
-        box-sizing: border-box;
-        Border: 1px solid red;
-
-        } */
-

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Store;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use RealRashid\SweetAlert\Facades\Alert;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 
 class WishListController extends Controller
@@ -50,11 +51,11 @@ class WishListController extends Controller
     }
     public function wishList()
     {
-        // $w_count = Cart::session('wishList')->getContent();
-        // $c_count = Cart::getContent();
-        // return  $c_count;
         $wishlist_items = Cart::session('wishList')->getContent();
-        // return $wishlist_items;
+        if (count($wishlist_items)  == 0) {
+            Alert::toast(__('No products available in your wishlist.'), 'error');
+            return redirect()->route('customer.store');
+        }
         return view('store.wishlist', compact('wishlist_items'));
     }
 }

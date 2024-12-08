@@ -128,10 +128,4 @@
         </div>
     </section>
 @endsection
-@section('js')
-    <script>
-        let maxQuantityMessage = "{{ __('This is the available quantity of the product.') }}";
-        let success = "{{ __('Success') }}";
-        let noProducts = "{{ __('Not found products') }}";
-    </script>
-@endsection
+

@@ -12238,7 +12238,7 @@ STYLE SWITCHER FOR DEMO
   font-weight: bolder !important;
 }
 
-.add-to-cart-btn-mobile {
+.mobile-devices {
     display: none !important;
   }
   .price-mb {
@@ -12250,9 +12250,15 @@ STYLE SWITCHER FOR DEMO
 
   }
 
-
+  .default-view{
+    flex: 0 0 auto;
+    width: 33.33333%;
+  }
   @media (max-width: 767px) {
-
+    .default-view{
+      flex: 0 0 auto;
+      width: 50%;
+    }
     .pagination {
         display: flex;
         padding-left: 0;
@@ -12276,9 +12282,8 @@ STYLE SWITCHER FOR DEMO
     .price-mb {
         margin-bottom: 0 !important;
       }
-    .add-to-cart-btn-mobile {
+    .mobile-devices {
         display: block !important;
-        margin-bottom: 1rem;
       }
       .product:hover img {
         opacity: 1;
@@ -12315,10 +12320,3 @@ STYLE SWITCHER FOR DEMO
       }
       }
 
-
-      /* *{
-        margin: 0;
-        box-sizing: border-box;
-        Border: 1px solid red;
-
-        } */

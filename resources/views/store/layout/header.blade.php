@@ -2,6 +2,7 @@
     <header class="header bg-white">
         @php
             $lang = app()->getLocale();
+            $current_url = url()->current();
         @endphp
 
         @include('store.parts.cart_sidebar')
@@ -13,12 +14,13 @@
                     aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav">
+
                         <li class="nav-item">
-                            <!-- Link--><a class="nav-link active"
+                            <!-- Link--><a class="nav-link {{Route::is('customer.store') ? 'active' : ''}}"
                                 href="{{ route('customer.store') }}">{{ __('Home') }}</a>
                         </li>
                         <li class="nav-item">
-                            <!-- Link--><a class="nav-link"
+                            <!-- Link--><a class="nav-link {{Route::is('customer.shopping') ? 'active' : ''}}"
                                 href="{{ route('customer.shopping') }}">{{ __('Shop') }}</a>
                         </li>
                         <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="pagesDropdown"
@@ -31,33 +33,19 @@
                                 href="{{ route('setlang', 'en') }}">{{ __('English') }}</a>
                         </div>
                     </li>
-                        {{-- <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="pagesDropdown"
-                                href="#" data-bs-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">{{ __('Pages') }}</a>
-                            <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown">
-                                <a class="dropdown-item border-0 transition-link"
-                                    href="{{ route('customer.store') }}">{{ __('Homepage') }}</a>
-                                <a class="dropdown-item border-0 transition-link"
-                                    href="{{ route('customer.shopping') }}">{{ __('Category') }}</a>
-                                <a class="dropdown-item border-0 transition-link"
-                                    href="{{ route('customer.cart') }}">{{ __('Shopping cart') }}</a>
-                                <a class="dropdown-item border-0 transition-link"
-                                    href="{{ route('customer.checkout') }}">{{ __('Checkout') }}</a>
-                            </div>
-                        </li> --}}
                     </ul>
                     <ul class="navbar-nav ms-auto">
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="openCartSidBar();">
-                                <i class="fas fa-dolly-flatbed text-gray"></i>
+                            <a class="nav-link {{Route::is('customer.cart') ? 'active' : ''}}" href="javascript:void(0)" onclick="openCartSidBar();">
+                                <i class="fas fa-dolly-flatbed"></i>
                                 {{-- {{ __('Cart') }} --}}
                                 <small id="cart-count"
                                     class="text-gray fw-normal">({{ \Cart::session('cart')->getContent()->count() }})</small>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('customer.wishlist') }}">
+                            <a class="nav-link {{Route::is('customer.wishlist') ? 'active' : ''}}" href="{{ route('customer.wishlist') }}">
                                 <i class="far fa-heart"></i>
                                 <small id="wishlist-count"
                                     class="text-gray fw-normal">({{ \Cart::session('wishList')->getContent()->count() }})</small>

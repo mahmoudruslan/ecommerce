@@ -27,66 +27,52 @@
         <div class="row">
             <div class="col-lg-12 mb-4 mb-lg-0">
                 <!-- CART TABLE-->
-                <div class="table-responsive mb-4">
-                    <table class="table text-nowrap">
-                        <thead class="bg-light">
-                            <tr>
-                                <th class="border-0 p-3" scope="col"> <strong
-                                        class="text-sm text-uppercase">{{ __('Product') }}</strong></th>
-                                <th class="border-0 p-3" scope="col"> <strong
-                                        class="text-sm text-uppercase">{{ __('Price') }}</strong></th>
 
-                                <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase"></strong>
-                                <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase"></strong>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="t-body" class="border-0">
-                            @forelse ($wishlist_items as $item)
-                                <tr id="wish-{{ $item->associatedModel->id }}" class="wishlist-row">
-                                    <th class="ps-0 py-3 border-light" scope="row">
-                                        <div class="d-flex align-items-center">
-                                            <a class="reset-anchor d-block animsition-link"
-                                                href="{{ route('customer.product.detail', $item->associatedModel->slug) }}">
-                                                <img src="{{ asset('storage/' . $item->associatedModel->firstMedia->file_name) }}"
-                                                    alt="..." width="70" />
-                                            </a>
-                                            <div class="ms-3"><strong class="h6">
-                                                    <a class="reset-anchor animsition-link" href="#">
-                                                        {{ $item->associatedModel['name_' . $lang] }}
-                                                    </a>
-                                                </strong>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td class="p-3 align-middle border-light">
-                                        <p id="price-{{$item->id}}" class="mb-0 small">{{ $item->price }}</p>
-                                    </td>
-                                    <td class="p-3 align-middle border-light">
-                                        <form id="cartForm" action="">
-                                            <input type="hidden" name="quantity" id="quantity" value="1">
-                                        <a href="javascript:void(0)" class="reset-anchor animsition-link" onclick="addToCart( {{json_encode(['status' => true])}} , {{ $item->id }}, 'http\://{{ request()->httpHost() }}/add-to-cart')">
-                                            {{ __('Add to cart') }}
-                                        </a>
-                                        </form>
-                                    </td>
-                                    <td class="p-3 align-middle border-light">
-                                        <a href="javascript:void(0)" class="reset-anchor  animsition-link"
+                @foreach ($wishlist_items as $item)
+                    <div id="cart-{{ $item->id }}" class="row align-items-center my-4 cart-row">
+                        <div class="col-md-4 mb-2">
+                            <div class="row align-items-center">
+                                <div class="col-5">
+                                    <a class="d-inline-block reset-anchor  animsition-link"
+                                        href="product/{{ $item->associatedModel->slug }}">
+                                        <img src="http://{{ request()->httpHost() }}/storage/{{ $item->associatedModel->firstMedia->file_name }}"
+                                            alt="..." width="80" />
+                                    </a>
+                                </div>
+                                <div class="col-7">
+                                    <h6 class="d-inline-block ">
+                                        <strong class="reset-anchor animsition-link">
+                                            {{ $item->associatedModel['name_' . $lang] }}
+                                        </strong>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <p class="mb-0">
+                                <small>{{ getCurrency() }}</small><small
+                                    id="price-{{ $item->id }}">{{ number_format($item->price, 2) }}</small>
+                            </p>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <form id="cartForm" action="">
+                                <input type="hidden" name="quantity" id="quantity" value="1">
+                            <a href="javascript:void(0)" class="reset-anchor animsition-link" onclick="addToCart( {{json_encode(['status' => true])}} , {{ $item->id }}, 'http\://{{ request()->httpHost() }}/add-to-cart')">
+                                {{ __('Add to cart') }}
+                            </a>
+                            </form>
+                        </div>
+                        <div class="col-md-1 mb-2">
+                            <a href="javascript:void(0)" class="reset-anchor  animsition-link"
                                             onclick="removeFromWishList({{ $item->id }}, 'http\://{{ request()->httpHost() }}/remove-from-wishlist')">
                                             <i class="fas fa-trash-alt small text-muted"></i>
                                         </a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <th colspan="4" class="text-center ps-0 py-6 border-light" scope="row">
-                                        {{ __('Not found products') }}
-                                    </th>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                        </div>
+                    </div>
+                    <hr style="margin: 0%">
+                @endforeach
+
+
                 <!-- CART NAV-->
                 <div class="bg-light px-4 py-3">
                     <div class="row align-items-center text-center">
@@ -99,11 +85,4 @@
         </div>
     </section>
 @endsection
-@section('js')
-    <script>
-        let maxQuantityMessage = "{{ __('This is the available quantity of the product.') }}";
-        let success = "{{ __('Success') }}";
-        let noProducts = "{{ __('Not found products') }}";
 
-    </script>
-@endsection
