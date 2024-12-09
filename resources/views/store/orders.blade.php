@@ -29,29 +29,73 @@
             </div>
         </div>
     </section>
-    <section class="py-5">
-        <h2 class="h5 text-uppercase mb-4">{{ __('Orders') }}</h2>
-        <div class="row">
+    <section class="py-5 text-center">
+        <div class="row text-center">
             <div class="col-lg-12 mb-4 mb-lg-0">
+
+
+
+                <h2 class="h5 text-uppercase">{{ __('Orders') }}</h2>
+
+                @foreach ($orders as $order)
+                <a href="{{route('customer.order.details', $order->id)}}" class="nav-link text-muted">
+                    <div id="order-{{ $order->id }}" class="row align-items-center my-4 order-row">
+                        <div class="col-md-2 mb-2">
+                            <p class="mb-0 small">{{ $order->ref_id }}</p>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <p class="mb-0 small">{{ getCurrency() . number_format($order->total, 2)}}</p>
+                        </div>
+                        <div class="col-md-1 mb-2">
+                            <p class="mb-0 small">{{ $order->payment_method }}</p>
+                        </div>
+                        <div class="col-md-1 mb-2">
+                            <p class="mb-0 small">{!! $order->statusWithHtml() !!}</p>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <p class="mb-0 small">{{ $order->created_at->format('Y-m-d') }}</p>
+                        </div>
+                        <div class="col-md-1 mb-2">
+                            <p class="mb-0 small">
+                                {{ $order->transactions()->orderByDesc('id')->first()->payment_result ?? '--' }}
+                            </p>
+                        </div>
+                        <div class="col-md-1 mb-2">
+                            <p class="mb-0 small">
+                                {{ $order->transactions()->orderByDesc('id')->first()->transaction_number ?? '--' }}
+                            </p>
+                        </div>
+
+                    </div>
+                </a>
+                @if ($order->transactions()->orderByDesc('id')->first()->transaction == app\Models\OrderTransaction::FINISHED &&
+                $order->transactions()->orderByDesc('id')->first()->created_at->diffInDays(now()) <
+                    Config::get('app.order_return_days'))
+            <div class="row">
+                <a href="{{ route('customer.orders.refund.request', $order->id) }}" class="mb-0 small">
+                    <ins>{{ __('You can return order in') . ' ' . $order->transactions()->orderByDesc('id')->first()->created_at->diffInDays(now()) - Config::get('app.order_return_days') . ' ' . __('Days') }}
+                    </ins>
+                </a>
+            </div>
+        @endif
+                    <hr style="margin: 0%">
+                @endforeach
+
+
+
+
+
+
+
+
+
+
+
+
                 <!-- CART TABLE-->
-                <div class="table-responsive mb-4">
+                {{-- <div class="table-responsive mb-4">
                     <table class="table text-nowrap text-center">
-                        <thead class="bg-light">
-                            <tr>
-                                <th class="border-0 p-3" scope="col"> <strong
-                                        class="text-sm text-uppercase">{{ __('Refrence ID') }}</strong></th>
-                                <th class="border-0 p-3" scope="col"> <strong
-                                        class="text-sm text-uppercase">{{ __('Total') }}</strong></th>
-                                <th class="border-0 p-3" scope="col"> <strong
-                                        class="text-sm text-uppercase">{{ __('Payment method') }}</strong></th>
-                                <th class="border-0 p-3" scope="col"> <strong
-                                        class="text-sm text-uppercase">{{ __('Status') }}</strong></th>
-                                <th class="border-0 p-3" scope="col"> <strong
-                                        class="text-sm text-uppercase">{{ __('Created at:') }}</strong></th>
-                                <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase"></strong>
-                                </th>
-                            </tr>
-                        </thead>
+
                         <tbody style="position: relative" class="t-body" class="border-0">
                             @forelse ($orders as $order)
                                 <tr>
@@ -94,7 +138,29 @@
                             @endforelse
                         </tbody>
                     </table>
-                </div>
+                </div> --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <div class="bg-light px-4 py-3">
                     <div class="row align-items-center text-center">
                         <div class="col-md-6 mb-3 mb-md-0 text-md-start"><a class="btn btn-link p-0 text-dark btn-sm"
@@ -109,4 +175,3 @@
         </div>
     </section>
 @endsection
-

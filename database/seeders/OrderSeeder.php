@@ -41,9 +41,19 @@ class OrderSeeder extends Seeder
             'sub_total' => $products->sum('price'),
             'status' => Order::FINISHED,
         ]);
+
         // order products
         foreach ($products as $product) {
-            $order1->products()->attach(['product_id' => $product->id]);
+            DB::table('order_product')->insert([
+                'order_id' => $order1->id,
+                'product_id' => $product->id,
+                'quantity' => 1,
+                'price' => $product->price,
+
+            ]);
+            // $order1->products()->attach([
+            //     'price' => '50'
+            // ]);
         }
         // order transactions
         OrderTransaction::create([
@@ -92,7 +102,13 @@ class OrderSeeder extends Seeder
         ]);
         // order products
         foreach ($products as $product) {
-            $order2->products()->attach(['product_id' => $product->id]);
+            DB::table('order_product')->insert([
+                'order_id' => $order2->id,
+                'product_id' => $product->id,
+                'quantity' => 1,
+                'price' => $product->price,
+
+            ]);
         }
         // order transactions
         OrderTransaction::create([
@@ -127,7 +143,13 @@ class OrderSeeder extends Seeder
         ]);
         // order products
         foreach ($products as $product) {
-            $order3->products()->attach(['product_id' => $product->id]);
+            DB::table('order_product')->insert([
+                'order_id' => $order3->id,
+                'product_id' => $product->id,
+                'quantity' => 1,
+                'price' => $product->price,
+
+            ]);
         }
         // order transactions
         OrderTransaction::create([
@@ -162,7 +184,13 @@ class OrderSeeder extends Seeder
         ]);
         // order products
         foreach ($products as $product) {
-            $order4->products()->attach(['product_id' => $product->id,]);
+            DB::table('order_product')->insert([
+                'order_id' => $order4->id,
+                'product_id' => $product->id,
+                'quantity' => 1,
+                'price' => $product->price,
+
+            ]);
         }
         // order transactions
         OrderTransaction::create([
@@ -211,7 +239,13 @@ class OrderSeeder extends Seeder
         ]);
         // order products
         foreach ($products as $product) {
-            $order5->products()->attach(['product_id' => $product->id]);
+            DB::table('order_product')->insert([
+                'order_id' => $order5->id,
+                'product_id' => $product->id,
+                'quantity' => 1,
+                'price' => $product->price,
+
+            ]);
         }
         // order transactions
         OrderTransaction::insert([

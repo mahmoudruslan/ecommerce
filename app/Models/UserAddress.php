@@ -24,5 +24,9 @@ class UserAddress extends Model
     {
         return $this->belongsTo(City::class);
     }
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name . ' ' . $this->last_name);
+    }
 
 }

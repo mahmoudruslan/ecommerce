@@ -141,6 +141,16 @@ class CustomerController extends Controller
         }
     }
 
+    public function orderDetails($order_id)
+    {
+        try {
+            $order = Order::with(['products', 'transactions', 'address'])->findOrFail($order_id);
+            // return $order->transactions()->orderByDesc('id')->first();
+            return view('store.order_details', compact('order'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
     public function refundRequest($id)
     {
         try {

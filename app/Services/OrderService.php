@@ -58,6 +58,7 @@ class OrderService
                 'product_id' => $item->id,
                 'order_id' => $order->id,
                 'quantity' => $item->quantity,
+                'price' => $item->price,
             ]);
             //update product quantity
             $product = Product::find($item->id);

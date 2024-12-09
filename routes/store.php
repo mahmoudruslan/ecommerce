@@ -58,6 +58,7 @@ Route::group(['middleware' => [/*'auth',*/'if_admin'], 'as' => 'customer.'], fun
         Route::put('profile-update-address/{id}', [CustomerController::class, 'UpdateAddress'])->name('profile.address.update');
         Route::put('profile-add-address', [CustomerController::class, 'storeAddress'])->name('profile.address.store');
         Route::get('orders', [CustomerController::class, 'orders'])->name('orders');
+        Route::get('orders/details/{id}', [CustomerController::class, 'orderDetails'])->name('order.details');
         Route::get('orders.refund-request/{order_id}', [CustomerController::class, 'refundRequest'])->name('orders.refund.request');
     });
 });
