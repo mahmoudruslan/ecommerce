@@ -12254,6 +12254,17 @@ STYLE SWITCHER FOR DEMO
     flex: 0 0 auto;
     width: 33.33333%;
   }
+  .top-item {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgb(0 0 0);
+    top: -12%;
+    left: -12%;
+    opacity: 0.5;
+    color: white;
+  }
   @media (max-width: 767px) {
     .default-view{
       flex: 0 0 auto;

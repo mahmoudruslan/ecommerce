@@ -58,4 +58,14 @@ class OrderController extends Controller
     {
         return $this->paymob->callback();
     }
+    public function buyAgainReplaceWithCart($order_id)
+    {
+        return $this->order_service->cartReplace($order_id);
+
+    }
+
+    public function buyAgainMergeWithCart($order_id)
+    {
+        return $this->order_service->CartMerge($order_id);
+    }
 }

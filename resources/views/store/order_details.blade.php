@@ -27,81 +27,54 @@
     </section>
     <section class="py-2 text-center">
         <h2 class="h5 text-uppercase">{{ __('Order products') }}</h2>
-        <hr style="margin: 0%">
 
         <div class="row mb-4 text-center">
-            <div class="col-lg-12 mb-4 mb-lg-0">
+            <div class="col-lg-5 mb-4 mb-lg-0 m-auto">
                 @foreach ($order->products as $product)
-                    <a href="{{ route('customer.order.details', $product->id) }}" class="text-muted">
-                        <div class="row align-items-center my-1 order-row">
-                            <div class="col-md-2 my-2">
-                                <a class="d-inline-block reset-anchor  animsition-link" href="product/{{ $product->slug }}">
+                    <a href="{{ route('customer.product.detail', $product->slug) }}" class="text-muted">
+                        <div class="row align-items-center my-1">
+                            <div class="col-md-2 my-1">
+                                <div class="position-relative d-inline-block">
                                     <img src="http://{{ request()->httpHost() }}/storage/{{ $product->firstMedia->file_name }}"
                                         alt="..." width="80" />
-                                </a>
+                                    <span class="small top-item">{{ $product->pivot->quantity }}</span>
+                                </div>
                             </div>
-                            <div class="col-md-2 my-2">
+                            <div class="col-md-5 my-1">
                                 <p class="mb-0 small">
                                     {{ $product['name_' . $lang] }}
                                 </p>
                             </div>
-                            <div class="col-md-2 my-2">
+                            <div class="col-md-5 my-1">
                                 <p class="mb-0 small">
                                     {{ getCurrency() . number_format($product->pivot->price, 2) }}</p>
                             </div>
-                            <div class="col-md-3 my-2">
-                                <label>{{ __('Quantity') }}</label> : <p class="mb-0 small d-inline-block">
-                                    {{ $product->pivot->quantity }}</p>
-                            </div>
-                            <div class="col-md-3 my-2">
-                                <label>{{ __('Total') }}</label> : <p class="mb-0 small d-inline-block">
-                                    {{ getCurrency() . number_format($product->pivot->quantity * $product->price, 2) }}
-                                </p>
-                            </div>
-
+                            <hr>
                         </div>
                     </a>
-                    <hr style="margin: 0%">
                 @endforeach
             </div>
         </div>
 
     </section>
     <section class="py-2 text-center">
-        <h2 class="h5 text-uppercase">{{ __('Order address') }}</h2>
-        <hr style="margin: 0%">
-
-        <div class="row mb-4 text-center">
-            <div class="col-lg-12 mb-4 mb-lg-0">
-
-                <div class="row align-items-center my-4 order-row">
-                    <div class="col-md-1 my-2">
-                        <p class="mb-0 small">
-                            {{ $order->address->governorate['name_' . $lang] }}</p>
-                    </div>
-                    <div class="col-md-1 my-2">
-                        <p class="mb-0 small">
-                            {{ $order->address->city['name_' . $lang] }}</p>
-                    </div>
-                    <div class="col-md-2 my-2">
-                        <p class="mb-0 small">
-                            {{ $order->address->fullName }}</p>
-                    </div>
-                    <div class="col-md-2 my-2">
-                        <p class="mb-0 small">
-                            {{ $order->address->email }}</p>
-                    </div>
-                    <div class="col-md-2 my-2">
-                        <p class="mb-0 small">
-                            {{ $order->address->mobile }}</p>
-                    </div>
-                    <div class="col-md-2 my-2">
-                        <p class="mb-0 small">
-                            {{ $order->address->address }}</p>
-                    </div>
+        {{-- <h2 class="h5 text-uppercase">{{ __('Order address') }}</h2> --}}
+        <div class="col-md-3 my-3 m-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title d-inline-block">{{ $order->address->fullName }}</h5>
+                    @if ($order->address->default_address == 1)
+                        <span><small class="text-muted bold mx-1">default</small></span>
+                    @endif
+                    <p class="card-text">{{ $order->address->address }}</p>
+                    <p class="card-text">{{ $order->address->governorate['name_' . $lang] }}</p>
+                    <p class="card-text">{{ $order->address->city['name_' . $lang] }}</p>
+                    <h5 class="card-title">{{__('Contact information')}}</h5>
+                    <p class="card-text">{{ $order->address->email }}</p>
+                    <p class="card-text">{{ $order->address->mobile }}</p>
+                    <h5 class="card-title">{{__('Shipping method')}}</h5>
+                    <p class="card-text">{{__('Home delivery')}}</p>
                 </div>
             </div>
         </div>
-
-    </section>
 @endsection

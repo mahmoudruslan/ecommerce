@@ -96,4 +96,45 @@ class OrderService
 
         return $data;
     }
+    public function cartReplace($order_id)
+    {
+        $order = Order::with('products')->findOrFail($order_id);
+        Cart::session('cart')->clear();
+        $warning = [];
+        foreach ($order->products as $product) {
+            $quantity_requested = $product->pivot->quantity;
+            $available_quantity = $product->quantity;
+            if ($available_quantity == 0) {
+                $warning[] = __('This product attribute is currently unavailable', [
+                    'attribute' => $product['name_' . app()->getLocale()],
+            ]);
+
+                continue;
+            }
+            if ($quantity_requested > $available_quantity) {
+                $quantity_requested = $available_quantity;
+                $warning[] = __('Only pieces of the product are currently available', [
+                    'quantity' =>  $quantity_requested - $available_quantity,
+                    'product' => $product['name_' . app()->getLocale()],
+            ]);
+            }
+            Cart::session('cart')->add([
+                'id' => $product->id,
+                'name' => $product->name_ar,
+                'price' => $product->price,
+                'quantity' => $quantity_requested,
+                'associatedModel' => $product,
+            ]);
+        }
+        foreach ($warning as $msg) {
+            Alert::toast($msg, 'warning');
+        }
+        Alert::toast(__('The products in your shopping cart have been replaced with the new order.'), 'success');
+        return redirect()->route('customer.cart');
+    }
+
+    public function CartMerge($order_id)
+    {
+        dd('merge');
+    }
 }

@@ -60,6 +60,8 @@ Route::group(['middleware' => [/*'auth',*/'if_admin'], 'as' => 'customer.'], fun
         Route::get('orders', [CustomerController::class, 'orders'])->name('orders');
         Route::get('orders/details/{id}', [CustomerController::class, 'orderDetails'])->name('order.details');
         Route::get('orders.refund-request/{order_id}', [CustomerController::class, 'refundRequest'])->name('orders.refund.request');
+        Route::get('orders/buy-again/replace/{order_id}', [OrderController::class, 'buyAgainReplaceWithCart'])->name('order.buy.again.replace');
+        Route::get('orders/buy-again/merge/{order_id}', [OrderController::class, 'buyAgainMergeWithCart'])->name('order.buy.again.merge');
     });
 });
 

@@ -36,14 +36,18 @@ class CheckoutController extends Controller
                 ));
                 Cart::session('cart')->condition($condition);
             }
-            // else {
-            //     Cart::session('cart')->clearCartConditions();
-            // }
         }
         $cart = Cart::session('cart')->getContent();
         $total = Cart::session('cart')->getTotal();
         $sub_total = Cart::session('cart')->getSubTotal();
         $governorates = Governorate::all();
+
+        // return $cart;
+        return view('store.checkout', compact('cart', 'total', 'sub_total', 'governorates'));
+    }
+    public function buyAgain()
+    {
+
 
         // return $cart;
         return view('store.checkout', compact('cart', 'total', 'sub_total', 'governorates'));

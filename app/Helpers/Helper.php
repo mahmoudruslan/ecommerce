@@ -3,6 +3,8 @@
 use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Darryldecode\Cart\Facades\CartFacade as Cart;
+
 
     // note :  super-admin role have all permissions and roles
     function userAbility(array $permissions)
@@ -50,4 +52,23 @@ use Spatie\Permission\Exceptions\UnauthorizedException;
         asset('storage/images/products/no-img.svg');
         return $image_src;
     }
+    function cartData()
+    {
+        $cart = [];
+        $cart['count'] = Cart::session('cart')->getContent()->count();
+        $cart['total'] = Cart::session('cart')->getTotal();
+        $cart['subTotal'] = Cart::session('cart')->getSubTotal();
+        $cart_collection = Cart::session('cart')->getContent()->reverse();
+        foreach ($cart_collection as $item) {
+            $cart['items'][] = [
+                'id' => $item->id,
+                'name' => $item->name,
+                'price' => $item->price,
+                'quantity' => $item->quantity,
+                'associatedModel' => $item->associatedModel,
+                'created_at' => $item->attributes->created_at,
 
+                ];
+            }
+        return $cart;
+    }

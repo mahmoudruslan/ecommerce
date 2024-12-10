@@ -32,143 +32,54 @@
     <section class="py-5 text-center">
         <div class="row text-center">
             <div class="col-lg-12 mb-4 mb-lg-0">
-
-
-
-                <h2 class="h5 text-uppercase">{{ __('Orders') }}</h2>
-
-                @foreach ($orders as $order)
-                <a href="{{route('customer.order.details', $order->id)}}" class="nav-link text-muted">
-                    <div id="order-{{ $order->id }}" class="row align-items-center my-4 order-row">
-                        <div class="col-md-2 mb-2">
-                            <p class="mb-0 small">{{ $order->ref_id }}</p>
-                        </div>
-                        <div class="col-md-2 mb-2">
-                            <p class="mb-0 small">{{ getCurrency() . number_format($order->total, 2)}}</p>
-                        </div>
-                        <div class="col-md-1 mb-2">
-                            <p class="mb-0 small">{{ $order->payment_method }}</p>
-                        </div>
-                        <div class="col-md-1 mb-2">
-                            <p class="mb-0 small">{!! $order->statusWithHtml() !!}</p>
-                        </div>
-                        <div class="col-md-2 mb-2">
-                            <p class="mb-0 small">{{ $order->created_at->format('Y-m-d') }}</p>
-                        </div>
-                        <div class="col-md-1 mb-2">
-                            <p class="mb-0 small">
-                                {{ $order->transactions()->orderByDesc('id')->first()->payment_result ?? '--' }}
-                            </p>
-                        </div>
-                        <div class="col-md-1 mb-2">
-                            <p class="mb-0 small">
-                                {{ $order->transactions()->orderByDesc('id')->first()->transaction_number ?? '--' }}
-                            </p>
-                        </div>
-
-                    </div>
-                </a>
-                @if ($order->transactions()->orderByDesc('id')->first()->transaction == app\Models\OrderTransaction::FINISHED &&
-                $order->transactions()->orderByDesc('id')->first()->created_at->diffInDays(now()) <
-                    Config::get('app.order_return_days'))
-            <div class="row">
-                <a href="{{ route('customer.orders.refund.request', $order->id) }}" class="mb-0 small">
-                    <ins>{{ __('You can return order in') . ' ' . $order->transactions()->orderByDesc('id')->first()->created_at->diffInDays(now()) - Config::get('app.order_return_days') . ' ' . __('Days') }}
-                    </ins>
-                </a>
-            </div>
-        @endif
-                    <hr style="margin: 0%">
-                @endforeach
-
-
-
-
-
-
-
-
-
-
-
-
-                <!-- CART TABLE-->
-                {{-- <div class="table-responsive mb-4">
-                    <table class="table text-nowrap text-center">
-
-                        <tbody style="position: relative" class="t-body" class="border-0">
-                            @forelse ($orders as $order)
-                                <tr>
-                                    <td class="p-3 align-middle border-light">
-                                        <p class="mb-0 small">{{ $order->ref_id }}</p>
-                                    </td>
-                                    <td class="p-3 align-middle border-light">
-                                        <p class="mb-0 small">{{ $order->total }}</p>
-                                    </td>
-                                    <td class="p-3 align-middle border-light">
-                                        <p class="mb-0 small">{{ $order->payment_method }}</p>
-                                    </td>
-                                    <td class="p-3 align-middle border-light">
-                                        <p class="mb-0 small">{!! $order->statusWithHtml() !!}</p>
-                                    </td>
-                                    <td class="p-3 align-middle border-light">
-                                        <p class="mb-0 small">{{ $order->created_at->format('Y-m-d') }}</p>
-                                    </td>
-                                    <td class="p-3 align-middle border-light">
-                                        <a href="#" class="nav-link" onclick="showOrderDetails({{ $order->id }})">
-                                            <i class="fas fa-eye"></i>
+                <div class="row g-3">
+                    @foreach ($orders as $order)
+                        <div class="col-md-4 col-sm-6">
+                            <div class="order-card completed">
+                                <a style="    color: #212529;" href="{{ route('customer.order.details', $order->id) }}">
+                                    <h3>{{ __('Order') }} {{ $order->ref_id }}</h3>
+                                    <p>{{ __('Subtotal') }}: {{ getCurrency() . number_format($order->sub_total, 2) }}</p>
+                                    <p>{{ __('Shipping') }}: {{ getCurrency() . number_format($order->shipping, 2) }}</p>
+                                    <p>{{ __('Total') }}: {{ getCurrency() . number_format($order->total, 2) }}</p>
+                                    <p>{{ __('Payment method') }}: {{ $order->payment_method }}</p>
+                                    <p>{{ __('Status') }}: {!! $order->statusWithHtml() !!}</p>
+                                    <p>{{ __('Created at') }}: {{ $order->created_at->format('Y-m-d') }}</p>
+                                    <p>{{ __('Payment result') }}:
+                                        {{ $order->transactions()->orderByDesc('id')->first()->payment_result ?? '--' }}
+                                    </p>
+                                </a>
+                                <p>
+                                    <a href="#buyAgain{{ $order->id }}"
+                                        data-bs-toggle="modal" class="mb-0 small btn btn-sm btn-outline-primary">
+                                        {{ __('Buy again') }}
+                                    </a>
+                                </p>
+                                @include('store.modals.order_buy_again')
+                                @if (
+                                    $order->transactions()->orderByDesc('id')->first()->transaction == app\Models\OrderTransaction::FINISHED ||
+                                        ($order->transactions()->orderByDesc('id')->first()->transaction ==
+                                            app\Models\OrderTransaction::PAYMENT_COMPLETED &&
+                                            $order->transactions()->orderByDesc('id')->first()->created_at->diffInDays(now()) <
+                                                Config::get('app.order_return_days')))
+                                    <p>
+                                        <a href="{{ route('customer.orders.refund.request', $order->id) }}"
+                                            class="mb-0 small btn
+                                            btn-sm btn-outline-primary">
+                                            {{ __('You can return order in') . ' ' . $order->created_at->diffInDays(now()) - Config::get('app.order_return_days') . ' ' . __('Days') }}
                                         </a>
-                                    </td>
-                                </tr>
-                                <tr id="orderDetails{{ $order->id }}" class="hidden order-details border-hidden">
-                                    <td colspan="6">
-                                        <div style="left: 11%;right: 11%;"
-                                            class="table-responsive mb-4 position-absolute bg-white border rounded shadow p-1">
-                                            @include('store.parts.order_products_table')
-                                            @include('store.parts.order_transactions_table')
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <th colspan="4" class="text-center ps-0 py-6 border-light" scope="row">
-                                        {{ __('Not found products') }}
-                                    </th>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div> --}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                    </p>
+                                @endif
+                            </div>
+                        </div>
+                        <hr class="m-0 mobile-devices">
+                    @endforeach
+                </div>
                 <div class="bg-light px-4 py-3">
                     <div class="row align-items-center text-center">
                         <div class="col-md-6 mb-3 mb-md-0 text-md-start"><a class="btn btn-link p-0 text-dark btn-sm"
                                 href="{{ route('customer.shopping') }}"><i class="fas fa-long-arrow-alt-left me-2">
                                 </i>{{ __('Continue shopping') }}</a></div>
-                        <div class="col-md-6 text-md-end"><a class="btn btn-outline-dark btn-sm"
-                                href="{{ route('customer.checkout') }}">{{ __('Checkout') }}<i
-                                    class="fas fa-long-arrow-alt-right ms-2"></i></a></div>
+
                     </div>
                 </div>
             </div>
