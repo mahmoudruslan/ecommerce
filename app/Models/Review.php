@@ -24,4 +24,8 @@ class Review extends Model
     public function getStatusAttribute($value){
         return $value ? __('Active') : __('Not active');
     }
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name . ' ' . $this->last_name);
+    }
 }

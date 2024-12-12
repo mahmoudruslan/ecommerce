@@ -38,14 +38,14 @@
                                                 <input type="hidden" id="product_id"
                                                 value="{{ $product->id }}">
                                                 {{-- decreas --}}
-                                                <span class="dec-btn p-0"><i class="fas fa-caret-{{app()->getLocale() === 'ar' ? 'right' : 'left'}}"></i></span>
+                                                <span class="dec-btn p-0"><i class="px-2 fas fa-caret-{{app()->getLocale() === 'ar' ? 'right' : 'left'}}"></i></span>
 
                                                 <input id="quantity" name="quantity" value="1"
                                                     style="background-color: #ffff" readonly type="text"
                                                     class="form-control border-0 shadow-0 p-0">
 
                                                 {{-- increas --}}
-                                                <span class="inc-btn p-0"><i class="fas fa-caret-{{app()->getLocale() === 'ar' ? 'left' : 'right'}}"></i></span>
+                                                <span class="inc-btn p-0"><i class="px-2 fas fa-caret-{{app()->getLocale() === 'ar' ? 'left' : 'right'}}"></i></span>
 
                                             </div>
                                         </div>

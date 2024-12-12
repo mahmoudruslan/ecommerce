@@ -26,6 +26,10 @@
         let success = "{{ __('Success') }}";
         let warning = "{{ __('Warning') }}";
         let noProducts = "{{ __('No products available in your cart.') }}";
+        let requiredMessage = "{{__('validation.required')}}";
+        let emailMessage = "{{__('validation.email')}}";
+
+
       </script>
 @yield('js')
 

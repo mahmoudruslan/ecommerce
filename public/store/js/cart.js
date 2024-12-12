@@ -25,11 +25,14 @@ function addToCart(withoutQuantity, productId, url) {
                 updateCartCount(response.cart.count);
                 updateSubTotal(response.cart.subTotal);
             }
-            return response.cart.items;
+            return response;
         })
-        .then((items) => {
-            addItemInCartSidebar(items);
+        .then((response) => {
+            addItemInCartSidebar(response.cart.items);
             openCartSidBar();
+            if (response.message) {
+                alert(response.title, response.type, response.message);
+            }
         });
 }
 // remove form cart
@@ -102,7 +105,7 @@ function addItemInCartSidebar(items) {
                                             }, 'http\://${host}/cart-decrease-quantity')"
                                             class="decrease p-0">
                                             <i
-                                                class="fas fa-caret-${
+                                                class="px-2 fas fa-caret-${
                                                     lang === "ar"
                                                         ? "right"
                                                         : "left"
@@ -117,7 +120,7 @@ function addItemInCartSidebar(items) {
                                                 item.id
                                             }, 'http\://${host}/cart-increase-quantity')"
                                             class="increase p-0"><i
-                                                class="fas fa-caret-${
+                                                class="px-2 fas fa-caret-${
                                                     lang === "ar"
                                                         ? "left"
                                                         : "right"

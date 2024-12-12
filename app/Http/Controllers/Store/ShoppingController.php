@@ -72,7 +72,6 @@ class ShoppingController extends Controller
             ->with('category')
             ->with('media')
             ->with('tags')
-            // ->with('reviews')
             ->withAvg('reviews', 'rating')
             ->active()
             ->activeCategory()

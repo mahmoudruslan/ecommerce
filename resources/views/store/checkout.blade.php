@@ -236,8 +236,6 @@
 @endsection
 @section('js')
     <script>
-        let requiredMessage = "{{__('validation.required')}}";
-        let emailMessage = "{{__('validation.email')}}";
         let chooseAddressMessage = "{{__('Choose an address.')}}";
     </script>
 @endsection

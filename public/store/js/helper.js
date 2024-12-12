@@ -57,6 +57,8 @@ function removeClass(elements, classes) {
 function inputsValidation(inputs) {
     let valid = true;
     inputs.forEach((input) => {
+        console.log(input);
+
         if (input.value.trim() === "") {
             input.classList.add("is-invalid");
             document.querySelector(`#${input.name}_error`).innerHTML =
@@ -77,6 +79,9 @@ function inputsValidation(inputs) {
             document.querySelector(`#${input.name}_error`).innerHTML = "";
         }
     });
+    if (valid == false) {
+        window.scrollTo(0, 200);
+    }
     return valid;
 }
 function resetValidateErrors(fields) {
@@ -101,10 +106,11 @@ function increaseQuantity(itemId, url) {
                     field.value--;
                 });
             }
-
-            return;
+            return response;
         })
         .then((response) => {
+            console.log(response);
+
             updateTotal(response.cart.total);
             updateSubTotal(response.cart.subTotal);
         });

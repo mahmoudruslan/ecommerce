@@ -60,14 +60,14 @@
                                         <span
                                             onclick="decreaseQuantity({{ $item->id }}, 'http\://{{ request()->httpHost() }}/cart-decrease-quantity')"
                                             class="decrease p-0">
-                                            <i class="fas fa-caret-{{ $lang === 'ar' ? 'right' : 'left' }}"></i></span>
+                                            <i class="px-2 fas fa-caret-{{ $lang === 'ar' ? 'right' : 'left' }}"></i></span>
                                         <input readonly name="quantity" id="quantity-{{ $item->id }}"
                                             class="form-control form-control-sm border-0 shadow-0 p-0 bg-white"
                                             type="text" value="{{ $item->quantity }}" />
                                         <span
                                             onclick="increaseQuantity({{ $item->id }}, 'http\://{{ request()->httpHost() }}/cart-increase-quantity')"
                                             class="increase p-0"><i
-                                                class="fas fa-caret-{{ $lang === 'ar' ? 'left' : 'right' }}"></i></span>
+                                                class="px-2 fas fa-caret-{{ $lang === 'ar' ? 'left' : 'right' }}"></i></span>
                                     </div>
                                 </div>
                             </form>

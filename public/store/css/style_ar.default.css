@@ -593,14 +593,15 @@ progress {
 }
 
 .list-inline-item:not(:last-child) {
-  margin-right: 0.5rem;
+  margin-left: 0.5rem;
 }
+
 .custom-list-inline-item {
     display: inline-block;
   }
 
   .custom-list-inline-item:not(:last-child) {
-    margin-right: 0.5rem;
+    margin-left: 0.5rem;
   }
 
 .initialism {
@@ -5835,7 +5836,7 @@ fieldset:disabled .btn {
 
 .modal-header .btn-close {
   padding: 0.5rem 0.5rem;
-  margin: -0.5rem -0.5rem -0.5rem auto;
+  margin: -0.5rem auto -0.5rem -0.5rem;
 }
 
 .modal-title {
@@ -7774,32 +7775,32 @@ fieldset:disabled .btn {
 }
 
 .px-0 {
-  padding-right: 0 !important;
+  padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
 .px-1 {
-  padding-right: 0.25rem !important;
+  padding-left: 0.25rem !important;
   padding-right: 0.25rem !important;
 }
 
 .px-2 {
-  padding-right: 0.5rem !important;
+  padding-left: 0.5rem !important;
   padding-right: 0.5rem !important;
 }
 
 .px-3 {
-  padding-right: 1rem !important;
+  padding-left: 1rem !important;
   padding-right: 1rem !important;
 }
 
 .px-4 {
-  padding-right: 1.5rem !important;
+  padding-left: 1.5rem !important;
   padding-right: 1.5rem !important;
 }
 
 .px-5 {
-  padding-right: 3rem !important;
+  padding-left: 3rem !important;
   padding-right: 3rem !important;
 }
 
@@ -12275,6 +12276,27 @@ STYLE SWITCHER FOR DEMO
     right: -12%;
     opacity: 0.5;
     color: white;
+  }
+  .max-content {
+    width: max-content;
+  }
+  .shake {
+    animation: shake 0.5s;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
   }
   @media (max-width: 767px) {
 

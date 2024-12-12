@@ -43,13 +43,17 @@
                 </div>
                 <!-- PRODUCT DETAILS-->
                 <div class="col-lg-6">
-                    <ul class="list-inline mb-2 text-sm">
+                    <a  href="#productReview{{ $d_product->slug }}"
+                        data-bs-toggle="modal">
+                    <ul class="list-inline mb-2 text-sm d-inline-block">
                         @for ($i = 0; $i < 5; $i++)
                             <li class="list-inline-item m-0"><i
                                     class="{{ round($d_product->reviews_avg_rating) > $i ? 'fas' : 'far' }} fa-star small text-warning"></i>
                             </li>
                         @endfor
                     </ul>
+                </a>
+                    @include('store.modals.review')
                     <h1>{{ $d_product['name_' . $lang] }}</h1>
                     {{getCurrency()}}<p class="text-muted lead">{{ number_format($d_product->price, 2) }}</p>
                     <p class="text-sm mb-4">{!! $d_product['description_' . $lang] !!}</p>
@@ -65,13 +69,13 @@
                                             value="{{ $d_product->quantity }}">
                                         <input type="hidden" id="product_id" value="{{ $d_product->id }}">
                                         {{-- decreas --}}
-                                        <span class="dec-btn p-0"><i class="fas fa-caret-{{app()->getLocale() === 'ar' ? 'right' : 'left'}}"></i></span>
+                                        <span class="dec-btn p-0"><i class="px-2 fas fa-caret-{{app()->getLocale() === 'ar' ? 'right' : 'left'}}"></i></span>
 
                                         <input id="quantity" name="quantity" value="1" style="background-color: #ffff"
                                             readonly type="text" class="form-control border-0 shadow-0 p-0">
 
                                         {{-- increas --}}
-                                        <span class="inc-btn p-0"><i class="fas fa-caret-{{app()->getLocale() === 'ar' ? 'left' : 'right'}}"></i></span>
+                                        <span class="inc-btn p-0"><i class="px-2 fas fa-caret-{{app()->getLocale() === 'ar' ? 'left' : 'right'}}"></i></span>
 
                                     </div>
                                 </div>
@@ -132,14 +136,14 @@
                     <div class="p-4 p-lg-5 bg-white">
                         <div class="row">
                             <div class="col-lg-8">
-                                @forelse ($d_product->reviews as $review)
+                                @forelse ($d_product->reviews->reverse() as $review)
                                     <div class="d-flex mb-3">
                                         <div class="flex-shrink-0"><img class="rounded-circle"
-                                                src="{{ asset('storage/' . $review->user->image) }}" alt=""
+                                                src="{{ $review->user_id ?  asset('storage/' . $review->user->image) : asset('storage/images/users/avatar.png') }}" alt=""
                                                 width="50" />
                                         </div>
                                         <div class="ms-3 flex-shrink-1">
-                                            <h6 class="mb-0 text-uppercase">{{ $review->user->fullName }}</h6>
+                                            <h6 class="mb-0 text-uppercase">{{ $review->fullName }}</h6>
                                             <p class="small text-muted mb-0 text-uppercase">
                                                 {{ $review->created_at->format('Y-m-d') }}</p>
                                             <ul class="list-inline mb-1 text-xs">

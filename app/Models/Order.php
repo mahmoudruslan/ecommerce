@@ -47,7 +47,7 @@ class Order extends Model
     }
     public function address()
     {
-        return $this->userAddress() ?? $this->orderAddress();
+        return $this->user_id == null ? $this->orderAddress() : $this->userAddress();
     }
     public function status()
     {

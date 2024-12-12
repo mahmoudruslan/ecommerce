@@ -61,7 +61,7 @@
         {{-- <h2 class="h5 text-uppercase">{{ __('Order address') }}</h2> --}}
         <div class="col-md-3 my-3 m-auto">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body">.
                     <h5 class="card-title d-inline-block">{{ $order->address->fullName }}</h5>
                     @if ($order->address->default_address == 1)
                         <span><small class="text-muted bold mx-1">default</small></span>

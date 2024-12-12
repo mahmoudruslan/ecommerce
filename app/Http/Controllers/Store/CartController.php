@@ -32,7 +32,7 @@ class CartController extends Controller
 
     public function addToCart(Request $request, $product_id)
     {
-        $cart = $this->cartData();
+        $cart = cartData();
         $product = Product::with('firstMedia')->find($product_id);
         $items = Cart::session('cart')->getContent()->pluck('id');
 
@@ -41,7 +41,7 @@ class CartController extends Controller
         if ($product_quantity_in_cart + $request->quantity > $product->quantity) {
 
             return response()->json([
-                'message' => __('Only pieces of the product are currently available', [
+                'message' => __('Only pieces of the are currently available', [
                     'quantity' =>  $product->quantity - $product_quantity_in_cart,
                     'product' => $product->name_ar,
                 ]),
@@ -53,11 +53,8 @@ class CartController extends Controller
         }
 
         if ($items->contains($product_id)) {
-            Cart::session('cart')->update($product_id, [
-                'quantity' => $request->quantity ?? 1,
-                'price' => $product->price
-            ]);
-            $cart = $this->cartData();
+            updateCart($product, $request->quantity ?? 1);
+            $cart = cartData();
             return response()->json([
                 'message' => __('product data updated successfully in your cart.'),
                 'type' => 'info',
@@ -66,17 +63,8 @@ class CartController extends Controller
                 'cart' => $cart
             ]);
         } else {
-            Cart::session('cart')->add([
-                'id' => $product->id,
-                'name' => $product->name_ar,
-                'price' => $product->price,
-                'quantity' => $request->quantity ?? 1,
-                'attributes' => [
-                    'created_at' => Carbon::now(),
-                    ],
-                'associatedModel' => $product,
-            ]);
-            $cart = $this->cartData();
+            addToCart($product, $request->quantity ?? 1);
+            $cart = cartData();
             return response()->json([
                 'message' => __('Product added to cart successfully.'),
                 'type' => 'success',
@@ -90,16 +78,14 @@ class CartController extends Controller
     public function removeFromCart($item_id)
     {
         Cart::session('cart')->remove($item_id);
-        $cart = $this->cartData();
+        $cart = cartData();
         return response()->json([
             'status' => true,
             'cart' => $cart
         ]);
     }
-
     public function increaseQuantity($product_id)
     {
-        $cart = [];
         $product = Product::with('firstMedia')->find($product_id);
         $items = Cart::session('cart')->getContent()->pluck('id');
         if ($items->contains($product_id)) {
@@ -114,15 +100,12 @@ class CartController extends Controller
                     ]),
                     'type' => 'warning',
                     'title' => __('Warning'),
+                    'cart' => cartData()
                 ]);
             }
             // update the item on cart
-            Cart::session('cart')->update($product_id, [
-                'quantity' => 1,
-                'price' => $product->price
-            ]);
-            $cart = $this->cartData();
-
+            updateCart($product, 1);
+            $cart = cartData();
             return response()->json([
                 'cart' => $cart
             ]);
@@ -130,41 +113,16 @@ class CartController extends Controller
     }
     public function decreaseQuantity($product_id)
     {
-
         $cart = [];
         $product = Product::with('firstMedia')->find($product_id);
         $items = Cart::session('cart')->getContent()->pluck('id');
         if ($items->contains($product_id)) {
             // update the item on cart
-            Cart::session('cart')->update($product_id, [
-                'quantity' => -1,
-                'price' => $product->price
-            ]);
-            $cart = $this->cartData();
+            updateCart($product, -1);
+            $cart = cartData();
             return response()->json([
                 'cart' => $cart
             ]);
         }
-    }
-
-    protected function cartData()
-    {
-        $cart = [];
-        $cart['count'] = Cart::session('cart')->getContent()->count();
-        $cart['total'] = Cart::session('cart')->getTotal();
-        $cart['subTotal'] = Cart::session('cart')->getSubTotal();
-        $cart_collection = Cart::session('cart')->getContent()->reverse();
-        foreach ($cart_collection as $item) {
-            $cart['items'][] = [
-                'id' => $item->id,
-                'name' => $item->name,
-                'price' => $item->price,
-                'quantity' => $item->quantity,
-                'associatedModel' => $item->associatedModel,
-                'created_at' => $item->attributes->created_at,
-
-                ];
-            }
-        return $cart;
     }
 }

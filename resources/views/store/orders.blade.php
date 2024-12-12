@@ -44,9 +44,11 @@
                                     <p>{{ __('Payment method') }}: {{ $order->payment_method }}</p>
                                     <p>{{ __('Status') }}: {!! $order->statusWithHtml() !!}</p>
                                     <p>{{ __('Created at') }}: {{ $order->created_at->format('Y-m-d') }}</p>
-                                    <p>{{ __('Payment result') }}:
-                                        {{ $order->transactions()->orderByDesc('id')->first()->payment_result ?? '--' }}
-                                    </p>
+                                   @if ($order->payment_result != null)
+                                   <p>{{ __('Payment result') }}:
+                                    {{ $order->transactions()->orderByDesc('id')->first()->payment_result ?? '--' }}
+                                </p>
+                                   @endif
                                 </a>
                                 <p>
                                     <a href="#buyAgain{{ $order->id }}"

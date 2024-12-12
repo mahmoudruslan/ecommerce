@@ -66,10 +66,70 @@ let threeBlock = document.getElementById("three-block");
 if (threeBlock) {
     threeBlock.addEventListener("click", function () {
         productBlocks.forEach((block) => {
-            
+
             block.classList.remove("col-6", "col-12", "default-view");
             addClass([block], ["col-4"]);
         });
     });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const stars = document.querySelectorAll(".star");
+    const ratingValue = document.getElementById("rating-value");
+
+    stars.forEach(star => {
+        star.addEventListener("click", function () {
+            const value = this.getAttribute("data-value");
+
+            // تحديث قيمة التقييم
+            ratingValue.value = value;
+
+            // تحديث الكلاسات للنجوم
+            stars.forEach(s => {
+                if (s.getAttribute("data-value") <= value) {
+                    s.classList.add("fas");
+                    s.classList.remove("far");
+                } else {
+                    s.classList.add("far");
+                    s.classList.remove("fas");
+                }
+            });
+        });
+    });
+});
+
+function sendReview(slug, url)
+{
+    const ratingValue = document.getElementById("rating-value");
+    let inputs = [
+        document.querySelector('input[name="first_name"]'),
+        document.querySelector('input[name="last_name"]'),
+        document.querySelector('input[name="email"]'),
+        document.querySelector('textarea[name="body"]'),
+    ];
+    if (ratingValue.value == 0)
+    {
+        document.querySelector('#stars').classList.add('shake');
+        setTimeout(() => {
+            document.querySelector('#stars').classList.remove('shake');
+            }, 250);
+            return;
+    }
+
+    if (inputsValidation(inputs)) {
+        url = url + "/" + slug;
+        let reviewForm = document.querySelector('#reviewForm');
+        let formData = new FormData(reviewForm);
+    let response = ajaxRequest("POST", url, formData);
+    response.then((response) => {
+        if (response.message) {
+            document.querySelector('.modal').click();
+            alert(response.title, response.type, response.message);
+        }
+        });
+
+    }
+
+
 }
 

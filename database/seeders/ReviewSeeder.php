@@ -27,7 +27,8 @@ class ReviewSeeder extends Seeder
             Review::create([
                 'user_id' => Arr::random($users_ids),
                 'product_id' => Arr::random($products_ids),
-                'name' => fake()->username(),
+                'first_name' => fake()->firstName(),
+                'last_name' => fake()->lastName(),
                 'email' => fake()->safeEmail(),
                 'title' => fake()->sentence(5),
                 'rating' => rand(1,5),

@@ -5,16 +5,18 @@ namespace App\Http\Controllers\Store;
 use App\Models\User;
 use App\Models\Order;
 use App\Traits\Files;
+use App\Models\Product;
 use App\Models\Governorate;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
+use App\Models\OrderTransaction;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\UserAddressRequest;
 use App\Http\Requests\Customer\ProfileRequest;
-use App\Models\OrderTransaction;
+use App\Models\Review;
 
 class CustomerController extends Controller
 {
@@ -133,8 +135,16 @@ class CustomerController extends Controller
     public function orders()
     {
         try {
-            $orders = Order::with(['products', 'transactions'])->where('user_id', auth()->user()->id)->get();
+            $orders = Order::with(['products', 'transactions'])
+            ->where('user_id', auth()->user()->id)
+            ->orWhereHas('orderAddress', function($query){
+                $query->where('email', auth()->user()->email);
+            })
+            ->get();
 
+            // $orders = Order::with(['products', 'transactions'])->whereHas('orderAddress', function($query){
+            //     $query->where('email', auth()->user()->email);
+            // })->get();
             return view('store.orders', compact('orders'));
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -158,7 +168,8 @@ class CustomerController extends Controller
             $order->update([
                 'status' => Order::REFUND_REQUEST,
             ]);
-            $transaction = OrderTransaction::where('order_id', $order->id)->where('transaction', OrderTransaction::FINISHED)->first();
+            $transaction = OrderTransaction::where('order_id', $order->id)->where('transaction', OrderTransaction::PAYMENT_COMPLETED)->first();
+            // return $transaction;
             $order->transactions()->create([
                 'transaction' => OrderTransaction::REFUND_REQUEST,
                 'payment_method' => $transaction->payment_method,
@@ -170,5 +181,26 @@ class CustomerController extends Controller
         } catch (\Exception $e) {
             return $e->getMessage();
         }
+    }
+    public function productReview($slug, Request $request)
+    {
+        $product = Product::whereSlug($slug)->first();
+        Review::updateOrCreate([
+            'product_id' => $product->id,
+            'email' => $request->email,
+        ],[
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'body' => $request->body,
+            'rating' => $request->rating,
+
+        ]);
+
+        return response()->json([
+            'message' => __('Thank you for interacting with us'),
+            'type' => 'success',
+            'title' => __('Success'),
+            'status' => true,
+        ]);
     }
 }

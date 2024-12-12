@@ -14,12 +14,13 @@ function applyCoupon(url) {
     response.then((result) => {
         if (result.status == true) {
             let cart = result.cart;
-            updateTotals(cart.total, cart.subTotal);
+            updateTotal(cart.total);
+            updateSubTotal(cart.subTotal);
             alert(result.title, result.type, result.message);
             let couponValue = document.querySelector("#coupon-value");
             addClass([applyCouponDiv], ["hidden"]);
             removeClass([removeCouponBtn, couponLi], ["hidden"]);
-            couponValue.innerHTML = cart.sale;
+            couponValue.innerHTML = currency + cart.sale;
         }else{
             alert(result.title, result.type, result.message);
         }
@@ -28,7 +29,8 @@ function applyCoupon(url) {
 function removeCoupon(url) {
     let response = ajaxRequest("POST", url);
     response.then((result) => {
-            updateTotals(result.cart.total, result.cart.subTotal);
+        updateTotal(cart.total);
+        updateSubTotal(cart.subTotal);
             alert(result.title, result.type, result.message);
         });
     removeClass([applyCouponDiv], ["hidden"]);

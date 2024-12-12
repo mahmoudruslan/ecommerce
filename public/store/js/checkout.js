@@ -135,6 +135,7 @@ function orderValidation() {
     if(addressInput && checkedAddressInput == null)
     {
         document.querySelector('#address-id').innerHTML = chooseAddressMessage;
+        window.scrollTo(0, 200);
         return ;
     }
     if (checkedAddressInput) form.submit();
@@ -151,5 +152,6 @@ function orderValidation() {
     if (inputsValidation(inputs)) {
         form.submit();
     }
+
 }
 

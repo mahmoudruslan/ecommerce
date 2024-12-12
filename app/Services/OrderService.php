@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Order;
-use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\OrderAddress;
 use App\Models\OrderTransaction;
@@ -13,6 +12,8 @@ use Darryldecode\Cart\Facades\CartFacade as Cart;
 
 class OrderService
 {
+
+
     public function createOrder($request)
     {
         //data
@@ -86,8 +87,8 @@ class OrderService
             'last_name' => $address->last_name,
             'phone_number' => $address->mobile,
             'country' => 'Egypt',
-            'state' => $address->governorate['name_' . app()->getLocale()],
-            'city' => $address->city['name_' . app()->getLocale()],
+            'state' => $address->governorate['name_' . currentLang()],
+            'city' => $address->city['name_' . currentLang()],
             "street" => $address->zip_code,
             "postal_code" => $address->zip_code,
             "order" => $order,
@@ -100,41 +101,89 @@ class OrderService
     {
         $order = Order::with('products')->findOrFail($order_id);
         Cart::session('cart')->clear();
-        $warning = [];
+        $shortages = [];
         foreach ($order->products as $product) {
             $quantity_requested = $product->pivot->quantity;
             $available_quantity = $product->quantity;
             if ($available_quantity == 0) {
-                $warning[] = __('This product attribute is currently unavailable', [
-                    'attribute' => $product['name_' . app()->getLocale()],
-            ]);
-
+                $shortages[] = $this->makeShortage($product['name_' . currentLang()], $quantity_requested, $available_quantity);
                 continue;
             }
             if ($quantity_requested > $available_quantity) {
+                $shortages[] = $this->makeShortage($product['name_' . currentLang()], $quantity_requested, $available_quantity);
                 $quantity_requested = $available_quantity;
-                $warning[] = __('Only pieces of the product are currently available', [
-                    'quantity' =>  $quantity_requested - $available_quantity,
-                    'product' => $product['name_' . app()->getLocale()],
-            ]);
             }
-            Cart::session('cart')->add([
-                'id' => $product->id,
-                'name' => $product->name_ar,
-                'price' => $product->price,
-                'quantity' => $quantity_requested,
-                'associatedModel' => $product,
-            ]);
+            addToCart($product, $quantity_requested);
         }
-        foreach ($warning as $msg) {
-            Alert::toast($msg, 'warning');
+        if (!empty($shortages)) {
+            $this->shortageAlert($shortages);
+        } else {
+            Alert::success(__('The products in your shopping cart have been replaced with the new order.'));
         }
-        Alert::toast(__('The products in your shopping cart have been replaced with the new order.'), 'success');
         return redirect()->route('customer.cart');
     }
 
     public function CartMerge($order_id)
     {
-        dd('merge');
+        $shortages = [];
+        $order = Order::with('products')->findOrFail($order_id);
+        $cart_items = Cart::session('cart')->getContent();
+        foreach ($order->products as $product) {
+            $available_quantity = $product->quantity;
+            if (count($cart_items) > 0) {
+                if ($cart_items->pluck('id')->contains($product->id)) {
+                    $item = Cart::session('cart')->get($product->id);
+
+                    $quantity_requested = $item->quantity + $product->pivot->quantity;
+
+                    if ($quantity_requested > $available_quantity) {
+                        $shortages[] = $this->makeShortage($product['name_' . currentLang()], $quantity_requested, $available_quantity);
+                        $quantity_requested = $available_quantity;
+                    }
+                    updateCart($product, $quantity_requested - $item->quantity);
+                }
+            } else {
+                $quantity_requested = $product->pivot->quantity;
+                if ($quantity_requested > $available_quantity) {
+                    $shortages[] = $this->makeShortage($product['name_' . currentLang()], $quantity_requested, $available_quantity);
+
+                    $quantity_requested = $available_quantity;
+                }
+                addToCart($product, $quantity_requested);
+            }
+        }
+
+        if (!empty($shortages)) {
+            $this->shortageAlert($shortages);
+        } else {
+            Alert::success(__('The products in your shopping cart have been combined with the new order.'));
+        }
+        return redirect()->route('customer.cart');
+    }
+
+    public function makeShortage($product_name, $quantity_requested, $available_quantity)
+    {
+        return [
+            'name' => $product_name,
+            'requested' => $quantity_requested,
+            'available' => $available_quantity,
+        ];
+    }
+    public function shortageAlert($shortages)
+    {
+        $shortageMessage = '<ul>';
+        foreach ($shortages as $shortage) {
+            $shortageMessage .= '<li>'
+                . __('Product') . ': ' . $shortage['name'] . ','
+                . __('Required') . ': ' . $shortage['requested'] . ','
+                . __('Available') . ': ' . $shortage['available'] . '</li>';
+        }
+        $shortageMessage .= "</ul>";
+
+        Alert::html(
+            __('The order was successfully placed, but the following quantities were not fully available:'),
+            $shortageMessage,
+            'success'
+        )->autoClose(7000);
     }
 }
