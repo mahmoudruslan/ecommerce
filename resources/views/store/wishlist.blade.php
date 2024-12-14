@@ -25,11 +25,11 @@
     <section class="py-5">
         <h2 class="h5 text-uppercase mb-4">{{ __('Wishlist') }}</h2>
         <div class="row">
-            <div class="col-lg-12 mb-4 mb-lg-0">
+            <div class="col-lg-12 mb-4 mb-lg-0 wishlist-div-main">
                 <!-- CART TABLE-->
 
                 @foreach ($wishlist_items as $item)
-                    <div id="cart-{{ $item->id }}" class="row align-items-center my-4 cart-row">
+                    <div id="wishlist-{{ $item->id }}" class="row align-items-center my-4 wishlist-row">
                         <div class="col-md-4 mb-2">
                             <div class="row align-items-center">
                                 <div class="col-5">

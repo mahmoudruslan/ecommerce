@@ -8,6 +8,8 @@ use App\DataTables\CategoryDataTable;
 use App\Models\Category;
 use App\Http\Requests\CategoryRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
+
 use Illuminate\Support\Facades\Crypt;
 
 
@@ -16,8 +18,8 @@ class CategoryController extends Controller
     use Files;
     public function index(CategoryDataTable $dataTable)
     {
-        $permissions = userAbility(['categories','store-categories', 'update-categories', 'show-categories','delete-categories']);
-        return $dataTable->with('permissions' , $permissions)->render('dashboard.categories.index');
+        $permissions = userAbility(['categories', 'store-categories', 'update-categories', 'show-categories', 'delete-categories']);
+        return $dataTable->with('permissions', $permissions)->render('dashboard.categories.index');
     }
 
     public function create()
@@ -29,22 +31,23 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        try{
-                userAbility(['store-categories']);
-                $image = $request->file('image');
-                $path = 'images/categories/';
-                $file_name = $this->saveImag($path, [$request->image]);
-                $this->resizeImage(300, null, $path, $file_name, $image);
-                $category = Category::create([
-                    'name_ar' => $request->name_ar,
-                    'name_en' => $request->name_en,
-                    'image' => $path . $file_name,
-                    'parent_id' => $request->parent_id ?? null,
-                ]);
-                return redirect()->route('admin.categories.index')->with([
-                        'message' => __('Item Created successfully.'),
-                        'alert-type' => 'success']);
-
+        try {
+            userAbility(['store-categories']);
+            $image = $request->file('image');
+            $path = 'images/categories/';
+            $file_name = $this->saveImag($path, [$request->image]);
+            $this->resizeImage(300, null, $path, $file_name, $image);
+            Category::create([
+                'name_ar' => $request->name_ar,
+                'name_en' => $request->name_en,
+                'image' => $path . $file_name,
+                'parent_id' => $request->parent_id ?? null,
+            ]);
+            $this->updateCacheCategories();
+            return redirect()->route('admin.categories.index')->with([
+                'message' => __('Item Created successfully.'),
+                'alert-type' => 'success'
+            ]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -63,7 +66,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function edit( $id)
+    public function edit($id)
     {
         try {
             userAbility(['update-categories']);
@@ -95,36 +98,40 @@ class CategoryController extends Controller
                 'image' =>  $path . $file_name,
                 'parent_id' => $request->parent_id ?? null,
             ]);
+            $this->updateCacheCategories();
             return redirect()->route('admin.categories.index')->with([
                 'message' => __('Item Updated successfully.'),
-                'alert-type' => 'success']);
+                'alert-type' => 'success'
+            ]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-}
+    }
 
-    public function destroy( $id)
+    public function destroy($id)
     {
         try {
             userAbility(['delete-categories']);
             $category = Category::findOrFail(Crypt::decrypt($id));
-            if(count($category->children) > 0){
+            if (count($category->children) > 0) {
                 return redirect()->route('admin.categories.index')->with([
                     'message' => __('This is category has subcategories'),
-                    'alert-type' => 'danger']);
-            } else if(count($category->products) > 0){
+                    'alert-type' => 'danger'
+                ]);
+            } else if (count($category->products) > 0) {
                 return redirect()->route('admin.categories.index')->with([
                     'message' => __('This is category has products'),
-                    'alert-type' => 'danger']);
+                    'alert-type' => 'danger'
+                ]);
             }
-
+            $this->updateCacheCategories();
             $this->deleteFiles($category->image);
             $category->delete();
+
             return redirect()->route('admin.categories.index')->with([
                 'message' => __('Item Deleted successfully.'),
-                'alert-type' => 'success']);
-
-
+                'alert-type' => 'success'
+            ]);
         } catch (\Exception $e) {
 
             return $e->getMessage();
@@ -140,4 +147,10 @@ class CategoryController extends Controller
         return response()->json([]);
     }
 
+    protected function updateCacheCategories()
+    {
+         $categories = Category::tree();
+            Cache::forget('sopping_categories_menu');
+            Cache::forever('sopping_categories_menu', $categories);
+    }
 }

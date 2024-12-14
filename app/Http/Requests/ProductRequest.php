@@ -38,6 +38,9 @@ class ProductRequest extends FormRequest
             'status' => 'max:1',
             'images' => 'required|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
+            'sizes' => 'nullable|array',
+            'sizes.*.selected' => 'nullable|boolean',
+            'sizes.*.quantity' => 'nullable|integer|min:0',
 
         ];
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
@@ -54,6 +57,9 @@ class ProductRequest extends FormRequest
                 'status' => 'max:1',
                 // 'images' => 'required|array',
                 'images.*' => 'max:1024',
+                'sizes' => 'nullable|array',
+                'sizes.*.selected' => 'nullable|boolean',
+                'sizes.*.quantity' => 'nullable|integer|min:0',
             ];
         }
 

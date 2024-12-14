@@ -65,7 +65,7 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->with([
+        return $model->orderByDesc('id')->with([
             'category:id,name_ar,name_en,parent_id' =>
                 ['parent:id,name_ar,name_en'],
             'tags',

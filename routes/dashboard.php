@@ -16,6 +16,7 @@ use App\Http\Controllers\Dashboard\SupervisorController;
 use App\Http\Controllers\Dashboard\TagController;
 use App\Http\Controllers\Dashboard\UserAddressController;
 use App\Http\Controllers\Dashboard\OrderController;
+use App\Http\Controllers\Dashboard\SizeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
             'supervisors' => SupervisorController::class,//supervisor routes
             'categories' => CategoryController::class,//categories routes
             'products' => ProductController::class,//products routes
+            'sizes' => SizeController::class,//categories routes
             'coupons' => CouponController::class,//coupon routes
             'tags' => TagController::class,//tags routes
             'reviews' => ReviewController::class,//tags routes

@@ -55,7 +55,7 @@
                             <small class="error text-danger" id="email_error"></small>
                         </div>
                         <div class="col-lg-12">
-                            <textarea  name="body" class="form-control form-control-lg" placeholder="{{__('Last name')}}"></textarea>
+                            <textarea  name="body" class="form-control form-control-lg" placeholder="{{__('Add a review')}}"></textarea>
                             <small class="error text-danger" id="body_error"></small>
                         </div>
                         <br>

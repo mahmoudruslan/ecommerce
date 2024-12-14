@@ -17,22 +17,31 @@ function addToWishList(productId, url) {
 }
 // remove form wishlist
 function removeFromWishList(itemId, url) {
+
     url = url + "/" + itemId;
     let response = ajaxRequest("POST", url);
     response.then((response) => {
             updateWishlistCount(response.wishListCount);
     });
 
-    // let htmlRow = document.getElementById(itemId);
-    let htmlRow = document.querySelector("#wish-" + itemId);
-    htmlRow.remove();
 
+
+    let htmlRow = document.querySelector("#wishlist-" + itemId);
+
+
+    htmlRow.remove();
     //if no products in wishlist show not found products in your wishlist
     let wishlistRows = document.querySelectorAll(".wishlist-row").length;
     if (wishlistRows === 0) {
-        tBodyEl = document.querySelector(".t-body");
-        let th = createThTag();
-        th.innerHTML = noProducts;
-        tBodyEl.appendChild(th);
+        let wishlistDiv = document.querySelector(".wishlist-div-main");
+        let wishlistRow = createCartRow();
+        wishlistRow.innerHTML = noWishlistProducts;
+        wishlistDiv.appendChild(wishlistRow);
     }
+    console.log(wishlistRows);
+}
+function createCartRow() {
+    const div = document.createElement("div");
+    div.setAttribute("class", "text-center align-items-center my-4");
+    return div;
 }

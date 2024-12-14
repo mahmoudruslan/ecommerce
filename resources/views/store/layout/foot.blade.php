@@ -26,6 +26,7 @@
         let success = "{{ __('Success') }}";
         let warning = "{{ __('Warning') }}";
         let noProducts = "{{ __('No products available in your cart.') }}";
+        let noWishlistProducts = "{{ __('No products available in your wishlist.') }}";
         let requiredMessage = "{{__('validation.required')}}";
         let emailMessage = "{{__('validation.email')}}";
 

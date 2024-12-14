@@ -154,8 +154,7 @@ class CustomerController extends Controller
     public function orderDetails($order_id)
     {
         try {
-            $order = Order::with(['products', 'transactions', 'address'])->findOrFail($order_id);
-            // return $order->transactions()->orderByDesc('id')->first();
+            $order = Order::with(['products', 'transactions'])->findOrFail($order_id);
             return view('store.order_details', compact('order'));
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -185,10 +184,9 @@ class CustomerController extends Controller
     public function productReview($slug, Request $request)
     {
         $product = Product::whereSlug($slug)->first();
-        Review::updateOrCreate([
+        Review::create([
             'product_id' => $product->id,
             'email' => $request->email,
-        ],[
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'body' => $request->body,

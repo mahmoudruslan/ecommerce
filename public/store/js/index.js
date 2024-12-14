@@ -125,6 +125,8 @@ function sendReview(slug, url)
         if (response.message) {
             document.querySelector('.modal').click();
             alert(response.title, response.type, response.message);
+            location.reload();
+
         }
         });
 

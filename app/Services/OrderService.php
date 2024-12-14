@@ -130,18 +130,16 @@ class OrderService
         $cart_items = Cart::session('cart')->getContent();
         foreach ($order->products as $product) {
             $available_quantity = $product->quantity;
-            if (count($cart_items) > 0) {
-                if ($cart_items->pluck('id')->contains($product->id)) {
-                    $item = Cart::session('cart')->get($product->id);
+            if ($cart_items->pluck('id')->contains($product->id)) {
+                $item = Cart::session('cart')->get($product->id);
 
-                    $quantity_requested = $item->quantity + $product->pivot->quantity;
+                $quantity_requested = $item->quantity + $product->pivot->quantity;
 
-                    if ($quantity_requested > $available_quantity) {
-                        $shortages[] = $this->makeShortage($product['name_' . currentLang()], $quantity_requested, $available_quantity);
-                        $quantity_requested = $available_quantity;
-                    }
-                    updateCart($product, $quantity_requested - $item->quantity);
+                if ($quantity_requested > $available_quantity) {
+                    $shortages[] = $this->makeShortage($product['name_' . currentLang()], $quantity_requested, $available_quantity);
+                    $quantity_requested = $available_quantity;
                 }
+                updateCart($product, $quantity_requested - $item->quantity);
             } else {
                 $quantity_requested = $product->pivot->quantity;
                 if ($quantity_requested > $available_quantity) {

@@ -97,6 +97,28 @@
                     </div>
                 </li>
             @endcanany
+             {{-- Products --}}
+             @canany(['sizes', 'store-sizes', 'update-sizes', 'delete-sizes'])
+             <!-- Nav Item - Pages Collapse Menu -->
+             <li class="nav-item">
+                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSizes"
+                     aria-expanded="true" aria-controls="collapsePages">
+                     <i class="fas fa-store"></i>
+                     <span>{{ __('Sizes') }}</span>
+                 </a>
+                 <div id="collapseSizes" class="collapse @if ($route == 'sizes') show @endif"
+                     aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                     <div class="bg-white py-2 collapse-inner rounded">
+                         <h6 class="collapse-header">{{ __('Categories Screens:') }} </h6>
+                         @can(['store-sizes'])
+                             <a class="collapse-item"
+                                 href="{{ route('admin.sizes.create') }}">{{ __('Add sizes') }}</a>
+                         @endcan
+                         <a class="collapse-item" href="{{ route('admin.sizes.index') }}">{{ __('Sizes') }}</a>
+                     </div>
+                 </div>
+             </li>
+         @endcanany
             {{-- settings --}}
             @canany(['roles', 'store-roles', 'update-roles', 'show-roles', 'delete-roles'])
                 <!-- Nav Item - Pages Collapse Menu -->

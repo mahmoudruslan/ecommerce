@@ -27,8 +27,8 @@
         <div class="row">
             <div class="cart-div-main col-lg-8 mb-4 mb-lg-0">
                 @foreach ($cart_items as $item)
-                    <div id="cart-{{ $item->id }}" class="row align-items-center my-4 cart-row">
-                        <div class="col-md-4 mb-2">
+                    <div id="cart-{{ $item->id }}" class="row align-items-center cart-row">
+                        <div class="col-md-4 my-4 mb-2">
                             <div class="row align-items-center">
                                 <div class="col-5">
                                     <a class="d-inline-block reset-anchor  animsition-link"
@@ -78,8 +78,8 @@
                                             <i class="fas fa-trash-alt small text-muted"></i>
                                         </a>
                         </div>
+                        <hr style="margin: 0%">
                     </div>
-                    <hr style="margin: 0%">
                 @endforeach
             </div>
             <!-- ORDER TOTAL-->

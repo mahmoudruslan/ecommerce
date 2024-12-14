@@ -1,7 +1,7 @@
 @extends('dashboard.layout.master')
 
 @section('title')
- {{ __('Add Products') }}
+    {{ __('Add Products') }}
 @endsection
 @section('content')
     <!-- Content Wrapper -->
@@ -23,65 +23,82 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Add') }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="user">
+                                            <form action="{{ route('admin.products.store') }}" method="POST"
+                                                enctype="multipart/form-data" class="user">
                                                 @csrf
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <input type="text" name="name_ar" value="{{ old('name_ar') }}" class="form-control form-control-user @error('name_ar') is-invalid @enderror" placeholder=" {{ __('Enter Name In Arabic') }}">
+                                                        <input type="text" name="name_ar" value="{{ old('name_ar') }}"
+                                                            class="form-control form-control-user @error('name_ar') is-invalid @enderror"
+                                                            placeholder=" {{ __('Enter Name In Arabic') }}">
                                                         @error('name_ar')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
+                                                            <span class="text-danger" role="alert">
+                                                                <small>{{ $message }}</small>
+                                                            </span>
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="text" name="name_en" value="{{ old('name_en') }}" class="form-control form-control-user @error('name_en') is-invalid @enderror" placeholder=" {{  __('Enter Name In English') }}">
+                                                        <input type="text" name="name_en" value="{{ old('name_en') }}"
+                                                            class="form-control form-control-user @error('name_en') is-invalid @enderror"
+                                                            placeholder=" {{ __('Enter Name In English') }}">
                                                         @error('name_en')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
+                                                            <span class="text-danger" role="alert">
+                                                                <small>{{ $message }}</small>
+                                                            </span>
                                                         @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="price" value="{{ old('price') }}" class="form-control form-control-user @error('price') is-invalid @enderror" placeholder=" {{ __('Enter Price') }}">
+                                                            <input type="text" name="price"
+                                                                value="{{ old('price') }}"
+                                                                class="form-control form-control-user @error('price') is-invalid @enderror"
+                                                                placeholder=" {{ __('Enter Price') }}">
                                                             @error('price')
-                                                            <span class="text-danger" role="alert">
-                                                                <small>{{ $message }}</small>
-                                                            </span>
+                                                                <span class="text-danger" role="alert">
+                                                                    <small>{{ $message }}</small>
+                                                                </span>
                                                             @enderror
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="quantity" value="{{ old('quantity') }}" class="form-control form-control-user @error('quantity') is-invalid @enderror" placeholder=" {{ __('Enter Quantity') }}">
+                                                            <input type="text" name="quantity"
+                                                                value="{{ old('quantity') }}"
+                                                                class="form-control form-control-user @error('quantity') is-invalid @enderror"
+                                                                placeholder=" {{ __('Enter Quantity') }}">
                                                             @error('quantity')
-                                                            <span class="text-danger" role="alert">
-                                                                <small>{{ $message }}</small>
-                                                            </span>
+                                                                <span class="text-danger" role="alert">
+                                                                    <small>{{ $message }}</small>
+                                                                </span>
                                                             @enderror
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <textarea rows="1" style="background-position: 0%" type="text" name="description_ar" value="{{ old('description_ar') }}" class="form-control form-control-user
-                                                        @error('description_ar') is-invalid @enderror" placeholder="{{ __('Enter Description In Arabic') }}"></textarea>
+                                                        <textarea rows="1" style="background-position: 0%" type="text" name="description_ar"
+                                                            value="{{ old('description_ar') }}"
+                                                            class="form-control form-control-user
+                                                        @error('description_ar') is-invalid @enderror"
+                                                            placeholder="{{ __('Enter Description In Arabic') }}"></textarea>
                                                         @error('description_ar')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
+                                                            <span class="text-danger" role="alert">
+                                                                <small>{{ $message }}</small>
+                                                            </span>
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <textarea rows="1"  style="background-position: 0%" type="text" name="description_en" value="{{ old('description_en') }}" class="form-control form-control-user
-                                                        @error('description_en') is-invalid @enderror" placeholder="{{ __('Enter Description In English') }}"></textarea>
+                                                        <textarea rows="1" style="background-position: 0%" type="text" name="description_en"
+                                                            value="{{ old('description_en') }}"
+                                                            class="form-control form-control-user
+                                                        @error('description_en') is-invalid @enderror"
+                                                            placeholder="{{ __('Enter Description In English') }}"></textarea>
                                                         @error('description_en')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
+                                                            <span class="text-danger" role="alert">
+                                                                <small>{{ $message }}</small>
+                                                            </span>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -89,26 +106,30 @@
                                                     <div class="col-md-6">
                                                         <select name="category_id" style="height:100%" class="form-control">
                                                             <option disabled selected>{{ __('Choose Category') }}</option>
-                                                            @foreach($categories as $category)
-                                                            <option value="{{ $category->id }}">{{ $category->parent['name_'. App::currentLocale()] }} | {{ $category['name_'. App::currentLocale()] }}</option>
+                                                            @foreach ($categories as $category)
+                                                                <option value="{{ $category->id }}">
+                                                                    {{ $category->parent['name_' . App::currentLocale()] }}
+                                                                    | {{ $category['name_' . App::currentLocale()] }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                         @error('category_id')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
+                                                            <span class="text-danger" role="alert">
+                                                                <small>{{ $message }}</small>
+                                                            </span>
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
                                                         <select multiple name="tags[]" class="form-control">
-                                                            @foreach($tags as $tag)
-                                                            <option value="{{ $tag->id }}">{{ $tag['name_'. App::currentLocale()] }}</option>
+                                                            @foreach ($tags as $tag)
+                                                                <option value="{{ $tag->id }}">
+                                                                    {{ $tag['name_' . App::currentLocale()] }}</option>
                                                             @endforeach
                                                         </select>
                                                         @error('tags')
-                                                        <span class="text-danger" role="alert">
-                                                            <small>{{ $message }}</small>
-                                                        </span>
+                                                            <span class="text-danger" role="alert">
+                                                                <small>{{ $message }}</small>
+                                                            </span>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -116,66 +137,94 @@
                                                     <div class="col-md-6">
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <input type="checkbox" value="1" name="featured" class="checkbox @error('featured') is-invalid @enderror" placeholder=" {{ __('Enter Featured') }}">
+                                                                <input type="checkbox" value="1" name="featured"
+                                                                    class="checkbox @error('featured') is-invalid @enderror"
+                                                                    placeholder=" {{ __('Enter Featured') }}">
                                                                 <label><small>{{ __('Featured') }}</small></label>
                                                                 @error('featured')
-                                                                <span class="text-danger" role="alert">
-                                                                    <small>{{ $message }}</small>
-                                                                </span>
+                                                                    <span class="text-danger" role="alert">
+                                                                        <small>{{ $message }}</small>
+                                                                    </span>
                                                                 @enderror
                                                             </div>
                                                             <div class="col-md-6">
-                                                                <input type="checkbox" value="1" name="status" class="checkbox" placeholder="{{ __('Status') }}">
+                                                                <input type="checkbox" value="1" name="status"
+                                                                    class="checkbox" placeholder="{{ __('Status') }}">
                                                                 <label><small>{{ __('Active') }}</small></label>
                                                                 @error('status')
-                                                                <span class="text-danger" role="alert">
-                                                                    <small>{{ $message }}</small>
-                                                                </span>
+                                                                    <span class="text-danger" role="alert">
+                                                                        <small>{{ $message }}</small>
+                                                                    </span>
                                                                 @enderror
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
+                                                <div class="form-group row">
+                                                    @foreach ($sizes as $size)
+                                                        <div class="col-md-3">
+                                                            <input class="checkbox" type="checkbox"
+                                                                name="sizes[{{ $size->id }}][selected]"
+                                                                value="1" id="size-{{ $size->id }}">
+                                                            <label
+                                                                for="size-{{ $size->id }}">{{ $size->name }}</label>
+                                                            <input class="form-control d-inline-block w-50" type="number"
+                                                                name="sizes[{{ $size->id }}][quantity]"
+                                                                min="0" disabled
+                                                                placeholder="{{ __('Quantity') }}">
+                                                        </div>
+                                                    @endforeach
+                                                </div>
                                                 <br>
-                                                    <input multiple type="file" name="images[]" class="file"  id="input-id" data-preview-file-type="text">
-                                                    <br>
-                                                    @error('images')
+                                                <input multiple type="file" name="images[]" class="file"
+                                                    id="input-id" data-preview-file-type="text">
+                                                <br>
+                                                @error('images')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>
                                                     </span>
-                                                    @enderror
-                                                    @error('images.0')
+                                                @enderror
+                                                @error('images.0')
                                                     <span class="text-danger" role="alert">
                                                         <small>{{ $message }}</small>
                                                     </span>
-                                                    @enderror
+                                                @enderror
                                                 <br>
                                                 <hr>
-                                                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                                                     {{ __('Save') }}
-                                                    </button>
-                                                </form>
-                                            </div>
+                                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                                    {{ __('Save') }}
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                     </div>
 
-
                 </div>
+
+
             </div>
-            <!-- Outer Row -->
-        @endsection
-        @push('script')
+        </div>
+        <!-- Outer Row -->
+    @endsection
+    @push('script')
+        <script>
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const quantityInput = this.parentElement.querySelector('input[type="number"]');
+                    quantityInput.disabled = !this.checked;
+                });
+            });
+        </script>
         <script>
             $("#input-id").fileinput({
                 required: true,
                 showUpload: false,
                 showRemove: false,
-        });
+            });
         </script>
-        @endpush
+    @endpush

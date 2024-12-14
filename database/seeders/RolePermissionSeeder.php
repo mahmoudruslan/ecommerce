@@ -26,6 +26,7 @@ class RolePermissionSeeder extends Seeder
             'roles','show-roles','delete-roles','update-roles','store-roles',
             'categories','show-categories','delete-categories','update-categories','store-categories',
             'products','show-products','delete-products','update-products','store-products',
+            'sizes','delete-sizes','update-sizes','store-sizes',
             'tags','show-tags','delete-tags','update-tags','store-tags',
             'coupons','show-coupons','delete-coupons','update-coupons','store-coupons',
             'governorates','show-governorates','delete-governorates','update-governorates','store-governorates',

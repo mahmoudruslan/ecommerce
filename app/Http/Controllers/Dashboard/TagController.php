@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Http\Controllers\Controller;
+use App\Models\Tag;
 use App\DataTables\TagDataTable;
 use App\Http\Requests\TagRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
-use App\Models\Tag;
 
 class TagController extends Controller
 {
@@ -33,6 +34,7 @@ class TagController extends Controller
                 'name_en' => $request->name_en,
                 'status' => $request->status ?? 0,
             ]);
+            $this->updateCacheTags();
             return redirect()->route('admin.tags.index')->with([
                 'message' => __('Item Created successfully.'),
                 'alert-type' => 'success']);
@@ -75,6 +77,7 @@ class TagController extends Controller
                 'name_en' => $request->name_en,
                 'status' => $request->status ?? 0,
             ]);
+            $this->updateCacheTags();
             return redirect()->route('admin.tags.index')->with([
                 'message' => __('Item Updated successfully.'),
                 'alert-type' => 'success']);
@@ -90,6 +93,7 @@ class TagController extends Controller
             userAbility(['delete-tags']);
             $tag = Tag::findOrFail(Crypt::decrypt($id));
             $tag->delete();
+            $this->updateCacheTags();
             return redirect()->route('admin.tags.index')->with([
                 'message' => __('Item Deleted successfully.'),
                 'alert-type' => 'success']);
@@ -98,5 +102,11 @@ class TagController extends Controller
             return $e->getMessage();
         }
 
+    }
+    protected function updateCacheTags()
+    {
+         $tags = Tag::whereStatus(true)->get();
+            Cache::forget('sopping_tags_menu');
+            Cache::forever('sopping_tags_menu', $tags);
     }
 }

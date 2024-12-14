@@ -111,6 +111,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ProductTagsSeeder::class,
             ProductMediaSeeder::class,
+            SizeSeeder::class,
+            ProductSizesSeeder::class,
             CategoryTagsSeeder::class,
             ReviewSeeder::class,
             ShippingCompanySeeder::class,

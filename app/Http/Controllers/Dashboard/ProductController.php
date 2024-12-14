@@ -7,6 +7,7 @@ use App\DataTables\ProductDataTable;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Size;
 use App\Models\Tag;
 use App\Models\User;
 use App\Traits\Files;
@@ -20,8 +21,8 @@ class ProductController extends Controller
     public function index(ProductDataTable $dataTable)
     {
         //userAbility() method => App/Helpers/Helper.php
-        $permissions = userAbility(['products','store-products', 'update-products', 'show-products','delete-products']);//pass to dataTable class
-        return $dataTable->with('permissions' , $permissions)->render('dashboard.products.index');
+        $permissions = userAbility(['products', 'store-products', 'update-products', 'show-products', 'delete-products']); //pass to dataTable class
+        return $dataTable->with('permissions', $permissions)->render('dashboard.products.index');
     }
 
     public function create()
@@ -29,11 +30,13 @@ class ProductController extends Controller
         userAbility(['store-products']);
         $categories = Category::select('id', 'name_ar', 'name_en', 'parent_id')->whereNotNull('parent_id')->with('parent:id,name_ar,name_en')->get();
         $tags = Tag::select('id', 'name_ar', 'name_en')->get();
-        return view('dashboard.products.create', compact('categories', 'tags'));
+        $sizes = Size::select('id', 'name')->get();
+        return view('dashboard.products.create', compact('categories', 'tags', 'sizes'));
     }
 
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {
+        // return $request->sizes;
         userAbility(['store-products']);
         try {
             $product = Product::create([
@@ -47,13 +50,25 @@ class ProductController extends Controller
                 'featured' => $request->featured ?? 0,
                 'status' => $request->status ?? 0
             ]);
-           //create media
+            //create media
             $this->createProductMedia($request->images, $product);
             //create tags
             $product->tags()->attach($request->tags);
+            //create sizes
+            $sizesData = [];
+            foreach ($request->input('sizes', []) as $sizeId => $data) {
+                if (!empty($data['selected'])) {
+                    $sizesData[$sizeId] = [
+                        'quantity' => $data['quantity'] ?? 0
+                    ];
+                }
+            }
+            return $sizesData;
+            $product->sizes()->sync($sizesData);
             return redirect()->route('admin.products.index')->with([
                 'message' => __('Item Created successfully.'),
-                'alert-type' => 'success']);
+                'alert-type' => 'success'
+            ]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -68,21 +83,20 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-
     }
 
-    public function edit( $id)
+    public function edit($id)
     {
         try {
             userAbility(['update-products']);
             $categories = Category::select('id', 'name_ar', 'name_en', 'parent_id')->whereNotNull('parent_id')->with('parent:id,name_ar,name_en')->get();
             $product = Product::findOrFail(Crypt::decrypt($id));
             $tags = Tag::select('id', 'name_ar', 'name_en')->get();
-            return view('dashboard.products.edit', compact('product', 'categories', 'tags'));
+            $sizes = Size::select('id', 'name')->get();
+            return view('dashboard.products.edit', compact('product', 'categories', 'tags', 'sizes'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-
     }
 
     public function update(ProductRequest $request, $id)
@@ -101,19 +115,30 @@ class ProductController extends Controller
             $input['status'] = $request->status ?? 0;
             $product->update($input);
             //update media
-            if(isset($request->images)){
+            if (isset($request->images)) {
                 $this->createProductMedia($request->images, $product);
             }
             //update tags
             $product->tags()->sync($request->tags);
 
+            //update sizes
+                $sizeData = [];
+                foreach ($request->sizes as $sizeId => $size) {
+                    if (!empty($size['selected'])) {
+                        $sizeData[$sizeId] = [
+                            'quantity' => $size['quantity'] ?? 0,
+                        ];
+                    }
+                }
+                $product->sizes()->sync($sizeData);
             return redirect()->route('admin.products.index')->with([
                 'message' => __('Item Updated successfully.'),
-                'alert-type' => 'success']);
+                'alert-type' => 'success'
+            ]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-}
+    }
 
     public function destroy($id)
     {
@@ -132,7 +157,6 @@ class ProductController extends Controller
 
             return $e->getMessage();
         }
-
     }
 
     public function removeImage(Request $request)
@@ -144,6 +168,4 @@ class ProductController extends Controller
         $media->delete();
         return response()->json([]);
     }
-
 }
-

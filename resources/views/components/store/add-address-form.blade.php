@@ -2,7 +2,9 @@
     <h2 class="h5 text-uppercase m-0">{{ __('Delivery') }}</h2>
     <div class="col-lg-6">
         <input name="user_id" type="hidden" value="{{ auth()->id() }}">
+        @if (auth()->check())
         <input id="email" name="email" type="hidden" value="{{ auth()->user()->email }}">
+        @endif
         <small class="d-none" id="email_error"></small>
         <input name="first_name" class="form-control form-control-lg" type="text" id="first_name"
             placeholder="{{ __('Enter your first name') }}">

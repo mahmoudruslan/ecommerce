@@ -61,7 +61,7 @@
                                     $order->transactions()->orderByDesc('id')->first()->transaction == app\Models\OrderTransaction::FINISHED ||
                                         ($order->transactions()->orderByDesc('id')->first()->transaction ==
                                             app\Models\OrderTransaction::PAYMENT_COMPLETED &&
-                                            $order->transactions()->orderByDesc('id')->first()->created_at->diffInDays(now()) <
+                                            $order->created_at->diffInDays(now()) <
                                                 Config::get('app.order_return_days')))
                                     <p>
                                         <a href="{{ route('customer.orders.refund.request', $order->id) }}"

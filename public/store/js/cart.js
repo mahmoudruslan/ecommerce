@@ -72,8 +72,8 @@ function addItemInCartSidebar(items) {
         cartSidebarBody.innerHTML += `
                     <div  id="cart-bar-${
                         item.id
-                    }" class="row align-items-center my-4 cart-bar-row">
-                        <div class="col-md-4">
+                    }" class="row align-items-center cart-bar-row">
+                        <div class="col-md-4 my-4">
                             <a class="reset-anchor d-block animsition-link"
                                 href="product/${item.associatedModel.slug}">
                                 <img src="http\://${host}/storage/${
@@ -137,7 +137,9 @@ function addItemInCartSidebar(items) {
                                 <i class="fas fa-trash-alt small text-muted"></i>
                             </a>
                         </div>
-                    </div><hr style="margin: 0%">`;
+                        <hr style="margin: 0%">
+                    </div>
+                    `;
     });
 }
 function openCartSidBar() {

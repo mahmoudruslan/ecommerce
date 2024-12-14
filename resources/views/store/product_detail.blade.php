@@ -115,6 +115,7 @@
                     </ul>
                 </div>
             </div>
+
             <!-- DETAILS TABS-->
             <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
                 <li class="nav-item"><a class="nav-link text-uppercase active" id="description-tab" data-bs-toggle="tab"
@@ -123,6 +124,9 @@
                 <li class="nav-item"><a class="nav-link text-uppercase" id="reviews-tab" data-bs-toggle="tab"
                         href="#reviews" role="tab" aria-controls="reviews"
                         aria-selected="false">{{ __('Reviews') }}</a></li>
+                        <li class="nav-item"><a class="nav-link text-uppercase" id="youtube-tab" data-bs-toggle="tab"
+                            href="#youtube" role="tab" aria-controls="youtube"
+                            aria-selected="false">{{ __('Youtube') }}</a></li>
             </ul>
             <div class="tab-content mb-5" id="myTabContent">
                 <div class="tab-pane fade show active" id="description" role="tabpanel"
@@ -160,6 +164,16 @@
                                 @empty
                                     <div class="d-flex mb-3">{{ __('Not found reviews') }}</div>
                                 @endforelse
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="youtube" role="tabpanel" aria-labelledby="youtube-tab">
+                    <div class="p-4 p-lg-5 bg-white">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/Msz6g397Dfg?si=iFA0ySCrBPFMH5mr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
                             </div>
                         </div>
                     </div>
