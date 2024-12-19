@@ -57,4 +57,3 @@
     </div>
 
     <div class="page-holder">
-        <div class="container m-auto">

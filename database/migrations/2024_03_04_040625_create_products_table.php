@@ -25,6 +25,8 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->boolean('featured')->default(false);
             $table->boolean('status')->default(false);
+            $table->text('iframe')->nullable();
+            $table->text('video_link')->nullable();
             $table->timestamps();
         });
     }

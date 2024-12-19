@@ -22,7 +22,7 @@ class ProductSizesSeeder extends Seeder
             $sizesData = [];
             foreach ($sizes as $size) {
                $sizesData[$size->id] = [
-                'quantity' => rand(2, 7),
+                'quantity' => rand(4, 7),
                ];
             }
             $product->sizes()->sync($sizesData);

@@ -20,7 +20,6 @@ function addShippingCost(governorate_id) {
             });
         });
     }
-
 }
 
 if(governorateSelect){

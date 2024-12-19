@@ -132,6 +132,28 @@
                                                             </span>
                                                         @enderror
                                                     </div>
+                                                </div><br>
+                                                <div class="form-group row">
+                                                    <div class="col-md-6">
+                                                        <input type="text" name="video_link" value="{{ old('video_link') }}"
+                                                            class="form-control form-control-user @error('video_link') is-invalid @enderror"
+                                                            placeholder=" {{ __('Video link') }}">
+                                                        @error('video_link')
+                                                            <span class="text-danger" role="alert">
+                                                                <small>{{ $message }}</small>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" name="iframe" value="{{ old('iframe') }}"
+                                                            class="form-control form-control-user @error('iframe') is-invalid @enderror"
+                                                            placeholder=" {{ __('Iframe') }}">
+                                                        @error('iframe')
+                                                            <span class="text-danger" role="alert">
+                                                                <small>{{ $message }}</small>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">

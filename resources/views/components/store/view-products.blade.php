@@ -36,22 +36,18 @@
                     <div class="product-overlay">
                         <ul class="mb-0 list-inline">
                             <li class="list-inline-item m-0 p-0">
-                                {{-- <form action=""> --}}
-                                    <a onclick="addToWishList({{ $product->id }}, 'http\://{{ request()->httpHost() }}/add-to-wishlist')"
-                                        id="add-to-wishList-buttons"
-                                        class="add-wishlist-btn{{ $product->id }} btn btn-sm btn-outline-dark">
-                                        <i
-                                            class="{{ \Cart::session('wishList')->getContent()->pluck('id')->contains($product->id)? 'bold': '' }} far fa-heart heart"></i>
-                                    </a>
-                                {{-- </form> --}}
+                                <a onclick="addToWishList({{ $product->id }}, 'http\://{{ request()->httpHost() }}/add-to-wishlist')"
+                                    id="add-to-wishList-buttons"
+                                    class="add-wishlist-btn{{ $product->id }} btn btn-sm btn-outline-dark">
+                                    <i
+                                        class="{{ \Cart::session('wishList')->getContent()->pluck('id')->contains($product->id)? 'bold': '' }} far fa-heart heart"></i>
+                                </a>
                             </li>
                             <li class="list-inline-item m-0 p-0">
-                                {{-- <form action=""> --}}
-                                <a href="#addToCart{{ $product->slug }}" data-bs-toggle="modal"
-                                    class="btn btn-sm btn-dark" {{-- status = quantity status --}}>
+                                <a onclick="resetQuantity({{ $product->id }})" href="#addToCart{{ $product->id }}"
+                                    data-bs-toggle="modal" class="btn btn-sm btn-dark">
                                     {{ __('Add to cart') }}
                                 </a>
-                                {{-- </form> --}}
                             </li>
                             <li class="list-inline-item mr-0">
                                 <a class="btn btn-sm btn-outline-dark" href="#productView{{ $product->slug }}"
@@ -73,12 +69,10 @@
                 </p>
                 {{-- mobile screens --}}
                 <div class="mobile-devices mb-2">
-                    <form action="">
-                        <a class="btn custom-btn-sm btn-dark" {{-- status = quantity status --}}
-                            onclick="addToCart( {{ json_encode(['status' => true]) }} , {{ $product->id }}, 'http\://{{ request()->httpHost() }}/add-to-cart')">
-                            {{ __('Add to cart') }}
-                        </a>
-                    </form>
+                    <a onclick="resetQuantity({{ $product->id }})" href="#addToCart{{ $product->id }}" data-bs-toggle="modal"
+                        class="btn custom-btn-sm btn-dark" {{-- status = quantity status --}}>
+                        {{ __('Add to cart') }}
+                    </a>
                 </div>
 
 
@@ -88,50 +82,8 @@
         </div>
         @include('store.modals.product_details_modal')
     @empty
-        {{-- <div class="col-lg-4 col-sm-6"> --}}
         <div class="text-center">
             <h6> No products found</h6>
         </div>
-        {{-- </div> --}}
     @endforelse
 </div>
-@section('js')
-    <script>
-        // const sizeBoxes = document.querySelectorAll('.size-box');
-        // const selectedSizeLabel = document.querySelector('.selected-size');
-
-        // sizeBoxes.forEach((box) => {
-        //     box.addEventListener('click', function() {
-        //         sizeBoxes.forEach((b) => b.classList.remove('selected'));
-        //         this.classList.add('selected');
-        //         selectedSizeLabel.innerHTML = this.textContent;
-        //     });
-        // });
-
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-    const sizeBoxes = document.querySelectorAll('.size-box');
-
-    sizeBoxes.forEach((box) => {
-        box.addEventListener('click', function () {
-            const siblingBoxes = this.closest('.row').querySelectorAll('.size-box');
-            siblingBoxes.forEach((b) => b.classList.remove('bg-primary'));
-            this.classList.add('bg-primary');
-            const targetId = this.dataset.target;
-            const selectedSizeLabel = document.getElementById(targetId);
-            selectedSizeLabel.textContent = this.textContent.trim();
-        });
-    });
-});
-
-
-
-
-    </script>
-
-
-
-
-
-@endsection

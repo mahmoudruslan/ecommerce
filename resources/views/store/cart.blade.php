@@ -22,6 +22,7 @@
             </div>
         </div>
     </section>
+
     <section class="py-5">
         <h2 class="h5 text-uppercase mb-4">{{ __('Shopping cart') }}</h2>
         <div class="row">
@@ -43,6 +44,7 @@
                                             {{ $item->associatedModel['name_' . $lang] }}
                                         </strong>
                                     </h6>
+                                    <small class="d-block"> {{ __('Size') }} : {{ $item->attributes->size_name }}</small>
                                 </div>
                             </div>
                         </div>
@@ -58,14 +60,15 @@
                                         class="small text-uppercase text-gray headings-font-family">{{ __('Quantity') }}</span>
                                     <div class="quantity">
                                         <span
-                                            onclick="decreaseQuantity({{ $item->id }}, 'http\://{{ request()->httpHost() }}/cart-decrease-quantity')"
+                                            onclick="decreaseQuantity('{{ $item->id }}', 'http\://{{ request()->httpHost() }}/cart-decrease-quantity')"
                                             class="decrease p-0">
-                                            <i class="px-2 fas fa-caret-{{ $lang === 'ar' ? 'right' : 'left' }}"></i></span>
+                                            <i
+                                                class="px-2 fas fa-caret-{{ $lang === 'ar' ? 'right' : 'left' }}"></i></span>
                                         <input readonly name="quantity" id="quantity-{{ $item->id }}"
                                             class="form-control form-control-sm border-0 shadow-0 p-0 bg-white"
                                             type="text" value="{{ $item->quantity }}" />
                                         <span
-                                            onclick="increaseQuantity({{ $item->id }}, 'http\://{{ request()->httpHost() }}/cart-increase-quantity')"
+                                            onclick="increaseQuantity('{{ $item->id }}', 'http\://{{ request()->httpHost() }}/cart-increase-quantity')"
                                             class="increase p-0"><i
                                                 class="px-2 fas fa-caret-{{ $lang === 'ar' ? 'left' : 'right' }}"></i></span>
                                     </div>
@@ -74,9 +77,9 @@
                         </div>
                         <div class="col-md-1 mb-2">
                             <a href="javascript:void(0)" class="reset-anchor"
-                                            onclick="removeFromCart({{ $item->id }}, 'http\://{{ request()->httpHost() }}/remove-from-cart')">
-                                            <i class="fas fa-trash-alt small text-muted"></i>
-                                        </a>
+                                onclick="removeFromCart('{{ $item->id }}', 'http\://{{ request()->httpHost() }}/remove-from-cart')">
+                                <i class="fas fa-trash-alt small text-muted"></i>
+                            </a>
                         </div>
                         <hr style="margin: 0%">
                     </div>
@@ -128,4 +131,3 @@
         </div>
     </section>
 @endsection
-

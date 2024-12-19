@@ -34,9 +34,9 @@ class ProductController extends Controller
         return view('dashboard.products.create', compact('categories', 'tags', 'sizes'));
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        // return $request->sizes;
+        // return $request->all();
         userAbility(['store-products']);
         try {
             $product = Product::create([
@@ -45,6 +45,8 @@ class ProductController extends Controller
                 'price' => $request->price,
                 'description_ar' => $request->description_ar,
                 'description_en' => $request->description_en,
+                'video_link' => $request->video_link,
+                'iframe' => $request->iframe,
                 'quantity' => $request->quantity,
                 'category_id' => $request->category_id,
                 'featured' => $request->featured ?? 0,
@@ -63,7 +65,6 @@ class ProductController extends Controller
                     ];
                 }
             }
-            return $sizesData;
             $product->sizes()->sync($sizesData);
             return redirect()->route('admin.products.index')->with([
                 'message' => __('Item Created successfully.'),
@@ -109,6 +110,8 @@ class ProductController extends Controller
             $input['price'] = $request->price;
             $input['description_ar'] = $request->description_ar;
             $input['description_en'] = $request->description_en;
+            $input['video_link'] = $request->video_link ?? null;
+            $input['iframe'] = $request->iframe ?? null;
             $input['quantity'] = $request->quantity;
             $input['category_id'] = $request->category_id;
             $input['featured'] = $request->featured ?? 0;

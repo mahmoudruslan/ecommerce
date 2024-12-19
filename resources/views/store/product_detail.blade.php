@@ -1,5 +1,12 @@
 @extends('store.layout.master')
 @section('content')
+@section('style')
+    <style>
+        iframe {
+        width: 100%;
+    }
+    </style>
+@endsection
 
     <section class="py-5">
         @php
@@ -28,8 +35,8 @@
                                     @foreach ($d_product->media as $media)
                                         <div class="swiper-slide h-auto">
                                             <a class="glightbox product-view"
-                                                href="{{ checkImg('storage/' . $media->file_name) }}" data-gallery="gallery2"
-                                                data-glightbox="Product item 1">
+                                                href="{{ checkImg('storage/' . $media->file_name) }}"
+                                                data-gallery="gallery2" data-glightbox="Product item 1">
                                                 <img class="img-fluid w-100"
                                                     src="{{ checkImg('storage/' . $media->file_name) }}"
                                                     alt="{{ $d_product['name_' . $lang] }}">
@@ -43,19 +50,18 @@
                 </div>
                 <!-- PRODUCT DETAILS-->
                 <div class="col-lg-6">
-                    <a  href="#productReview{{ $d_product->slug }}"
-                        data-bs-toggle="modal">
-                    <ul class="list-inline mb-2 text-sm d-inline-block">
-                        @for ($i = 0; $i < 5; $i++)
-                            <li class="list-inline-item m-0"><i
-                                    class="{{ round($d_product->reviews_avg_rating) > $i ? 'fas' : 'far' }} fa-star small text-warning"></i>
-                            </li>
-                        @endfor
-                    </ul>
-                </a>
+                    <a href="#productReview{{ $d_product->slug }}" data-bs-toggle="modal">
+                        <ul class="list-inline mb-2 text-sm d-inline-block">
+                            @for ($i = 0; $i < 5; $i++)
+                                <li class="list-inline-item m-0"><i
+                                        class="{{ round($d_product->reviews_avg_rating) > $i ? 'fas' : 'far' }} fa-star small text-warning"></i>
+                                </li>
+                            @endfor
+                        </ul>
+                    </a>
                     @include('store.modals.review')
                     <h1>{{ $d_product['name_' . $lang] }}</h1>
-                    {{getCurrency()}}<p class="text-muted lead">{{ number_format($d_product->price, 2) }}</p>
+                    {{ getCurrency() }}<p class="text-muted lead">{{ number_format($d_product->price, 2) }}</p>
                     <p class="text-sm mb-4">{!! $d_product['description_' . $lang] !!}</p>
                     <div class="row align-items-stretch mb-4">
                         <div class="col-sm-5 pr-sm-0">
@@ -69,30 +75,38 @@
                                             value="{{ $d_product->quantity }}">
                                         <input type="hidden" id="product_id" value="{{ $d_product->id }}">
                                         {{-- decreas --}}
-                                        <span class="dec-btn p-0"><i class="px-2 fas fa-caret-{{app()->getLocale() === 'ar' ? 'right' : 'left'}}"></i></span>
+                                        <span class="dec-btn p-0"><i
+                                                class="px-2 fas fa-caret-{{ app()->getLocale() === 'ar' ? 'right' : 'left' }}"></i></span>
 
                                         <input id="quantity" name="quantity" value="1" style="background-color: #ffff"
                                             readonly type="text" class="form-control border-0 shadow-0 p-0">
 
                                         {{-- increas --}}
-                                        <span class="inc-btn p-0"><i class="px-2 fas fa-caret-{{app()->getLocale() === 'ar' ? 'left' : 'right'}}"></i></span>
+                                        <span class="inc-btn p-0"><i
+                                                class="px-2 fas fa-caret-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }}"></i></span>
 
                                     </div>
                                 </div>
                             </form>
                         </div>
+                        @php
+                            $product = $d_product;
+                        @endphp
                         <div class="col-sm-3 pl-sm-0">
-                            <a class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0"
-                                onclick="addToCart({{ json_encode(['status' => false]) }} ,{{ $d_product->id }}, 'http\://{{ request()->httpHost() }}/add-to-cart')">
-                                {{ __('Add to cart') }}
-                            </a>
+                             <a onclick="resetQuantity({{ $product->id }})" href="#addToCart{{ $d_product->id }}"
+                                    data-bs-toggle="modal" class="btn btn-sm btn-dark">
+                                    {{ __('Add to cart') }}
+                                </a>
                         </div>
+                        @include('store.modals.add_to_cart')
                     </div>
                     <form id="cartForm" action="">
                         <input type="hidden" id="token" name="token" value="{{ csrf_token() }}">
-                        <a class="add-wishlist-btn{{$d_product->id}}  text-dark p-0 mb-4 d-inline-block" href="javascript:void();"
+                        <a class="add-wishlist-btn{{ $d_product->id }}  text-dark p-0 mb-4 d-inline-block"
+                            href="javascript:void();"
                             onclick="addToWishList({{ $d_product->id }}, 'http\://{{ request()->httpHost() }}/add-to-wishlist')">
-                            <i class="{{\Cart::session('wishList')->getContent()->pluck('id')->contains($d_product->id) ? 'bold' : ''}} far fa-heart me-2"></i>
+                            <i
+                                class="{{ \Cart::session('wishList')->getContent()->pluck('id')->contains($d_product->id)? 'bold': '' }} far fa-heart me-2"></i>
                             {{ __('Add to wish list') }}
                         </a>
                     </form>
@@ -109,9 +123,18 @@
                             <strong class="text-uppercase text-dark">{{ __('Tags') }}:</strong>
                             @foreach ($d_product->tags as $tag)
                                 <a class="reset-anchor ms-2"
-                                    href="{{ route('customer.shopping', ['tag', $tag->slug]) }}">{{ $tag['name_' . $lang] }}</a> |
+                                    href="{{ route('customer.shopping', ['tag', $tag->slug]) }}">{{ $tag['name_' . $lang] }}</a>
+                                |
                             @endforeach
                         </li>
+                        @if ($d_product->video_link)
+                        <li class="px-3 py-2 mb-1 bg-white text-muted">
+                            <strong class="text-uppercase text-dark">{{ __('Explainer video') }}:</strong>
+                                <a target="_blank" class="reset-anchor ms-2"
+                                    href="{{ $d_product->video_link }}">{{ __('Watch on YouTube') }}
+                                </a>
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -124,9 +147,9 @@
                 <li class="nav-item"><a class="nav-link text-uppercase" id="reviews-tab" data-bs-toggle="tab"
                         href="#reviews" role="tab" aria-controls="reviews"
                         aria-selected="false">{{ __('Reviews') }}</a></li>
-                        <li class="nav-item"><a class="nav-link text-uppercase" id="youtube-tab" data-bs-toggle="tab"
-                            href="#youtube" role="tab" aria-controls="youtube"
-                            aria-selected="false">{{ __('Youtube') }}</a></li>
+                <li class="nav-item"><a class="nav-link text-uppercase" id="youtube-tab" data-bs-toggle="tab"
+                        href="#youtube" role="tab" aria-controls="youtube"
+                        aria-selected="false">{{ __('Explainer video') }}</a></li>
             </ul>
             <div class="tab-content mb-5" id="myTabContent">
                 <div class="tab-pane fade show active" id="description" role="tabpanel"
@@ -143,8 +166,8 @@
                                 @forelse ($d_product->reviews->reverse() as $review)
                                     <div class="d-flex mb-3">
                                         <div class="flex-shrink-0"><img class="rounded-circle"
-                                                src="{{ $review->user_id ?  asset('storage/' . $review->user->image) : asset('storage/images/users/avatar.png') }}" alt=""
-                                                width="50" />
+                                                src="{{ $review->user_id ? asset('storage/' . $review->user->image) : asset('storage/images/users/avatar.png') }}"
+                                                alt="" width="50" />
                                         </div>
                                         <div class="ms-3 flex-shrink-1">
                                             <h6 class="mb-0 text-uppercase">{{ $review->fullName }}</h6>
@@ -172,7 +195,9 @@
                     <div class="p-4 p-lg-5 bg-white">
                         <div class="row">
                             <div class="col-lg-8">
-                                <iframe width="560" height="315" src="https://www.youtube.com/embed/Msz6g397Dfg?si=iFA0ySCrBPFMH5mr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                @if ($d_product->iframe)
+                                    {!! $d_product->iframe !!}
+                                @endif
 
                             </div>
                         </div>
@@ -186,4 +211,3 @@
         </div>
     </section>
 @endsection
-

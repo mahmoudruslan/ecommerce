@@ -21,23 +21,21 @@
           integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
       </div>
       <script>
-        let currency = "{{getCurrency()}}";
-        let maxQuantityMessage = "{{ __('This is the available quantity of the product.') }}";
-        let success = "{{ __('Success') }}";
-        let warning = "{{ __('Warning') }}";
-        let noProducts = "{{ __('No products available in your cart.') }}";
-        let noWishlistProducts = "{{ __('No products available in your wishlist.') }}";
-        let requiredMessage = "{{__('validation.required')}}";
-        let emailMessage = "{{__('validation.email')}}";
-
-
+          let currency = "{{ getCurrency() }}";
+          let maxQuantityMessage = "{{ __('This is the available quantity of the product.') }}";
+          let success = "{{ __('Success') }}";
+          let warning = "{{ __('Warning') }}";
+          let noProducts = "{{ __('No products available in your cart.') }}";
+          let noWishlistProducts = "{{ __('No products available in your wishlist.') }}";
+          let requiredMessage = "{{ __('validation.required') }}";
+          let emailMessage = "{{ __('validation.email') }}";
+          let size = "{{ __('Size') }}";
       </script>
-@yield('js')
+      @yield('js')
 
       <script src="{{ asset('store/js/helper.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/index.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/cart.js') }}" type="text/javascript"></script>
-      <script src="{{ asset('store/js/cartSidebar.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/wishlist.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/coupon.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/checkout.js') }}" type="text/javascript"></script>

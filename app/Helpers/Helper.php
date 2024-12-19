@@ -64,6 +64,8 @@ function cartData()
             'price' => $item->price,
             'quantity' => $item->quantity,
             'associatedModel' => $item->associatedModel,
+            'size_id' => $item->attributes->size_id,
+            'size_name' => $item->attributes->size_name,
         ];
     }
     return $cart;
@@ -73,20 +75,32 @@ function currentLang()
     return app()->getLocale();
 }
 
-function addToCart($product, $quantity)
+function addToCart($product, $size, $quantity)
 {
+    //add to cart additional size_id to product
     Cart::session('cart')->add([
-        'id' => $product->id,
+        'id' => $product->id . '_' . $size->id,
         'name' => $product->name_ar,
         'price' => $product->price,
         'quantity' => $quantity,
         'associatedModel' => $product,
+        'attributes' => [
+            'size_id' => $size->id,
+            'size_name' => $size->name,
+        ]
     ]);
 }
-function  updateCart($product, $quantity)
+function updateCart($product, $size_id, $quantity)
 {
-    Cart::session('cart')->update($product->id, [
+    $product_id = $product->id;
+    $cartItems = Cart::session('cart')->getContent();
+    $existingItem = $cartItems->filter(function ($item) use ($product_id, $size_id) {
+        return $item->id == $product_id . '_' . $size_id;
+    })->first();
+
+    Cart::session('cart')->update($existingItem->id, [
         'quantity' =>  $quantity,
         'price' => $product->price
     ]);
 }
+

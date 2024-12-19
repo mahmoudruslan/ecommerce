@@ -1,31 +1,24 @@
 let quantity = 1;
-let quantityIncreasedProductId = null;
-
 //decrease quantity
 document.querySelectorAll(".dec-btn").forEach((el) => {
     el.addEventListener("click", () => {
         let quantityField = el.parentElement.querySelector("#quantity");
-        quantityIncreasedProductId =
-            el.parentElement.querySelector("#product_id").value;
-
         if (parseInt(quantityField.value, 10) > 1) {
             quantityField.value = parseInt(quantityField.value, 10) - 1;
             quantity = quantityField.value;
         }
     });
 });
-
 //increase quantity
 document.querySelectorAll(".inc-btn").forEach((el) => {
     el.addEventListener("click", () => {
-        let availableQuantity = el.parentElement.querySelector(
-            "#available_quantity"
-        ).value;
-
-        if (parseInt(quantity) < parseInt(availableQuantity)) {
+        let productId = el.parentElement.querySelector("#product_id").value;
+        let form = document.getElementById('cartForm' + productId);
+        let = availableQuantitySize = form.querySelector('input[name="size_id"]:checked').dataset.quantity;
+        if (parseInt(quantity) < parseInt(availableQuantitySize)) {
             let quantityField = el.parentElement.querySelector("#quantity");
-            quantityIncreasedProductId =
-                el.parentElement.querySelector("#product_id").value;
+            // quantityIncreasedProductId =
+            //     el.parentElement.querySelector("#product_id").value;
             quantityField.value = parseInt(quantityField.value, 10) + 1;
             quantity = quantityField.value;
         } else {
@@ -81,10 +74,8 @@ document.addEventListener("DOMContentLoaded", function () {
         star.addEventListener("click", function () {
             const value = this.getAttribute("data-value");
 
-            // تحديث قيمة التقييم
             ratingValue.value = value;
 
-            // تحديث الكلاسات للنجوم
             stars.forEach(s => {
                 if (s.getAttribute("data-value") <= value) {
                     s.classList.add("fas");
@@ -131,7 +122,27 @@ function sendReview(slug, url)
         });
 
     }
-
-
 }
+document.addEventListener('DOMContentLoaded', () => {
+    const sizeBoxes = document.querySelectorAll('.size-box');
+
+    sizeBoxes.forEach((box) => {
+        box.addEventListener('click', function () {
+            const siblingBoxes = this.closest('.row').querySelectorAll('.size-box');
+            siblingBoxes.forEach((b) => b.classList.remove('bg-primary'));
+            this.classList.add('bg-primary');
+            const targetId = this.dataset.target;
+            const productId = this.dataset.product;
+            const selectedSizeLabel = document.getElementById(targetId);
+            selectedSizeLabel.textContent = this.textContent.trim();
+            resetQuantity(productId);
+        });
+    });
+});
+function resetQuantity(productId){
+    let form = document.getElementById('cartForm' + productId);
+    let quantityField = form.querySelector('input[id="quantity"]');
+    quantityField.value = 1;
+    quantity = 1;
+    }
 

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\City;
+use App\Models\Size;
 use App\Models\Order;
 use App\Models\Coupon;
 use App\Models\Product;
@@ -44,10 +45,12 @@ class OrderSeeder extends Seeder
 
         // order products
         foreach ($products as $product) {
+            $size = $product->sizes()->first();
             DB::table('order_product')->insert([
                 'order_id' => $order1->id,
                 'product_id' => $product->id,
-                'quantity' => rand(1, 5),
+                'size_id' => $size->id,
+                'quantity' =>  rand(1, $size->pivot->quantity),
                 'price' => $product->price,
 
             ]);
@@ -102,10 +105,12 @@ class OrderSeeder extends Seeder
         ]);
         // order products
         foreach ($products as $product) {
+            $size = $product->sizes()->first();
             DB::table('order_product')->insert([
                 'order_id' => $order2->id,
                 'product_id' => $product->id,
-                'quantity' => rand(1, 5),
+                'size_id' => $size->id,
+                'quantity' =>  rand(1, $size->pivot->quantity),
                 'price' => $product->price,
 
             ]);
@@ -143,10 +148,12 @@ class OrderSeeder extends Seeder
         ]);
         // order products
         foreach ($products as $product) {
+            $size = $product->sizes()->first();
             DB::table('order_product')->insert([
                 'order_id' => $order3->id,
                 'product_id' => $product->id,
-                'quantity' => rand(1, 5),
+                'size_id' => $size->id,
+                'quantity' =>  rand(1, $size->pivot->quantity),
                 'price' => $product->price,
 
             ]);
@@ -184,10 +191,12 @@ class OrderSeeder extends Seeder
         ]);
         // order products
         foreach ($products as $product) {
+            $size = $product->sizes()->first();
             DB::table('order_product')->insert([
                 'order_id' => $order4->id,
                 'product_id' => $product->id,
-                'quantity' => rand(1, 5),
+                'size_id' => $size->id,
+                'quantity' =>  rand(1, $size->pivot->quantity),
                 'price' => $product->price,
 
             ]);
@@ -239,10 +248,12 @@ class OrderSeeder extends Seeder
         ]);
         // order products
         foreach ($products as $product) {
+            $size = $product->sizes()->first();
             DB::table('order_product')->insert([
                 'order_id' => $order5->id,
                 'product_id' => $product->id,
-                'quantity' => rand(1, 5),
+                'size_id' => $size->id,
+                'quantity' =>  rand(1, $size->pivot->quantity),
                 'price' => $product->price,
 
             ]);

@@ -59,8 +59,6 @@ trait Files
         {
             foreach ($images as $image) {
                 if($image){
-                    // dd($image);
-
                     $path = 'images/products/';
                     $extension = $image->getClientOriginalExtension();
                     $image_name = time() . Str::random(6) . '.' . $extension;

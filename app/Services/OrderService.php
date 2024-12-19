@@ -55,11 +55,12 @@ class OrderService
         ]);
         //order products
         foreach ($cart as $item) {
+
             DB::table('order_product')->insert([
-                'product_id' => $item->id,
+                'product_id' => $item->associatedModel->id,
                 'order_id' => $order->id,
                 'quantity' => $item->quantity,
-                'price' => $item->price,
+                'price' => $item->associatedModel->price,
             ]);
             //update product quantity
             $product = Product::find($item->id);

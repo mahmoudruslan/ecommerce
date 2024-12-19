@@ -1,22 +1,9 @@
 let myOffcanvas = document.getElementById("offcanvasExample");
 let bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
-// add to cart function with ajax with javaScript
-function addToCart(withoutQuantity, productId, url) {
-    // if new product => reset quantity
-    if (
-        parseInt(quantityIncreasedProductId) !== parseInt(productId) &&
-        parseInt(quantity) !== 1
-    ) {
-        quantity = 1;
-    }
 
-    document.getElementById("quantity").value =
-        /* if no quantity => quantity = 1*/
-        withoutQuantity.status === true ? 1 : quantity;
-
-    let cartForm = document.getElementById("cartForm");
+function addToCart(productId, url) {
+    let cartForm = document.getElementById("cartForm" + productId);
     let formData = new FormData(cartForm);
-
     url = url + "/" + productId;
     let response = ajaxRequest("POST", url, formData);
     response
@@ -29,14 +16,13 @@ function addToCart(withoutQuantity, productId, url) {
         })
         .then((response) => {
             addItemInCartSidebar(response.cart.items);
-            openCartSidBar();
-            if (response.message) {
-                alert(response.title, response.type, response.message);
-            }
+            // openCartSidBar();
         });
 }
+
 // remove form cart
-function removeFromCart(itemId, url) {
+function removeFromCart(itemId, url)
+{
     url = url + "/" + itemId;
     let response = ajaxRequest("POST", url);
     response.then((response) => {
@@ -53,10 +39,14 @@ function removeFromCart(itemId, url) {
     //if no products in cart show not found products in your cart
     let cartRows = document.querySelectorAll(".cart-row").length;
     if (cartRows === 0) {
-        let cartDiv = document.querySelector(".cart-div-main");
-        let cartRow = createCartRow();
-        cartRow.innerHTML = noProducts;
-        cartDiv.appendChild(cartRow);
+        let cartDivs = document.querySelectorAll(".cart-div-main");
+        cartDivs.forEach((div) => {
+            let cartRow = createCartRow();
+            cartRow.innerHTML = noProducts;
+            div.appendChild(cartRow);
+            bsOffcanvas.hide();
+        });
+
     }
 }
 function createCartRow() {
@@ -70,17 +60,16 @@ function addItemInCartSidebar(items) {
     Object.entries(items).forEach((ObjItem) => {
         let item = ObjItem[1];
         cartSidebarBody.innerHTML += `
-                    <div  id="cart-bar-${
+                    <div  id="cart-${
                         item.id
-                    }" class="row align-items-center cart-bar-row">
+                    }" class="row align-items-center cart-row">
                         <div class="col-md-4 my-4">
                             <a class="reset-anchor d-block animsition-link"
                                 href="product/${item.associatedModel.slug}">
                                 <img src="http\://${host}/storage/${
             item.associatedModel.first_media.file_name
         }"
-                                    alt="..." width="80" />
-                            </a>
+                                    alt="..." width="80" /></a>
                         </div>
                         <div class="col-md-7">
                             <h6>
@@ -91,7 +80,10 @@ function addItemInCartSidebar(items) {
                             <p class="text-muted">
                                 <small>${currency}</small><small id="price-${
             item.id
-        }" >${numeral(item.price).format("0,0.00")}</small>
+        }" >
+                                    ${numeral(item.price).format("0,0.00")}
+                                </small><br>
+                            ${size} : <small>${item.size_name}</small>
                             </p>
                             <form id="cartForm${item.id}" action="">
                             <input type="hidden" class="available_quantity" id="available_quantity"
@@ -100,9 +92,7 @@ function addItemInCartSidebar(items) {
                                         class="small text-uppercase text-gray headings-font-family">${Quantity}</span>
                                     <div class="quantity">
                                         <span
-                                            onclick="decreaseQuantity(${
-                                                item.id
-                                            }, 'http\://${host}/cart-decrease-quantity')"
+                                            onclick="decreaseQuantity('${item.id}', 'http\://${host}/cart-decrease-quantity')"
                                             class="decrease p-0">
                                             <i
                                                 class="px-2 fas fa-caret-${
@@ -110,15 +100,11 @@ function addItemInCartSidebar(items) {
                                                         ? "right"
                                                         : "left"
                                                 }"></i></span>
-                                        <input readonly name="quantity" id="quantity-${
-                                            item.id
-                                        }"
+                                        <input readonly name="quantity" id="quantity-${item.id}"
                                             class="bg-white form-control form-control-sm border-0 shadow-0 p-0" type="text"
                                             value="${item.quantity}" />
                                         <span
-                                            onclick="increaseQuantity(${
-                                                item.id
-                                            }, 'http\://${host}/cart-increase-quantity')"
+                                            onclick="increaseQuantity('${item.id}', 'http\://${host}/cart-increase-quantity')"
                                             class="increase p-0"><i
                                                 class="px-2 fas fa-caret-${
                                                     lang === "ar"
@@ -131,19 +117,20 @@ function addItemInCartSidebar(items) {
                         </div>
                         <div class="col-md-1">
                             <a href="javascript:void(0)" class="reset-anchor"
-                                onclick="removeFromCartBar(${
+                                onclick="removeFromCart('${
                                     item.id
-                                }, 'http\://${host}/remove-from-cart')">
+                                }', 'http\://${host}/remove-from-cart')">
                                 <i class="fas fa-trash-alt small text-muted"></i>
                             </a>
                         </div>
-                        <hr style="margin: 0%">
+                        <hr class="mt-3 mb-2">
                     </div>
                     `;
+                    openCartSidBar();
     });
 }
 function openCartSidBar() {
-    let cartRows = document.querySelectorAll(".cart-bar-row").length;
+    let cartRows = document.querySelectorAll(".cart-row").length;
     if (cartRows === 0) {
         let el = document.querySelector(".offcanvas-body");
         el.innerHTML = `<p class="text-center">${noProducts}</p>`;

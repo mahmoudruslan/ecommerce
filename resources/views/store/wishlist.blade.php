@@ -55,13 +55,18 @@
                             </p>
                         </div>
                         <div class="col-md-3 mb-2">
-                            <form id="cartForm" action="">
-                                <input type="hidden" name="quantity" id="quantity" value="1">
-                            <a href="javascript:void(0)" class="reset-anchor animsition-link" onclick="addToCart( {{json_encode(['status' => true])}} , {{ $item->id }}, 'http\://{{ request()->httpHost() }}/add-to-cart')">
-                                {{ __('Add to cart') }}
-                            </a>
-                            </form>
+                            @php
+                                $product = App\Models\Product::find($item->id);
+                            @endphp
+                            {{-- <form id="cartForm" action="">
+                                <input type="hidden" name="quantity" id="quantity" value="1"> --}}
+                                <a onclick="this.form.reset()" href="#addToCart{{ $product->id }}" data-bs-toggle="modal"
+                                    class="btn btn-sm btn-dark" {{-- status = quantity status --}}>
+                                    {{ __('Add to cart') }}
+                                </a>
+                            {{-- </form> --}}
                         </div>
+                        @include('store.modals.add_to_cart')
                         <div class="col-md-1 mb-2">
                             <a href="javascript:void(0)" class="reset-anchor  animsition-link"
                                             onclick="removeFromWishList({{ $item->id }}, 'http\://{{ request()->httpHost() }}/remove-from-wishlist')">
@@ -71,8 +76,6 @@
                     </div>
                     <hr style="margin: 0%">
                 @endforeach
-
-
                 <!-- CART NAV-->
                 <div class="bg-light px-4 py-3">
                     <div class="row align-items-center text-center">

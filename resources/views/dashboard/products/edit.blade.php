@@ -151,6 +151,31 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
+                                                    <div class="col-md-6">
+                                                        <label><small>{{ __('Video link') }}</small></label>
+                                                        <input type="text" name="video_link" value="{{ $product->video_link }}"
+                                                            class="form-control form-control-user @error('video_link') is-invalid @enderror"
+                                                            placeholder="    {{ __('Video link') }}">
+                                                        @error('video_link')
+                                                            <span class="text-danger" role="alert">
+                                                                <small>{{ $message }}</small>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label><small>{{ __('Iframe') }}</small></label>
+                                                        <input type="text" name="iframe"
+                                                            value="{{ $product->iframe }}"
+                                                            class="form-control form-control-user @error('iframe') is-invalid @enderror"
+                                                            placeholder="    {{ __('Iframe') }}">
+                                                        @error('iframe')
+                                                            <span class="text-danger" role="alert">
+                                                                <small>{{ $message }}</small>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
                                                     <div class="col-md-3">
                                                         <input {{ $product->featured == true ? 'checked' : '' }}
                                                             type="checkbox" value="1" name="featured"

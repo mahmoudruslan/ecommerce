@@ -32,6 +32,8 @@ class ProductRequest extends FormRequest
             'price' => 'required|string|max:255',
             'description_ar' => 'required|string|max:500',
             'description_en' => 'required|string|max:500',
+            'video_link' => 'nullable|string|max:500',
+            'iframe' => 'nullable|string|max:500',
             'quantity' => 'required|string|max:50',
             'category_id' => 'required|string|max:50',
             'featured' => 'max:1',
@@ -51,6 +53,8 @@ class ProductRequest extends FormRequest
                 'price' => 'required|string|max:255',
                 'description_ar' => 'required|string|max:500',
                 'description_en' => 'required|string|max:500',
+                'video_link' => 'nullable|string|max:500',
+                'iframe' => 'nullable|string|max:500',
                 'quantity' => 'required|string|max:50',
                 'category_id' => 'required|string|max:50',
                 'featured' => 'max:1',
@@ -65,13 +69,4 @@ class ProductRequest extends FormRequest
 
         return $rules;
     }
-
-    // public function messages(): array
-    // {
-    //     return [
-    //         'name_ar.required' => __('This field is required'),
-    //         'name_en.required' => __('This field is required'),
-    //         // 'image.required' => __('This field is required'),
-    //     ];
-    // }
 }

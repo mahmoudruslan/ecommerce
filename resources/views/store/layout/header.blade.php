@@ -6,8 +6,8 @@
         @endphp
 
         @include('store.parts.cart_sidebar')
-        <div class="container px-lg-3 m-auto">
-            <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0"><a class="navbar-brand" href="{{route('customer.store')}}"><span
+        <div style="width:100%; height:70px;position: fixed;z-index:1030;top:0;" class=" bg-white">
+            <nav class="container m-auto navbar navbar-expand-lg navbar-light py-3"><a class="navbar-brand" href="{{route('customer.store')}}"><span
                         class="fw-bold text-uppercase text-dark">{{ __(config('app.name')) }}</span></a>
                 <button class="navbar-toggler navbar-toggler-end" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -28,16 +28,16 @@
                             aria-expanded="false">{{ __('Language') }}</a>
                         <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown">
                             <a class="dropdown-item border-0 transition-link"
-                                href="{{ route('setlang', 'ar') }}">{{ __('Arabic') }}</a>
+                                href="{{ route('setlang', 'ar') }}">العربية</a>
                             <a class="dropdown-item border-0 transition-link"
-                                href="{{ route('setlang', 'en') }}">{{ __('English') }}</a>
+                                href="{{ route('setlang', 'en') }}">English</a>
                         </div>
                     </li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
 
                         <li class="nav-item">
-                            <a class="nav-link {{Route::is('customer.cart') ? 'active' : ''}}" href="javascript:void(0)" onclick="openCartSidBar();">
+                            <a class="nav-link {{Route::is('customer.cart') ? 'active' : ''}}" href="javascript:void(0)" onclick="openCartSidBar()">
                                 <i class="fas fa-dolly-flatbed"></i>
                                 {{-- {{ __('Cart') }} --}}
                                 <small id="cart-count"
@@ -88,3 +88,4 @@
             </nav>
         </div>
     </header>
+    <div class="container m-auto mt-5">

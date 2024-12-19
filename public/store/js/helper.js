@@ -18,7 +18,7 @@ function ajaxRequest(method, url, formData = null) {
         })
         .catch((error) => {
             loaderDiv.style.display = "none";
-            alert("error", error);
+            alert('Error', 'error', 'Some errors');
         });
 }
 function updateTotal(total) {
@@ -27,7 +27,6 @@ function updateTotal(total) {
         element.innerHTML = numeral(total).format("0,0.00");
     });
 }
-
 function updateSubTotal(subTotal) {
     let subTotalElements = document.querySelectorAll("#cart-subtotal");
     subTotalElements.forEach((element) => {
@@ -41,13 +40,11 @@ function updateWishlistCount(wishListCount) {
     document.querySelector("#wishlist-count").innerHTML =
         "(" + wishListCount + ")";
 }
-
 function addClass(elements, classes) {
     elements.forEach((element, i) => {
         element.classList.add(classes[i] ? classes[i] : classes[0]);
     });
 }
-
 function removeClass(elements, classes) {
     elements.forEach((element, i) => {
         element.classList.remove(classes[i] ? classes[i] : classes[0]);
@@ -57,8 +54,6 @@ function removeClass(elements, classes) {
 function inputsValidation(inputs) {
     let valid = true;
     inputs.forEach((input) => {
-        console.log(input);
-
         if (input.value.trim() === "") {
             input.classList.add("is-invalid");
             document.querySelector(`#${input.name}_error`).innerHTML =
@@ -107,10 +102,7 @@ function increaseQuantity(itemId, url) {
                 });
             }
             return response;
-        })
-        .then((response) => {
-            console.log(response);
-
+        }).then((response) => {
             updateTotal(response.cart.total);
             updateSubTotal(response.cart.subTotal);
         });
@@ -119,6 +111,7 @@ function increaseQuantity(itemId, url) {
 function decreaseQuantity(itemId, url) {
     let decrease = false;
     let quantityFields = document.querySelectorAll("#quantity-" + itemId); // get quantity input element
+
     quantityFields.forEach((field) => {
         if (field.value > 1) {
             field.value--;
@@ -134,3 +127,4 @@ function decreaseQuantity(itemId, url) {
         });
     }
 }
+
