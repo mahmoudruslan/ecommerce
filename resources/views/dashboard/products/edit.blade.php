@@ -68,20 +68,7 @@
                                                             @enderror
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label><small>{{ __('Enter Quantity') }}</small></label>
-                                                            <input type="text" name="quantity"
-                                                                value="{{ $product->quantity }}"
-                                                                class="form-control form-control-user @error('quantity') is-invalid @enderror"
-                                                                placeholder="    {{ __('Enter Quantity') }}">
-                                                            @error('quantity')
-                                                                <span class="text-danger" role="alert">
-                                                                    <small>{{ $message }}</small>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
+
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
@@ -153,7 +140,8 @@
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <label><small>{{ __('Video link') }}</small></label>
-                                                        <input type="text" name="video_link" value="{{ $product->video_link }}"
+                                                        <input type="text" name="video_link"
+                                                            value="{{ $product->video_link }}"
                                                             class="form-control form-control-user @error('video_link') is-invalid @enderror"
                                                             placeholder="    {{ __('Video link') }}">
                                                         @error('video_link')
@@ -164,8 +152,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label><small>{{ __('Iframe') }}</small></label>
-                                                        <input type="text" name="iframe"
-                                                            value="{{ $product->iframe }}"
+                                                        <input type="text" name="iframe" value="{{ $product->iframe }}"
                                                             class="form-control form-control-user @error('iframe') is-invalid @enderror"
                                                             placeholder="    {{ __('Iframe') }}">
                                                         @error('iframe')
@@ -176,6 +163,28 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">Upload</span>
+                                                                </div>
+                                                                <div class="custom-file">
+                                                                    <input name="size_guide" type="file"
+                                                                        class="custom-file-input @error('size_guide') is-invalid @enderror"
+                                                                        id="inputGroupFile01">
+                                                                    <label class="custom-file-label"
+                                                                        for="inputGroupFile01">{{ __('Size guide image') }}</label>
+                                                                </div>
+                                                            </div>
+
+                                                            @error('size_guide')
+                                                                <span class="text-danger" role="alert">
+                                                                    <small>{{ $message }}</small>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-3">
                                                         <input {{ $product->featured == true ? 'checked' : '' }}
                                                             type="checkbox" value="1" name="featured"
@@ -190,8 +199,8 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <input {{ $product->status == true ? 'checked' : '' }}
-                                                            type="checkbox" value="1" name="status" class="checkbox"
-                                                            placeholder="{{ __('Status') }}">
+                                                            type="checkbox" value="1" name="status"
+                                                            class="checkbox" placeholder="{{ __('Status') }}">
                                                         <label><small>{{ __('Active') }}</small></label>
                                                         @error('status')
                                                             <span class="text-danger" role="alert">
@@ -200,6 +209,7 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+
                                                 <div class="form-group row">
                                                     @foreach ($sizes as $size)
                                                         <div class="col-md-3">

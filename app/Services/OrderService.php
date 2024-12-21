@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Size;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\OrderAddress;
@@ -59,14 +60,17 @@ class OrderService
             DB::table('order_product')->insert([
                 'product_id' => $item->associatedModel->id,
                 'order_id' => $order->id,
+                'size_id' => $item->attributes->size_id,
                 'quantity' => $item->quantity,
                 'price' => $item->associatedModel->price,
             ]);
             //update product quantity
-            $product = Product::find($item->id);
+            $product = Product::find($item->associatedModel->id);
+            $size = $product->sizes()->where('sizes.id', $item->attributes->size_id)->first();
+            $product_quantity = $size->pivot->quantity;
 
-            $product->update([
-                'quantity' => $product->quantity - $item->quantity,
+            $size->pivot->update([
+                'quantity' => $product_quantity - $item->quantity,
             ]);
         }
 
@@ -105,7 +109,8 @@ class OrderService
         $shortages = [];
         foreach ($order->products as $product) {
             $quantity_requested = $product->pivot->quantity;
-            $available_quantity = $product->quantity;
+            $size_id = $product->pivot->size_id;
+            $available_quantity = $product->sizes()->where('sizes.id', $size_id)->first()->pivot->quantity;
             if ($available_quantity == 0) {
                 $shortages[] = $this->makeShortage($product['name_' . currentLang()], $quantity_requested, $available_quantity);
                 continue;
@@ -114,7 +119,8 @@ class OrderService
                 $shortages[] = $this->makeShortage($product['name_' . currentLang()], $quantity_requested, $available_quantity);
                 $quantity_requested = $available_quantity;
             }
-            addToCart($product, $quantity_requested);
+            $size = Size::find($size_id);
+            addToCart($product, $size, $quantity_requested);
         }
         if (!empty($shortages)) {
             $this->shortageAlert($shortages);
@@ -130,9 +136,14 @@ class OrderService
         $order = Order::with('products')->findOrFail($order_id);
         $cart_items = Cart::session('cart')->getContent();
         foreach ($order->products as $product) {
-            $available_quantity = $product->quantity;
-            if ($cart_items->pluck('id')->contains($product->id)) {
-                $item = Cart::session('cart')->get($product->id);
+
+            $item_id = $product->id . '_' . $product->pivot->size_id;
+            $size = $product->orderProductSize->first();
+            $available_quantity = $product->sizes()->where('sizes.id', $size->id)->first()->pivot->quantity;
+            // return $available_quantity;
+
+            if ($cart_items->pluck('id')->contains($item_id)) {
+                $item = Cart::session('cart')->get($item_id);
 
                 $quantity_requested = $item->quantity + $product->pivot->quantity;
 
@@ -140,7 +151,7 @@ class OrderService
                     $shortages[] = $this->makeShortage($product['name_' . currentLang()], $quantity_requested, $available_quantity);
                     $quantity_requested = $available_quantity;
                 }
-                updateCart($product, $quantity_requested - $item->quantity);
+                updateCart($product, $size->id, $quantity_requested - $item->quantity);
             } else {
                 $quantity_requested = $product->pivot->quantity;
                 if ($quantity_requested > $available_quantity) {
@@ -148,7 +159,7 @@ class OrderService
 
                     $quantity_requested = $available_quantity;
                 }
-                addToCart($product, $quantity_requested);
+                addToCart($product, $size, $quantity_requested);
             }
         }
 

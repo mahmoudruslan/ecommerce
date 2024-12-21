@@ -62,7 +62,8 @@ class ShoppingController extends Controller
         $products = $products
             // ->with('media')
             ->withAvg('reviews', 'rating')->active()
-            ->hasQuantity()->orderBy($sort_field, $sort_type)->paginate(9);
+            // ->hasQuantity()
+            ->orderBy($sort_field, $sort_type)->paginate(9);
         return view('store.shop', compact('products', 'slug', 'type'));
     }
 
@@ -79,7 +80,7 @@ class ShoppingController extends Controller
         //related products
         $related_products = Product::whereNotIn('slug', [$d_product->slug])
             ->whereCategoryId($d_product->category_id)
-            ->hasQuantity()
+            // ->hasQuantity()
             ->activeCategory()
             ->active()
             ->inRandomOrder()

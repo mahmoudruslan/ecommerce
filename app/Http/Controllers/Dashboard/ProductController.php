@@ -39,6 +39,15 @@ class ProductController extends Controller
         // return $request->all();
         userAbility(['store-products']);
         try {
+
+            //create size guide image
+            $file_name = null;
+            if ($request->size_guide) {
+                $image = $request->file('size_guide');
+                $path = 'images/products/size_guide/';
+                $file_name = $path . $this->saveImag($path, [$request->size_guide]);
+                $this->resizeImage(300, null, $path, $file_name, $image);
+            }
             $product = Product::create([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
@@ -47,12 +56,14 @@ class ProductController extends Controller
                 'description_en' => $request->description_en,
                 'video_link' => $request->video_link,
                 'iframe' => $request->iframe,
-                'quantity' => $request->quantity,
                 'category_id' => $request->category_id,
                 'featured' => $request->featured ?? 0,
-                'status' => $request->status ?? 0
+                'status' => $request->status ?? 0,
+                'size_guide' => $file_name
             ]);
             //create media
+            $this->createProductMedia($request->images, $product);
+
             $this->createProductMedia($request->images, $product);
             //create tags
             $product->tags()->attach($request->tags);
@@ -105,6 +116,15 @@ class ProductController extends Controller
         try {
             userAbility(['update-products']);
             $product = Product::findOrFail(Crypt::decrypt($id));
+            //update size guide image
+            $file_name = $product->size_guide;
+            $path = '';
+            if ($size_guide_image = $request->file('size_guide')) {
+                $this->deleteFiles($file_name);
+                $path = 'images/products/size_guide/';
+                $file_name = $path . $this->saveImag($path, [$request->size_guide]);
+                $this->resizeImage(300, null, $path, $file_name, $size_guide_image);
+            }
             $input['name_ar'] = $request->name_ar;
             $input['name_en'] = $request->name_en;
             $input['price'] = $request->price;
@@ -112,10 +132,10 @@ class ProductController extends Controller
             $input['description_en'] = $request->description_en;
             $input['video_link'] = $request->video_link ?? null;
             $input['iframe'] = $request->iframe ?? null;
-            $input['quantity'] = $request->quantity;
             $input['category_id'] = $request->category_id;
             $input['featured'] = $request->featured ?? 0;
             $input['status'] = $request->status ?? 0;
+            $input['size_guide'] = $file_name;
             $product->update($input);
             //update media
             if (isset($request->images)) {
@@ -124,16 +144,17 @@ class ProductController extends Controller
             //update tags
             $product->tags()->sync($request->tags);
 
+
             //update sizes
-                $sizeData = [];
-                foreach ($request->sizes as $sizeId => $size) {
-                    if (!empty($size['selected'])) {
-                        $sizeData[$sizeId] = [
-                            'quantity' => $size['quantity'] ?? 0,
-                        ];
-                    }
+            $sizeData = [];
+            foreach ($request->sizes as $sizeId => $size) {
+                if (!empty($size['selected'])) {
+                    $sizeData[$sizeId] = [
+                        'quantity' => $size['quantity'] ?? 0,
+                    ];
                 }
-                $product->sizes()->sync($sizeData);
+            }
+            $product->sizes()->sync($sizeData);
             return redirect()->route('admin.products.index')->with([
                 'message' => __('Item Updated successfully.'),
                 'alert-type' => 'success'

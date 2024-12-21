@@ -17,7 +17,7 @@ class IndexController extends Controller
             Product::with('media')
             ->withAvg('reviews', 'rating')
             ->active()
-            ->hasQuantity()
+            // ->hasQuantity()
             ->activeCategory()
             ->featured()
             ->inRandomOrder()

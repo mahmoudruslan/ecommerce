@@ -62,19 +62,7 @@
                                                             @enderror
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <input type="text" name="quantity"
-                                                                value="{{ old('quantity') }}"
-                                                                class="form-control form-control-user @error('quantity') is-invalid @enderror"
-                                                                placeholder=" {{ __('Enter Quantity') }}">
-                                                            @error('quantity')
-                                                                <span class="text-danger" role="alert">
-                                                                    <small>{{ $message }}</small>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
+
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
@@ -156,6 +144,24 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                                <div class="input-group mb-3">
+                                                                    <div class="input-group-prepend">
+                                                                      <span class="input-group-text">Upload</span>
+                                                                    </div>
+                                                                    <div class="custom-file">
+                                                                      <input name="size_guide" type="file" class="custom-file-input @error('size_guide') is-invalid @enderror"" id="inputGroupFile01">
+                                                                      <label class="custom-file-label" for="inputGroupFile01">{{__('Size guide image')}}</label>
+                                                                    </div>
+                                                                  </div>
+
+                                                            @error('size_guide')
+                                                                <span class="text-danger" role="alert">
+                                                                    <small>{{ $message }}</small>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
                                                     <div class="col-md-6">
                                                         <div class="row">
                                                             <div class="col-md-6">

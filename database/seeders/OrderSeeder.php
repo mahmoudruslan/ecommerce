@@ -23,7 +23,7 @@ class OrderSeeder extends Seeder
     public function run()
     {
         $latest_order = Order::orderBy('created_at', 'DESC')->first();
-        $products = Product::inRandomOrder()->activeCategory()->active()->hasQuantity()->take(3)->get();
+        $products = Product::inRandomOrder()->activeCategory()->active()->take(3)->get();
         $coupon = Coupon::find(1);
         $governorate = Governorate::find(1);
         $city = City::where('governorate_id', $governorate->id)->first();
@@ -88,7 +88,7 @@ class OrderSeeder extends Seeder
             'payment_method' => 'card'
         ]);
         ///////////////////////////////////////////////////order 2/////////////////////////////////////
-        $products = Product::inRandomOrder()->activeCategory()->active()->hasQuantity()->take(3)->get();
+        $products = Product::inRandomOrder()->activeCategory()->active()->take(3)->get();
         $order2 = Order::create([
             'user_id' => 24,
             'user_address_id' => UserAddress::where('user_id', 24)->first()->id,
@@ -131,7 +131,7 @@ class OrderSeeder extends Seeder
             'payment_method' => 'card'
         ]);
         ////////////////////////////////////////////order 3///////////////////////////////////////////////
-        $products = Product::inRandomOrder()->activeCategory()->active()->hasQuantity()->take(3)->get();
+        $products = Product::inRandomOrder()->activeCategory()->active()->take(3)->get();
         $order3 = Order::create([
             'user_id' => 24,
             'user_address_id' => UserAddress::where('user_id', 24)->first()->id,
@@ -174,7 +174,7 @@ class OrderSeeder extends Seeder
             'payment_method' => 'card'
         ]);
         /////////////////////////////////////order 4///////////////////////////////////////
-        $products = Product::inRandomOrder()->activeCategory()->active()->hasQuantity()->take(3)->get();
+        $products = Product::inRandomOrder()->activeCategory()->active()->take(3)->get();
         $order4 = Order::create([
             'user_id' => 24,
             'user_address_id' => UserAddress::where('user_id', 24)->first()->id,
@@ -231,7 +231,7 @@ class OrderSeeder extends Seeder
             'payment_method' => 'cash-on-delivery'
         ]);
         /////////////////////////////////////////////////////order 5//////////////////////////////////
-        $products = Product::inRandomOrder()->activeCategory()->active()->hasQuantity()->take(3)->get();
+        $products = Product::inRandomOrder()->activeCategory()->active()->take(3)->get();
         $order5 = Order::create([
             'user_id' => 24,
             'user_address_id' => UserAddress::where('user_id', 24)->first()->id,

@@ -21,12 +21,12 @@ return new class extends Migration
             $table->double('price');
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
-            $table->unsignedBigInteger('quantity')->default(0);
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->boolean('featured')->default(false);
             $table->boolean('status')->default(false);
             $table->text('iframe')->nullable();
             $table->text('video_link')->nullable();
+            $table->string('size_guide')->nullable();
             $table->timestamps();
         });
     }

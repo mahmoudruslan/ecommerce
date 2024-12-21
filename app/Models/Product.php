@@ -68,10 +68,10 @@ class Product extends Model
         return $query->whereStatus(true);
     }
 
-    public function scopeHasQuantity($query)
-    {
-        return $query->where('quantity', '>', 0);
-    }
+    // public function scopeHasQuantity($query)
+    // {
+    //     return $query->where('quantity', '>', 0);
+    // }
 
     public function scopeActiveCategory($query)
     {
@@ -88,4 +88,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Size::class)->withPivot('quantity');
     }
+    public function orderProductSize()
+    {
+        return $this->belongsToMany(Size::class, 'order_product');
+    }
+
 }

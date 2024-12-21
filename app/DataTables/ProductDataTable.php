@@ -112,7 +112,6 @@ class ProductDataTable extends DataTable
             Column::make('price')->title(__('Price')),
             Column::make('description_ar')->title(__('Description In Arabic')),
             Column::make('description_en')->title(__('Description In English')),
-            Column::make('quantity')->title(__('Quantity')),
             Column::make('parent_category')->title(__('Parent Category')),
             Column::make('category_id')->title(__('Category')),
             Column::make('featured')->title(__('Featured')),

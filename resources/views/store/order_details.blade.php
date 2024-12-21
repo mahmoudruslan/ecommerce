@@ -44,6 +44,7 @@
                                 <p class="mb-0 small">
                                     {{ $product['name_' . $lang] }}
                                 </p>
+                                <small class="d-block"> {{ __('Size') }} : {{ $product->orderProductSize->first()->name }}</small>
                             </div>
                             <div class="col-md-5 my-1">
                                 <p class="mb-0 small">
