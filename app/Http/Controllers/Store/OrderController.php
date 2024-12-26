@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\Store;
 
-use App\Models\Order;
-use App\Models\Product;
-use Paymob\Library\Paymob;
+use App\Events\OrderCreated;
+use App\Models\User;
 use App\Services\OrderService;
 use App\Services\PaymobService;
-use App\Models\OrderTransaction;
-use App\Http\Requests\Customer\OrderRequest;
 use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
-use Darryldecode\Cart\Facades\CartFacade as Cart;
-
+use App\Http\Requests\Customer\OrderRequest;
+use App\Notifications\ToDashboard\OrderCompletedNotification;
+use Illuminate\Console\Scheduling\Event;
 
 class OrderController extends Controller
 {
@@ -45,6 +43,13 @@ class OrderController extends Controller
 
             return $this->paymob->process($billing, $order['id'], $order['total'], 'EGP');
         }
+        //send notify to admins
+        User::whereHas('roles', function($query){
+            $query->whereIn('name', ['admin', 'super-admin']);
+        })->each(function($admin) use ($order){
+            $admin->notify(new OrderCompletedNotification($order));
+        });
+        //
         Alert::success(__('Order created successfully.'));
         return redirect()->route('customer.store');
     }

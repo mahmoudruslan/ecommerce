@@ -16,6 +16,10 @@ class User extends Authenticatable  implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug;
 
 
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'App.Models.User.'.$this->id;
+    }
     /**
      * Get the options for generating the slug.
      */

@@ -7,6 +7,7 @@
       <script src="{{ asset('store/js/front.js') }}"></script>
       <script src="{{ asset('store/js/alert.js') }}"></script>
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      @livewireScripts
 
       {{-- alert icons --}}
       <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -14,7 +15,7 @@
 
 
       @include('sweetalert::alert')
-      @livewireScripts
+
 
       <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
@@ -32,7 +33,6 @@
           let size = "{{ __('Size') }}";
       </script>
       @yield('js')
-
       <script src="{{ asset('store/js/helper.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/index.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/cart.js') }}" type="text/javascript"></script>

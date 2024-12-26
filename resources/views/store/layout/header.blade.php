@@ -34,7 +34,7 @@
                         </div>
                     </li>
                     </ul>
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav customer-sm-auto">
 
                         <li class="nav-item">
                             <a class="nav-link {{Route::is('customer.cart') ? 'active' : ''}}" href="javascript:void(0)" onclick="openCartSidBar()">

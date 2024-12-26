@@ -60,7 +60,7 @@
                             @endphp
                             {{-- <form id="cartForm" action="">
                                 <input type="hidden" name="quantity" id="quantity" value="1"> --}}
-                                <a onclick="this.form.reset()" href="#addToCart{{ $product->id }}" data-bs-toggle="modal"
+                                <a onclick="resetQuantity({{ $product->id }})" href="#addToCart{{ $product->id }}" data-bs-toggle="modal"
                                     class="btn btn-sm btn-dark" {{-- status = quantity status --}}>
                                     {{ __('Add to cart') }}
                                 </a>

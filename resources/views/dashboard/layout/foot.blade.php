@@ -1,4 +1,5 @@
     <!-- Bootstrap core JavaScript-->
+    @livewireScripts
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
@@ -28,7 +29,7 @@
     <script src="{{asset('dashboard/vendor/bootstrap-file-input/js/fileinput.min.js')}}"></script>
     {{-- <script src="{{asset('dashboard/vendor/bootstrap-file-input/js/locales/ar.js')}}"></script> --}}
 
-    @livewireScripts
+
 
    <!--  data table -->
    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js" > </script>

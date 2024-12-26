@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "beyondcode/laravel-websockets": "^1.14",
         "darryldecode/cart": "^4.2",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.3",
@@ -16,6 +17,7 @@
         "laravel/ui": "^4.4",
         "livewire/livewire": "^2.12",
         "paymob/laravel-package": "^1.0",
+        "react/promise": "2.7",
         "realrashid/sweet-alert": "^7.2",
         "spatie/laravel-permission": "^6.3",
         "spatie/laravel-sluggable": "^3.6",

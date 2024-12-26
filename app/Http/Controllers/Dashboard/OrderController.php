@@ -30,7 +30,7 @@ class OrderController extends Controller
                 'transactions',
                 'userAddress',
                 'orderAddress'
-            ])->findOrFail(Crypt::decrypt($id));
+            ])->findOrFail($id);
             $available_order_status = [];
             $order_status = [
                 '0' => __('Pending'),

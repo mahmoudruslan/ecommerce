@@ -1,6 +1,10 @@
-let myOffcanvas = document.getElementById("offcanvasExample");
-let bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+let myOffcanvas;
+let bsOffcanvas;
+myOffcanvas = document.getElementById("offcanvasExample");
+document.addEventListener('DOMContentLoaded', () => {
 
+    bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+});
 function addToCart(productId, url) {
     let cartForm = document.getElementById("cartForm" + productId);
     let formData = new FormData(cartForm);

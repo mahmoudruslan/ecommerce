@@ -4,13 +4,16 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{config('app.name')}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="lang" value="{{ app()->getLocale() }}">
     <meta name="host" value="{{ request()->httpHost() }}">
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <title>{{config('app.name')}}</title>
+    @livewireStyles
     <!-- gLightbox gallery-->
     <link rel="stylesheet" href="{{ asset('store/vendor/glightbox/css/glightbox.min.css') }}">
     <!-- Range slider-->
@@ -29,6 +32,8 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;800&amp;display=swap">
     <!-- theme stylesheet-->
+
+    @yield('style')
     @if (Config::get('app.locale') == 'ar')
         <link rel="stylesheet" href="{{ asset('store/css/style_ar.default.css') }}" id="theme-stylesheet">
     @else
@@ -38,11 +43,10 @@
     <link rel="stylesheet" href="{{ asset('store/css/ar_en.css') }}">
     <link rel="stylesheet" href="{{ asset('store/css/alert.css') }}">
     <link rel="stylesheet" href="{{ asset('store/css/loading.css') }}">
-    @yield('style')
 
     <!-- Favicon-->
     <link rel="shortcut icon" href="{{ asset('store/img/favicon.png') }}">
-    @livewireStyles
+
 </head>
 
 <body @if (Config::get('app.locale') == 'ar') dir="rtl" @endif>

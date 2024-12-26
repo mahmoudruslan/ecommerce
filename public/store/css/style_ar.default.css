@@ -4173,7 +4173,7 @@ fieldset:disabled .btn {
 .navbar-brand {
   padding-top: 0.3125rem;
   padding-bottom: 0.3125rem;
-  margin-right: 1rem;
+  margin-left: 1rem;
   font-size: 1.25rem;
   text-decoration: none;
   white-space: nowrap;
@@ -4220,6 +4220,9 @@ fieldset:disabled .btn {
 @media (prefers-reduced-motion: reduce) {
   .navbar-toggler {
     transition: none;
+  }
+  .navbar-collapse {
+    background-color: white !important;
   }
 }
 
@@ -4272,6 +4275,9 @@ fieldset:disabled .btn {
   }
   .navbar-expand-sm .navbar-toggler {
     display: none;
+  }
+  .navbar-collapse {
+    background-color: white !important;
   }
   .navbar-expand-sm .offcanvas-header {
     display: none;
@@ -4327,6 +4333,9 @@ fieldset:disabled .btn {
   .navbar-expand-md .navbar-toggler {
     display: none;
   }
+  .navbar-collapse {
+    background-color: white !important;
+  }
   .navbar-expand-md .offcanvas-header {
     display: none;
   }
@@ -4380,6 +4389,9 @@ fieldset:disabled .btn {
   }
   .navbar-expand-lg .navbar-toggler {
     display: none;
+  }
+  .navbar-collapse {
+    background-color: white !important;
   }
   .navbar-expand-lg .offcanvas-header {
     display: none;
@@ -4435,6 +4447,9 @@ fieldset:disabled .btn {
   .navbar-expand-xl .navbar-toggler {
     display: none;
   }
+  .navbar-collapse {
+    background-color: white !important;
+  }
   .navbar-expand-xl .offcanvas-header {
     display: none;
   }
@@ -4488,6 +4503,9 @@ fieldset:disabled .btn {
   }
   .navbar-expand-xxl .navbar-toggler {
     display: none;
+  }
+  .navbar-collapse {
+    background-color: white !important;
   }
   .navbar-expand-xxl .offcanvas-header {
     display: none;
@@ -6630,7 +6648,7 @@ fieldset:disabled .btn {
 .offcanvas-header .btn-close {
   padding: 0.5rem 0.5rem;
   margin-top: -0.5rem;
-  margin-right: -0.5rem;
+  margin-left: -0.5rem;
   margin-bottom: -0.5rem;
 }
 
@@ -7749,6 +7767,9 @@ fieldset:disabled .btn {
 .ms-auto {
   margin-right: auto !important;
 }
+.customer-sm-auto {
+    margin-right: auto !important;
+  }
 
 .p-0 {
   padding: 0 !important;
@@ -12362,3 +12383,4 @@ STYLE SWITCHER FOR DEMO
         padding: 0.2rem 0.2rem;
       }
       }
+

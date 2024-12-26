@@ -25,7 +25,7 @@ class OrderDataTable extends DataTable
                 $permissions = $this->permissions; // receiving permissions variable from controller
                 $id = encrypt($row->id);
                 // $b = checkAbility('update-categories', $permissions) ? $this->getEditLink("admin.categories.edit", $id) : '';
-                $b = checkAbility('show-orders', $permissions) ? '<div role="group" aria-label="Basic example" class="btn-group" style="width: 150px">'.$this->getShowLink("admin.orders.show", $id) : '';
+                $b = checkAbility('show-orders', $permissions) ? '<div role="group" aria-label="Basic example" class="btn-group" style="width: 150px">'.$this->getShowLink("admin.orders.show", $row->id) : '';
                 $b = $b .= checkAbility('delete-orders', $permissions) ? $this->getDeleteLink("admin.orders.destroy", $id) : '';
                 return $b;
             })

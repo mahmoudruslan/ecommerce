@@ -84,7 +84,7 @@ class OrderService
         ]);
         Cart::session('cart')->clear();
         $address = isset($request['address_id']) ? $order->userAddress : $order->orderAddress;
-        $data = [
+        return [
             'id' => $order->id,
             'total' => $order->total,
             'email' => $address->email,
@@ -100,7 +100,7 @@ class OrderService
 
         ];
 
-        return $data;
+        // return $data;
     }
     public function cartReplace($order_id)
     {

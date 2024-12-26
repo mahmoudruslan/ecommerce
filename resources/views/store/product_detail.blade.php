@@ -64,52 +64,31 @@
                 {{ getCurrency() }}<p class="text-muted lead">{{ number_format($d_product->price, 2) }}</p>
                 <p class="text-sm mb-4">{!! $d_product['description_' . $lang] !!}</p>
                 <div class="row align-items-stretch mb-4">
-                    <div class="col-sm-5 pr-sm-0">
-                        <form id="cartForm" action="">
-                            <div
-                                class="border d-flex align-items-center justify-content-between py-1 px-3 bg-white border-white">
-                                <span class="small text-uppercase text-gray mr-4 no-select">{{ __('Quantity') }}</span>
-                                <div class="quantity">
-                                    <input type="hidden" id="token" name="token" value="{{ csrf_token() }}">
-                                    <input type="hidden" class="available_quantity" id="available_quantity"
-                                        value="{{ $d_product->quantity }}">
-                                    <input type="hidden" id="product_id" value="{{ $d_product->id }}">
-                                    {{-- decreas --}}
-                                    <span class="dec-btn p-0"><i
-                                            class="px-2 fas fa-caret-{{ app()->getLocale() === 'ar' ? 'right' : 'left' }}"></i></span>
-
-                                    <input id="quantity" name="quantity" value="1" style="background-color: #ffff"
-                                        readonly type="text" class="form-control border-0 shadow-0 p-0">
-
-                                    {{-- increas --}}
-                                    <span class="inc-btn p-0"><i
-                                            class="px-2 fas fa-caret-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }}"></i></span>
-
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                     @php
                         $product = $d_product;
                     @endphp
-                    <div class="col-sm-3 pl-sm-0">
+                    <div class="col-sm-3 pr-sm-0">
                         <a onclick="resetQuantity({{ $product->id }})" href="#addToCart{{ $d_product->id }}"
                             data-bs-toggle="modal" class="btn btn-sm btn-dark">
                             {{ __('Add to cart') }}
                         </a>
                     </div>
+
+                    <div class="col-sm-5 pl-sm-0">
+                        <form id="cartForm" action="">
+                            <input type="hidden" id="token" name="token" value="{{ csrf_token() }}">
+                            <a class="add-wishlist-btn{{ $d_product->id }}  text-dark p-0 mb-4 d-inline-block"
+                                href="javascript:void();"
+                                onclick="addToWishList({{ $d_product->id }}, 'http\://{{ request()->httpHost() }}/add-to-wishlist')">
+                                <i
+                                    class="{{ \Cart::session('wishList')->getContent()->pluck('id')->contains($d_product->id)? 'bold': '' }} far fa-heart me-2"></i>
+                                {{ __('Add to wish list') }}
+                            </a>
+                        </form>
+                    </div>
                     @include('store.modals.add_to_cart')
                 </div>
-                <form id="cartForm" action="">
-                    <input type="hidden" id="token" name="token" value="{{ csrf_token() }}">
-                    <a class="add-wishlist-btn{{ $d_product->id }}  text-dark p-0 mb-4 d-inline-block"
-                        href="javascript:void();"
-                        onclick="addToWishList({{ $d_product->id }}, 'http\://{{ request()->httpHost() }}/add-to-wishlist')">
-                        <i
-                            class="{{ \Cart::session('wishList')->getContent()->pluck('id')->contains($d_product->id)? 'bold': '' }} far fa-heart me-2"></i>
-                        {{ __('Add to wish list') }}
-                    </a>
-                </form>
+
                 @if ($product->size_guide)
                     <a class="nav-link" href="#sizeGuide{{ $product->id }}" data-bs-toggle="modal">
                         <img width="25px" height="25px"
@@ -160,8 +139,7 @@
                     aria-selected="false">{{ __('Explainer video') }}</a></li>
         </ul>
         <div class="tab-content mb-5" id="myTabContent">
-            <div class="tab-pane fade show active" id="description" role="tabpanel"
-                aria-labelledby="description-tab">
+            <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
                 <div class="p-4 p-lg-5 bg-white">
                     <h6 class="text-uppercase">{{ __('Product description') }} </h6>
                     <p class="text-muted text-sm mb-0">{!! $d_product['description_' . $lang] !!}</p>
