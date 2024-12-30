@@ -3612,7 +3612,7 @@ fieldset:disabled .btn {
   position: absolute;
   z-index: 1000;
   display: none;
-  min-width: 14rem;
+  min-width: 15rem;
   padding: 0.5rem 0;
   margin: 0;
   font-size: 0.9rem;
@@ -3623,6 +3623,8 @@ fieldset:disabled .btn {
   background-clip: padding-box;
   border: 0 solid rgba(0, 0, 0, 0.15);
   border-radius: 0;
+  max-height: 18rem;
+    overflow: auto;
 }
 
 .dropdown-menu[data-bs-popper] {
@@ -3840,6 +3842,7 @@ fieldset:disabled .btn {
   background-color: transparent;
   border: 0;
 }
+.icon-circle{height:2.5rem;width:2.5rem;border-radius:100%;display:flex;align-items:center;justify-content:center}
 
 .dropdown-item:hover, .dropdown-item:focus {
   color: #1e2125;
@@ -10927,7 +10930,7 @@ button:focus, button:active {
 
 @media (min-width: 992px) {
   .navbar .dropdown-menu {
-    display: block;
+    /* display: block; */
   }
 }
 
@@ -12254,11 +12257,9 @@ STYLE SWITCHER FOR DEMO
 
 .dec-btn, .inc-btn, .increase, .decrease {
   cursor: pointer;
+  padding : 5px;
 }
-.inc-btn, .increase {
-    margin-right : 5px;
-    cursor: pointer;
-  }
+
 .bold {
   font-weight: bolder !important;
 }
@@ -12376,4 +12377,22 @@ STYLE SWITCHER FOR DEMO
         padding: 0.2rem 0.2rem;
       }
       }
+    .notify-count {
+      display: inline-block;
+      padding: 0.27em 0.5em;
+      font-size: 75%;
+      font-weight: 700;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: 0.35rem;
+      position: absolute;
+      transform: scale(0.7);
+      transform-origin: top right;
+      left: 0.7rem;
+      margin-top: -0.25rem;
+      color: #fff;
+      background-color: #e74a3b;
+  }
 

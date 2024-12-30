@@ -93,13 +93,13 @@ function addItemInCartSidebar(items) {
                             <input type="hidden" class="available_quantity" id="available_quantity"
                                 value="${item.associatedModel.quantity}">
                                 <div class="w-75 border d-flex align-items-center justify-content-between px-3"><span
-                                        class="small text-uppercase text-gray headings-font-family">${Quantity}</span>
+                                        class="small text-gray headings-font-family">${Quantity}</span>
                                     <div class="quantity">
                                         <span
                                             onclick="decreaseQuantity('${item.id}', 'http\://${host}/cart-decrease-quantity')"
-                                            class="decrease p-0">
+                                            class="decrease">
                                             <i
-                                                class="px-2 fas fa-caret-${
+                                                class="fas fa-caret-${
                                                     lang === "ar"
                                                         ? "right"
                                                         : "left"
@@ -109,8 +109,8 @@ function addItemInCartSidebar(items) {
                                             value="${item.quantity}" />
                                         <span
                                             onclick="increaseQuantity('${item.id}', 'http\://${host}/cart-increase-quantity')"
-                                            class="increase p-0"><i
-                                                class="px-2 fas fa-caret-${
+                                            class="increase"><i
+                                                class="fas fa-caret-${
                                                     lang === "ar"
                                                         ? "left"
                                                         : "right"

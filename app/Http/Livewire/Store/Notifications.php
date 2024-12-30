@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Livewire\Dashboard;
+namespace App\Http\Livewire\Store;
 
 use Livewire\Component;
 
+
 class Notifications extends Component
 {
-
     public $unreadNotificationsCount = 0;
     public $unreadNotifications;
-
-
 
     public function getListeners()
     {
@@ -34,11 +32,8 @@ class Notifications extends Component
         return redirect()->to($notification->data['order_url']);
 
     }
-
     public function render()
     {
-        return view('livewire.dashboard.notifications');
+        return view('livewire.store.notifications');
     }
-
-
 }

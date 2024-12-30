@@ -15,9 +15,9 @@
             </h6>
             @forelse ($unreadNotifications as $notify)
                 <div role="button" class="dropdown-item d-flex align-items-center" wire:click="markAsRead('{{$notify->id}}')">
-                    <div class="me-3">
+                    <div class="m-3">
                         <div class="icon-circle bg-primary">
-                            <i class="fas fa-file-alt text-white"></i>
+                            <i class="fas fa-donate text-white"></i>
                         </div>
                     </div>
                     <div>

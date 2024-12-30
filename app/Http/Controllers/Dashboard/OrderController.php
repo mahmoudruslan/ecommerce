@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Services\PaymobService;
+use App\Models\OrderTransaction;
 use App\DataTables\OrderDataTable;
 use App\Http\Controllers\Controller;
-use App\Models\OrderTransaction;
-use App\Services\PaymobService;
+use App\Notifications\ToStore\OrderStatusNotification;
 use Illuminate\Support\Facades\Crypt;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -65,7 +67,7 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
-        try {
+        // try {
             userAbility(['update-orders']);
             $order = Order::findOrFail($id);
             if (isset($request->status)) {
@@ -85,15 +87,19 @@ class OrderController extends Controller
                 $order->transactions()->create([
                     'transaction' => $request->status,
                 ]);
-
+                if($order->user_id)
+                {
+                    $user = User::find($order->user_id);
+                    $user->notify(new OrderStatusNotification($order));
+                }
                 Alert::success(__('Order status changed successfully'));
                 return redirect()->back();
             }
             Alert::toast(__('Choose status'), 'error');
             return redirect()->back();
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
+        // } catch (\Exception $e) {
+        //     return $e->getMessage();
+        // }
     }
 
     public function destroy($id)

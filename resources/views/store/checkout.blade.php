@@ -161,8 +161,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <span onclick="orderValidation()" class="btn btn-dark mt-4">{{ __('Complete order') }}</span>
+                        <div class="row">
+                            <div class="col-md-9">
+                            <span onclick="orderValidation()" class="float-right btn btn-dark mt-4">{{ __('Complete order') }}</span>
+
+                            </div>
+                            <div class="col-md-3 "><a class="btn btn-link p-0 text-dark btn-sm mt-4"
+                                href="{{ strpos(url()->previous(), 'shopping') ? url()->previous() : route('customer.shopping') }}"><i
+                                    class="fas fa-long-arrow-alt-left me-2">
+                                </i>{{ __('Continue shopping') }}</a></div>
                         </div>
                     </div>
                 </div>
@@ -172,14 +179,6 @@
                         <div class="card-body">
                             <h5 class="text-uppercase mb-2">{{ __('Order Summary') }}</h5>
                             <ul class="list-unstyled mb-0">
-                                {{-- @foreach ($cart as $item)
-                            <li class="d-flex align-items-center justify-content-between">
-                                <strong class="small fw-bold">{{ $item->associatedModel['name_' . $lang] }}</strong>
-                                <span class="text-muted small">{{ $item->associatedModel->price }}</span>
-                            </li>
-                            <li class="border-bottom my-2"></li>
-                            <br>
-                        @endforeach --}}
                                 <li class="d-flex align-items-center justify-content-between mb-2">
                                     <strong class="text-uppercase small fw-bold">{{ __('Subtotal') }}</strong>
                                     <span>{{getCurrency()}}<span id="cart-subtotal">{{ number_format($sub_total, 2) }}</span></span>

@@ -28,18 +28,18 @@
                         <input type="hidden" class="available_quantity" id="available_quantity"
                             value="{{ $item->associatedModel->quantity }}">
                         <div class="w-75 border d-flex align-items-center justify-content-between px-3"><span
-                                class="small text-uppercase text-gray headings-font-family">{{ __('Quantity') }}</span>
+                                class="small text-gray headings-font-family">{{ __('Quantity') }}</span>
                             <div class="quantity">
                                 <span
                                     onclick="decreaseQuantity('{{ $item->id }}', 'http\://{{ request()->httpHost() }}/cart-decrease-quantity')"
-                                    class="decrease p-0">
+                                    class="decrease">
                                     <i class="fas fa-caret-{{ $lang === 'ar' ? 'right' : 'left' }}"></i></span>
                                 <input readonly name="quantity" id="quantity-{{ $item->id }}"
                                     class="bg-white form-control form-control-sm border-0 shadow-0 p-0" type="text"
                                     value="{{ $item->quantity }}" />
                                 <span
                                     onclick="increaseQuantity('{{ $item->id }}', 'http\://{{ request()->httpHost() }}/cart-increase-quantity')"
-                                    class="increase p-0"><i
+                                    class="increase"><i
                                         class="fas fa-caret-{{ $lang === 'ar' ? 'left' : 'right' }}"></i></span>
                             </div>
                         </div>
