@@ -13,8 +13,10 @@ document.querySelectorAll(".dec-btn").forEach((el) => {
 document.querySelectorAll(".inc-btn").forEach((el) => {
     el.addEventListener("click", () => {
         let productId = el.parentElement.querySelector("#product_id").value;
-        let form = document.getElementById('cartForm' + productId);
-        let = availableQuantitySize = form.querySelector('input[name="size_id"]:checked').dataset.quantity;
+        let form = document.getElementById("cartForm" + productId);
+        let = availableQuantitySize = form.querySelector(
+            'input[name="size_id"]:checked'
+        ).dataset.quantity;
         if (parseInt(quantity) < parseInt(availableQuantitySize)) {
             let quantityField = el.parentElement.querySelector("#quantity");
             // quantityIncreasedProductId =
@@ -22,11 +24,7 @@ document.querySelectorAll(".inc-btn").forEach((el) => {
             quantityField.value = parseInt(quantityField.value, 10) + 1;
             quantity = quantityField.value;
         } else {
-            alert(
-                success,
-                "success",
-                maxQuantityMessage,
-            );
+            alert(success, "success", maxQuantityMessage);
         }
     });
 });
@@ -59,7 +57,6 @@ let threeBlock = document.getElementById("three-block");
 if (threeBlock) {
     threeBlock.addEventListener("click", function () {
         productBlocks.forEach((block) => {
-
             block.classList.remove("col-6", "col-12", "default-view");
             addClass([block], ["col-4"]);
         });
@@ -70,13 +67,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const stars = document.querySelectorAll(".star");
     const ratingValue = document.getElementById("rating-value");
 
-    stars.forEach(star => {
+    stars.forEach((star) => {
         star.addEventListener("click", function () {
             const value = this.getAttribute("data-value");
 
             ratingValue.value = value;
 
-            stars.forEach(s => {
+            stars.forEach((s) => {
                 if (s.getAttribute("data-value") <= value) {
                     s.classList.add("fas");
                     s.classList.remove("far");
@@ -89,8 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-function sendReview(slug, url)
-{
+function sendReview(slug, url) {
     const ratingValue = document.getElementById("rating-value");
     let inputs = [
         document.querySelector('input[name="first_name"]'),
@@ -98,39 +94,37 @@ function sendReview(slug, url)
         document.querySelector('input[name="email"]'),
         document.querySelector('textarea[name="body"]'),
     ];
-    if (ratingValue.value == 0)
-    {
-        document.querySelector('#stars').classList.add('shake');
+    if (ratingValue.value == 0) {
+        document.querySelector("#stars").classList.add("shake");
         setTimeout(() => {
-            document.querySelector('#stars').classList.remove('shake');
-            }, 250);
-            return;
+            document.querySelector("#stars").classList.remove("shake");
+        }, 250);
+        return;
     }
 
     if (inputsValidation(inputs)) {
         url = url + "/" + slug;
-        let reviewForm = document.querySelector('#reviewForm');
+        let reviewForm = document.querySelector("#reviewForm");
         let formData = new FormData(reviewForm);
-    let response = ajaxRequest("POST", url, formData);
-    response.then((response) => {
-        if (response.message) {
-            document.querySelector('.modal').click();
-            alert(response.title, response.type, response.message);
-            location.reload();
-
-        }
+        let response = ajaxRequest("POST", url, formData);
+        response.then((response) => {
+            if (response.message) {
+                document.querySelector(".modal").click();
+                alert(response.title, response.type, response.message);
+                location.reload();
+            }
         });
-
     }
 }
-document.addEventListener('DOMContentLoaded', () => {
-    const sizeBoxes = document.querySelectorAll('.size-box');
+document.addEventListener("DOMContentLoaded", () => {
+    const sizeBoxes = document.querySelectorAll(".size-box");
 
     sizeBoxes.forEach((box) => {
-        box.addEventListener('click', function () {
-            const siblingBoxes = this.closest('.row').querySelectorAll('.size-box');
-            siblingBoxes.forEach((b) => b.classList.remove('bg-primary'));
-            this.classList.add('bg-primary');
+        box.addEventListener("click", function () {
+            const siblingBoxes =
+                this.closest(".row").querySelectorAll(".size-box");
+            siblingBoxes.forEach((b) => b.classList.remove("bg-primary"));
+            this.classList.add("bg-primary");
             const targetId = this.dataset.target;
             const productId = this.dataset.product;
             const selectedSizeLabel = document.getElementById(targetId);
@@ -139,10 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-function resetQuantity(productId){
-    let form = document.getElementById('cartForm' + productId);
+function resetQuantity(productId) {
+    let form = document.getElementById("cartForm" + productId);
     let quantityField = form.querySelector('input[id="quantity"]');
     quantityField.value = 1;
     quantity = 1;
-    }
-
+}

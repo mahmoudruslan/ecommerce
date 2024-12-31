@@ -23,7 +23,7 @@ class Notifications extends Component
     public function mount()
     {
         $count_notify = auth()->user()->unreadNotifications()->count();
-        $this->unreadNotificationsCount = $count_notify > 0 ? $count_notify : '';
+        $this->unreadNotificationsCount = $count_notify > 0 ? $count_notify : '0';
         $this->unreadNotifications = auth()->user()->unreadNotifications()->get();
     }
 

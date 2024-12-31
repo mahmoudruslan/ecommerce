@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('mobile')->unique();
             $table->string('image')->nullable();
             $table->string('slug');
+            $table->boolean('receive_emails')->default(true);
             $table->unsignedTinyInteger('status')->default(0);
             $table->rememberToken();
             $table->timestamps();

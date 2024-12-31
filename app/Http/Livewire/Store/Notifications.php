@@ -18,20 +18,25 @@ class Notifications extends Component
         ];
     }
 
+    public function markAsRead($notify_id)
+    {
+        // dd(true);
+        $notification = $this->unreadNotifications->where('id', $notify_id)->first();
+        if ($notification) {
+            $notification->markAsRead();
+            // تحديث البيانات
+            $this->mount();
+        }
+        return redirect()->to($notification->data['order_url']);
+    }
+
     public function mount()
     {
         $count_notify = auth()->user()->unreadNotifications()->count();
-        $this->unreadNotificationsCount = $count_notify > 0 ? $count_notify : '';
+        $this->unreadNotificationsCount = $count_notify > 0 ? $count_notify : '0';
         $this->unreadNotifications = auth()->user()->unreadNotifications()->get();
     }
 
-    public function markAsRead($notify_id)
-    {
-        $notification = auth()->user()->unreadNotifications()->where('id', $notify_id)->first();
-        $notification->markAsRead();
-        return redirect()->to($notification->data['order_url']);
-
-    }
     public function render()
     {
         return view('livewire.store.notifications');

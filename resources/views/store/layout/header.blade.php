@@ -55,8 +55,7 @@
                             </a>
                         </li>
                         @if (auth()->check())
-
-                           @livewire('store.notifications')
+                                @livewire('store.notifications')
 
                             <li class="nav-item dropdown">
                                 <a style="display : inline-block;" class="nav-link" id="pagesDropdown" href="#"
@@ -66,7 +65,8 @@
                                         src="{{ asset('storage/' . auth()->user()->image) }}"
                                         class="me-1 text-gray fw-normal">
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-sm-start mt-3 shadow-sm" aria-labelledby="pagesDropdown">
+                                <div class="dropdown-menu dropdown-menu-sm-start mt-3 shadow-sm"
+                                    aria-labelledby="pagesDropdown">
                                     <a class="dropdown-item border-0 transition-link"
                                         href="{{ route('customer.profile') }}">{{ __('Profile') }}</a>
                                     <a class="dropdown-item border-0 transition-link"

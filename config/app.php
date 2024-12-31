@@ -203,6 +203,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
 
 
         /*
@@ -232,6 +233,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+        'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class
     ])->toArray(),
 
 ];
