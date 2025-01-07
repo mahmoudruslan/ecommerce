@@ -44,8 +44,8 @@
     <link rel="stylesheet" href="{{ asset('store/css/alert.css') }}">
     <link rel="stylesheet" href="{{ asset('store/css/loading.css') }}">
 
-    <!-- Favicon-->
-    <link rel="shortcut icon" href="{{ asset('store/img/favicon.png') }}">
+    <!-- Logo-->
+    <link rel="shortcut icon" href="{{ asset('store/img/logo.png') }}">
 
 </head>
 

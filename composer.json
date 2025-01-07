@@ -17,6 +17,7 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.4",
         "livewire/livewire": "^2.12",
+        "mpdf/mpdf": "^8.2",
         "paymob/laravel-package": "^1.0",
         "react/promise": "2.7",
         "realrashid/sweet-alert": "^7.2",

@@ -13,7 +13,7 @@
                         <div>
                             <label class="form-label">{{ __('Size') }} :</label>
                             <span class="selected-size fw-bold"
-                                id="selected-size-{{ $product->id }}">{{ $product->sizes()->first()->name }}</span>
+                                id="selected-size-{{ $product->id }}">{{ $product->sizes->first()->name }}</span>
                         </div>
                         <div class="row m-auto mb-2">
                             @foreach ($product->sizes as $size)

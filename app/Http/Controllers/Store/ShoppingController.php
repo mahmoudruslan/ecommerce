@@ -12,7 +12,7 @@ class ShoppingController extends Controller
     public function shoppingInProducts(Request $request, $type = null, $parent = null, $slug = null)
     {
         // \Cart::session('cart')->clear();
-        $products = Product::with('media');
+        $products = Product::with(['media', 'sizes']);
         if ($type === 'tag' && !empty($slug)) {
             $products = Product::whereHas('tags', function ($query) use ($slug) {
                 $query->whereSlug($slug)->whereStatus(true);
@@ -72,6 +72,7 @@ class ShoppingController extends Controller
         $d_product = Product::whereSlug($slug)
             ->with('category')
             ->with('media')
+            ->with('tags')
             ->with('tags')
             ->withAvg('reviews', 'rating')
             ->active()

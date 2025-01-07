@@ -47,7 +47,7 @@ class OrderService
             'user_address_id' => $request['address_id'] ?? null,
             'order_address_id' => $order_address_id,
             'discount_code' => $coupon_code,
-            'ref_id' => '#' . str_pad(($latest_order ? $latest_order->id : 0) + 1, 8, "0", STR_PAD_LEFT),
+            'ref_id' => str_pad(($latest_order ? $latest_order->id : 0) + 1, 8, "0", STR_PAD_LEFT),
             'total' => $total,
             'sub_total' => $sub_total,
             'shipping' => $shipping,
@@ -73,13 +73,9 @@ class OrderService
                 'quantity' => $product_quantity - $item->quantity,
             ]);
         }
-
         $cache = $request['payment_method'] == 'cash-on-delivery';
-        $order->update([
-            'status' => $cache  ? OrderTransaction::PROCESSING : OrderTransaction::PENDING,
-        ]);
         $order->transactions()->create([
-            'transaction' => $cache  ? OrderTransaction::PROCESSING : OrderTransaction::PENDING,
+            'transaction' => OrderTransaction::PENDING,
             'payment_method' => $cache  ? 'cash-on-delivery' : 'card',
         ]);
         Cart::session('cart')->clear();

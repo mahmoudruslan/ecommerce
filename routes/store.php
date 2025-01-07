@@ -1,18 +1,18 @@
 <?php
 
 use App\Models\User;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymobController;
 use App\Http\Controllers\Store\CartController;
 use App\Http\Controllers\Store\IndexController;
 use App\Http\Controllers\Store\OrderController;
 use App\Http\Controllers\Store\CheckoutController;
+use App\Http\Controllers\Store\customerController;
 use App\Http\Controllers\Store\ShoppingController;
 use App\Http\Controllers\Store\WishListController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\PaymobController;
-use App\Http\Controllers\Store\customerController;
-use Illuminate\Http\Request;
+use App\Notifications\ToStore\OrderInvoiceNotification;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +66,14 @@ Route::group(['middleware' => [/*'auth',*/'if_admin'], 'as' => 'customer.'], fun
     Route::post('product-review/{slug}', [customerController::class, 'productReview']);
 });
 
+// Route::get('invoice', function(){
+//     $order = Order::with('products', 'customer')->find(7);
+//     $pdf = PDF::loadView('store.parts.invoice', $order);
+//     $file = storage_path('app/pdf/files/' . '#' . $order->ref_id . '.pdf');
+
+//     $pdf->save($file);
+//     return $pdf->stream($file);
+// });
 
 Route::get('/lang/{lang}', function ($lang) {
     app()->setLocale($lang);

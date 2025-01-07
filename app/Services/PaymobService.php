@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Coupon;
 use GuzzleHttp\Client;
@@ -10,6 +11,9 @@ use GuzzleHttp\Psr7\Request;
 use App\Models\OrderTransaction;
 use RealRashid\SweetAlert\Facades\Alert;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
+use App\Notifications\ToStore\OrderStatusNotification;
+use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
+use App\Notifications\ToStore\OrderInvoiceNotification;
 
 
 class PaymobService
@@ -93,7 +97,7 @@ class PaymobService
                 Alert::error(__('Payment'), __('Ops, you are accessing wrong data'));
                 return redirect()->route('customer.store');
             }
-            $order = Order::find($orderId);
+            $order = Order::with('customer', 'products')->find($orderId);
             // Check payment status
             $success = Paymob::filterVar('success') === "true";
             $is_voided = Paymob::filterVar('is_voided') === "true";
@@ -120,6 +124,16 @@ class PaymobService
                     $coupon->increment('used_times');
                 }
                 Cart::session('cart')->clear();
+                //send mail or notify
+                $pdf = PDF::loadView('store.parts.invoice', $order);
+                $file = storage_path('app/pdf/files/' . '#' . $order->ref_id . '.pdf');
+                $pdf->save($file);
+
+                if (isset($order->user_id)) {
+                    $customer = User::find($order->user_id);
+                    $customer->notify(new OrderInvoiceNotification($order, $file));
+                }
+                ///////////////
                 Alert::success(__('Payment'), __('Payment Approved!'));
             } else {
                 $order->update([
@@ -175,8 +189,7 @@ class PaymobService
         $response = $client->sendAsync($request)->wait();
         $response = json_decode($response->getBody());
 
-        if($response->success == true && $response->is_refund == true)
-        {
+        if ($response->success == true && $response->is_refund == true) {
             $order->update([
                 'status' => Order::REFUNDED,
             ]);
@@ -192,12 +205,8 @@ class PaymobService
             });
             Alert::success(__('Refund successfully'), 'success');
             return redirect()->back();
-
-        }else{
+        } else {
             return json_decode($response->getBody());
         }
-
-
     }
-
 }

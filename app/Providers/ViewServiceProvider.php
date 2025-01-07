@@ -19,7 +19,6 @@ class ViewServiceProvider extends ServiceProvider
     {
         //
     }
-
     /**
      * Bootstrap services.
      *

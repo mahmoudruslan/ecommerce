@@ -9,9 +9,11 @@ use App\Services\PaymobService;
 use App\Models\OrderTransaction;
 use App\DataTables\OrderDataTable;
 use App\Http\Controllers\Controller;
-use App\Notifications\ToStore\OrderStatusNotification;
 use Illuminate\Support\Facades\Crypt;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Notifications\ToStore\OrderStatusNotification;
+use App\Notifications\ToStore\OrderInvoiceNotification;
+use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
 
 
 class OrderController extends Controller
@@ -47,15 +49,13 @@ class OrderController extends Controller
                 if ($key > $order->status) {
                     //no show payment complete in status
                     $paid_transaction =  $order->transactions()->where('transaction', OrderTransaction::PAYMENT_COMPLETED)->get();
-                    if($order->payment_method === 'card' && $key == 1)
-                    {
+                    if ($order->payment_method === 'card' && $key == 1) {
                         continue;
                     }
-                    if($order->payment_method === 'cash-on-delivery' && $key == 8 || $key == 8 && count($paid_transaction) == 0)
-                    {
+                    if ($order->payment_method === 'cash-on-delivery' && $key == 8 || $key == 8 && count($paid_transaction) == 0) {
                         continue;
                     }
-                $available_order_status[$key] = $order_status[$key];
+                    $available_order_status[$key] = $order_status[$key];
                 }
             }
 
@@ -67,9 +67,9 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
-        // try {
+        try {
             userAbility(['update-orders']);
-            $order = Order::findOrFail($id);
+            $order = Order::with('customer', 'products')->findOrFail($id);
             if (isset($request->status)) {
                 if ($order->status == $request->status) {
                     Alert::info(__('Order status is already updated'));
@@ -87,19 +87,27 @@ class OrderController extends Controller
                 $order->transactions()->create([
                     'transaction' => $request->status,
                 ]);
-                if($order->user_id)
-                {
-                    $user = User::find($order->user_id);
-                    $user->notify(new OrderStatusNotification($order));
+
+                if ($order->status === '2') {
+                    $pdf = PDF::loadView('store.parts.invoice', $order);
+                    $file = storage_path('app/pdf/files/' . '#' . $order->ref_id . '.pdf');
+                    $pdf->save($file);
+
+                    if (isset($order->user_id)) {
+                        $customer = User::find($order->user_id);
+                        $customer->notify(new OrderStatusNotification($order));
+                        $customer->notify(new OrderInvoiceNotification($order, $file));
+                    }
+                    // return response()->download($file);
                 }
                 Alert::success(__('Order status changed successfully'));
                 return redirect()->back();
             }
             Alert::toast(__('Choose status'), 'error');
             return redirect()->back();
-        // } catch (\Exception $e) {
-        //     return $e->getMessage();
-        // }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function destroy($id)
