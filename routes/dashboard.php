@@ -17,6 +17,7 @@ use App\Http\Controllers\Dashboard\TagController;
 use App\Http\Controllers\Dashboard\UserAddressController;
 use App\Http\Controllers\Dashboard\OrderController;
 use App\Http\Controllers\Dashboard\SizeController;
+use App\Models\Order;
 
 /*
 |--------------------------------------------------------------------------

@@ -34,7 +34,7 @@ class Notifications extends Component
     {
         $count_notify = auth()->user()->unreadNotifications()->count();
         $this->unreadNotificationsCount = $count_notify > 0 ? $count_notify : '0';
-        $this->unreadNotifications = auth()->user()->unreadNotifications()->get();
+        $this->unreadNotifications = auth()->user()->unreadNotifications()->take(5)->get();
     }
 
     public function render()

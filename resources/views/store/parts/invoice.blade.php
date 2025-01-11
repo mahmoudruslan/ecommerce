@@ -164,22 +164,19 @@
                 <tfoot>
                 <tr style="background-color: #f2f2f2" class="total text-center">
                     <td class="text-center">Shipping:</td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="2"></td>
                     <td class="text-center">{{number_format($shipping, 2)}}</td>
                 </tr>
                @if ($discount != 0)
                <tr style="background-color: #f2f2f2" class="total text-center">
                 <td class="text-center">Discount:</td>
-                <td></td>
-                <td></td>
+                <td colspan="2"></td>
                 <td class="text-center">{{number_format($discount, 2)}}</td>
             </tr>
                @endif
                 <tr style="background-color: #f2f2f2" class="total text-center">
                     <td class="text-center">Total:</td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="2"></td>
                     <td class="text-center">{{number_format($total, 2)}}</td>
                 </tr>
             </tfoot>

@@ -65,16 +65,14 @@ Route::group(['middleware' => [/*'auth',*/'if_admin'], 'as' => 'customer.'], fun
     Route::get('orders/details/{id}', [CustomerController::class, 'orderDetails'])->name('order.details');
     Route::post('product-review/{slug}', [customerController::class, 'productReview']);
 });
-
 // Route::get('invoice', function(){
-//     $order = Order::with('products', 'customer')->find(7);
+//     $order = Order::with('products', 'customer')->find(5);
 //     $pdf = PDF::loadView('store.parts.invoice', $order);
 //     $file = storage_path('app/pdf/files/' . '#' . $order->ref_id . '.pdf');
 
 //     $pdf->save($file);
 //     return $pdf->stream($file);
 // });
-
 Route::get('/lang/{lang}', function ($lang) {
     app()->setLocale($lang);
     session()->put('local', $lang);
