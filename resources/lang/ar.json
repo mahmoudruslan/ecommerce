@@ -58,6 +58,16 @@
     "Data updated successfully.": "تم تحديث البيانات بنجاح",
     "Image deleted successfully.": "تم حذف الصورة بنجاح",
 
+    "New Inspiration 2020": "إلهام جديد 2020",
+    "20% off on new season": "خصم 20% على الموسم الجديد",
+    "Browse collections": "تصفح المجموعات",
+    "Carefully created collections": "مجموعات مُعدة بعناية",
+    "Browse our categories": "تصفح فئاتنا",
+    "Free shipping": "شحن مجاني",
+    "24 x 7 service": "خدمة 24/7",
+    "Let's be friends!": "عروض المهرجان",
+    "Subscribe": "اشترك",
+
     "Amount": "المبلغ",
     "Earning": "الدخل",
     "Earnings": "الأرباح",
@@ -189,6 +199,7 @@
     "Edit size": "تعديل المقاس",
 
     "Shipping company": "شركة الشحن",
+    "shipping-companies": "شركات الشحن",
     "show-shipping-companies": "عرض شركات الشحن",
     "delete-shipping-companies": "حذف شركات الشحن",
     "update-shipping-companies": "تعديل شركات الشحن",

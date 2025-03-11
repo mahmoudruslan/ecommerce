@@ -52,6 +52,6 @@ class RolePermissionSeeder extends Seeder
         $employee_role = Role::create(['name' => 'employee']);
 
         $admin_role->givePermissionTo([ 'users', 'roles', 'main', 'update-roles']);
-        $employee_role->givePermissionTo(['products', 'categories', 'tags']);
+        $employee_role->givePermissionTo(['products', 'categories', 'tags', 'main']);
     }
 }

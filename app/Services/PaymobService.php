@@ -14,11 +14,10 @@ use Darryldecode\Cart\Facades\CartFacade as Cart;
 use App\Notifications\ToStore\OrderStatusNotification;
 use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
 use App\Notifications\ToStore\OrderInvoiceNotification;
+use App\Services\Contracts\PaymentInterface;
 
-
-class PaymobService
+class PaymobService implements PaymentInterface
 {
-
     private $secret_key;
     private $public_key;
     private $integration_ids;
@@ -80,7 +79,6 @@ class PaymobService
         }
         return response()->json($response);
     }
-
 
     public function callback()
     {

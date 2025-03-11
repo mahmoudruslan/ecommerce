@@ -62,6 +62,28 @@
                                                             @enderror
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-6 mt-2">
+                                                        <div class="form-group">
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">Upload</span>
+                                                                </div>
+                                                                <div class="custom-file">
+                                                                    <input name="size_guide" type="file"
+                                                                        class="custom-file-input @error('size_guide') is-invalid @enderror"
+                                                                        id="inputGroupFile01">
+                                                                    <label class="custom-file-label"
+                                                                        for="inputGroupFile01">{{ __('Size guide image') }}</label>
+                                                                </div>
+                                                            </div>
+
+                                                            @error('size_guide')
+                                                                <span class="text-danger" role="alert">
+                                                                    <small>{{ $message }}</small>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
 
                                                 </div>
                                                 <div class="form-group row">
@@ -123,7 +145,8 @@
                                                 </div><br>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <input type="text" name="video_link" value="{{ old('video_link') }}"
+                                                        <input type="text" name="video_link"
+                                                            value="{{ old('video_link') }}"
                                                             class="form-control form-control-user @error('video_link') is-invalid @enderror"
                                                             placeholder=" {{ __('Video link') }}">
                                                         @error('video_link')
@@ -144,85 +167,70 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                                <div class="input-group mb-3">
-                                                                    <div class="input-group-prepend">
-                                                                      <span class="input-group-text">Upload</span>
-                                                                    </div>
-                                                                    <div class="custom-file">
-                                                                      <input name="size_guide" type="file" class="custom-file-input @error('size_guide') is-invalid @enderror"" id="inputGroupFile01">
-                                                                      <label class="custom-file-label" for="inputGroupFile01">{{__('Size guide image')}}</label>
-                                                                    </div>
-                                                                  </div>
 
-                                                            @error('size_guide')
-                                                                <span class="text-danger" role="alert">
-                                                                    <small>{{ $message }}</small>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    <div class="col-md-6">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <input type="checkbox" value="1" name="featured"
-                                                                    class="checkbox @error('featured') is-invalid @enderror"
-                                                                    placeholder=" {{ __('Enter Featured') }}">
-                                                                <label><small>{{ __('Featured') }}</small></label>
-                                                                @error('featured')
-                                                                    <span class="text-danger" role="alert">
-                                                                        <small>{{ $message }}</small>
-                                                                    </span>
-                                                                @enderror
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <input type="checkbox" value="1" name="status"
-                                                                    class="checkbox" placeholder="{{ __('Status') }}">
-                                                                <label><small>{{ __('Active') }}</small></label>
-                                                                @error('status')
-                                                                    <span class="text-danger" role="alert">
-                                                                        <small>{{ $message }}</small>
-                                                                    </span>
-                                                                @enderror
+                                                        <div class="col-md-6">
+                                                            <div class="row mt-2">
+                                                                <div class="col-md-6">
+                                                                    <input type="checkbox" value="1" name="featured"
+                                                                        class="checkbox @error('featured') is-invalid @enderror"
+                                                                        placeholder=" {{ __('Enter Featured') }}">
+                                                                    <label><small>{{ __('Featured') }}</small></label>
+                                                                    @error('featured')
+                                                                        <span class="text-danger" role="alert">
+                                                                            <small>{{ $message }}</small>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <input type="checkbox" value="1" name="status"
+                                                                        class="checkbox"
+                                                                        placeholder="{{ __('Status') }}">
+                                                                    <label><small>{{ __('Active') }}</small></label>
+                                                                    @error('status')
+                                                                        <span class="text-danger" role="alert">
+                                                                            <small>{{ $message }}</small>
+                                                                        </span>
+                                                                    @enderror
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <hr>
-                                                <div class="form-group row">
-                                                    @foreach ($sizes as $size)
-                                                        <div class="col-md-3">
-                                                            <input class="checkbox" type="checkbox"
-                                                                name="sizes[{{ $size->id }}][selected]"
-                                                                value="1" id="size-{{ $size->id }}">
-                                                            <label
-                                                                for="size-{{ $size->id }}">{{ $size->name }}</label>
-                                                            <input class="form-control d-inline-block w-50" type="number"
-                                                                name="sizes[{{ $size->id }}][quantity]"
-                                                                min="0" disabled
-                                                                placeholder="{{ __('Quantity') }}">
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                                <br>
-                                                <input multiple type="file" name="images[]" class="file"
-                                                    id="input-id" data-preview-file-type="text">
-                                                <br>
-                                                @error('images')
-                                                    <span class="text-danger" role="alert">
-                                                        <small>{{ $message }}</small>
-                                                    </span>
-                                                @enderror
-                                                @error('images.0')
-                                                    <span class="text-danger" role="alert">
-                                                        <small>{{ $message }}</small>
-                                                    </span>
-                                                @enderror
-                                                <br>
-                                                <hr>
-                                                <button type="submit" class="btn btn-primary btn-user btn-block">
-                                                    {{ __('Save') }}
-                                                </button>
+                                                    <hr>
+                                                    <div class="form-group row">
+                                                        @foreach ($sizes as $size)
+                                                            <div class="col-md-3">
+                                                                <input class="checkbox" type="checkbox"
+                                                                    name="sizes[{{ $size->id }}][selected]"
+                                                                    value="1" id="size-{{ $size->id }}">
+                                                                <label
+                                                                    for="size-{{ $size->id }}">{{ $size->name }}</label>
+                                                                <input class="form-control d-inline-block w-50"
+                                                                    type="number"
+                                                                    name="sizes[{{ $size->id }}][quantity]"
+                                                                    min="0" disabled
+                                                                    placeholder="{{ __('Quantity') }}">
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                    <br>
+                                                    <input multiple type="file" name="images[]" class="file"
+                                                        id="input-id" data-preview-file-type="text">
+                                                    <br>
+                                                    @error('images')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                    @enderror
+                                                    @error('images.0')
+                                                        <span class="text-danger" role="alert">
+                                                            <small>{{ $message }}</small>
+                                                        </span>
+                                                    @enderror
+                                                    <br>
+                                                    <hr>
+                                                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                                                        {{ __('Save') }}
+                                                    </button>
                                             </form>
                                         </div>
                                     </div>

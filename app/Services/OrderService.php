@@ -7,14 +7,13 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\OrderAddress;
 use App\Models\OrderTransaction;
+use App\Services\Contracts\OrderStorageInterface;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 
-class OrderService
+class OrderService implements OrderStorageInterface
 {
-
-
     public function createOrder($request)
     {
         //data

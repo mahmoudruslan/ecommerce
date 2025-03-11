@@ -53,7 +53,7 @@
     var myLineChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: @json($monthLabels),
+        labels: ["January", "February", "March", "April", "May", "June"],
         datasets: [{
           label: "Earnings",
           lineTension: 0.3,
@@ -67,7 +67,7 @@
           pointHoverBorderColor: "rgba(78, 115, 223, 1)",
           pointHitRadius: 10,
           pointBorderWidth: 2,
-          data: @json($monthValues),
+          data: [4215, 7312, 3251, 7841, 9821, 14984],
         }],
       },
       options: {

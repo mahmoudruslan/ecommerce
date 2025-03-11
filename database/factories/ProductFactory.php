@@ -19,7 +19,7 @@ class ProductFactory extends Factory
     {
         $categories = Category::whereNotNull('parent_id')->pluck('id');
         return [
-                'name_ar' => fake()->name(),
+                'name_ar' => fake()->word(),
                 'name_en' => fake()->word(),
                 'price' => rand(50, 5000),
                 'description_ar' => fake()->sentence(),

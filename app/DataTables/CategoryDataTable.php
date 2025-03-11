@@ -80,8 +80,8 @@ class CategoryDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('name_ar')->title(__('Name In Arabic')),
-            Column::make('name_en')->title(__('Name In English')),
+            Column::make('name_ar')->title(__('Name in arabic')),
+            Column::make('name_en')->title(__('Name in english')),
             Column::make('status')->title(__('Status')),
             // Column::make('parent_id')->title(__('Parent')),
             Column::make('image')->title(__('Image')),
