@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Customer\Auth\AuthController;
 use App\Http\Controllers\Store\PaymobController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,3 +22,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
+
+Route::group([
+    'prefix' => 'v1/auth',
+    'as' => 'customer.auth.',
+], function(){
+    Route::get('login', [AuthController::class, 'login']);
+    Route::get('verify', [AuthController::class, 'verify']);
+
+    Route::group([
+        'middleware' => 'auth:sanctum'
+    ], function(){
+        Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+    });
+});
