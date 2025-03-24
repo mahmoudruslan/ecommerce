@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Api\Customer\Auth;
 
 use App\Models\User;
 use App\Jobs\SendOTPEmail;
-use App\Events\GeneratedOTP;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\Api\Customer\LoginRequest;
 use App\Http\Requests\Api\Customer\VerifyRequest;
