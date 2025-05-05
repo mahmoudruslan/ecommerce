@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
+use App\Models\User;
+use App\Traits\Files;
+use App\Models\Product;
+use React\Http\Io\Transaction;
 use App\DataTables\UserDataTable;
+use App\Http\Requests\UserRequest;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
-use App\Traits\Files;
-use App\Models\User;
 
 
 class UserController extends Controller
@@ -21,8 +23,8 @@ class UserController extends Controller
      */
     public function index(UserDataTable $dataTable)
     {
-        $permissions = userAbility(['users','store-users', 'update-users', 'show-users','delete-users']);
-        return $dataTable->with('permissions' , $permissions)->render('dashboard.users.index');
+        $permissions = userAbility(['users', 'store-users', 'update-users', 'show-users', 'delete-users']);
+        return $dataTable->with('permissions', $permissions)->render('dashboard.users.index');
     }
 
     public function create()
@@ -34,10 +36,10 @@ class UserController extends Controller
     {
         try {
             userAbility(['store-users']);
-                $image = $request->file('image');
-                $path = 'images/users/';
-                $file_name = $this->saveImag($path, [$request->image]);
-                $this->resizeImage(400, null, $path, $file_name, $image);
+            $image = $request->file('image');
+            $path = 'images/users/';
+            $file_name = $this->saveImag($path, [$request->image]);
+            $this->resizeImage(400, null, $path, $file_name, $image);
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -52,7 +54,8 @@ class UserController extends Controller
             $user->assignRole('customer');
             return redirect()->route('admin.users.index')->with([
                 'message' => __('Item Created successfully.'),
-                'alert-type' => 'success']);
+                'alert-type' => 'success'
+            ]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -72,7 +75,7 @@ class UserController extends Controller
         }
     }
 
-    public function edit( $id)
+    public function edit($id)
     {
         try {
             userAbility(['update-users']);
@@ -109,14 +112,14 @@ class UserController extends Controller
             ]);
             return redirect()->route('admin.users.index')->with([
                 'message' => __('Item Updated successfully.'),
-                'alert-type' => 'success']);
-
+                'alert-type' => 'success'
+            ]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-}
+    }
 
-    public function destroy( $id)
+    public function destroy($id)
     {
         try {
             //make soft delete
@@ -129,16 +132,6 @@ class UserController extends Controller
 
             return $e->getMessage();
         }
-
     }
 
-    public function removeImage($user_id)
-    {
-        $user = User::findOrFail($user_id);
-        $this->deleteFiles($user->image);
-        $user->image = null;
-        $user->update();
-
-        return response()->json([]);
-    }
 }
