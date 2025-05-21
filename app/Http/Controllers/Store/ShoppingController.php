@@ -4,13 +4,19 @@ namespace App\Http\Controllers\Store;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AttributeValue;
+use App\Models\Variant;
 
 class ShoppingController extends Controller
 {
     public function shoppingInProducts(Request $request, $type = null, $parent = null, $slug = null)
     {
+        return Product::with(['variants.variantValues'])->take(5)->get();
+        // return response()->json(true);
+
         // \Cart::session('cart')->clear();
         $products = Product::with(['media', 'sizes']);
         if ($type === 'tag' && !empty($slug)) {

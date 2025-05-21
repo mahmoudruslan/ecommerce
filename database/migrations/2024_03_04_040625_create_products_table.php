@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name_ar');
             $table->string('name_en');
             $table->string('slug')->unique();
+            $table->boolean('has_variant')->default(true);
             $table->double('price');
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();

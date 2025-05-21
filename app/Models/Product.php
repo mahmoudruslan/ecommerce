@@ -92,5 +92,8 @@ class Product extends Model
     {
         return $this->belongsToMany(Size::class, 'order_product');
     }
-
+    public function variants()
+    {
+        return $this->hasMany(Variant::class);
+    }
 }
