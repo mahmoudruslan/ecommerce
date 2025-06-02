@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Dashboard\AttributeController;
+use App\Http\Controllers\Dashboard\AttributeValueController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\RolePermissionController;
@@ -62,6 +64,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
             'shipping-companies' => ShippingCompanyController::class,//user_address routes
             'payment-methods' => PaymentMethodController::class,//user_address routes
             'orders' => OrderController::class,//user_address routes
+            'attributes' => AttributeController::class,//attributes routes
+            'attribute-values' => AttributeValueController::class,//attribute values route
         ]);
         Route::post('orders.refund/{order_id}', [OrderController::class, 'refund'])->name('orders.refund');
     });

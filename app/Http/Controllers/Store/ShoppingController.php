@@ -14,7 +14,7 @@ class ShoppingController extends Controller
 {
     public function shoppingInProducts(Request $request, $type = null, $parent = null, $slug = null)
     {
-        return Product::with(['variants.variantValues'])->take(5)->get();
+//        return Product::with(['variants.variantValues'])->take(5)->get();
         // return response()->json(true);
 
         // \Cart::session('cart')->clear();
