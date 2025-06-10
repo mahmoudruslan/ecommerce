@@ -112,6 +112,7 @@ class DatabaseSeeder extends Seeder
             ProductMediaSeeder::class,
             SizeSeeder::class,
             ProductSizesSeeder::class,
+            AttributeSeeder::class,
             CategoryTagsSeeder::class,
             ReviewSeeder::class,
             ShippingCompanySeeder::class,

@@ -348,16 +348,17 @@
                 </li>
             @endcanany {{-- shipping companies --}}
             {{-- shipping companies --}}
-            @canany(['product-setting', 'show-product-setting', 'delete-product-setting',
-                'update-product-setting', 'store-product-setting'])
+            @canany(['attributes', 'show-attributes', 'delete-attributes',
+                'update-attributes', 'store-attributes'])
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse"
                        data-target="#collapseProductSetting" aria-expanded="true" aria-controls="collapsePages">
                         <i class="fas fa-shipping-fast"></i>
+
                         <span>{{ __('Product setting') }}</span>
                     </a>
-                    <div id="collapseProductSetting" class="collapse @if ($route == 'product-setting') show @endif"
+                    <div id="collapseProductSetting" class="collapse @if ($route == 'attributes') show @endif"
                          aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">{{ __('Product setting screens:') }} </h6>

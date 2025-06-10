@@ -21,7 +21,7 @@ function userAbility(array $permissions)
                 $identical_permissions[] = $permission;
             }
         }
-        if (empty($identical_permissions)) { // if user dose not have any permissions from required permissions => return exception
+        if (empty($identical_permissions)) { // if user does not have any permissions from required permissions => return exception
             throw UnauthorizedException::forPermissions($permissions);
         }
         return $identical_permissions;

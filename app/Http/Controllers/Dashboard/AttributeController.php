@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\DataTables\AttributeDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\attributes\StoreAttributeRequest;
+use App\Http\Requests\attributes\UpdateAttributeRequest;
 use App\Models\Attribute;
-use Illuminate\Http\Request;
 
 class AttributeController extends Controller
 {
@@ -13,9 +15,11 @@ class AttributeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AttributeDataTable $dataTable)
     {
-        dd('index');
+        $permissions = userAbility(['attributes','store-attributes', 'update-attributes', 'show-attributes','delete-attributes']);
+        return $dataTable->with('permissions' , $permissions)->render('dashboard.attributes.index');
+
     }
 
     /**
@@ -25,7 +29,7 @@ class AttributeController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.attributes.create');
     }
 
     /**
@@ -34,9 +38,13 @@ class AttributeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAttributeRequest $request)
     {
-        //
+        Attribute::create($request->validated());
+        return redirect()->route('admin.attributes.index')->with([
+            'message' => __('attribute Created successfully.'),
+            'alert-type' => 'success'
+        ]);
     }
 
     /**
@@ -47,7 +55,7 @@ class AttributeController extends Controller
      */
     public function show(Attribute $attribute)
     {
-        //
+        dd($attribute);
     }
 
     /**
@@ -58,7 +66,7 @@ class AttributeController extends Controller
      */
     public function edit(Attribute $attribute)
     {
-        //
+        return view('dashboard.attributes.edit', compact('attribute'));
     }
 
     /**
@@ -68,9 +76,13 @@ class AttributeController extends Controller
      * @param  \App\Models\Attribute  $attribute
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Attribute $attribute)
+    public function update(UpdateAttributeRequest $request, Attribute $attribute)
     {
-        //
+        $attribute->update($request->validated());
+        return redirect()->route('admin.attributes.index')->with([
+            'message' => __('attribute Updated successfully.'),
+            'alert-type' => 'success'
+        ]);
     }
 
     /**
@@ -81,6 +93,10 @@ class AttributeController extends Controller
      */
     public function destroy(Attribute $attribute)
     {
-        //
+        $attribute->delete();
+        return redirect()->route('admin.attributes.index')->with([
+            'message' => __('attribute Deleted successfully.'),
+            'alert-type' => 'success'
+        ]);
     }
 }

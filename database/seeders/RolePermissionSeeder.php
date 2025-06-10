@@ -32,7 +32,7 @@ class RolePermissionSeeder extends Seeder
             'governorates','show-governorates','delete-governorates','update-governorates','store-governorates',
             'cities','show-cities','delete-cities','update-cities','store-cities',
             'payment-methods','delete-payment-methods','update-payment-methods','store-payment-methods',
-            'product-setting','delete-product-setting','update-product-setting','store-product-setting',
+            'attributes','delete-attributes','update-attributes','store-attributes','show-attributes',
             'reviews', 'show-reviews','delete-reviews'
         ];
 
@@ -44,7 +44,6 @@ class RolePermissionSeeder extends Seeder
                 'guard_name'=> 'web'
             ];
         });
-        // dd($permissions->toArray());
         Permission::insert($permissions->toArray());
 
         Role::create(['name' => 'super-admin']);
