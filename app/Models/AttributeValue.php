@@ -9,7 +9,7 @@ class AttributeValue extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['attribute_id', 'id', 'name'];
+    protected $fillable = ['attribute_id', 'value_ar', 'value_en'];
     public $timestamps = true;
 
     public function attribute()

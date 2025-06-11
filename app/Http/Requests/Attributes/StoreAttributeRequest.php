@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\attributes;
+namespace App\Http\Requests\Attributes;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,8 +24,16 @@ class StoreAttributeRequest extends FormRequest
     public function rules()
     {
         return [
-            'attribute_id' => 'required',
-            'value' => 'require'
+            'name_ar' => 'required|unique:attributes,name_ar',
+            'name_en' => 'required|unique:attributes,name_en',
+            'type' => 'required',
+            'code' => 'required|unique:attributes,code',
         ];
+    }
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'code' => strtolower($_POST['name_en']),
+        ]);
     }
 }

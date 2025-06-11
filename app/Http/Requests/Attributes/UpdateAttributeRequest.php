@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\attributes;
+namespace App\Http\Requests\Attributes;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAttributeRequest extends FormRequest
+class UpdateAttributeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +15,6 @@ class StoreAttributeRequest extends FormRequest
     {
         return true;
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,11 +22,13 @@ class StoreAttributeRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('attribute')->id;
+
         return [
-            'name_ar' => 'required|unique:attributes,name_ar',
-            'name_en' => 'required|unique:attributes,name_en',
+            'name_ar' => 'required|unique:attributes,name_ar,' . $id,
+            'name_en' => 'required|unique:attributes,name_en,' . $id,
+            'code' => 'required|unique:attributes,code,' . $id,
             'type' => 'required',
-            'code' => 'required|unique:attributes,code',
         ];
     }
     public function prepareForValidation()

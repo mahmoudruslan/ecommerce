@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\attributes;
+namespace App\Http\Requests\AttributeValues;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAttributeRequest extends FormRequest
+class StoreAttributeValueRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class UpdateAttributeRequest extends FormRequest
     public function rules()
     {
         return [
-            'attribute_id' => 'required',
-            'value' => 'require'
+            'attribute_id' => 'required|string',
+            'value_ar' => 'required|string|unique:attribute_values,value_ar',
+            'value_en' => 'required|string|unique:attribute_values,value_en'
         ];
     }
 }

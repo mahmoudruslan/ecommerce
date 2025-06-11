@@ -8,36 +8,33 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use App\Traits\HTMLTrait;
 
 class AttributeValueDataTable extends DataTable
 {
-    /**
-     * Build DataTable class.
-     *
-     * @param QueryBuilder $query Results from query() method.
-     * @return \Yajra\DataTables\EloquentDataTable
-     */
+    use HTMLTrait;
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'attributevalue.action')
-            ->setRowId('id');
+            ->addColumn('action', function($row) {
+                $permissions = $this->permissions; // receiving permissions variable from controller
+                $button = checkAbility('update-attribute-values', $permissions) ? $this->getEditLink("admin.attribute-values.edit", $row->id) : '';
+                $button = $button .= checkAbility('show-attribute-values', $permissions) ? $this->getShowLink("admin.attribute-values.show", $row->id) : '';
+                $button = $button .= checkAbility('delete-attribute-values', $permissions) ? $this->getDeleteLink("admin.attribute-values.destroy", $row->id) : '';
+                return $button;
+            })
+            ->editColumn('attribute_id', function($row) {
+                return $row->attribute['name_' . app()->getLocale()];
+            })
+            ->rawColumns(['action']);
     }
 
-    /**
-     * Get query source of dataTable.
-     *
-     * @param \App\Models\AttributeValue $model
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
+
     public function query(AttributeValue $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->with('attribute')->newQuery();
     }
-
     /**
      * Optional method if you want to use html builder.
      *
@@ -46,47 +43,36 @@ class AttributeValueDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('attributevalue-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('attribute-value-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(0)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
-
-    /**
-     * Get the dataTable columns definition.
-     *
-     * @return array
-     */
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('value_'. app()->getLocale())->title(__('Value')),
+            Column::make('attribute_id')->title(__('Attribute')),
+            Column::computed('action')->title(__('Action'))
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 
-    /**
-     * Get filename for export.
-     *
-     * @return string
-     */
+
     protected function filename(): string
     {
         return 'AttributeValue_' . date('YmdHis');
