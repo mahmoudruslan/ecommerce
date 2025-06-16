@@ -23,7 +23,7 @@
                                     <div class="col-lg-12">
                                         <div class="p-5">
                                             <div class="text-center">
-                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }} : {{ __($attributeValue->code) }}</h1>
+                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }} : {{ __($attributeValue['value_' . app()->getLocale()]) }}</h1>
                                             </div>
                                             <form action="{{ route('admin.attribute-values.update', $attributeValue->id) }}" method="POST" class="user">
                                                 @csrf

@@ -12,10 +12,10 @@
                     <!-- Page Heading -->
                     <div class="card shadow mb-4">
                         <div style="display: block;width: 100%" class="card-header table-header py-3">
-                            <h4 class="m-0 font-weight-bold text-primary">{{__('Attribute values')}}</h4>
+                            <h4 class="m-0 font-weight-bold text-primary">{{__('Options')}}</h4>
                             @can('store-attribute values')
                             <a  href="{{route('admin.attribute-values.create')}}" class="btn btn-primary">
-                                {{__('Add attribute values')}}
+                                {{__('Add options')}}
                                 <i class="fa fa-plus plus"></i>
                             </a>
                             @endcan

@@ -356,7 +356,7 @@
                        data-target="#collapseProductSetting" aria-expanded="true" aria-controls="collapsePages">
                         <i class="fas fa-shipping-fast"></i>
 
-                        <span>{{ __('Product setting') }}</span>
+                        <span>{{ __('Product settings') }}</span>
                     </a>
                     <div id="collapseProductSetting" class="collapse @if ($route == 'attributes') show @endif"
                          aria-labelledby="headingPages" data-parent="#accordionSidebar">

@@ -61,9 +61,12 @@ class AttributeValueDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('value_'. app()->getLocale())->title(__('Value')),
-            Column::make('attribute_id')->title(__('Attribute')),
+            Column::make('id')
+                ->addClass('text-center'),
+            Column::make('value_'. app()->getLocale())->title(__('Value'))
+                ->addClass('text-center'),
+            Column::make('attribute_id')->title(__('Attribute'))
+                ->addClass('text-center'),
             Column::computed('action')->title(__('Action'))
                 ->exportable(false)
                 ->printable(false)

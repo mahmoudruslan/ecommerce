@@ -83,15 +83,12 @@ class AttributeDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('name_'. app()->getLocale())->title(__('Name')),
-            Column::make('type')->title(__('Type')),
-//            Column::make('status')->title(__('Status')),
-//            // Column::make('parent_id')->title(__('Parent')),
-//            Column::make('image')->title(__('Image')),
-//            Column::make('created_at')->title(__('Created At')),
-//            Column::make('product_count')->title(__('Product Count')),
-//            Column::make('parent')->title(__('Parent Category')),
+            Column::make('id')
+                ->addClass('text-center'),
+            Column::make('name_'. app()->getLocale())->title(__('Name'))
+                ->addClass('text-center'),
+            Column::make('type')->title(__('Type'))
+                ->addClass('text-center'),
             Column::computed('action')->title(__('Action'))
                 ->exportable(false)
                 ->printable(false)

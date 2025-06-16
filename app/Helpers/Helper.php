@@ -9,6 +9,8 @@ use Darryldecode\Cart\Facades\CartFacade as Cart;
 // note :  super-admin role have all permissions and roles
 function userAbility(array $permissions)
 {
+    throw UnauthorizedException::forPermissions($permissions);
+
     $user_id = auth()->id();
     $user = User::find($user_id); //get user from model
 

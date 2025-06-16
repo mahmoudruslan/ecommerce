@@ -5,9 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class variantAttributeValue extends Model
+class VariantAttribute extends Model
 {
     use HasFactory;
-
-
 }

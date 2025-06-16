@@ -36,13 +36,11 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        // return $request->all();
-        userAbility(['store-products']);
         try {
-
             //create size guide image
             $file_name = null;
             if ($request->size_guide) {
+
                 $image = $request->file('size_guide');
                 $path = 'images/products/size_guide/';
                 $file_name = $path . $this->saveImag($path, [$request->size_guide]);

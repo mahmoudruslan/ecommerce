@@ -15,6 +15,7 @@ class ProductRequest extends FormRequest
      */
     public function authorize()
     {
+        userAbility(['store-products']);
         return true;
     }
 
