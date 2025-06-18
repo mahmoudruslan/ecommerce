@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\DataTables\ProductDataTable;
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\Products\StoreProductRequest;
+use App\Http\Requests\Products\UpdateProductRequest;
+use App\Models\Attribute;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Size;
 use App\Models\Tag;
-use App\Models\User;
+use App\Models\Variant;
+use App\Models\VariantAttribute;
 use App\Traits\Files;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -20,7 +23,6 @@ class ProductController extends Controller
 
     public function index(ProductDataTable $dataTable)
     {
-        //userAbility() method => App/Helpers/Helper.php
         $permissions = userAbility(['products', 'store-products', 'update-products', 'show-products', 'delete-products']); //pass to dataTable class
         return $dataTable->with('permissions', $permissions)->render('dashboard.products.index');
     }
@@ -31,38 +33,55 @@ class ProductController extends Controller
         $categories = Category::select('id', 'name_ar', 'name_en', 'parent_id')->whereNotNull('parent_id')->with('parent:id,name_ar,name_en')->get();
         $tags = Tag::select('id', 'name_ar', 'name_en')->get();
         $sizes = Size::select('id', 'name')->get();
-        return view('dashboard.products.create', compact('categories', 'tags', 'sizes'));
+        $attributes = Attribute::with('values')->get();
+        return view('dashboard.products.create', compact('categories', 'tags', 'sizes', 'attributes'));
     }
 
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {
-        try {
-            //create size guide image
-            $file_name = null;
-            if ($request->size_guide) {
+        return $request->all();
+        if ($request->has_variants)
+        {
+                $product = Product::find(1);
+            foreach ($request->variants as $variation)
+            {
+                $variant = Variant::create([
+                    'product_id' => $product->id,
+                    'quantity' => $variation['quantity'],
+                    'price' => $variation['price'],
+                    'sku' => 'df-fg-fg-hg-h-gfh-fh-fh' . rand(100, 999),
+                ]);
+                foreach ($variation['attributes'] as $attribute => $value)
+                {
+                    VariantAttribute::create([
+                        'variant_id' => $variant->id,
+                        'attribute_id' => $attribute,
+                        'attribute_value_id' => $value,
+                    ]);
+                }
 
-                $image = $request->file('size_guide');
-                $path = 'images/products/size_guide/';
-                $file_name = $path . $this->saveImag($path, [$request->size_guide]);
-                $this->resizeImage(300, null, $path, $file_name, $image);
             }
-            $product = Product::create([
-                'name_ar' => $request->name_ar,
-                'name_en' => $request->name_en,
-                'price' => $request->price,
-                'description_ar' => $request->description_ar,
-                'description_en' => $request->description_en,
-                'video_link' => $request->video_link,
-                'iframe' => $request->iframe,
-                'category_id' => $request->category_id,
-                'featured' => $request->featured ?? 0,
-                'status' => $request->status ?? 0,
-                'size_guide' => $file_name
-            ]);
+        }
+        dd(true);
+        try {
+            $product = Product::create($request->only([
+                'name_ar',
+                'name_en',
+                'price',
+                'description_ar',
+                'description_en',
+                'video_link',
+                'iframe',
+                'category_id',
+                'featured',
+                'status',
+            ]));
+
             //create media
             $this->createProductMedia($request->images, $product);
+            //upload size guide image
+            $this->createProductMedia([$request->size_guide], $product, 'size_guide');
 
-            $this->createProductMedia($request->images, $product);
             //create tags
             $product->tags()->attach($request->tags);
             //create sizes
@@ -109,7 +128,7 @@ class ProductController extends Controller
         }
     }
 
-    public function update(ProductRequest $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
         try {
             userAbility(['update-products']);

@@ -27,7 +27,6 @@ class ProductFactory extends Factory
                 'category_id' => $categories->random(),
                 'featured' => rand(0, 1),
                 'status' => rand(1, 1),
-                'size_guide' => 'images/products/size_guide/size_guide.webp',
                 'video_link' => 'https://www.youtube.com/watch?v=nN_CF4lzpEE',
                 'iframe' => '<iframe width="560" height="315" src="https://www.youtube.com/embed/nN_CF4lzpEE?si=aPcFKgB40vhHmEgp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
         ];

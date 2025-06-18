@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name_ar');
             $table->string('name_en');
             $table->string('slug')->unique();
-            $table->boolean('has_variant')->default(true);
+            $table->boolean('has_variants')->default(false);
             $table->double('price');
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
@@ -27,7 +27,6 @@ return new class extends Migration
             $table->boolean('status')->default(false);
             $table->text('iframe')->nullable();
             $table->text('video_link')->nullable();
-            $table->string('size_guide')->nullable();
             $table->timestamps();
         });
     }

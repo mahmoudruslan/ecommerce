@@ -3,6 +3,18 @@
 @section('title')
     {{ __('Add Products') }}
 @endsection
+@section('style')
+    <style>
+        .variant-form {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .remove-variant:hover {
+            background-color: #c53030;
+        }
+
+    </style>
+@endsection
 @section('content')
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -24,25 +36,25 @@
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Add') }}</h1>
                                             </div>
                                             <form action="{{ route('admin.products.store') }}" method="POST"
-                                                enctype="multipart/form-data" class="user">
+                                                  enctype="multipart/form-data" class="user">
                                                 @csrf
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <input type="text" name="name_ar" value="{{ old('name_ar') }}"
-                                                            class="form-control form-control-user @error('name_ar') is-invalid @enderror"
-                                                            placeholder=" {{ __('Enter Name In Arabic') }}">
+                                                               class="form-control form-control-user @error('name_ar') is-invalid @enderror"
+                                                               placeholder=" {{ __('Enter Name In Arabic') }}">
                                                         @error('name_ar')
-                                                            <span class="text-danger" role="alert">
+                                                        <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
                                                             </span>
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
                                                         <input type="text" name="name_en" value="{{ old('name_en') }}"
-                                                            class="form-control form-control-user @error('name_en') is-invalid @enderror"
-                                                            placeholder=" {{ __('Enter Name In English') }}">
+                                                               class="form-control form-control-user @error('name_en') is-invalid @enderror"
+                                                               placeholder=" {{ __('Enter Name In English') }}">
                                                         @error('name_en')
-                                                            <span class="text-danger" role="alert">
+                                                        <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
                                                             </span>
                                                         @enderror
@@ -52,11 +64,11 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <input type="text" name="price"
-                                                                value="{{ old('price') }}"
-                                                                class="form-control form-control-user @error('price') is-invalid @enderror"
-                                                                placeholder=" {{ __('Enter Price') }}">
+                                                                   value="{{ old('price') }}"
+                                                                   class="form-control form-control-user @error('price') is-invalid @enderror"
+                                                                   placeholder=" {{ __('Enter Price') }}">
                                                             @error('price')
-                                                                <span class="text-danger" role="alert">
+                                                            <span class="text-danger" role="alert">
                                                                     <small>{{ $message }}</small>
                                                                 </span>
                                                             @enderror
@@ -70,15 +82,15 @@
                                                                 </div>
                                                                 <div class="custom-file">
                                                                     <input name="size_guide" type="file"
-                                                                        class="custom-file-input @error('size_guide') is-invalid @enderror"
-                                                                        id="inputGroupFile01">
+                                                                           class="custom-file-input @error('size_guide') is-invalid @enderror"
+                                                                           id="inputGroupFile01">
                                                                     <label class="custom-file-label"
-                                                                        for="inputGroupFile01">{{ __('Size guide image') }}</label>
+                                                                           for="inputGroupFile01">{{ __('Size guide image') }}</label>
                                                                 </div>
                                                             </div>
 
                                                             @error('size_guide')
-                                                                <span class="text-danger" role="alert">
+                                                            <span class="text-danger" role="alert">
                                                                     <small>{{ $message }}</small>
                                                                 </span>
                                                             @enderror
@@ -88,25 +100,27 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <textarea rows="1" style="background-position: 0%" type="text" name="description_ar"
-                                                            value="{{ old('description_ar') }}"
-                                                            class="form-control form-control-user
+                                                        <textarea rows="1" style="background-position: 0%" type="text"
+                                                                  name="description_ar"
+                                                                  value="{{ old('description_ar') }}"
+                                                                  class="form-control form-control-user
                                                         @error('description_ar') is-invalid @enderror"
-                                                            placeholder="{{ __('Enter Description In Arabic') }}"></textarea>
+                                                                  placeholder="{{ __('Enter Description In Arabic') }}"></textarea>
                                                         @error('description_ar')
-                                                            <span class="text-danger" role="alert">
+                                                        <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
                                                             </span>
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <textarea rows="1" style="background-position: 0%" type="text" name="description_en"
-                                                            value="{{ old('description_en') }}"
-                                                            class="form-control form-control-user
+                                                        <textarea rows="1" style="background-position: 0%" type="text"
+                                                                  name="description_en"
+                                                                  value="{{ old('description_en') }}"
+                                                                  class="form-control form-control-user
                                                         @error('description_en') is-invalid @enderror"
-                                                            placeholder="{{ __('Enter Description In English') }}"></textarea>
+                                                                  placeholder="{{ __('Enter Description In English') }}"></textarea>
                                                         @error('description_en')
-                                                            <span class="text-danger" role="alert">
+                                                        <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
                                                             </span>
                                                         @enderror
@@ -114,8 +128,10 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <select name="category_id" style="height:100%" class="form-control">
-                                                            <option disabled selected>{{ __('Choose Category') }}</option>
+                                                        <select name="category_id" style="height:100%"
+                                                                class="form-control">
+                                                            <option disabled
+                                                                    selected>{{ __('Choose Category') }}</option>
                                                             @foreach ($categories as $category)
                                                                 <option value="{{ $category->id }}">
                                                                     {{ $category->parent['name_' . App::currentLocale()] }}
@@ -124,7 +140,7 @@
                                                             @endforeach
                                                         </select>
                                                         @error('category_id')
-                                                            <span class="text-danger" role="alert">
+                                                        <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
                                                             </span>
                                                         @enderror
@@ -137,30 +153,31 @@
                                                             @endforeach
                                                         </select>
                                                         @error('tags')
-                                                            <span class="text-danger" role="alert">
+                                                        <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
                                                             </span>
                                                         @enderror
                                                     </div>
-                                                </div><br>
+                                                </div>
+                                                <br>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
                                                         <input type="text" name="video_link"
-                                                            value="{{ old('video_link') }}"
-                                                            class="form-control form-control-user @error('video_link') is-invalid @enderror"
-                                                            placeholder=" {{ __('Video link') }}">
+                                                               value="{{ old('video_link') }}"
+                                                               class="form-control form-control-user @error('video_link') is-invalid @enderror"
+                                                               placeholder=" {{ __('Video link') }}">
                                                         @error('video_link')
-                                                            <span class="text-danger" role="alert">
+                                                        <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
                                                             </span>
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
                                                         <input type="text" name="iframe" value="{{ old('iframe') }}"
-                                                            class="form-control form-control-user @error('iframe') is-invalid @enderror"
-                                                            placeholder=" {{ __('Iframe') }}">
+                                                               class="form-control form-control-user @error('iframe') is-invalid @enderror"
+                                                               placeholder=" {{ __('Iframe') }}">
                                                         @error('iframe')
-                                                            <span class="text-danger" role="alert">
+                                                        <span class="text-danger" role="alert">
                                                                 <small>{{ $message }}</small>
                                                             </span>
                                                         @enderror
@@ -168,69 +185,76 @@
                                                 </div>
                                                 <div class="form-group row">
 
-                                                        <div class="col-md-6">
-                                                            <div class="row mt-2">
-                                                                <div class="col-md-6">
-                                                                    <input type="checkbox" value="1" name="featured"
-                                                                        class="checkbox @error('featured') is-invalid @enderror"
-                                                                        placeholder=" {{ __('Enter Featured') }}">
-                                                                    <label><small>{{ __('Featured') }}</small></label>
-                                                                    @error('featured')
-                                                                        <span class="text-danger" role="alert">
+                                                    <div class="col-md-6">
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-6">
+                                                                <input type="checkbox" value="1" name="featured"
+                                                                       class="checkbox @error('featured') is-invalid @enderror"
+                                                                       placeholder=" {{ __('Enter Featured') }}">
+                                                                <label><small>{{ __('Featured') }}</small></label>
+                                                                @error('featured')
+                                                                <span class="text-danger" role="alert">
                                                                             <small>{{ $message }}</small>
                                                                         </span>
-                                                                    @enderror
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <input type="checkbox" value="1" name="status"
-                                                                        class="checkbox"
-                                                                        placeholder="{{ __('Status') }}">
-                                                                    <label><small>{{ __('Active') }}</small></label>
-                                                                    @error('status')
-                                                                        <span class="text-danger" role="alert">
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <input type="checkbox" value="1" name="status"
+                                                                       class="checkbox"
+                                                                       placeholder="{{ __('Status') }}">
+                                                                <label><small>{{ __('Active') }}</small></label>
+                                                                @error('status')
+                                                                <span class="text-danger" role="alert">
                                                                             <small>{{ $message }}</small>
                                                                         </span>
-                                                                    @enderror
-                                                                </div>
+                                                                @enderror
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <hr>
-                                                    <div class="form-group row">
-                                                        @foreach ($sizes as $size)
-                                                            <div class="col-md-3">
-                                                                <input class="checkbox" type="checkbox"
-                                                                    name="sizes[{{ $size->id }}][selected]"
-                                                                    value="1" id="size-{{ $size->id }}">
-                                                                <label
-                                                                    for="size-{{ $size->id }}">{{ $size->name }}</label>
-                                                                <input class="form-control d-inline-block w-50"
-                                                                    type="number"
-                                                                    name="sizes[{{ $size->id }}][quantity]"
-                                                                    min="0" disabled
-                                                                    placeholder="{{ __('Quantity') }}">
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                    <br>
-                                                    <input multiple type="file" name="images[]" class="file"
-                                                        id="input-id" data-preview-file-type="text">
-                                                    <br>
-                                                    @error('images')
-                                                        <span class="text-danger" role="alert">
+                                                </div>
+                                                <hr>
+                                                <div class="form-group row">
+                                                    @foreach ($sizes as $size)
+                                                        <div class="col-md-3">
+                                                            <input class="checkbox" type="checkbox"
+                                                                   name="sizes[{{ $size->id }}][selected]"
+                                                                   value="1" id="size-{{ $size->id }}">
+                                                            <label
+                                                                for="size-{{ $size->id }}">{{ $size->name }}</label>
+                                                            <input class="form-control d-inline-block w-50"
+                                                                   type="number"
+                                                                   name="sizes[{{ $size->id }}][quantity]"
+                                                                   min="0" disabled
+                                                                   placeholder="{{ __('Quantity') }}">
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                <br>
+                                                <input multiple type="file" name="images[]" class="file"
+                                                       id="input-id" data-preview-file-type="text">
+                                                <br>
+                                                @error('images')
+                                                <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
                                                         </span>
-                                                    @enderror
-                                                    @error('images.0')
-                                                        <span class="text-danger" role="alert">
+                                                @enderror
+                                                @error('images.0')
+                                                <span class="text-danger" role="alert">
                                                             <small>{{ $message }}</small>
                                                         </span>
-                                                    @enderror
-                                                    <br>
-                                                    <hr>
-                                                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                                                        {{ __('Save') }}
-                                                    </button>
+                                                @enderror
+                                                <br>
+                                                <div class="custom-control custom-switch">
+                                                    <input name="has_variants" value="1" type="checkbox" class="custom-control-input" id="customSwitch1">
+                                                    <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
+                                                </div>
+                                                <div class="d-none" id="variants-container">
+                                                    @include('dashboard.products.variants')
+                                                </div>
+                                                <hr>
+                                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                                    {{ __('Save') }}
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
@@ -246,21 +270,61 @@
             </div>
         </div>
         <!-- Outer Row -->
-    @endsection
-    @push('script')
-        <script>
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const quantityInput = this.parentElement.querySelector('input[type="number"]');
-                    quantityInput.disabled = !this.checked;
+        @endsection
+        @push('script')
+            <script>
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.addEventListener('change', function () {
+                        const quantityInput = this.parentElement.querySelector('input[type="number"]');
+                        quantityInput.disabled = !this.checked;
+                    });
                 });
-            });
-        </script>
-        <script>
-            $("#input-id").fileinput({
-                required: true,
-                showUpload: false,
-                showRemove: false,
-            });
-        </script>
+            </script>
+            <script>
+                $("#input-id").fileinput({
+                    required: true,
+                    showUpload: false,
+                    showRemove: false,
+                });
+            </script>
+            <script>
+                let variantIndex = 1;
+                const wrapper = document.getElementById('variants-wrapper');
+                const container = document.getElementById('variants-container');
+                const switchBtn = document.getElementById('customSwitch1');
+                const addBtn = document.getElementById('add-variant');
+                switchBtn.addEventListener('click', function () {
+                    container.classList.toggle('d-block');
+                })
+                addBtn.addEventListener('click', function () {
+                    const firstVariant = wrapper.querySelector('.variant-form');
+                    const clone = firstVariant.cloneNode(true);
+
+                    // Update title
+                    clone.querySelector('.card-title').textContent = `Variant ${variantIndex + 1}`;
+
+                    // Show remove button
+                    clone.querySelector('.remove-variant').classList.remove('d-none');
+
+                    // Update select names
+                    const selects = clone.querySelectorAll('.item');
+                    selects.forEach(select => {
+                        const name = select.getAttribute('name');
+                        const updatedName = name.replace(/\[\d+\]/, `[${variantIndex}]`);
+                        select.setAttribute('name', updatedName);
+                        select.selectedIndex = 0;
+                    });
+
+                    wrapper.appendChild(clone);
+                    variantIndex++;
+                });
+
+                wrapper.addEventListener('click', function (e) {
+                    if (e.target.classList.contains('remove-variant')) {
+                        e.target.closest('.variant-form').remove();
+                    }
+                });
+            </script>
+
+
     @endpush

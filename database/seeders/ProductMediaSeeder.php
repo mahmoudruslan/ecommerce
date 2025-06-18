@@ -30,10 +30,13 @@ class ProductMediaSeeder extends Seeder
         $images [] = ['file_name' => 'images/products/product-10.jpg', 'file_size' => rand(100, 900), 'file_type' => 'image/jpg', 'file_sort' => '0', 'status' => true];
         $images [] = ['file_name' => 'images/products/product-11.jpg', 'file_size' => rand(100, 900), 'file_type' => 'image/jpg', 'file_sort' => '0', 'status' => true];
         $images [] = ['file_name' => 'images/products/product-12.jpg', 'file_size' => rand(100, 900), 'file_type' => 'image/jpg', 'file_sort' => '0', 'status' => true];
+        $images ['size_guide'] = ['file_name' => 'images/products/size_guide/size_guide.webp', 'file_size' => rand(100, 900), 'media_type' => 'size_guide', 'file_type' => 'image/jpg', 'file_sort' => '0', 'status' => true];
 
         Product::get()->each(function ($product) use ($images){
+            $product->media()->create($images['size_guide']);
+
             for($i=0; $i < rand(2,4); $i++){
-            $product->media()->create(Arr::random($images));  
+            $product->media()->create(Arr::random($images));
             }
         });
 
