@@ -19,8 +19,8 @@ class SizeDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($row) {
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $b = checkAbility('update-sizes', $permissions) ? $this->getEditLink("admin.sizes.edit", $row->id) : '';
-                $b = $b .= checkAbility('delete-sizes', $permissions) ? $this->getDeleteLink("admin.sizes.destroy", $row->id) : '';
+                $b = checkAbility('update-sizes', $permissions) ? $this->getEditLink("admin.sizes.edit", $row) : '';
+                $b = $b .= checkAbility('delete-sizes', $permissions) ? $this->getDeleteLink("admin.sizes.destroy", $row) : '';
                 return $b;
             })
             ->editColumn('created_at', function ($row) {

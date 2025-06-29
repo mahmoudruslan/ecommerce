@@ -37,32 +37,8 @@ class ProductController extends Controller
         return view('dashboard.products.create', compact('categories', 'tags', 'sizes', 'attributes'));
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        return $request->all();
-        if ($request->has_variants)
-        {
-                $product = Product::find(1);
-            foreach ($request->variants as $variation)
-            {
-                $variant = Variant::create([
-                    'product_id' => $product->id,
-                    'quantity' => $variation['quantity'],
-                    'price' => $variation['price'],
-                    'sku' => 'df-fg-fg-hg-h-gfh-fh-fh' . rand(100, 999),
-                ]);
-                foreach ($variation['attributes'] as $attribute => $value)
-                {
-                    VariantAttribute::create([
-                        'variant_id' => $variant->id,
-                        'attribute_id' => $attribute,
-                        'attribute_value_id' => $value,
-                    ]);
-                }
-
-            }
-        }
-        dd(true);
         try {
             $product = Product::create($request->only([
                 'name_ar',
@@ -103,23 +79,21 @@ class ProductController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(Product $product)
     {
         try {
             userAbility(['show-products']);
-            $product = Product::findOrFail(Crypt::decrypt($id));
             return view('dashboard.products.show', compact('product'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function edit($id)
+    public function edit(Product $product)
     {
         try {
             userAbility(['update-products']);
             $categories = Category::select('id', 'name_ar', 'name_en', 'parent_id')->whereNotNull('parent_id')->with('parent:id,name_ar,name_en')->get();
-            $product = Product::findOrFail(Crypt::decrypt($id));
             $tags = Tag::select('id', 'name_ar', 'name_en')->get();
             $sizes = Size::select('id', 'name')->get();
             return view('dashboard.products.edit', compact('product', 'categories', 'tags', 'sizes'));
@@ -128,11 +102,10 @@ class ProductController extends Controller
         }
     }
 
-    public function update(UpdateProductRequest $request, $id)
+    public function update(UpdateProductRequest $request, Product $product)
     {
         try {
             userAbility(['update-products']);
-            $product = Product::findOrFail(Crypt::decrypt($id));
             //update size guide image
             $file_name = $product->size_guide;
             $path = '';
@@ -181,11 +154,10 @@ class ProductController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(Product $product)
     {
         try {
             userAbility(['delete-products']);
-            $product = Product::findOrFail(Crypt::decrypt($id));
             $this->deleteProductMedia($product);
             $product->tags()->detach();
             $product->delete();

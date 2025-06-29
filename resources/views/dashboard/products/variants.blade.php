@@ -10,11 +10,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <input type="text" name="variants[0][price]"
-                               value="{{ old('price') }}"
-                               class="item form-control form-control-user @error('price') is-invalid @enderror"
+                        <input type="text" name="variants[0][variant_price]"
+                               value="{{ old('variant_price') }}"
+                               class="item form-control form-control-user @error('variant_price') is-invalid @enderror"
                                placeholder=" {{ __('Enter Price') }}">
-                        @error('price')
+                        @error('variant_price')
                         <span class="text-danger" role="alert">
                             <small>{{ $message }}</small>
                         </span>

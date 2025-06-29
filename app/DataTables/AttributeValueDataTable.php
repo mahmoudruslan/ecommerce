@@ -19,9 +19,9 @@ class AttributeValueDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row) {
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $button = checkAbility('update-attribute-values', $permissions) ? $this->getEditLink("admin.attribute-values.edit", $row->id) : '';
-                $button = $button .= checkAbility('show-attribute-values', $permissions) ? $this->getShowLink("admin.attribute-values.show", $row->id) : '';
-                $button = $button .= checkAbility('delete-attribute-values', $permissions) ? $this->getDeleteLink("admin.attribute-values.destroy", $row->id) : '';
+                $button = checkAbility('update-attribute-values', $permissions) ? $this->getEditLink("admin.attribute-values.edit", $row) : '';
+                $button = $button .= checkAbility('show-attribute-values', $permissions) ? $this->getShowLink("admin.attribute-values.show", $row) : '';
+                $button = $button .= checkAbility('delete-attribute-values', $permissions) ? $this->getDeleteLink("admin.attribute-values.destroy", $row) : '';
                 return $button;
             })
             ->editColumn('attribute_id', function($row) {

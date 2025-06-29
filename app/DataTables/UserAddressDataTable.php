@@ -22,14 +22,13 @@ class UserAddressDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        
-        return (new EloquentDataTable($query))
+
+    return (new EloquentDataTable($query))
             ->addColumn('action', function($row) {
-                $id = encrypt($row->id);
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $b = checkAbility('update-users', $permissions) ? $this->getEditLink("admin.user-addresses.edit", $id) : '';
-                $b = $b.= checkAbility('show-users', $permissions) ? $this->getShowLink("admin.user-addresses.show", $id) : '';
-                $b = $b .= checkAbility('delete-users', $permissions) ? $this->getDeleteLink("admin.user-addresses.destroy", $id) : '';
+                $b = checkAbility('update-users', $permissions) ? $this->getEditLink("admin.user-addresses.edit", $row) : '';
+                $b = $b.= checkAbility('show-users', $permissions) ? $this->getShowLink("admin.user-addresses.show", $row) : '';
+                $b = $b .= checkAbility('delete-users', $permissions) ? $this->getDeleteLink("admin.user-addresses.destroy", $row) : '';
                 return $b;
             })
             ->editColumn('user_id', function($row){
@@ -90,7 +89,7 @@ class UserAddressDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            
+
             Column::make('id'),
             Column::make('user_id')->title(__('User')),
             Column::make('default_address')->title(__('Default address')),

@@ -24,13 +24,12 @@ class ReviewDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        
+
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row) {
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $id = encrypt($row->id);
-                $b = checkAbility('show-reviews', $permissions) ? $this->getShowLink("admin.reviews.show", $id) : '';
-                $b = $b .= checkAbility('delete-reviews', $permissions) ? $this->getDeleteLink("admin.reviews.destroy", $id) : '';
+                $b = checkAbility('show-reviews', $permissions) ? $this->getShowLink("admin.reviews.show", $row) : '';
+                $b = $b .= checkAbility('delete-reviews', $permissions) ? $this->getDeleteLink("admin.reviews.destroy", $row) : '';
                 return $b;
             })
             ->editColumn('user_id', function($row){

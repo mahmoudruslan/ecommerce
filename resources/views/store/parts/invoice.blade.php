@@ -131,9 +131,9 @@
                                 company address<br />
                             </td>
                             <td>
-                                {{ ucfirst($customer['first_name']) . ' ' . ucfirst($customer['last_name']) }}<br />
+                                {{ ucfirst($first_name) . ' ' . ucfirst($last_name) }}<br />
                                 #{{ $ref_id }}<br />
-                                {{ $customer['email'] }}
+                                {{ $email }}
                             </td>
                         </tr>
                     </table>

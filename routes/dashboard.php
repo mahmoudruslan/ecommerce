@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\AttributeController;
 use App\Http\Controllers\Dashboard\AttributeValueController;
+use App\Http\Controllers\VariantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\AuthController;
 use App\Http\Controllers\Dashboard\RolePermissionController;
@@ -67,6 +68,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
             'attributes' => AttributeController::class,//attributes routes
             'attribute-values' => AttributeValueController::class,//attribute values route
         ]);
+        Route::group(['prefix' => 'products/{product}/', 'as' => 'products.'], function(){
+            Route::resource('variants', VariantController::class);
+        });
+
         Route::post('orders.refund/{order_id}', [OrderController::class, 'refund'])->name('orders.refund');
     });
 });

@@ -13,9 +13,18 @@
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800">{{ __('Edit Products') }}</h1>
                 <div class="row justify-content-center">
+
                     <div class="col-xl-10 col-lg-12 col-md-9">
                         <div class="card o-hidden border-0 shadow-lg my-4">
                             <div class="card-body p-0">
+                                <div style="display: block;width: 100%" class="card-header py-3">
+                                    @can('update-products')
+                                        <a  href="{{route('admin.products.variants.create', $product)}}" class="btn btn-primary">
+                                            {{__('Add variants')}}
+                                            <i class="fa fa-plus plus"></i>
+                                        </a>
+                                    @endcan
+                                </div>
                                 <!-- Nested Row within Card Body -->
                                 <div class="row">
                                     <div class="col-lg-12">

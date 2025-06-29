@@ -53,12 +53,10 @@ class CategoryController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(Category $category)
     {
-
         try {
             userAbility(['show-categories']);
-            $category = Category::findOrFail(Crypt::decrypt($id));
             return view('dashboard.categories.show', compact('category'));
         } catch (\Exception $e) {
 
@@ -66,24 +64,22 @@ class CategoryController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(Category $category)
     {
         try {
             userAbility(['update-categories']);
             $categories = Category::where('parent_id', null)->get(['id', 'name_ar', 'name_en', 'image']);
-            $category = Category::findOrFail(Crypt::decrypt($id));
             return view('dashboard.categories.edit', compact('category', 'categories'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function update(CategoryRequest $request, $id)
+    public function update(CategoryRequest $request, Category $category)
     {
 
         try {
             userAbility(['update-categories']);
-            $category = Category::findOrFail(Crypt::decrypt($id));
             $file_name = $category->image;
             $path = '';
             if ($image = $request->file('image')) {
@@ -108,11 +104,10 @@ class CategoryController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(Category $category)
     {
         try {
             userAbility(['delete-categories']);
-            $category = Category::findOrFail(Crypt::decrypt($id));
             if (count($category->children) > 0) {
                 return redirect()->route('admin.categories.index')->with([
                     'message' => __('This is category has subcategories'),

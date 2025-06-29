@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Products;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreProductRequest extends FormRequest
 {
@@ -38,7 +39,8 @@ class StoreProductRequest extends FormRequest
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
             'sizes' => 'nullable|array',
             'sizes.*.selected' => 'nullable|boolean',
-            'sizes.*.quantity' => 'nullable|integer|min:0',
+            'sizes.*.quantity' => 'nullable|integer|min:0'
         ];
     }
+
 }

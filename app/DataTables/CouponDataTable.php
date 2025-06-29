@@ -28,11 +28,10 @@ class CouponDataTable extends DataTable
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $id = encrypt($row->id);
-                $b = checkAbility('update-coupons', $permissions) ? $this->getEditLink("admin.coupons.edit", $id) : '';
-                $b = $b.= checkAbility('show-coupons', $permissions) ? $this->getShowLink("admin.coupons.show", $id) : '';
-                $b = $b .= checkAbility('delete-coupons', $permissions) ? $this->getDeleteLink("admin.coupons.destroy", $id) : '';
-                return $b;   
+                $b = checkAbility('update-coupons', $permissions) ? $this->getEditLink("admin.coupons.edit", $row) : '';
+                $b = $b.= checkAbility('show-coupons', $permissions) ? $this->getShowLink("admin.coupons.show", $row) : '';
+                $b = $b .= checkAbility('delete-coupons', $permissions) ? $this->getDeleteLink("admin.coupons.destroy", $row) : '';
+                return $b;
             })
             ->editColumn('start_date', function($row){
                 return date('Y-m-d', strtotime($row->start_date));

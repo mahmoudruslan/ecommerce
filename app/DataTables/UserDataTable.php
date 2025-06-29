@@ -22,15 +22,14 @@ class UserDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        
+
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row) {
-                $id = encrypt($row->id);
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $b = checkAbility('update-users', $permissions) ? $this->getEditLink("admin.users.edit", $id) : '';
-                $b = $b.= checkAbility('show-users', $permissions) ? $this->getShowLink("admin.users.show", $id) : '';
-                $b = $b.= checkAbility('store-users', $permissions) ? '<a href="'. route('admin.user-addresses.create-address', $id) .'" class="btn btn-primary btn-sm"><i class="fa fa-map-marker-alt"></i></a>' : '';
-                $b = $b .= checkAbility('delete-users', $permissions) ? $this->getDeleteLink("admin.users.destroy", $id) : '';
+                $b = checkAbility('update-users', $permissions) ? $this->getEditLink("admin.users.edit", $row) : '';
+                $b = $b.= checkAbility('show-users', $permissions) ? $this->getShowLink("admin.users.show", $row) : '';
+                $b = $b.= checkAbility('store-users', $permissions) ? '<a href="'. route('admin.user-addresses.create-address', $row) .'" class="btn btn-primary btn-sm"><i class="fa fa-map-marker-alt"></i></a>' : '';
+                $b = $b .= checkAbility('delete-users', $permissions) ? $this->getDeleteLink("admin.users.destroy", $row) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

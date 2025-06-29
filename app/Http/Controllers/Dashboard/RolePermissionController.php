@@ -43,24 +43,21 @@ class RolePermissionController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(Role $role)
     {
         try {
             userAbility(['update-roles']);
             $permissions = Permission::get();
-            $role = Role::findOrFail(Crypt::decrypt($id));
             return view('dashboard.roles_permissions.edit', compact('permissions', 'role'));
         } catch (\Exception $e) {
-
             return $e->getMessage();
         }
     }
 
-    public function update(RolePermissionRequest $request, $id)
+    public function update(RolePermissionRequest $request, Role $role)
     {
         try {
             userAbility(['update-roles']);
-            $role = Role::findOrFail(Crypt::decrypt($id));
             $role->update(['name' => $request->name , 'guard_name'=> 'web' ]);
             $permissions = $request->permissions ?? [];
             $role->syncPermissions($permissions);
@@ -73,11 +70,10 @@ class RolePermissionController extends Controller
         }
 }
 
-    public function destroy(Role $role, $id)
+    public function destroy(Role $role)
     {
         try {
             userAbility(['delete-roles']);
-            $role = Role::findOrFail(Crypt::decrypt($id));
             $permissions = $role->permissions->pluck('name');
             $role->revokePermissionTo($permissions);
             $role->delete();

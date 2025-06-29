@@ -41,7 +41,7 @@ class PaymentMethodController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(PaymentMethod $payment_method)
     {
         try {
             userAbility(['update-payment-methods']);
@@ -52,11 +52,10 @@ class PaymentMethodController extends Controller
         }
     }
 
-    public function update(PaymentMethodRequest $request, $id)
+    public function update(PaymentMethodRequest $request, PaymentMethod $payment_method)
     {
         try {
             userAbility(['update-payment-methods']);
-            $payment_method = PaymentMethod::findOrFail($id);
             $payment_method->update($request->validated());
 
             return redirect()->route('admin.payment-methods.index')->with([
@@ -68,17 +67,14 @@ class PaymentMethodController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(PaymentMethod $payment_method)
     {
         try {
             userAbility(['delete-payment-methods']);
-            $payment_method = PaymentMethod::findOrFail($id);
-
             $payment_method->delete();
             return redirect()->route('admin.payment-methods.index')->with([
                 'message' => __('Item Deleted successfully.'),
                 'alert-type' => 'success',
-
             ]);
         } catch (\Exception $e) {
 

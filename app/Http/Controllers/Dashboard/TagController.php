@@ -43,11 +43,10 @@ class TagController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(Tag $tag)
     {
         try {
             userAbility(['show-tags']);
-            $tag = Tag::findOrFail(Crypt::decrypt($id));
             return view('dashboard.tags.show', compact('tag'));
         } catch (\Exception $e) {
 
@@ -56,22 +55,20 @@ class TagController extends Controller
 
     }
 
-    public function edit( $id)
+    public function edit( Tag $tag)
     {
         try {
             userAbility(['update-tags']);
-            $tag = Tag::findOrFail(Crypt::decrypt($id));
             return view('dashboard.tags.edit', compact('tag'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function update(TagRequest $request, $id)
+    public function update(TagRequest $request, Tag $tag)
     {
         try {
             userAbility(['update-tags']);
-            $tag = Tag::findOrFail(Crypt::decrypt($id));
             $tag->update([
                 'name_ar' => $request->name_ar,
                 'name_en' => $request->name_en,
@@ -87,11 +84,10 @@ class TagController extends Controller
         }
 }
 
-    public function destroy( $id)
+    public function destroy(Tag $tag)
     {
         try {
             userAbility(['delete-tags']);
-            $tag = Tag::findOrFail(Crypt::decrypt($id));
             $tag->delete();
             $this->updateCacheTags();
             return redirect()->route('admin.tags.index')->with([

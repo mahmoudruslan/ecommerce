@@ -36,7 +36,7 @@ class CouponController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(Coupon $coupon)
     {
         // dd('show');
         try {
@@ -49,7 +49,7 @@ class CouponController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(Coupon $coupon)
     {
         try {
             userAbility(['update-coupons']);
@@ -60,7 +60,7 @@ class CouponController extends Controller
         }
     }
 
-    public function update(CouponRequest $request, $id)
+    public function update(CouponRequest $request, Coupon $coupon)
     {
         try {
             userAbility(['update-coupons']);
@@ -76,7 +76,7 @@ class CouponController extends Controller
         }
 }
 
-    public function destroy( $id)
+    public function destroy(Coupon $coupon)
     {
         try {
             userAbility(['delete-coupons']);
@@ -85,7 +85,6 @@ class CouponController extends Controller
             return redirect()->route('admin.coupons.index')->with([
                 'message' => __('Item Deleted successfully.'),
                 'alert-type' => 'success']);
-
 
         } catch (\Exception $e) {
 

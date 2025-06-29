@@ -25,10 +25,9 @@ class CityDataTable extends DataTable
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $id = encrypt($row->id);
-                $b = checkAbility('update-cities', $permissions) ? $this->getEditLink("admin.cities.edit", $id) : '';
-                $b = $b.= checkAbility('show-cities', $permissions) ? $this->getShowLink("admin.cities.show", $id) : '';
-                $b = $b .= checkAbility('delete-cities', $permissions) ? $this->getDeleteLink("admin.cities.destroy", $id) : '';
+                $b = checkAbility('update-cities', $permissions) ? $this->getEditLink("admin.cities.edit", $row) : '';
+                $b = $b.= checkAbility('show-cities', $permissions) ? $this->getShowLink("admin.cities.show", $row) : '';
+                $b = $b .= checkAbility('delete-cities', $permissions) ? $this->getDeleteLink("admin.cities.destroy", $row) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

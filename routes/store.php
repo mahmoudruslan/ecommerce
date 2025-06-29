@@ -4,12 +4,11 @@ use App\Models\User;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PaymobController;
 use App\Http\Controllers\Store\CartController;
 use App\Http\Controllers\Store\IndexController;
 use App\Http\Controllers\Store\OrderController;
 use App\Http\Controllers\Store\CheckoutController;
-use App\Http\Controllers\Store\customerController;
+use App\Http\Controllers\Store\CustomerController;
 use App\Http\Controllers\Store\ShoppingController;
 use App\Http\Controllers\Store\WishListController;
 use App\Notifications\ToStore\OrderInvoiceNotification;
@@ -47,7 +46,6 @@ Route::group(['middleware' => [/*'auth',*/'if_admin'], 'as' => 'customer.'], fun
     Route::get('/add-shipping-cost/{id}', [CheckoutController::class, 'addShippingCost'])->name('shipping.cost');
     Route::post('customer-add-address', [CheckoutController::class, 'addAddress'])->name('add.address');
     Route::post('complete-order', [OrderController::class, 'completeOrder'])->name('complete.order');
-    Route::get('card', [PaymobController::class, 'process'])->name('pay');
     Route::get('paymob/callback', [OrderController::class, 'callback']);
     Route::group(['middleware' => ['auth']], function () {
         Route::get('profile', [CustomerController::class, 'editProfile'])->name('profile');

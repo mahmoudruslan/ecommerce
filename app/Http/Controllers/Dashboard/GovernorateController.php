@@ -36,11 +36,10 @@ class GovernorateController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(Governorate $governorate)
     {
         try {
             userAbility(['show-governorates']);
-            $governorate = Governorate::findOrFail(Crypt::decrypt($id));
             return view('dashboard.governorates.show', compact('governorate'));
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -48,22 +47,20 @@ class GovernorateController extends Controller
 
     }
 
-    public function edit( $id)
+    public function edit(Governorate $governorate)
     {
         try {
             userAbility(['update-governorates']);
-            $governorate = Governorate::findOrFail(Crypt::decrypt($id));
             return view('dashboard.governorates.edit', compact('governorate'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function update(GovernorateRequest $request, $id)
+    public function update(GovernorateRequest $request, Governorate $governorate)
     {
         try {
             userAbility(['update-governorates']);
-            $governorate = Governorate::findOrFail(Crypt::decrypt($id));
             $governorate->update($request->validated());
             return redirect()->route('admin.governorates.index')->with([
                 'message' => __('Item Updated successfully.'),
@@ -72,13 +69,11 @@ class GovernorateController extends Controller
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-}
-
-    public function destroy( $id)
+    }
+    public function destroy(Governorate $governorate)
     {
         try {
             userAbility(['delete-governorates']);
-            $governorate = Governorate::findOrFail(Crypt::decrypt($id));
             $governorate->delete();
             return redirect()->route('admin.governorates.index')->with([
                 'message' => __('Item Deleted successfully.'),

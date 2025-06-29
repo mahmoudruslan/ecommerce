@@ -29,9 +29,8 @@ class PaymentMethodDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row) {
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $id = $row->id;
-                $b = checkAbility('update-payment-methods', $permissions) ? $this->getEditLink("admin.payment-methods.edit", $id) : '';
-                $b = $b .= checkAbility('delete-payment-methods', $permissions) ? $this->getDeleteLink("admin.payment-methods.destroy", $id) : '';
+                $b = checkAbility('update-payment-methods', $permissions) ? $this->getEditLink("admin.payment-methods.edit", $row) : '';
+                $b = $b .= checkAbility('delete-payment-methods', $permissions) ? $this->getDeleteLink("admin.payment-methods.destroy", $row) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

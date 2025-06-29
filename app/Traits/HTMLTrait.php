@@ -5,9 +5,9 @@ use Illuminate\Http\Request;
 
 
 trait HTMLTrait {
-    public function getModal($route, $id)
+    public function getModal($route, $row)
         {
-            return '<div class="modal fade" id="DeleteModal'. $id .'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            return '<div class="modal fade" id="DeleteModal'. $row->id .'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -18,7 +18,7 @@ trait HTMLTrait {
                         </button>
                     </div>
                     <div class="modal-body">'.__("Are you sure you want to delete the item?").'</div>
-                    <form action="'. route($route, $id).'" method="post">
+                    <form action="'. route($route, $row).'" method="post">
                     '.method_field("DELETE").'
                     <input type="hidden" name="_token" value="'.csrf_token().'" />
                     <div class="modal-footer">
@@ -38,18 +38,22 @@ trait HTMLTrait {
         }
     }
 
-    public function getEditLink($route, $id)
+    public function getEditLink($route, $row)
     {
-        return '<div role="group" aria-label="Basic example" class="btn-group" style="width: 150px"> <a type="button" href=" ' . route($route,  $id) . '" class="rbtn btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
+        return '<div role="group" aria-label="Basic example" class="btn-group" style="width: 150px"> <a type="button" href=" ' . route($route,  $row) . '" class="rbtn btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
     }
-    public function getShowLink($route, $id)
+    public function getShowLink($route, $row)
     {
-        return '<a type="button" href=" ' . route($route, $id) . '" class=" btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
+        return '<a type="button" href=" ' . route($route, $row) . '" class=" btn btn-warning btn-sm"><i class="fas fa-fw fa-eye"></i></a>';
     }
-    public function getDeleteLink($route, $id)
+    public function getDeleteLink($route, $row)
     {
-        $btn = ' <a type="button" href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $id.'" class="lbtn btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
-        $btn = $btn. $this->getModal($route, $id);
+        $btn = ' <a type="button" href="javascript:void(0)" data-toggle="modal" data-target="#DeleteModal'. $row->id.'" class="lbtn btn btn-danger btn-sm"><i class="fas fa-fw fa-trash"></i></a></div>';
+        $btn = $btn. $this->getModal($route, $row);
         return $btn;
+    }
+    public function getAddLink($route, $row)
+    {
+        return '<div role="group" aria-label="Basic example" class="btn-group" style="width: 150px"> <a type="button" href=" ' . route($route,  $row) . '" class="rbtn btn btn-info btn-sm"><i class="fas fa-fw fa-edit"></i></a>';
     }
 }

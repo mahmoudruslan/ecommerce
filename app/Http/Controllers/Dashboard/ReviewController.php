@@ -16,24 +16,20 @@ class ReviewController extends Controller
         return $dataTable->with('permissions' , $permissions)->render('dashboard.reviews.index');
     }
 
-    public function show($id)
+    public function show(Review $review)
     {
         try {
             userAbility(['show-reviews']);
-            $review = Review::findOrFail(Crypt::decrypt($id));
             return view('dashboard.reviews.show', compact('review'));
         } catch (\Exception $e) {
 
             return $e->getMessage();
         }
     }
-
-
-    public function destroy( $id)
+    public function destroy(Review $review)
     {
         try {
             userAbility(['delete-reviews']);
-            $review = Review::findOrFail(Crypt::decrypt($id));
             $review->delete();
             return redirect()->route('admin.reviews.index')->with([
                 'message' => __('Item Deleted successfully.'),

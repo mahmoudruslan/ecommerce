@@ -40,22 +40,20 @@ class ShippingCompanyController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(ShippingCompany $shipping_company)
     {
         try {
             userAbility(['show-shipping_companies']);
-            $shipping_company = ShippingCompany::findOrFail(Crypt::decrypt($id));
             return view('dashboard.shipping_companies.show', compact('shipping_company'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function edit( $id)
+    public function edit(ShippingCompany $shipping_company)
     {
         try {
             userAbility(['update-shipping_companies']);
-            $shipping_company = ShippingCompany::findOrFail(Crypt::decrypt($id));
             $governorates = Governorate::get();
             return view('dashboard.shipping_companies.edit', compact('shipping_company', 'governorates'));
         } catch (\Exception $e) {
@@ -63,11 +61,10 @@ class ShippingCompanyController extends Controller
         }
     }
 
-    public function update(ShippingCompanyRequest $request, $id)
+    public function update(ShippingCompanyRequest $request, ShippingCompany $shipping_company)
     {
         try {
             userAbility(['update-shipping_companies']);
-            $shipping_company = ShippingCompany::findOrFail(Crypt::decrypt($id));
             $shipping_company->update($request->validated());
             $shipping_company->governorates()->sync($request->governorates);
             return redirect()->route('admin.shipping-companies.index')->with([
@@ -76,13 +73,12 @@ class ShippingCompanyController extends Controller
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-}
+    }
 
-    public function destroy( $id)
+    public function destroy(ShippingCompany $shipping_company)
     {
         try {
             userAbility(['delete-shipping_companies']);
-            $shipping_company = ShippingCompany::findOrFail(Crypt::decrypt($id));
             $shipping_company->governorates()->detach();
             $shipping_company->delete();
             return redirect()->route('admin.shipping-companies.index')->with([

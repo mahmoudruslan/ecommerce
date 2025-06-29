@@ -25,10 +25,9 @@ class GovernorateDataTable extends DataTable
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $id = encrypt($row->id);
-                $b = checkAbility('update-governorates', $permissions) ? $this->getEditLink("admin.governorates.edit", $id) : '';
-                $b = $b.= checkAbility('show-governorates', $permissions) ? $this->getShowLink("admin.governorates.show", $id) : '';
-                $b = $b .= checkAbility('delete-governorates', $permissions) ? $this->getDeleteLink("admin.governorates.destroy", $id) : '';
+                $b = checkAbility('update-governorates', $permissions) ? $this->getEditLink("admin.governorates.edit", $row) : '';
+                $b = $b.= checkAbility('show-governorates', $permissions) ? $this->getShowLink("admin.governorates.show", $row) : '';
+                $b = $b .= checkAbility('delete-governorates', $permissions) ? $this->getDeleteLink("admin.governorates.destroy", $row) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

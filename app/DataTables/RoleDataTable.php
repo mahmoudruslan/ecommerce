@@ -24,13 +24,11 @@ class RoleDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
             $permissions = $this->permissions; // receiving permissions variable from controller
-            $id = encrypt($row->id);
-            $b = checkAbility('update-roles', $permissions) ? '<div style="width: 150px"> <a href=" ' . route("admin.permission-roles.edit", $id) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>' : '';
-            $b .= checkAbility('delete-roles', $permissions) ? $this->getDeleteLink("admin.permission-roles.destroy", $id) : '';
+            $b = checkAbility('update-roles', $permissions) ? '<div style="width: 150px"> <a href=" ' . route("admin.permission-roles.edit", $row) . '" class=" btn btn-primary btn-sm"><i class="fas fa-fw fa-edit"></i></a>' : '';
+            $b .= checkAbility('delete-roles', $permissions) ? $this->getDeleteLink("admin.permission-roles.destroy", $row) : '';
             return $b;
         });
     }

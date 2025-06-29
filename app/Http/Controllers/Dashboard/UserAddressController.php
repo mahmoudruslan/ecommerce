@@ -44,7 +44,7 @@ class UserAddressController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(UserAddress $user_address)
     {
         try {
             userAbility(['show-user-addresses']);
@@ -56,11 +56,10 @@ class UserAddressController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(UserAddress $user_address)
     {
         try {
             userAbility(['update-user-addresses']);
-            $user_address = UserAddress::findOrFail(Crypt::decrypt($id));
             $governorates = Governorate::get(['id', 'name_ar', 'name_en']);
         $cities = Governorate::get(['id', 'name_ar', 'name_en']);
             return view('dashboard.user_addresses.edit', compact('user_address', 'governorates', 'cities'));
@@ -69,27 +68,23 @@ class UserAddressController extends Controller
         }
     }
 
-    public function update(UserAddressRequest $request, $id)
+    public function update(UserAddressRequest $request, UserAddress $user_address)
     {
         try {
             userAbility(['update-user-addresses']);
-            $user_address = UserAddress::findOrFail(Crypt::decrypt($id));
             $user_address->update($request->validated());
             return redirect()->route('admin.user-addresses.index')->with([
                 'message' => __('Item Updated successfully.'),
                 'alert-type' => 'success']);
-
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-}
-
-    public function destroy( $id)
+    }
+    public function destroy(UserAddress $user_address)
     {
         try {
             userAbility(['delete-user-addresses']);
-            $tag = UserAddress::findOrFail(Crypt::decrypt($id));
-            $tag->delete();
+            $user_address->delete();
             return redirect()->route('admin.user_addresses.index')->with([
                 'message' => __('Item Deleted successfully.'),
                 'alert-type' => 'success']);
@@ -97,6 +92,5 @@ class UserAddressController extends Controller
 
             return $e->getMessage();
         }
-
     }
 }

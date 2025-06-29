@@ -123,7 +123,8 @@ class PaymobService implements PaymentInterface
                 }
                 Cart::session('cart')->clear();
                 //send mail or notify
-                $pdf = PDF::loadView('store.parts.invoice', $order);
+                $invoice_data = $this->getData($order);
+                $pdf = PDF::loadView('store.parts.invoice', $invoice_data);
                 $file = storage_path('app/pdf/files/' . '#' . $order->ref_id . '.pdf');
                 $pdf->save($file);
 
@@ -206,5 +207,21 @@ class PaymobService implements PaymentInterface
         } else {
             return json_decode($response->getBody());
         }
+    }
+
+    private function getData($order)
+    {
+        return [
+            'ref_id' => $order->ref_id,
+            'created_at' => $order->created_at,
+            'first_name' => !is_null($order->user_id) ? $order->customer['first_name'] : $order->orderAddress->first_name,
+            'last_name' => !is_null($order->user_id) ? $order->customer['last_name'] : $order->orderAddress->last_name,
+            'email' => !is_null($order->user_id) ? $order->customer['email'] : $order->orderAddress->email,
+            'products' => $order->products,
+            'shipping' => $order->shipping,
+            'discount' => $order->discount,
+            'total' => $order->total,
+            'sub_total' => $order->sub_total
+        ];
     }
 }

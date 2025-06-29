@@ -58,36 +58,30 @@ class UserController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(User $user)
     {
-        dd('show user');
-
         try {
             userAbility(['show-users']);
-            $users = User::findOrFail(Crypt::decrypt($id));
             return view('dashboard.users.show', compact('user'));
         } catch (\Exception $e) {
-
             return $e->getMessage();
         }
     }
 
-    public function edit( $id)
+    public function edit( User $user)
     {
         try {
             userAbility(['update-users']);
-            $user = User::findOrFail(Crypt::decrypt($id));
             return view('dashboard.users.edit', compact('user'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function update(UserRequest $request, $id)
+    public function update(UserRequest $request, User $user)
     {
         try {
             userAbility(['update-users']);
-            $user = User::findOrFail(Crypt::decrypt($id));
             $file_name = $user->image;
             $path = '';
             if ($image = $request->file('image')) {
@@ -116,12 +110,11 @@ class UserController extends Controller
         }
 }
 
-    public function destroy( $id)
+    public function destroy(User $user)
     {
         try {
             //make soft delete
             userAbility(['delete-users']);
-            $user = User::findOrFail(Crypt::decrypt($id));
             $this->deleteFiles($user->image);
             $user->delete();
             return redirect()->route('admin.users.index')->with('success', __('Item Deleted successfully.'));

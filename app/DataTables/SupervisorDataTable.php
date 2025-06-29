@@ -26,11 +26,10 @@ class SupervisorDataTable extends DataTable
         
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($row) {
-                $id = encrypt($row->id);
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $b = checkAbility('update-supervisors', $permissions) ? $this->getEditLink("admin.supervisors.edit", $id) : '';
-                $b = $b .= checkAbility('show-supervisors', $permissions) ? $this->getShowLink("admin.supervisors.show", $id) : '';
-                $b = $b .= checkAbility('delete-supervisors', $permissions) ? $this->getDeleteLink("admin.supervisors.destroy", $id) : '';
+                $b = checkAbility('update-supervisors', $permissions) ? $this->getEditLink("admin.supervisors.edit", $row) : '';
+                $b = $b .= checkAbility('show-supervisors', $permissions) ? $this->getShowLink("admin.supervisors.show", $row) : '';
+                $b = $b .= checkAbility('delete-supervisors', $permissions) ? $this->getDeleteLink("admin.supervisors.destroy", $row) : '';
                 return $b;
             })
             ->editColumn('status', function ($row) {

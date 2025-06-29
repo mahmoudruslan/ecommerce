@@ -38,7 +38,7 @@ class CityController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(City $city)
     {
         try {
             userAbility(['show-cities']);
@@ -49,23 +49,21 @@ class CityController extends Controller
         }
     }
 
-    public function edit( $id)
+    public function edit(City $city)
     {
         try {
             userAbility(['update-cities']);
             $governorates = Governorate::get();
-            $city = City::findOrFail(Crypt::decrypt($id));
             return view('dashboard.cities.edit', compact('city', 'governorates'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    public function update(CityRequest $request, $id)
+    public function update(CityRequest $request, City $city)
     {
         try {
             userAbility(['update-cities']);
-            $city = City::findOrFail(Crypt::decrypt($id));
             $city->update($request->validated());
             return redirect()->route('admin.cities.index')->with([
                 'message' => __('Item Updated successfully.'),
@@ -75,11 +73,10 @@ class CityController extends Controller
         }
     }
 
-    public function destroy( $id)
+    public function destroy(City $city)
     {
         try {
             userAbility(['delete-cities']);
-            $city = City::findOrFail(Crypt::decrypt($id));
             $city->delete();
             return redirect()->route('admin.cities.index')->with([
                 'message' => __('Item Deleted successfully.'),

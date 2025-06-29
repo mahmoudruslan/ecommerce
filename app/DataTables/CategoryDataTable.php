@@ -22,10 +22,9 @@ class CategoryDataTable extends DataTable
         return (new EloquentDataTable($query))
         ->addColumn('action', function($row) {
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $id = encrypt($row->id);
-                $b = checkAbility('update-categories', $permissions) ? $this->getEditLink("admin.categories.edit", $id) : '';
-                $b = $b .= checkAbility('show-categories', $permissions) ? $this->getShowLink("admin.categories.show", $id) : '';
-                $b = $b .= checkAbility('delete-categories', $permissions) ? $this->getDeleteLink("admin.categories.destroy", $id) : '';
+                $b = checkAbility('update-categories', $permissions) ? $this->getEditLink("admin.categories.edit", $row) : '';
+                $b = $b .= checkAbility('show-categories', $permissions) ? $this->getShowLink("admin.categories.show", $row) : '';
+                $b = $b .= checkAbility('delete-categories', $permissions) ? $this->getDeleteLink("admin.categories.destroy", $row) : '';
                 return $b;
             })
             ->addColumn('product_count', function($row){

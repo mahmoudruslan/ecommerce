@@ -24,14 +24,13 @@ class ShippingCompanyDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        
+
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row) {
-                $id = encrypt($row->id);
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $b = checkAbility('update-shipping-companies', $permissions) ? $this->getEditLink("admin.shipping-companies.edit", $id) : '';
-                $b = $b.= checkAbility('show-shipping-companies', $permissions) ? $this->getShowLink("admin.shipping-companies.show", $id) : '';
-                $b = $b .= checkAbility('delete-shipping-companies', $permissions) ? $this->getDeleteLink("admin.shipping-companies.destroy", $id) : '';
+                $b = checkAbility('update-shipping-companies', $permissions) ? $this->getEditLink("admin.shipping-companies.edit", $row) : '';
+                $b = $b.= checkAbility('show-shipping-companies', $permissions) ? $this->getShowLink("admin.shipping-companies.show", $row) : '';
+                $b = $b .= checkAbility('delete-shipping-companies', $permissions) ? $this->getDeleteLink("admin.shipping-companies.destroy", $row) : '';
                 return $b;
             })
             ->editColumn('status', function($row){

@@ -26,9 +26,9 @@ class AttributeDataTable extends DataTable
                 $permissions = $this->permissions; // receiving permissions variable from controller
                 Log::debug('permissions', $permissions);
 
-                $button = checkAbility('update-attributes', $permissions) ? $this->getEditLink("admin.attributes.edit", $row->id) : '';
-                $button = $button .= checkAbility('show-attributes', $permissions) ? $this->getShowLink("admin.attributes.show", $row->id) : '';
-                $button = $button .= checkAbility('delete-attributes', $permissions) ? $this->getDeleteLink("admin.attributes.destroy", $row->id) : '';
+                $button = checkAbility('update-attributes', $permissions) ? $this->getEditLink("admin.attributes.edit", $row) : '';
+                $button = $button .= checkAbility('show-attributes', $permissions) ? $this->getShowLink("admin.attributes.show", $row) : '';
+                $button = $button .= checkAbility('delete-attributes', $permissions) ? $this->getDeleteLink("admin.attributes.destroy", $row) : '';
                 return $button;
             })
 //            ->addColumn('product_count', function($row){

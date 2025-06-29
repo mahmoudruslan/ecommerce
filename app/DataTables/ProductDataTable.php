@@ -27,13 +27,12 @@ class ProductDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-
             ->addColumn('action', function($row) {
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $id = encrypt($row->id);
-                $b = checkAbility('update-products', $permissions) ? $this->getEditLink("admin.products.edit", $id) : '';
-                $b = $b.= checkAbility('show-products', $permissions) ? $this->getShowLink("admin.products.show", $id) : '';
-                $b = $b .= checkAbility('delete-products', $permissions) ? $this->getDeleteLink("admin.products.destroy", $id) : '';
+                $b = checkAbility('update-products', $permissions) ? $this->getEditLink("admin.products.edit", $row) : '';
+//                $b = $b.= checkAbility('update-products', $permissions) ? $this->getEditLink("admin.products.variants.create", $id) : '';
+                $b = $b.= checkAbility('show-products', $permissions) ? $this->getShowLink("admin.products.show", $row) : '';
+                $b = $b.= checkAbility('delete-products', $permissions) ? $this->getDeleteLink("admin.products.destroy", $row) : '';
                 return $b;
             })
             ->addColumn('parent_category', function($row){
