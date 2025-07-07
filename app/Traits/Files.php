@@ -53,7 +53,7 @@ trait Files
         }
     }
 
-    public function createProductMedia(array $images, Product $product, String $media_type = 'image')
+    public function createProductMedia(array $images, $product, String $media_type = 'image', $path = null)
     {
          //create media
         $i = 1;
@@ -61,7 +61,7 @@ trait Files
         {
             foreach ($images as $image) {
                 if($image){
-                    $path = 'images/products/';
+                    $path = $path ?? 'images/products/';
                     $extension = $image->getClientOriginalExtension();
                     $image_name = time() . Str::random(6) . '.' . $extension;
                     $image->storeAs($path, $image_name, 'public');

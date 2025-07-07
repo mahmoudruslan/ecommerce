@@ -25,24 +25,17 @@ class StoreVariantRequest extends FormRequest
     public function rules()
     {
         return [
-            'has_variants' => 'required|boolean',
-            'variants' => [
-                Rule::requiredIf(isset($this->has_variants)),
-                'array',
-                'min:1',
-            ],
-            'variants.*.variant_price' => $this->variantFieldRules(),
-            'variants.*.quantity' => $this->variantFieldRules('integer'),
-            'variants.*.attributes' => $this->variantFieldRules('array'),
+            'variants' => ['required', 'array', 'min:1'],
+            'variants.*.variant_price' => ['required', 'string'],
+            'variants.*.variant_quantity' => ['required', 'string'],
+            'variants.*.attributes' => ['required', 'array'],
+            'variants.*.attributes.*' => ['required', 'integer', 'exists:attribute_values,id'],
         ];
     }
-
-    protected function variantFieldRules($type = 'numeric'): array
+    protected function passedValidation()
     {
-        return [
-            Rule::requiredIf($this->has('variants') && !empty($this->input('variants'))),
-            $type,
-            in_array($type, ['numeric', 'integer']) ? 'min:0' : '',
-        ];
+        $this->merge([
+            'has_variants' => true
+        ]);
     }
 }

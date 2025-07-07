@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="//cdn.datatables.net/2.0.0/css/dataTables.dataTables.min.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+    @yield('style')
     @if (Config::get('app.locale') == 'ar')
         <link href="{{ asset('dashboard/css/sb-admin-2-ar.min.css') }}" rel="stylesheet">
     @else

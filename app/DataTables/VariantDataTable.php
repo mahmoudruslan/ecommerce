@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Product;
 use App\Models\User;
 
+use App\Models\Variant;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -14,7 +15,7 @@ use Yajra\DataTables\Services\DataTable;
 use App\Traits\HTMLTrait;
 use Illuminate\Support\Facades\App;
 
-class ProductDataTable extends DataTable
+class VariantDataTable extends DataTable
 {
     use HTMLTrait;
     // protected $actions=[];
@@ -24,36 +25,23 @@ class ProductDataTable extends DataTable
      * @param QueryBuilder $query Results from query() method.
      * @return \Yajra\DataTables\EloquentDataTable
      */
-    public function dataTable(QueryBuilder $query): EloquentDataTable
+    public function dataTable($query): EloquentDataTable
     {
-        $lang = app()->getLocale();
         return (new EloquentDataTable($query))
             ->addColumn('action', function($row) {
                 $permissions = $this->permissions; // receiving permissions variable from controller
-                $b = checkAbility('update-products', $permissions) ? $this->getEditLink("admin.products.edit", $row) : '';
-                $b = $b.= checkAbility('show-products', $permissions) ? $this->getShowLink("admin.products.show", $row) : '';
-                $b = $b.= checkAbility('delete-products', $permissions) ? $this->getDeleteLink("admin.products.destroy", $row) : '';
+                $b = checkAbility('update-variants', $permissions) ? $this->vgetEditLink("admin.products.variants.edit", $row) : '';
+                $b = $b.= checkAbility('show-variants', $permissions) ? $this->vgetShowLink("admin.products.variants.show", $row) : '';
+                $b = $b.= checkAbility('delete-variants', $permissions) ? $this->vgetDeleteLink("admin.products.variants.destroy", $row) : '';
                 return $b;
             })
-            ->addColumn('parent_category', function($row){
-                return $row->category->parent['name_' . App::currentLocale()];
-            })
             ->addColumn('image', function($row){
-                return $row->firstMedia ? '<img style="height: auto;width: 100%" src="'. asset('storage/' . $row->firstMedia->file_name) .'" alt="category photo">' : __('Image Not Found');
+                return $row->firstMedia ? '<img style="height: auto;width: 100%" src="'. asset('storage/' . $row->firstMedia?->file_name) .'" alt="category photo">' : __('Image Not Found');
             })
-            ->addColumn('has_variants', function($row){
-                return $this->getStatusIcon($row->has_variants);
+            ->addColumn('product_id', function($row){
+                return $row->product['name_' . App::currentLocale()];
             })
-            ->editColumn('status', function($row){
-                return $this->getStatusIcon($row->status);
-            })
-            ->editColumn('name', function($row) use ($lang){
-                return $row['name_' . $lang];
-            })
-            ->editColumn('category_id', function($row){
-                    return $row->category['name_' . App::currentLocale()];
-            })
-            ->rawColumns(['name_ar', 'status', 'has_variants', 'action', 'featured', 'category_id', 'parent_category', 'image']);
+            ->rawColumns(['image', 'product_id', 'action']);
     }
     /**
      * Get query source of dataTable.
@@ -61,14 +49,9 @@ class ProductDataTable extends DataTable
      * @param \App\Models\Product $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Product $model): QueryBuilder
+    public function query()
     {
-        return $model->with([
-            'category:id,name_ar,name_en,parent_id' =>
-                ['parent:id,name_ar,name_en'],
-            'tags',
-            'firstMedia:mediable_id,file_name',
-            ])->newQuery();
+        return $this->product->variants();
     }
     /**
      * Optional method if you want to use html builder.
@@ -78,7 +61,7 @@ class ProductDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('product-table')
+                    ->setTableId('variant-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
@@ -103,18 +86,17 @@ class ProductDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('name_ar')->title(__('Name')),
-            Column::make('has_variants')->title(__('Variants')),
+            Column::make('product_id')->title(__('Product name')),
             Column::make('price')->title(__('Price')),
-            Column::make('parent_category')->title(__('Parent Category')),
-            Column::make('category_id')->title(__('Category')),
-            Column::make('status')->title(__('Status')),
+            Column::make('sku')->title(__('Sku'))->addClass('text-center'),
+            Column::make('quantity')->title(__('Quantity')),
             Column::make('image')->title(__('Image')),
             Column::computed('action')->title(__('Action'))
             ->exportable(false)
             ->printable(false)
             ->width(60)
             ->addClass('text-center')
+
         ];
     }
 
@@ -125,6 +107,6 @@ class ProductDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Product_' . date('YmdHis');
+        return 'Variant_' . date('YmdHis');
     }
 }

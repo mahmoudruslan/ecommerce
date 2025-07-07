@@ -1,8 +1,5 @@
 @extends('dashboard.layout.master')
 @section('content')
-
-
-
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
@@ -12,10 +9,10 @@
 
                     <div class="card shadow mb-4">
                         <div style="display: block;width: 100%" class="card-header table-header py-3">
-                            <h4 class="m-0 font-weight-bold text-primary">{{__('Products')}}</h4>
+                            <h4 class="m-0 font-weight-bold text-primary">{{$product['name_'.app()->getLocale()]}}</h4>
                             @can('store-products')
-                                <a  href="{{route('admin.products.create')}}" class="btn btn-primary">
-                                    {{__('Add Products')}}
+                                <a  href="{{route('admin.products.variants.create', $product)}}" class="btn btn-primary">
+                                    {{__('Add new variants')}}
                                     <i class="fa fa-plus plus"></i>
                                 </a>
                             @endcan
@@ -24,7 +21,6 @@
                             <div class="table-responsive">
                                 {!! $dataTable->table() !!}
                                 {!! $dataTable->scripts() !!}
-
                             </div>
                         </div>
                     </div>

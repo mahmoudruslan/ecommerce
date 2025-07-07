@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\VariantDataTable;
 use App\Http\Requests\Variants\StoreVariantRequest;
 use App\Models\Attribute;
 use App\Models\Product;
 use App\Models\Variant;
 use App\Models\VariantAttribute;
+use App\Traits\Files;
 use Illuminate\Http\Request;
 
 class VariantController extends Controller
 {
+    use Files;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
+//    public function index(Product $product, VariantDataTable $dataTable)
+//    {
+//        $permissions = userAbility(['variants', 'store-products', 'update-variants', 'show-variants', 'delete-variants']); //pass to dataTable class
+//        return $dataTable->with('permissions', $permissions)->render('dashboard.products.variants.index',  compact('product'));
+//    }
 
     /**
      * Show the form for creating a new resource.
@@ -45,8 +49,8 @@ class VariantController extends Controller
         {
             $variant = Variant::create([
                 'product_id' => $product->id,
-                'quantity' => $variation['quantity'],
-                'price' => $variation['price'],
+                'quantity' => $variation['variant_quantity'],
+                'price' => $variation['variant_price'],
                 'sku' => 'df-fg-fg-hg-h-gfh-fh-fh' . rand(100, 999),
             ]);
             foreach ($variation['attributes'] as $attribute => $value)
@@ -57,9 +61,10 @@ class VariantController extends Controller
                     'attribute_value_id' => $value,
                 ]);
             }
-
+            $this->createProductMedia($request->images, $variant, 'image', 'images/variants/');
         }
-
+        $product->update(['has_variants' => true]);
+    return redirect()->route('admin.products.show', $product);
     }
 
     /**

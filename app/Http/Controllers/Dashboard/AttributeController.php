@@ -6,6 +6,7 @@ use App\DataTables\AttributeDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Attributes\StoreAttributeRequest;
 use App\Http\Requests\Attributes\UpdateAttributeRequest;
+use App\Http\Requests\AttributeValues\StoreAttributeValueRequest;
 use App\Models\Attribute;
 
 class AttributeController extends Controller
@@ -38,9 +39,8 @@ class AttributeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAttributeValueRequest $request)
+    public function store(StoreAttributeRequest $request)
     {
-//        dd($request);
         Attribute::create($request->validated());
         return redirect()->route('admin.attributes.index')->with([
             'message' => __('attribute Created successfully.'),

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\DataTables\VariantDataTable;
 use App\Http\Controllers\Controller;
 use App\DataTables\ProductDataTable;
+use App\Http\Requests\Products\RemoveImageRequest;
 use App\Http\Requests\Products\StoreProductRequest;
 use App\Http\Requests\Products\UpdateProductRequest;
 use App\Models\Attribute;
@@ -15,6 +17,7 @@ use App\Models\Variant;
 use App\Models\VariantAttribute;
 use App\Traits\Files;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Crypt;
 
 class ProductController extends Controller
@@ -79,8 +82,32 @@ class ProductController extends Controller
         }
     }
 
-    public function show(Product $product)
+    public function show(VariantDataTable $dataTable, Product $product)
     {
+        $permissions = userAbility(['products', 'store-products', 'update-products', 'show-products', 'delete-products']); //pass to dataTable class
+        return $dataTable->with(['permissions' => $permissions, 'product' => $product])->render('dashboard.products.show', compact('product'));
+//        $product = $product->load('variants.attributeValues');
+//        $map = $product->variants->map(function ($variant) use ($product) {
+//            return ['product' => [
+//                'id' => $product->name_en,
+//                'name_en' => $product->name_en,
+//                'variant' => [
+//                    'id' => $variant->id,
+//                    'price' => $variant->price,
+//                    'quantity' => $variant->quantity,
+//                    'sku' => $variant->sku,
+//                    'image' => $variant->firstMedia?->file_name,
+//                ],
+//                'attributeValues' => $variant->attributeValues->map(function ($attributeValue) {
+//                    return [
+//                        'attribute' =>  $attributeValue->attribute->name_ar,
+//                        'value' =>  $attributeValue->value->value_en,
+//                    ];
+//                }),
+//            ]];
+//        });
+//        return $map;
+
         try {
             userAbility(['show-products']);
             return view('dashboard.products.show', compact('product'));
@@ -172,13 +199,16 @@ class ProductController extends Controller
         }
     }
 
-    public function removeImage(Request $request)
+    public function removeImage(RemoveImageRequest $request)
     {
-        userAbility(['delete-products']);
-        $product = Product::findOrFail($request->product_id);
-        $media = $product->media()->whereId($request->media_id)->first();
+        $media = $request->media;
         $this->deleteFiles($media->file_name);
         $media->delete();
-        return response()->json([]);
+        return response()->json([
+            'data' => $media,
+            'status' => 'success',
+            'message' => __('image removed successfully.'),
+            'code' => Response::HTTP_OK
+        ]);
     }
 }

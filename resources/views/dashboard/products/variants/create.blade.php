@@ -36,7 +36,7 @@
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Add variant for : '. $product['name_'. app()->getLocale()]) }}</h1>
                                             </div>
                                             <form action="{{ route('admin.products.variants.store', $product) }}" method="POST"
-                                                  enctype="multipart/form-data" class="user">
+                                                  enctype="multipart/form-data" class="user" id="variant-form">
                                                 @csrf
                                                 <br>
 
@@ -53,10 +53,10 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
                                                                         <input type="text" name="variants[0][variant_price]"
-                                                                               value="{{ old('variant_price') }}"
-                                                                               class="item form-control form-control-user @error('variant_price') is-invalid @enderror"
+                                                                               value="{{ old('variants.0.variant_price') }}"
+                                                                               class="item form-control form-control-user @error('variants.0.variant_price') is-invalid @enderror"
                                                                                placeholder=" {{ __('Enter Price') }}">
-                                                                        @error('variant_price')
+                                                                        @error('variants.0.variant_price')
                                                                         <span class="text-danger" role="alert">
                                                                             <small>{{ $message }}</small>
                                                                         </span>
@@ -65,27 +65,54 @@
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <input type="text" name="variants[0][quantity]"
-                                                                               value="{{ old('quantity') }}"
-                                                                               class="item form-control form-control-user @error('quantity') is-invalid @enderror"
+                                                                        <input type="text" name="variants[0][variant_quantity]"
+                                                                               value="{{ old('variants.0.variant_quantity') }}"
+                                                                               class="item form-control form-control-user
+                                                                               @error('variants.0.variant_quantity') is-invalid @enderror"
                                                                                placeholder=" {{ __('Enter quantity') }}">
-                                                                        @error('quantity')
+                                                                        @error('variants.0.variant_quantity')
+                                                                        <span class="text-danger" role="alert">
+                                                                        <small>{{ $message }}</small>
+                                                                    </span>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
+
+                                                                @foreach ($attributes as $attribute)
+                                                                    <div class="form-group col-md-6">
+                                                                        <label>{{ $attribute['name_' . app()->getLocale()] }}</label>
+                                                                        <select name="variants[0][attributes][{{ $attribute->id }}]"
+                                                                                class="form-control item @error('variants.0.attributes.' . $attribute->id) is-invalid @enderror">
+                                                                            <option selected>{{ __('Select option') }}</option>
+                                                                            @foreach ($attribute->values as $value)
+                                                                                <option value="{{ $value->id }}">{{ $value['value_' . app()->getLocale()] }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                        @error('variants.0.attributes.' . $attribute->id)
                                                                         <span class="text-danger" role="alert">
                                                                             <small>{{ $message }}</small>
                                                                         </span>
                                                                         @enderror
                                                                     </div>
-                                                                </div>
-                                                                @foreach ($attributes as $attribute)
-                                                                    <div class="form-group col-md-6">
-                                                                        <label>{{ $attribute['name_' . app()->getLocale()] }}</label>
-                                                                        <select name="variants[0][attributes][{{ $attribute->id }}]" class="form-control item">
-                                                                            @foreach ($attribute->values as $value)
-                                                                                <option value="{{ $value->id }}">{{ $value['value_' . app()->getLocale()] }}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
                                                                 @endforeach
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <input multiple type="file" name="images[]" class="file"
+                                                                           id="input-id" data-preview-file-type="text">
+                                                                    <br>
+                                                                    @error('images')
+                                                                    <span class="text-danger" role="alert">
+                                                                    <small>{{ $message }}</small>
+                                                                </span>
+                                                                    @enderror
+                                                                    @error('images.0')
+                                                                    <span class="text-danger" role="alert">
+                                                                    <small>{{ $message }}</small>
+                                                                </span>
+                                                                    @enderror
+                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -100,6 +127,7 @@
                                                     {{ __('Save') }}
                                                 </button>
                                             </form>
+
                                         </div>
                                     </div>
                                 </div>
@@ -160,4 +188,5 @@
                     }
                 });
             </script>
+
     @endpush
