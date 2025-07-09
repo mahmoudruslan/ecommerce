@@ -1,5 +1,33 @@
 @extends('dashboard.layout.master')
+@section('style')
+    <style>
+        .image-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .image-card:hover {
+            transform: scale(1.02);
+        }
+        .image-card img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+    </style>
+@stop
 @section('content')
+    @php
+        $lang = app()->getLocale();
+    @endphp
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->
@@ -8,6 +36,7 @@
             <div class="container-fluid">
                 <div class="card shadow mb-4">
                     <div style="display: block;width: 100%" class="card-header table-header py-3">
+                        <h4 class="m-0 font-weight-bold text-primary">{{__('Product') . ': ' . $product['name_' . $lang]}}</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -16,63 +45,56 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">{{$variant->id}}</th>
+                                        <th colspan="2">{{$variant->id}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <th scope="row">{{__('Price')}}</th>
-                                        <td>{{$variant->price}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">{{__('Description')}}</th>
-                                        <td>{{$variant['description_' . app()->getLocale()]}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">{{__('Slug')}}</th>
-                                        <td colspan="2">{{$variant->slug}}</td>
+                                        <th scope="row">{{__('Product Name')}}</th>
+                                        <td>{{$product['name_' . $lang]}}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">{{__('Price')}}</th>
                                         <td colspan="2">{{$variant->price}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">{{__('Sub category')}}</th>
-                                        <td colspan="2">{{$variant->category['name_' . app()->getLocale()]}}</td>
+                                        <th scope="row">{{__('Quantity')}}</th>
+                                        <td colspan="2">{{$variant->quantity}}</td>
                                     </tr>
-                                    <tr>
-                                        <th scope="row">{{__('Category')}}</th>
-                                        <td colspan="2">{{$variant->category->parent['name_' . app()->getLocale()]}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">{{__('Video link')}}</th>
-                                        <td colspan="2">
-                                            <a target="_blank" href="{{$variant->video_link}}" >{{__('Show in youtub')}}</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">{{__('iframe')}}</th>
-                                        <td colspan="2">{{ $variant->iframe }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">{{__('Featured')}}</th>
-                                        <td colspan="2">{{$variant->featured}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">{{__('Status')}}</th>
-                                        <td colspan="2">{{$variant->status}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">{{__('Has Variants')}}</th>
-                                        <td colspan="2">{{$variant->has_variants}}</td>
-                                    </tr>
+                                    @foreach($variant->attributeValues as $item)
+                                        <tr>
+                                            <th scope="row">{{__($item->attribute['name_' . $lang])}}</th>
+                                            <td colspan="2">{{$item->value['value_' . $lang]}}</td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                        @foreach($variant->media as $media)
+                            <br>
+                            <div class="container py-5">
+                                <div class="row g-4" id="gallery">
+                                    <!-- Sample Image Card -->
+                                    <div class="col-md-4">
+                                        <form id="imageForm{{$media->id}}" method="POST">
+                                            <input type="hidden" name="token" value="{{csrf_token()}}">
+                                            <input type="hidden" name="media_id" value="{{$media->id}}">
+                                            <input type="hidden" name="variant_id" value="{{$variant->id}}">
+                                            <div class="image-card">
+                                            <span class="btn btn-sm btn-danger delete-btn"
+                                                  onclick="deleteImage('{{route("admin.products.variant.remove-image", $variant->id)}}', {{$media->id}}, this)">
+                                                <i class="fas fa-fw fa-trash"></i>
+                                            </span>
+                                                <img src="{{asset('storage/'. $media->file_name)}}" alt="Image">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -81,11 +103,35 @@
             <i class="fas fa-angle-up"></i>
         </a>
 
+        @endsection
+        @push('script')
+            <script>
+                function deleteImage(url, mediaId, button) {
+                    let imageForm = document.getElementById("imageForm" + mediaId);
+                    let formData = new FormData(imageForm);
+                    let token = imageForm.querySelector('input[name="token"]').value;
 
-@endsection
-@push('script')
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
-    <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
-    <script src="/vendor/datatables/buttons.server-side.js"></script> --}}
-    {{-- {!! $dataTable->scripts() !!} --}}
-@endpush
+                    return fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            "x-csrf-token": token,
+                            "accept": "application/json"
+                        },
+                        body: formData
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if(data.errors){
+                                let message = data.message;
+                                alert(message);
+                            }else{
+                                button.closest('.col-md-4').remove();
+                                return data;
+                            }
+                        })
+                        .catch((error) => {
+                            alert(error);
+                        });
+                }
+            </script>
+    @endpush

@@ -117,19 +117,21 @@
                                 <div class="row g-4" id="gallery">
                                     @foreach($product->media as $media)
                                         <!-- Sample Image Card -->
-                                    <form id="imageForm{{$media->id}}" method="POST">
-                                        <input type="hidden" name="token" value="{{csrf_token()}}">
-                                        <input type="hidden" name="media_id" value="{{$media->id}}">
-                                        <input type="hidden" name="product_id" value="{{$product->id}}">
                                         <div class="col-md-4">
-                                            <div class="image-card">
-                                                <span class="btn btn-sm btn-danger delete-btn" onclick="deleteImage('{{route("admin.products.remove-image", $product->id)}}', {{$media->id}}, this)">
+                                            <form id="imageForm{{$media->id}}" method="POST">
+                                                <input type="hidden" name="token" value="{{csrf_token()}}">
+                                                <input type="hidden" name="media_id" value="{{$media->id}}">
+                                                <input type="hidden" name="product_id" value="{{$product->id}}">
+                                                <div class="image-card">
+                                                <span class="btn btn-sm btn-danger delete-btn"
+                                                      onclick="deleteImage('{{route("admin.products.remove-image", $product->id)}}', {{$media->id}}, this)">
                                                     <i class="fas fa-fw fa-trash"></i>
                                                 </span>
-                                                <img src="{{asset('storage/'. $media->file_name)}}" alt="Image">
-                                            </div>
+                                                    <img src="{{asset('storage/'. $media->file_name)}}" alt="Image">
+                                                </div>
+                                            </form>
+
                                         </div>
-                                    </form>
 
                                     @endforeach
                                 </div>
@@ -137,7 +139,6 @@
                         @endif
                     </div>
                 </div>
-
             </div>
         </div>
 

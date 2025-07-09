@@ -1,7 +1,19 @@
 @extends('dashboard.layout.master')
 
 @section('title')
-    {{ __('Add variants') }}
+    {{ __('Edit variant') }}
+@endsection
+@section('style')
+    <style>
+        .variant-form {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .remove-variant:hover {
+            background-color: #c53030;
+        }
+
+    </style>
 @endsection
 @section('content')
     <!-- Content Wrapper -->
@@ -21,17 +33,17 @@
                                     <div class="col-lg-12">
                                         <div class="p-5">
                                             <div class="text-center">
-                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Add variant for : '. $product['name_'. app()->getLocale()]) }}</h1>
+                                                <h1 class="h4 text-gray-900 mb-4">{{ __('Edit variant for : '. $product['name_'. app()->getLocale()]) }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.products.variants.store', $product) }}" method="POST"
+                                            <form action="{{ route('admin.products.variants.update', [$product, $variant]) }}" method="POST"
                                                   enctype="multipart/form-data" class="user" id="variant-form">
                                                 @csrf
                                                 <br>
-                                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+
                                                 <div class="variant-form card mb-3 shadow-sm">
                                                     <div class="card-body">
-                                                        <div class="mb-3">
-                                                            <h5 class="card-title mb-0">{{ __('New Variant') }}</h5>
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                            <h5 class="card-title mb-0">{{ __('Edit Variant') }}</h5>
                                                         </div>
 
                                                         <div class="row">
@@ -39,7 +51,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <input type="text" name="price"
-                                                                           value="{{ old('price') }}"
+                                                                           value="{{ old('price', $variant->price ?? '') }}"
                                                                            class="form-control form-control-user @error('price') is-invalid @enderror"
                                                                            placeholder="{{ __('Enter Price') }}">
                                                                     @error('price')
@@ -52,7 +64,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <input type="text" name="quantity"
-                                                                           value="{{ old('quantity') }}"
+                                                                           value="{{ old('quantity', $variant->quantity ?? '') }}"
                                                                            class="form-control form-control-user @error('quantity') is-invalid @enderror"
                                                                            placeholder="{{ __('Enter quantity') }}">
                                                                     @error('quantity')
@@ -61,7 +73,6 @@
                                                                 </div>
                                                             </div>
 
-                                                            {{-- خصائص المنتج --}}
                                                             @foreach ($attributes as $attribute)
                                                                 <div class="form-group col-md-6">
                                                                     <label>{{ $attribute['name_' . app()->getLocale()] }}</label>
@@ -69,24 +80,24 @@
                                                                             class="form-control item @error('attributes.' . $attribute->id) is-invalid @enderror">
                                                                         <option selected disabled>{{ __('Select option') }}</option>
                                                                         @foreach ($attribute->values as $value)
-                                                                            <option value="{{$value->id}}"
-                                                                                {{ old('attributes.' . $attribute->id) == $value->id ? 'selected' : '' }}>
+                                                                            <option value="{{ $value->id }}"
+                                                                                {{ ($selectedValues[$attribute->id] ?? null) == $value->id ? 'selected' : '' }}>
                                                                                 {{ $value['value_' . app()->getLocale()] }}
                                                                             </option>
                                                                         @endforeach
                                                                     </select>
-                                                                    @error('attributes')
-                                                                        <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
+                                                                    @error('attributes.' . $attribute->id)
+                                                                    <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
                                                                     @enderror
                                                                 </div>
                                                             @endforeach
                                                         </div>
+                                                        <input type="hidden" name="variant_id" value="{{ $variant->id }}">
 
                                                         {{-- الصور --}}
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <input multiple type="file" name="images[]" class="file"
-                                                                       id="input-id" data-preview-file-type="text">
+                                                                <input multiple type="file" name="images[]" class="file" id="input-id" data-preview-file-type="text">
                                                                 <br>
                                                                 @error('images')
                                                                 <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
@@ -104,13 +115,18 @@
                                                     {{ __('Save') }}
                                                 </button>
                                             </form>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
+
                 </div>
+
+
             </div>
         </div>
         <!-- Outer Row -->
@@ -118,9 +134,33 @@
         @push('script')
             <script>
                 $("#input-id").fileinput({
-                    required: false,
                     showUpload: false,
-                    showRemove:true,
+                    showRemove: false,
+                    // required: true,
+                    'initialPreview': [
+                        @if ($variant->media()->count() > 0)
+                            @foreach ($variant->media as $media)
+                            "{{ asset('storage/' . $media->file_name) }}",
+                        @endforeach
+                        @endif
+
+                    ],
+                    'initialPreviewFileType': 'image',
+                    'initialPreviewAsData': true,
+                    'overviewInitial': false,
+                    'initialPreviewConfig': [
+                            @if ($variant->media()->count() > 0)
+                            @foreach ($variant->media as $media)
+                        {
+                            size: '1111',
+                            width: '120px',
+                            url: "{{ route('admin.products.variant.remove-image', ['variant_id' => $variant->id, 'media_id' => $media->id, '_token' => csrf_token()]) }}",
+                            key: {{ $variant->id }},
+                        },
+                        @endforeach
+                        @endif
+                    ],
+                    allowedFileExtensions: ["jpg", "png", "gif", "jpeg"]
                 });
             </script>
     @endpush
