@@ -1,5 +1,5 @@
 <div wire:ignore class="modal fade" id="productView{{$product->slug}}" tabindex="-1" role="dialog" aria-hidden="true">
-        
+
     @php
         $lang = app()->getLocale();
     @endphp
@@ -13,7 +13,7 @@
                         <div class="p-4 my-md-4">
                             <ul class="list-inline mb-2">
                                 @for ($i = 0; $i < 5; $i++)
-                                    
+
                                 <li class="list-inline-item m-0"><i class="{{round($product->reviews_avg_rating) > $i ? 'fas' : 'far'}} fa-star small text-warning"></i>
                                 @endfor
                                 </li>
@@ -46,7 +46,7 @@
                     <button class="btn-close p-4 position-absolute top-0 end-0 z-index-20 shadow-0" type="button"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                     <div class="col-lg-6 p-lg-0">
-                        @foreach ($product->media as $media)
+                        @foreach ($product->images as $media)
                             @if ($loop->first)
                                 <a class="glightbox product-view d-block h-100 bg-cover bg-center"
                                     style="background: url({{ asset('storage/' . $media->file_name) }})"

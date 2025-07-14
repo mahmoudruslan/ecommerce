@@ -6,6 +6,7 @@ use App\DataTables\VariantDataTable;
 use App\Http\Requests\Variants\RemoveImageRequest;
 use App\Http\Requests\Variants\StoreVariantRequest;
 use App\Models\Attribute;
+use App\Models\Media;
 use App\Models\Product;
 use App\Models\Variant;
 use App\Models\VariantAttribute;
@@ -14,6 +15,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class VariantController extends Controller
 {
@@ -113,7 +115,7 @@ class VariantController extends Controller
      * @param  \App\Models\Variant  $variant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Variant $variant)
+    public function update(Request $request, Product $product, Variant $variant)
     {
         //
     }
@@ -129,13 +131,17 @@ class VariantController extends Controller
         //
     }
 
-    public function removeImage(RemoveImageRequest $request)
+    public function removeMedia(Variant $variant, Media $media)
     {
-        $media = $request->media;
+        $mediaCount = $variant->media()->count();
+        if ($mediaCount <= 1) {
+            throw ValidationException::withMessages([
+                'media' => ['Cannot delete the last image of this product.']
+            ]);
+        }
         $this->deleteFiles($media->file_name);
         $media->delete();
         return response()->json([
-            'data' => $media,
             'status' => 'success',
             'message' => __('image removed successfully.'),
             'code' => Response::HTTP_OK

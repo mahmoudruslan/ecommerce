@@ -115,7 +115,7 @@
                         @else
                             <div class="container py-5">
                                 <div class="row g-4" id="gallery">
-                                    @foreach($product->media as $media)
+                                    @foreach($product->images as $media)
                                         <!-- Sample Image Card -->
                                         <div class="col-md-4">
                                             <form id="imageForm{{$media->id}}" method="POST">

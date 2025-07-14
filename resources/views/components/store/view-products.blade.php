@@ -30,7 +30,7 @@
                     <div class="badge text-white bg-">
                     </div>
                     <a class="d-block" href="{{ route('customer.product.detail', $product->slug) }}">
-                        <img class="w-100" src="{{ checkImg('storage/' . $product->media->first()->file_name) }}"
+                        <img class="w-100" src="{{ checkImg('storage/' . $product->firstMedia->file_name) }}"
                             alt="...">
                     </a>
                     <div class="product-overlay">

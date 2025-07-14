@@ -36,16 +36,19 @@ class Product extends Model
 
     public function media()
     {
+        return $this->morphMany(Media::class, 'mediable');
+    }
+    public function images()
+    {
         return $this->morphMany(Media::class, 'mediable')->where('media_type', 'image');
     }
-
     public function firstMedia()
     {
         return $this->morphOne(Media::class, 'mediable')->where('media_type', 'image');
     }
     public function sizeGuide()
     {
-        return $this->morphOne(Media::class, 'mediable')->where('media_type', 'image');
+        return $this->morphOne(Media::class, 'mediable')->where('media_type', 'size_guide');
     }
     public function tags()
     {

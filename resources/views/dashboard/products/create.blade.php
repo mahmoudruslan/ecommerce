@@ -287,44 +287,4 @@
                     showRemove: false,
                 });
             </script>
-            <script>
-                let variantIndex = 1;
-                const wrapper = document.getElementById('variants-wrapper');
-                const container = document.getElementById('variants-container');
-                const switchBtn = document.getElementById('customSwitch1');
-                const addBtn = document.getElementById('add-variant');
-                switchBtn.addEventListener('click', function () {
-                    container.classList.toggle('d-block');
-                })
-                addBtn.addEventListener('click', function () {
-                    const firstVariant = wrapper.querySelector('.variant-form');
-                    const clone = firstVariant.cloneNode(true);
-
-                    // Update title
-                    clone.querySelector('.card-title').textContent = `Variant ${variantIndex + 1}`;
-
-                    // Show remove button
-                    clone.querySelector('.remove-variant').classList.remove('d-none');
-
-                    // Update select names
-                    const selects = clone.querySelectorAll('.item');
-                    selects.forEach(select => {
-                        const name = select.getAttribute('name');
-                        const updatedName = name.replace(/\[\d+\]/, `[${variantIndex}]`);
-                        select.setAttribute('name', updatedName);
-                        select.selectedIndex = 0;
-                    });
-
-                    wrapper.appendChild(clone);
-                    variantIndex++;
-                });
-
-                wrapper.addEventListener('click', function (e) {
-                    if (e.target.classList.contains('remove-variant')) {
-                        e.target.closest('.variant-form').remove();
-                    }
-                });
-            </script>
-
-
     @endpush

@@ -9,6 +9,7 @@ use App\Http\Requests\Products\RemoveImageRequest;
 use App\Http\Requests\Products\StoreProductRequest;
 use App\Http\Requests\Products\UpdateProductRequest;
 use App\Models\Attribute;
+use App\Models\Media;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Size;
@@ -18,7 +19,9 @@ use App\Models\VariantAttribute;
 use App\Traits\Files;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
@@ -133,47 +136,16 @@ class ProductController extends Controller
     {
         try {
             userAbility(['update-products']);
-            //update size guide image
-            $file_name = $product->size_guide;
-            $path = '';
-            if ($size_guide_image = $request->file('size_guide')) {
-                $this->deleteFiles($file_name);
-                $path = 'images/products/size_guide/';
-                $file_name = $path . $this->saveImag($path, [$request->size_guide]);
-                $this->resizeImage(300, null, $path, $file_name, $size_guide_image);
-            }
-            $input['name_ar'] = $request->name_ar;
-            $input['name_en'] = $request->name_en;
-            $input['price'] = $request->price;
-            $input['description_ar'] = $request->description_ar;
-            $input['description_en'] = $request->description_en;
-            $input['video_link'] = $request->video_link ?? null;
-            $input['iframe'] = $request->iframe ?? null;
-            $input['category_id'] = $request->category_id;
-            $input['featured'] = $request->featured ?? 0;
-            $input['status'] = $request->status ?? 0;
-            $input['size_guide'] = $file_name;
-            $product->update($input);
+            //update product info
+            $product->update(Arr::except($request->validated(), ['tags', 'images']));
             //update media
-            if (isset($request->images)) {
-                $this->createProductMedia($request->images, $product);
-            }
+            $this->createProductMedia($request->images, $product);
+            $this->updateProductMedia($request->size_guide, $product, 'size_guide');
             //update tags
             $product->tags()->sync($request->tags);
 
-
-            //update sizes
-            $sizeData = [];
-            foreach ($request->sizes as $sizeId => $size) {
-                if (!empty($size['selected'])) {
-                    $sizeData[$sizeId] = [
-                        'quantity' => $size['quantity'] ?? 0,
-                    ];
-                }
-            }
-            $product->sizes()->sync($sizeData);
             return redirect()->route('admin.products.index')->with([
-                'message' => __('Item Updated successfully.'),
+                'message' => __('Product Updated successfully.'),
                 'alert-type' => 'success'
             ]);
         } catch (\Exception $e) {
@@ -199,13 +171,17 @@ class ProductController extends Controller
         }
     }
 
-    public function removeImage(RemoveImageRequest $request)
+    public function removeMedia(Product $product, Media $media)
     {
-        $media = $request->media;
+        $mediaCount = $product->images()->count();
+        if ($mediaCount <= 1) {
+            throw ValidationException::withMessages([
+                'media' => ['Cannot delete the last image of this product.']
+            ]);
+        }
         $this->deleteFiles($media->file_name);
         $media->delete();
         return response()->json([
-            'data' => $media,
             'status' => 'success',
             'message' => __('image removed successfully.'),
             'code' => Response::HTTP_OK

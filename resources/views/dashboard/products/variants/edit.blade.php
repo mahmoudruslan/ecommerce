@@ -38,6 +38,7 @@
                                             <form action="{{ route('admin.products.variants.update', [$product, $variant]) }}" method="POST"
                                                   enctype="multipart/form-data" class="user" id="variant-form">
                                                 @csrf
+                                                @method('patch')
                                                 <br>
 
                                                 <div class="variant-form card mb-3 shadow-sm">
@@ -92,8 +93,6 @@
                                                                 </div>
                                                             @endforeach
                                                         </div>
-                                                        <input type="hidden" name="variant_id" value="{{ $variant->id }}">
-
                                                         {{-- الصور --}}
                                                         <div class="row">
                                                             <div class="col-md-12">
@@ -154,8 +153,7 @@
                         {
                             size: '1111',
                             width: '120px',
-                            url: "{{ route('admin.products.variant.remove-image', ['variant_id' => $variant->id, 'media_id' => $media->id, '_token' => csrf_token()]) }}",
-                            key: {{ $variant->id }},
+                            url: "{{ route('admin.products.variants.remove-media', [$variant, $media, '_token' => csrf_token()]) }}"
                         },
                         @endforeach
                         @endif

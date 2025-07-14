@@ -32,12 +32,20 @@ class UpdateProductRequest extends FormRequest
             'video_link' => 'nullable|string|max:500',
             'iframe' => 'nullable|string|max:500',
             'category_id' => 'required|string|max:50',
-            'featured' => 'max:1',
-            'status' => 'max:1',
-            'images.*' => 'max:1024',
-            'sizes' => 'nullable|array',
-            'sizes.*.selected' => 'nullable|boolean',
-            'sizes.*.quantity' => 'nullable|integer|min:0',
+            'featured' => 'in:0,1',
+            'status' => 'in:0,1',
+            'images' => 'nullable|array',
+            'images.*' => 'max:1024|mimes:jpg,jpeg,png|',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id'
         ];
     }
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'featured' => $this->has('featured') ? $this->featured : 0,
+            'status' => $this->has('status') ? $this->status : 0,
+        ]);
+    }
+
 }

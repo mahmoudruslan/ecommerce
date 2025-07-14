@@ -79,11 +79,11 @@
                                     <div class="col-md-4">
                                         <form id="imageForm{{$media->id}}" method="POST">
                                             <input type="hidden" name="token" value="{{csrf_token()}}">
-                                            <input type="hidden" name="media_id" value="{{$media->id}}">
-                                            <input type="hidden" name="variant_id" value="{{$variant->id}}">
+{{--                                            <input type="hidden" name="media_id" value="{{$media->id}}">--}}
+{{--                                            <input type="hidden" name="variant_id" value="{{$variant->id}}">--}}
                                             <div class="image-card">
                                             <span class="btn btn-sm btn-danger delete-btn"
-                                                  onclick="deleteImage('{{route("admin.products.variant.remove-image", $variant->id)}}', {{$media->id}}, this)">
+                                                  onclick="deleteMedia('{{route("admin.products.variants.remove-media", [$variant, $media])}}', this)">
                                                 <i class="fas fa-fw fa-trash"></i>
                                             </span>
                                                 <img src="{{asset('storage/'. $media->file_name)}}" alt="Image">
@@ -106,10 +106,8 @@
         @endsection
         @push('script')
             <script>
-                function deleteImage(url, mediaId, button) {
-                    let imageForm = document.getElementById("imageForm" + mediaId);
-                    let formData = new FormData(imageForm);
-                    let token = imageForm.querySelector('input[name="token"]').value;
+                function deleteMedia(url, button) {
+                    let token = document.querySelector('input[name="token"]').value;
 
                     return fetch(url, {
                         method: 'POST',
@@ -117,7 +115,7 @@
                             "x-csrf-token": token,
                             "accept": "application/json"
                         },
-                        body: formData
+                        // body: formData
                     })
                         .then((response) => response.json())
                         .then((data) => {

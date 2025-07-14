@@ -25,7 +25,7 @@
                     <button class="btn-close p-4 position-absolute top-0 end-0 z-index-20 shadow-0" type="button"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                     <div class="col-lg-6 p-lg-0">
-                        @foreach ($product->media as $media)
+                        @foreach ($product->images as $media)
                             @if ($loop->first)
                                 <a class="glightbox product-view d-block h-100 bg-cover bg-center"
                                     style="background: url({{ asset('storage/' . $media->file_name) }})"

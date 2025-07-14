@@ -24,11 +24,11 @@ class Variant extends Model
 
     public function media()
     {
-        return $this->morphMany(Media::class, 'mediable')->where('media_type', 'image');
+        return $this->morphMany(Media::class, 'mediable');
     }
     public function firstMedia()
     {
-        return $this->morphOne(Media::class, 'mediable')->where('media_type', 'image');
+        return $this->morphOne(Media::class, 'mediable');
     }
 
 }

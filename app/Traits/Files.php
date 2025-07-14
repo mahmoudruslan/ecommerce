@@ -53,7 +53,7 @@ trait Files
         }
     }
 
-    public function createProductMedia(array $images, $product, String $media_type = 'image', $path = null)
+    public function createProductMedia(array|null $images, Product $product, String $media_type = 'image', $path = null)
     {
          //create media
         $i = 1;
@@ -69,7 +69,36 @@ trait Files
                     $mimetype = $image->getClientMimeType();
 
                     $this->resizeImage(200, null, $path, $image_name, $image);
-                    Log::info($media_type);
+                    $product->media()->create([
+                        'file_name' => $path . $image_name,
+                        'file_size' => $size,
+                        'file_type' => $mimetype,
+                        'media_type' => $media_type,
+                        'file_sort' => $i,
+                        'status' => true
+                    ]);
+                    $i++;
+                }
+            }
+        }
+    }
+    public function updateProductMedia(array|null $images, Product $product, String $media_type, $path = null)
+    {
+        //create media
+        $i = 1;
+        if(isset($images) && count($images) > 0)
+        {
+            $this->deleteProductMedia($product, $media_type);
+            foreach ($images as $image) {
+                if($image){
+                    $path = $path ?? 'images/products/';
+                    $extension = $image->getClientOriginalExtension();
+                    $image_name = time() . Str::random(6) . '.' . $extension;
+                    $image->storeAs($path, $image_name, 'public');
+                    $size = $image->getSize();
+                    $mimetype = $image->getClientMimeType();
+
+                    $this->resizeImage(200, null, $path, $image_name, $image);
                     $product->media()->create([
                         'file_name' => $path . $image_name,
                         'file_size' => $size,
@@ -84,18 +113,18 @@ trait Files
         }
     }
 
-    public function deleteProductMedia($product)
+    public function deleteProductMedia($product, $media_type = 'image')
     {
          //delete media
         $path = 'storage/';
-        $images = $product->media()->pluck('file_name');
+        $images = $product->media()->where('media_type', $media_type)->pluck('file_name');
         foreach($images as $image)
         {
             if (File::exists($path . $image)) {
                 File::delete($path . $image);
             }
         }
-        $product->media()->delete();
+        $product->media()->where('media_type', $media_type)->delete();
     }
 
 }

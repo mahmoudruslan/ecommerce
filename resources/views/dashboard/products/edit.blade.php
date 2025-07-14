@@ -33,7 +33,7 @@
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Edit') }} :
                                                     {{ __($product['name_' . App::currentLocale()]) }}</h1>
                                             </div>
-                                            <form action="{{ route('admin.products.update', encrypt($product->id)) }}"
+                                            <form action="{{ route('admin.products.update', $product) }}"
                                                 method="POST" class="user" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('patch')
@@ -291,8 +291,8 @@
             showRemove: false,
             // required: true,
             'initialPreview': [
-                @if ($product->media()->count() > 0)
-                    @foreach ($product->media as $media)
+                @if ($product->images()->count() > 0)
+                    @foreach ($product->images as $media)
                         "{{ asset('storage/' . $media->file_name) }}",
                     @endforeach
                 @endif
@@ -302,13 +302,12 @@
             'initialPreviewAsData': true,
             'overviewInitial': false,
             'initialPreviewConfig': [
-                @if ($product->media()->count() > 0)
-                    @foreach ($product->media as $media)
+                @if ($product->images()->count() > 0)
+                    @foreach ($product->images as $media)
                         {
                             size: '1111',
                             width: '120px',
-                            url: "{{ route('admin.products.remove-image', ['product_id' => $product->id, 'media_id' => $media->id, '_token' => csrf_token()]) }}",
-                            key: {{ $product->id }},
+                            url: "{{ route('admin.products.remove-media', [$product, $media, '_token' => csrf_token()]) }}"
                         },
                     @endforeach
                 @endif
