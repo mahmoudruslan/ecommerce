@@ -48,7 +48,7 @@
                                                         </div>
 
                                                         <div class="row">
-                                                            {{-- السعر --}}
+                                                            {{-- price --}}
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <input type="text" name="price"
@@ -56,12 +56,12 @@
                                                                            class="form-control form-control-user @error('price') is-invalid @enderror"
                                                                            placeholder="{{ __('Enter Price') }}">
                                                                     @error('price')
-                                                                    <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
+                                                                        <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
                                                                     @enderror
                                                                 </div>
                                                             </div>
 
-                                                            {{-- الكمية --}}
+                                                            {{-- quantity --}}
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <input type="text" name="quantity"
@@ -88,7 +88,7 @@
                                                                         @endforeach
                                                                     </select>
                                                                     @error('attributes.' . $attribute->id)
-                                                                    <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
+                                                                        <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
                                                                     @enderror
                                                                 </div>
                                                             @endforeach
@@ -99,10 +99,10 @@
                                                                 <input multiple type="file" name="images[]" class="file" id="input-id" data-preview-file-type="text">
                                                                 <br>
                                                                 @error('images')
-                                                                <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
+                                                                    <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
                                                                 @enderror
                                                                 @error('images.0')
-                                                                <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
+                                                                    <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
                                                                 @enderror
                                                             </div>
                                                         </div>
@@ -149,14 +149,14 @@
                     'overviewInitial': false,
                     'initialPreviewConfig': [
                             @if ($variant->media()->count() > 0)
-                            @foreach ($variant->media as $media)
-                        {
-                            size: '1111',
-                            width: '120px',
-                            url: "{{ route('admin.products.variants.remove-media', [$variant, $media, '_token' => csrf_token()]) }}"
-                        },
-                        @endforeach
-                        @endif
+                                @foreach ($variant->media as $media)
+                                    {
+                                        size: '1111',
+                                        width: '120px',
+                                        url: "{{ route('admin.products.variants.remove-media', [$variant, $media, '_token' => csrf_token()]) }}"
+                                    },
+                                @endforeach
+                            @endif
                     ],
                     allowedFileExtensions: ["jpg", "png", "gif", "jpeg"]
                 });

@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
@@ -132,17 +133,18 @@ class ProductController extends Controller
         }
     }
 
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product): string|\Illuminate\Http\RedirectResponse
     {
         try {
-            userAbility(['update-products']);
-            //update product info
-            $product->update(Arr::except($request->validated(), ['tags', 'images']));
-            //update media
-            $this->createProductMedia($request->images, $product);
-            $this->updateProductMedia($request->size_guide, $product, 'size_guide');
-            //update tags
-            $product->tags()->sync($request->tags);
+            DB::transaction(function () use ($request, $product) {
+                //update product info
+                $product->update(Arr::except($request->validated(), ['tags', 'images']));
+                //update media
+                $this->createProductMedia($request->images, $product);
+                $this->updateProductMedia($request->size_guide, $product, 'size_guide');
+                //update tags
+                $product->tags()->sync($request->tags);
+            });
 
             return redirect()->route('admin.products.index')->with([
                 'message' => __('Product Updated successfully.'),
@@ -155,20 +157,13 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        try {
-            userAbility(['delete-products']);
-            $this->deleteProductMedia($product);
-            $product->tags()->detach();
-            $product->delete();
-            return redirect()->route('admin.products.index')->with([
-                'message' => __('Item Deleted successfully.'),
-                'alert-type' => 'success',
+        userAbility(['delete-products']);
+        $product->delete();
+        return redirect()->route('admin.products.index')->with([
+            'message' => __('Item Deleted successfully.'),
+            'alert-type' => 'success',
 
-            ]);
-        } catch (\Exception $e) {
-
-            return $e->getMessage();
-        }
+        ]);
     }
 
     public function removeMedia(Product $product, Media $media)

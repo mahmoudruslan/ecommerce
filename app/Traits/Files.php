@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -53,7 +54,7 @@ trait Files
         }
     }
 
-    public function createProductMedia(array|null $images, Product $product, String $media_type = 'image', $path = null)
+    public function createProductMedia(array|null $images, Model $model, String $media_type = 'image', $path = null)
     {
          //create media
         $i = 1;
@@ -69,7 +70,7 @@ trait Files
                     $mimetype = $image->getClientMimeType();
 
                     $this->resizeImage(200, null, $path, $image_name, $image);
-                    $product->media()->create([
+                    $model->media()->create([
                         'file_name' => $path . $image_name,
                         'file_size' => $size,
                         'file_type' => $mimetype,

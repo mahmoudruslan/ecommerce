@@ -12,7 +12,7 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize()
     {
-        userAbility(['store-products']);
+        userAbility(['update-products']);
         return true;
     }
 

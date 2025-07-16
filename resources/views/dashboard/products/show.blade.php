@@ -124,7 +124,7 @@
                                                 <input type="hidden" name="product_id" value="{{$product->id}}">
                                                 <div class="image-card">
                                                 <span class="btn btn-sm btn-danger delete-btn"
-                                                      onclick="deleteImage('{{route("admin.products.remove-image", $product->id)}}', {{$media->id}}, this)">
+                                                      onclick="deleteImage('{{route("admin.products.remove-media", [$product, $media])}}', {{$media->id}}, this)">
                                                     <i class="fas fa-fw fa-trash"></i>
                                                 </span>
                                                     <img src="{{asset('storage/'. $media->file_name)}}" alt="Image">
@@ -151,17 +151,18 @@
 @push('script')
     <script>
         function deleteImage(url, mediaId, button) {
-            let imageForm = document.getElementById("imageForm" + mediaId);
-            let formData = new FormData(imageForm);
-            let token = imageForm.querySelector('input[name="token"]').value;
+            // let imageForm = document.getElementById("imageForm" + mediaId);
+            // let formData = new FormData(imageForm);
+            let token = document.querySelector('input[name="token"]').value;
+            console.log(url);
+            console.log(token)
 
             return fetch(url, {
                 method: 'POST',
                 headers: {
                     "x-csrf-token": token,
                     "accept": "application/json"
-                },
-                body: formData
+                }
             })
                 .then((response) => response.json())
                 .then((data) => {

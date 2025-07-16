@@ -28,6 +28,7 @@ return new class extends Migration
             $table->text('iframe')->nullable();
             $table->text('video_link')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

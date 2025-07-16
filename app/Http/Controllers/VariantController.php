@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\VariantDataTable;
+use App\Http\Requests\Products\UpdateProductRequest;
 use App\Http\Requests\Variants\RemoveImageRequest;
 use App\Http\Requests\Variants\StoreVariantRequest;
+use App\Http\Requests\Variants\UpdateVariantRequest;
 use App\Models\Attribute;
 use App\Models\Media;
 use App\Models\Product;
@@ -14,6 +16,7 @@ use App\Traits\Files;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -57,7 +60,7 @@ class VariantController extends Controller
                 // Update Product status
                 $product->update(['has_variants' => true]);
             });
-            return redirect()->route('admin.products.show')->with([
+            return redirect()->route('admin.products.show', $product)->with([
                 'product' => $product,
                 'message' => __('Item Created successfully.'),
                 'alert-type' => 'success'
@@ -111,24 +114,51 @@ class VariantController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\UpdateProductRequest $request
+     * @param \App\Models\Produc $product
      * @param  \App\Models\Variant  $variant
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product, Variant $variant)
+    public function update(UpdateVariantRequest $request, Product $product, Variant $variant)
     {
-        //
-    }
+        try {
+            DB::transaction(function () use ($request, $product, $variant) {
+                $variant->update($request->only('quantity', 'price'));
+                // Create Variant Attributes
+                foreach ($request['attributes'] as $attribute => $value) {
+                    VariantAttribute::create([
+                        'variant_id' => $variant->id,
+                        'attribute_id' => $attribute,
+                        'attribute_value_id' => $value
+                    ]);
+                }
+                // Upload Variant Images
+                $this->createProductMedia($request->images, $variant, 'image', 'images/variants/');
+                // Update Product status
+            });
 
+            return redirect()->route('admin.products.variants.show', [$product, $variant])->with([
+                'message' => __('Product Updated successfully.'),
+                'alert-type' => 'success'
+            ]);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Variant  $variant
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Variant $variant)
+    public function destroy(Product $product, Variant $variant)
     {
-        //
+        userAbility(['delete-variants']);
+        $variant->delete();
+        return redirect()->route('admin.products.show', $product)->with([
+            'message' => __('Product Updated successfully.'),
+            'alert-type' => 'success'
+        ]);
+
     }
 
     public function removeMedia(Variant $variant, Media $media)

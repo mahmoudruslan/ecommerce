@@ -7,6 +7,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             transition: transform 0.2s;
+            margin-bottom: 25px;
         }
         .image-card:hover {
             transform: scale(1.02);
@@ -71,28 +72,26 @@
                                 </table>
                             </div>
                         </div>
-                        @foreach($variant->media as $media)
                             <br>
                             <div class="container py-5">
                                 <div class="row g-4" id="gallery">
-                                    <!-- Sample Image Card -->
-                                    <div class="col-md-4">
-                                        <form id="imageForm{{$media->id}}" method="POST">
-                                            <input type="hidden" name="token" value="{{csrf_token()}}">
-{{--                                            <input type="hidden" name="media_id" value="{{$media->id}}">--}}
-{{--                                            <input type="hidden" name="variant_id" value="{{$variant->id}}">--}}
-                                            <div class="image-card">
-                                            <span class="btn btn-sm btn-danger delete-btn"
-                                                  onclick="deleteMedia('{{route("admin.products.variants.remove-media", [$variant, $media])}}', this)">
-                                                <i class="fas fa-fw fa-trash"></i>
-                                            </span>
-                                                <img src="{{asset('storage/'. $media->file_name)}}" alt="Image">
-                                            </div>
-                                        </form>
-                                    </div>
+                                    @foreach($variant->media as $media)
+                                        <!-- Sample Image Card -->
+                                        <div class="col-md-4">
+                                            <form id="imageForm{{$media->id}}" method="POST">
+                                                <input type="hidden" name="token" value="{{csrf_token()}}">
+                                                <div class="image-card">
+                                                    <span class="btn btn-sm btn-danger delete-btn"
+                                                          onclick="deleteMedia('{{route("admin.products.variants.remove-media", [$variant, $media])}}', this)">
+                                                        <i class="fas fa-fw fa-trash"></i>
+                                                    </span>
+                                                    <img src="{{asset('storage/'. $media->file_name)}}" alt="Image">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
-                        @endforeach
                     </div>
                 </div>
             </div>

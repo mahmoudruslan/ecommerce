@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('quantity');
             $table->text('price');
             $table->timestamps();
+            $table->softDeletes();
             $table->unique(['product_id', 'sku']);
         });
     }
