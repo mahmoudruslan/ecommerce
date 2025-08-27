@@ -27,48 +27,49 @@
         <h2 class="h5 text-uppercase mb-4">{{ __('Shopping cart') }}</h2>
         <div class="row">
             <div class="cart-div-main col-lg-8 mb-4 mb-lg-0">
-                @foreach ($cart_items as $item)
-                    <div id="cart-{{ $item->id }}" class="row align-items-center cart-row">
+{{--                @dd($cart['items'])--}}
+                @foreach ($cart['items'] as $item)
+                    <div id="cart-{{ $item['id'] }}" class="row align-items-center cart-row">
                         <div class="col-md-4 my-4 mb-2">
                             <div class="row align-items-center">
                                 <div class="col-5">
                                     <a class="d-inline-block reset-anchor  animsition-link"
-                                        href="product/{{ $item->associatedModel->slug }}">
-                                        <img src="http://{{ request()->httpHost() }}/storage/{{ $item->associatedModel->firstMedia->file_name }}"
+                                        href="product/{{ $item['associatedModel']['slug'] }}">
+                                        <img src="http://{{ request()->httpHost() }}/storage/{{ $item['associatedModel']['first_media']['file_name'] }}"
                                             alt="..." width="80" />
                                     </a>
                                 </div>
                                 <div class="col-7">
                                     <h6 class="d-inline-block ">
                                         <strong class="reset-anchor animsition-link">
-                                            {{ $item->associatedModel['name_' . $lang] }}
+                                            {{ $item['associatedModel']['name_' . $lang] }}
                                         </strong>
                                     </h6>
-                                    <small class="d-block"> {{ __('Size') }} : {{ $item->attributes->size_name }}</small>
+                                    <small class="d-block"> {{ __('Size') }} : {{ $item['size_name'] }}</small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2 mb-2">
                             <p class="mb-0">
                                 <small>{{ getCurrency() }}</small><small
-                                    id="price-{{ $item->id }}">{{ number_format($item->price, 2) }}</small>
+                                    id="price-{{ $item['id'] }}">{{ number_format($item['price'], 2) }}</small>
                             </p>
                         </div>
                         <div class="col-md-3 mb-2">
-                            <form id="cartForm{{ $item->id }}" action="">
+                            <form id="cartForm{{ $item['id'] }}" action="">
                                 <div class="border d-flex align-items-center justify-content-between px-3"><span
                                         class="small text-gray headings-font-family">{{ __('Quantity') }}</span>
                                     <div class="quantity">
                                         <span
-                                            onclick="decreaseQuantity('{{ $item->id }}', 'http\://{{ request()->httpHost() }}/cart-decrease-quantity')"
+                                            onclick="decreaseQuantity('{{ $item['id'] }}', 'http\://{{ request()->httpHost() }}/cart-decrease-quantity')"
                                             class="decrease">
                                             <i
                                                 class="fas fa-caret-{{ $lang === 'ar' ? 'right' : 'left' }}"></i></span>
-                                        <input readonly name="quantity" id="quantity-{{ $item->id }}"
+                                        <input readonly name="quantity" id="quantity-{{ $item['id'] }}"
                                             class="form-control form-control-sm border-0 shadow-0 p-0 bg-white"
-                                            type="text" value="{{ $item->quantity }}" />
+                                            type="text" value="{{ $item['quantity'] }}" />
                                         <span
-                                            onclick="increaseQuantity('{{ $item->id }}', 'http\://{{ request()->httpHost() }}/cart-increase-quantity')"
+                                            onclick="increaseQuantity('{{ $item['id'] }}', 'http\://{{ request()->httpHost() }}/cart-increase-quantity')"
                                             class="increase"><i
                                                 class="fas fa-caret-{{ $lang === 'ar' ? 'left' : 'right' }}"></i></span>
                                     </div>
@@ -77,7 +78,7 @@
                         </div>
                         <div class="col-md-1 mb-2">
                             <a href="javascript:void(0)" class="reset-anchor"
-                                onclick="removeFromCart('{{ $item->id }}', 'http\://{{ request()->httpHost() }}/remove-from-cart')">
+                                onclick="removeFromCart('{{ $item['id'] }}', 'http\://{{ request()->httpHost() }}/remove-from-cart')">
                                 <i class="fas fa-trash-alt small text-muted"></i>
                             </a>
                         </div>
@@ -96,7 +97,7 @@
                                     {{ __('Subtotal') }}
                                 </strong>
                                 <span id="cart-subtotal" class="text-muted small">
-                                    {{ getCurrency() . number_format(\Cart::session('cart')->getSubTotal(), 2) }}
+                                    {{ getCurrency() . number_format($cart['subTotal'], 2) }}
                                 </span>
                             </li>
                             <li class="border-bottom my-2"></li>
@@ -105,7 +106,7 @@
                                     {{ __('Total') }}
                                 </strong>
                                 <span id="cart-total">
-                                    {{ getCurrency() . number_format(\Cart::session('cart')->getTotal(), 2) }}
+                                    {{ getCurrency() . number_format($cart['total'], 2) }}
                                 </span>
                             </li>
 

@@ -35,11 +35,15 @@ class VariantDataTable extends DataTable
                 $b = $b.= checkAbility('delete-variants', $permissions) ? $this->vgetDeleteLink("admin.products.variants.destroy", $row) : '';
                 return $b;
             })
-            ->addColumn('image', function($row){
-                return $row->firstMedia ? '<img style="height: auto;width: 100%" src="'. asset('storage/' . $row->firstMedia?->file_name) .'" alt="category photo">' : __('Image Not Found');
-            })
+
             ->addColumn('product_id', function($row){
                 return $row->product['name_' . App::currentLocale()];
+            })
+            ->addColumn('primary_attribute_value_id', function($row){
+                return $row->primaryAttributeValue['value_' . App::currentLocale()];
+            })
+            ->addColumn('secondary_attribute_value_id', function($row){
+                return $row->secondaryAttributeValue['value_' . App::currentLocale()];
             })
             ->rawColumns(['image', 'product_id', 'action']);
     }
@@ -90,7 +94,8 @@ class VariantDataTable extends DataTable
             Column::make('price')->title(__('Price')),
             Column::make('sku')->title(__('Sku'))->addClass('text-center'),
             Column::make('quantity')->title(__('Quantity')),
-            Column::make('image')->title(__('Image')),
+            Column::make('primary_attribute_value_id')->title(__('Primary Attribute')),
+            Column::make('secondary_attribute_value_id')->title(__('Secondary Attribute')),
             Column::computed('action')->title(__('Action'))
             ->exportable(false)
             ->printable(false)

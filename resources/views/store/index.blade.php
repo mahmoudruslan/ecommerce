@@ -1,7 +1,7 @@
 @extends('store.layout.master')
 @section('content')
     @php
-        $lang = App::getLocale();
+        $lang = app()->getLocale();
     @endphp
     <!-- HERO SECTION-->
 

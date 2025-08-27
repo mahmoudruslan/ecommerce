@@ -5,39 +5,37 @@ namespace App\Http\Controllers\Store;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cookie;
 use RealRashid\SweetAlert\Facades\Alert;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 
-
-
-// use Alert;
-
 class CartController extends Controller
 {
-
     public function cart()
     {
-        Cart::session('cart')->clearCartConditions();
+        \Cart::session(auth()->id() ?? 'cart')->clearCartConditions();
         $cart = cartData();
+
         if (!isset($cart['items']) || count($cart['items']) == 0) {
             Alert::toast(__('No products available in your cart.'), 'error');
             return redirect()->route('customer.store');
         }
-        $cart_items = $cart['items'];
-        return view('store.cart', compact('cart_items'));
-    }
 
+        return view('store.cart', compact('cart'));
+    }
 
     public function addToCart(Request $request, $product_id)
     {
+
         $quantity_requested = $request->quantity;
         $cart = cartData();
-        $product = Product::with(['firstMedia'])->find($product_id);
+
+        $product = Product::with(['variants', 'firstMedia'])->find($product_id);
 
         $size = $product->sizes->where('id', $request->size_id)->first();
         $size_quantity = $size->pivot->quantity;
-        $items = Cart::session('cart')->getContent()->pluck('id');
-        $product_quantity_in_cart = Cart::session('cart')->get($product_id . '_' . $size->id)->quantity ?? 0;
+        $items = \Cart::session(auth()->id() ?? 'cart')->getContent()->pluck('id');
+        $product_quantity_in_cart = \Cart::session(auth()->id() ?? 'cart')->get($product_id)->quantity ?? 0;
 
         if (!$size || $product_quantity_in_cart + $quantity_requested > $size_quantity) {
 
@@ -78,7 +76,7 @@ class CartController extends Controller
 
     public function removeFromCart($item_id)
     {
-        Cart::session('cart')->remove($item_id);
+        \Cart::session(auth()->id() ?? 'cart')->remove($item_id);
         $cart = cartData();
         return response()->json([
             'status' => true,
@@ -88,9 +86,9 @@ class CartController extends Controller
     public function increaseQuantity($product_id)
     {
         $product = Product::with('firstMedia')->find($product_id);
-        $items = Cart::session('cart')->getContent()->pluck('id');
+        $items = \Cart::session(auth()->id() ?? 'cart')->getContent()->pluck('id');
         if ($items->contains($product_id)) {
-            $item = Cart::session('cart')->get($product_id);
+            $item = \Cart::session(auth()->id() ?? 'cart')->get($product_id);
             $size = $product->sizes->where('id', $item->attributes->size_id)->first();
             $size_quantity = $size->pivot->quantity;
 
@@ -120,10 +118,10 @@ class CartController extends Controller
     {
         $cart = [];
         $product = Product::with('firstMedia')->find($product_id);
-        $items = Cart::session('cart')->getContent()->pluck('id');
+        $items = \Cart::session(auth()->id() ?? 'cart')->getContent()->pluck('id');
         if ($items->contains($product_id)) {
             // update the item on cart
-            $item = Cart::session('cart')->get($product_id);
+            $item = \Cart::session(auth()->id() ?? 'cart')->get($product_id);
             updateCart($product, $item->attributes->size_id, -1);
             $cart = cartData();
             return response()->json([

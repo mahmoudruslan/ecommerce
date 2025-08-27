@@ -10,22 +10,82 @@
                     <div class="align-items-stretch">
                         <h2 class="h4">{{ $product['name_' . $lang] }}</h2>
                         <p class="text-muted">{{ getCurrency() . number_format($product->price, 2) }}</p>
-                        <div>
-                            <label class="form-label">{{ __('Size') }} :</label>
-                            <span class="selected-size fw-bold"
-                                id="selected-size-{{ $product->id }}">{{ $product->sizes->first()->name }}</span>
-                        </div>
-                        <div class="row m-auto mb-2">
-                            @foreach ($product->sizes as $size)
-                                <div class="col-2 p-1">
-                                    <label for="size-{{ $product->id }}-{{ $size->id}}" class="{{ $loop->first ? 'bg-primary' : '' }} w-100 size-box rounded border p-1 text-center"
-                                        data-product="{{$product->id}}" data-size="{{ $size->name }}" data-target="selected-size-{{ $product->id }}">
-                                        <small>{{ $size->name }}</small>
-                                    </label>
-                                    <input {{ $loop->first ? 'checked' : '' }} style="display: none;"  type="radio" name="size_id" id="size-{{ $product->id }}-{{ $size->id}}" value="{{ $size->id }}" data-quantity="{{$size->pivot->quantity}}">
+
+                        @if($product->has_variants)
+
+                        @php $first_attribute = $loop->first @endphp
+                            <label class="form-label">{{ $product->variants->first()->primaryAttribute['name_' . app()->getLocale()] }}</label>:
+                            <span class="selected-value fw-bold"
+                                      id="selected-value-{{$product->id}}-{{ $product->variants->first()->primary_attribute_value_id }}">{{ $product->variants->first()->primaryAttributeValue['value_' . app()->getLocale()] }}</span>
+                                <div class="row m-auto mb-2">
+                                    @foreach ($product->variants->pluck('primaryAttributeValue')->unique() as $value)
+                                        <div class="col-2 p-1">
+                                            <label for="value-{{$product->id}}-{{ $value->attribute_id }}-{{ $value->id}}" class="{{ $loop->first ? 'bg-primary' : '' }} w-100 size-box rounded border p-1 text-center"
+                                                   data-product="{{$product->id}}" data-value="{{ $value->value_ar }}" data-target="selected-value-{{$product->id}}-{{ $value->attribute_id }}">
+                                                <small>{{ $value->value_ar }}</small>
+                                            </label>
+                                            <input onclick="{{ $first_attribute ? 'firstAttribute(' . json_encode(route('customer.check.variants', [$product->id, $value->attribute_id , $value->id])) . ')' : '' }}"
+                                                   {{ $loop->first ? 'checked' : '' }} style="display: none;"  type="radio" name="value_id" id="value-{{ $product->id }}-{{$value->attribute_id}}-{{ $value->id}}" value="{{ $value->id }}" data-quantity="1">
+                                        </div>
+                                    @endforeach
+                                </div>
+                            <br>
+                            <label class="form-label">{{ $product->variants->first()->secondaryAttribute['name_' . app()->getLocale()] }}</label>:
+                            <span class="selected-value fw-bold"
+                                      id="selected-value-{{$product->id}}-{{ $product->variants->first()->secondary_attribute_value_id }}">{{ $product->variants->first()->secondaryAttributeValue['value_' . app()->getLocale()] }}</span>
+                                <div class="row m-auto mb-2">
+                                    @foreach ($product->variants->pluck('secondaryAttributeValue')->unique() as $value)
+                                        <div class="col-2 p-1">
+                                            <label for="value-{{$product->id}}-{{ $value->attribute_id }}-{{ $value->id}}" class="{{ $loop->first ? 'bg-primary' : '' }} w-100 size-box rounded border p-1 text-center"
+                                                   data-product="{{$product->id}}" data-value="{{ $value->value_ar }}" data-target="selected-value-{{$product->id}}-{{ $value->attribute_id }}">
+                                                <small>{{ $value->value_ar }}</small>
+                                            </label>
+                                            <input onclick="{{ $first_attribute ? 'firstAttribute(' . json_encode(route('customer.check.variants', [$product->id, $value->attribute_id , $value->id])) . ')' : '' }}"
+                                                   {{ $loop->first ? 'checked' : '' }} style="display: none;"  type="radio" name="value_id" id="value-{{ $product->id }}-{{$value->attribute_id}}-{{ $value->id}}" value="{{ $value->id }}" data-quantity="1">
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @foreach(collect($product->variantAttributeValues)->groupBy('attribute_id') as $attribute_id => $variantAttributeValues)
+                                @php $first_attribute = $loop->first @endphp
+                                <label class="form-label">{{ App\Models\Attribute::find($attribute_id)->name_ar }}</label>:
+                                <span class="selected-value fw-bold"
+                                      id="selected-value-{{$product->id}}-{{ $attribute_id }}">{{ $variantAttributeValues->first()->attributeValue->value_ar }}</span>
+                                <div class="row m-auto mb-2">
+                                    @foreach ($variantAttributeValues->unique('attribute_value_id') as $variantAttributeValue)
+                                        <div class="col-2 p-1">
+                                            <label for="value-{{$product->id}}-{{ $attribute_id }}-{{ $variantAttributeValue->attributeValue->id}}" class="{{ $loop->first ? 'bg-primary' : '' }} w-100 size-box rounded border p-1 text-center"
+                                                   data-product="{{$product->id}}" data-value="{{ $variantAttributeValue->attributeValue->value_ar }}" data-target="selected-value-{{$product->id}}-{{ $attribute_id }}">
+                                                <small>{{ $variantAttributeValue->attributeValue->value_ar }}</small>
+                                            </label>
+                                            <input onclick="{{ $first_attribute ? 'firstAttribute(' . json_encode(route('customer.check.variants', [$product->id, $variantAttributeValue->attribute_id , $variantAttributeValue->attributeValue->id])) . ')' : '' }}"
+                                                   {{ $loop->first ? 'checked' : '' }} style="display: none;"  type="radio" name="value_id" id="value-{{ $product->id }}-{{$attribute_id}}-{{ $variantAttributeValue->attributeValue->id}}" value="{{ $variantAttributeValue->attributeValue->id }}" data-quantity="{{$variantAttributeValue->variant->quantity}}">
+                                        </div>
+                                    @endforeach
                                 </div>
                             @endforeach
-                        </div>
+                        @endif
+{{--                        <div>--}}
+{{--                            <label class="form-label">{{ __('Size') }} :</label>--}}
+{{--                            <span class="selected-size fw-bold"--}}
+{{--                                id="selected-size-{{ $product->id }}">{{ $product->sizes->first()->name }}</span>--}}
+{{--                        </div>--}}
+{{--                        <div class="row m-auto mb-2">--}}
+{{--                            @foreach ($product->sizes as $size)--}}
+{{--                                <div class="col-2 p-1">--}}
+{{--                                    <label for="size-{{ $product->id }}-{{ $size->id}}" class="{{ $loop->first ? 'bg-primary' : '' }} w-100 size-box rounded border p-1 text-center"--}}
+{{--                                        data-product="{{$product->id}}" data-size="{{ $size->name }}" data-target="selected-size-{{ $product->id }}">--}}
+{{--                                        <small>{{ $size->name }}</small>--}}
+{{--                                    </label>--}}
+{{--                                    <input {{ $loop->first ? 'checked' : '' }} style="display: none;"  type="radio" name="size_id" id="size-{{ $product->id }}-{{ $size->id}}" value="{{ $size->id }}" data-quantity="{{$size->pivot->quantity}}">--}}
+{{--                                </div>--}}
+{{--                            @endforeach--}}
+{{--                        </div>--}}
+
+
+
+
+
+
                         <div class="mb-4 g-3">
                                 <div class="col-sm-8 mb-4">
                                     <div class="row">

@@ -17,8 +17,8 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        Cart::session('cart')->clearCartConditions();
-        $cart_items = Cart::session('cart')->getContent();
+        \Cart::session(auth()->id() ?? 'cart')->clearCartConditions();
+        $cart_items = \Cart::session(auth()->id() ?? 'cart')->getContent();
         if (count($cart_items)  == 0) {
             Alert::toast(__('No products available in your cart.'), 'error');
             return redirect()->route('customer.store');
@@ -34,7 +34,7 @@ class CheckoutController extends Controller
                     'value' => '+' . $default_address->governorate->cost,
                     'order' => 2
                 ));
-                Cart::session('cart')->condition($condition);
+                \Cart::session(auth()->id() ?? 'cart')->condition($condition);
             }
         }
         $cart_data = cartData();
@@ -50,7 +50,7 @@ class CheckoutController extends Controller
     public function applyCoupon(Request $request)
     {
         $coupon = Coupon::active()->where('code', $request->coupon_code)->first();
-        $total = Cart::session('cart')->getTotal();
+        $total = \Cart::session(auth()->id() ?? 'cart')->getTotal();
         if (!$total > 0) {
             return response()->json([
                 'message' => __('No products available in your cart.'),
@@ -62,7 +62,7 @@ class CheckoutController extends Controller
         if ($coupon) {
             if ($coupon->checkUsedTimes() && $coupon->checkDate() && $coupon->checkGreaterThan($total)) {
 
-                Cart::session('cart')->removeConditionsByType('sale');
+                \Cart::session(auth()->id() ?? 'cart')->removeConditionsByType('sale');
                 $condition = new CartCondition(array(
                     'name' => $coupon->code,
                     'type' => 'sale',
@@ -71,11 +71,11 @@ class CheckoutController extends Controller
                     'order' => 1
 
                 ));
-                Cart::session('cart')->condition($condition);
+                \Cart::session(auth()->id() ?? 'cart')->condition($condition);
                 $cart = cartData();
-                // $cart['count'] = Cart::session('cart')->getContent()->count();
-                // $cart['total'] = Cart::session('cart')->getTotal();
-                // $cart['subTotal'] = Cart::session('cart')->getSubTotal();
+                // $cart['count'] = \Cart::session(auth()->id() ?? 'cart')->getContent()->count();
+                // $cart['total'] = \Cart::session(auth()->id() ?? 'cart')->getTotal();
+                // $cart['subTotal'] = \Cart::session(auth()->id() ?? 'cart')->getSubTotal();
                 $cart['sale'] = $condition->getCalculatedValue($cart['subTotal']);
                 return response()->json([
                     'message' => __('Coupon applied successfully.'),
@@ -96,7 +96,7 @@ class CheckoutController extends Controller
 
     public function removeCoupon()
     {
-        Cart::session('cart')->removeConditionsByType('sale');
+        \Cart::session(auth()->id() ?? 'cart')->removeConditionsByType('sale');
         return response()->json([
             'message' => __('Coupon removed successfully.'),
             'type' => 'success',
@@ -116,7 +116,7 @@ class CheckoutController extends Controller
             'value' => '+' . $governorate->cost,
             'order' => 2
         ));
-        Cart::session('cart')->condition($condition);
+        \Cart::session(auth()->id() ?? 'cart')->condition($condition);
         return response()->json([
             'cost' => $governorate->cost,
             'cart' => cartData()

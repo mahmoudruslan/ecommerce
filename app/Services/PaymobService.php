@@ -115,13 +115,13 @@ class PaymobService implements PaymentInterface
                     'payment_method' =>  'card',
                 ]);
                 //increase used_times in coupon
-                $sale_condition = Cart::session('cart')->getConditionsByType('sale');
+                $sale_condition = \Cart::session(auth()->id() ?? 'cart')->getConditionsByType('sale');
                 $coupon_code = count($sale_condition) > 0 ? $sale_condition->first()->getName() : null;
                 $coupon = Coupon::where('code', $coupon_code)->first();
                 if ($coupon) {
                     $coupon->increment('used_times');
                 }
-                Cart::session('cart')->clear();
+                \Cart::session(auth()->id() ?? 'cart')->clear();
                 //send mail or notify
                 $invoice_data = $this->getData($order);
                 $pdf = PDF::loadView('store.parts.invoice', $invoice_data);
@@ -158,7 +158,7 @@ class PaymobService implements PaymentInterface
     {
         $order->products()->each(function ($product) {
             $product->quantity += $product->pivot->quantity;
-            Cart::session('cart')->add([
+            \Cart::session(auth()->id() ?? 'cart')->add([
                 'id' => $product->id,
                 'name' => $product->name_ar,
                 'price' => $product->price,

@@ -14,8 +14,8 @@ document.querySelectorAll(".inc-btn").forEach((el) => {
     el.addEventListener("click", () => {
         let productId = el.parentElement.querySelector("#product_id").value;
         let form = document.getElementById("cartForm" + productId);
-        let = availableQuantitySize = form.querySelector(
-            'input[name="size_id"]:checked'
+        let availableQuantitySize = form.querySelector(
+            'input[name="value_id"]:checked'
         ).dataset.quantity;
         if (parseInt(quantity) < parseInt(availableQuantitySize)) {
             let quantityField = el.parentElement.querySelector("#quantity");
@@ -121,12 +121,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     sizeBoxes.forEach((box) => {
         box.addEventListener("click", function () {
-            const siblingBoxes =
-                this.closest(".row").querySelectorAll(".size-box");
+            const productId = this.dataset.product;
+
+            const siblingBoxes = this.closest(".row").querySelectorAll(".size-box");
             siblingBoxes.forEach((b) => b.classList.remove("bg-primary"));
             this.classList.add("bg-primary");
             const targetId = this.dataset.target;
-            const productId = this.dataset.product;
             const selectedSizeLabel = document.getElementById(targetId);
             selectedSizeLabel.textContent = this.textContent.trim();
             resetQuantity(productId);
@@ -135,7 +135,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 function resetQuantity(productId) {
     let form = document.getElementById("cartForm" + productId);
+
     let quantityField = form.querySelector('input[id="quantity"]');
+
     quantityField.value = 1;
     quantity = 1;
 }

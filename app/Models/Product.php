@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
@@ -87,7 +89,7 @@ class Product extends Model
         });
     }
 
-    public function orders()
+    public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class)->withPivot('quantity');
     }
@@ -95,12 +97,16 @@ class Product extends Model
     {
         return $this->belongsToMany(Size::class)->withPivot('quantity');
     }
-    public function orderProductSize()
+    public function orderProductSize(): BelongsToMany
     {
         return $this->belongsToMany(Size::class, 'order_product');
     }
-    public function variants()
+    public function variants(): HasMany
     {
         return $this->hasMany(Variant::class);
+    }
+    public function VariantAttributeValues(): HasMany
+    {
+        return $this->hasMany(VariantAttribute::class);
     }
 }

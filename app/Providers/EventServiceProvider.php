@@ -23,6 +23,15 @@ class EventServiceProvider extends ServiceProvider
         GeneratedOTP::class => [
             SendOTP::class,
         ],
+        'cart.added' => [
+            'App\Listeners\SaveCartToDatabase',
+        ],
+        'cart.updated' => [
+            'App\Listeners\SaveCartToDatabase',
+        ],
+        'cart.removed' => [
+            'App\Listeners\SaveCartToDatabase',
+        ],
     ];
 
     /**

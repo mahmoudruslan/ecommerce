@@ -27,10 +27,21 @@ class StoreVariantRequest extends FormRequest
     {
         return [
             'price' => ['required', 'string'],
-            'product_id' => ['required', 'string'],
+            'product_id' => [
+                'required',
+                Rule::unique('variants')->where(function ($query) {
+                    return $query->where('product_id', $this->product_id)
+                                 ->where('primary_attribute_id', $this->primary_attribute_id)
+                                 ->where('primary_attribute_value_id', $this->primary_attribute_value_id)
+                                 ->where('secondary_attribute_id', $this->secondary_attribute_id)
+                                 ->where('secondary_attribute_value_id', $this->secondary_attribute_value_id);
+                }),
+            ],
             'quantity' => ['required', 'string'],
-            'attributes' => ['required', 'array'],
-            'attributes.*' => ['required', 'integer', 'exists:attribute_values,id'],
+            'primary_attribute_id' => 'required|string',
+            'secondary_attribute_id' => 'required|string',
+            'primary_attribute_value_id' => 'required|string',
+            'secondary_attribute_value_id' => 'required|string',
             'images' => ['required', 'array', 'min:1'],
             'images.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048']
         ];
@@ -48,6 +59,7 @@ class StoreVariantRequest extends FormRequest
             'price.required' => 'The price is required.',
             'quantity.required' => 'The quantity is required.',
             'product_id.required' => 'product not found.',
+            'product_id.unique' => 'This variant is already exists.',
             'attributes.required' => 'The attributes is required.',
             'attributes.*.required' => 'The attribute is required.',
             'attributes.*.integer' => 'The attribute must be an integer.',

@@ -29,7 +29,7 @@ class WishListProvider extends ServiceProvider
             );
         });
 
-    
+
     }
 
     /**

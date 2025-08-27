@@ -69,6 +69,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function(){
             'attributes' => AttributeController::class,//attributes routes
             'attribute-values' => AttributeValueController::class,//attribute values route
         ]);
+        Route::get('get-attribute-values/{id}', [AttributeValueController::class, 'getAttributeValues'])->name('get.attribute.values');//get attribute values by attribute id
         Route::group(['prefix' => 'products/{product}/', 'as' => 'products.'], function(){
             Route::resource('variants', VariantController::class);
         });

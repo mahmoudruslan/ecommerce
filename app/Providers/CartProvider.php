@@ -15,20 +15,22 @@ class CartProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('cart', function($app)
-        {
-            $storage = $app['session'];
-            $events = $app['events'];
-            $instanceName = 'cart_1';
-            $session_key = '88uuiioo99888';
-            return new Cart(
-                $storage,
-                $events,
-                $instanceName,
-                $session_key,
-                config('shopping_cart')
-            );
-        });
+//        dd(true);
+
+//        $this->app->singleton('cart', function($app)
+//        {
+//            $storage = $app['session'];
+//            $events = $app['events'];
+//            $instanceName = 'cart_1';
+//            $session_key = '88uuiioo99888';
+//            return new Cart(
+//                $storage,
+//                $events,
+//                $instanceName,
+//                $session_key,
+//                config('shopping_cart')
+//            );
+//        });
     }
 
     /**

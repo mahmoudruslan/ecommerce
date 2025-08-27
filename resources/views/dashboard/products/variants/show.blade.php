@@ -62,12 +62,14 @@
                                         <th scope="row">{{__('Quantity')}}</th>
                                         <td colspan="2">{{$variant->quantity}}</td>
                                     </tr>
-                                    @foreach($variant->attributeValues as $item)
-                                        <tr>
-                                            <th scope="row">{{__($item->attribute['name_' . $lang])}}</th>
-                                            <td colspan="2">{{$item->value['value_' . $lang]}}</td>
-                                        </tr>
-                                    @endforeach
+                                    <tr>
+                                        <th scope="row">{{ $variant->primaryAttribute['name_' . app()->getLocale()] }}</th>
+                                        <td colspan="2">{{ $variant->primaryAttributeValue['value_' . app()->getLocale()] }}</td>
+                                    </tr>
+                                   <tr>
+                                        <th scope="row">{{ $variant->secondaryAttribute['name_' . app()->getLocale()] }}</th>
+                                        <td colspan="2">{{ $variant->secondaryAttributeValue['value_' . app()->getLocale()] }}</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>

@@ -2,7 +2,7 @@
 @section('content')
     @php
         $lang = app()->getLocale();
-        $coupon_count = Cart::session('cart')->getConditionsByType('sale')->count();
+        $coupon_count = \Cart::session(auth()->id() ?? 'cart')->getConditionsByType('sale')->count();
         $customer = auth()->user();
 
         $customer_addresses = $customer ? auth()->user()->addresses : null;
@@ -194,7 +194,7 @@
                                     class="{{ !$coupon_count > 0 ? 'hidden' : '' }} d-flex align-items-center justify-content-between mb-2">
                                     <strong class="text-uppercase small fw-bold">{{ __('Discount') }}</strong>
                                     <span
-                                        id="coupon-value">{{ \Cart::session('cart')->getConditionsByType('sale')->sum('parsedRawValue') }}</span>
+                                        id="coupon-value">{{ \Cart::session(auth()->id() ?? 'cart')->getConditionsByType('sale')->sum('parsedRawValue') }}</span>
                                 </li>
                                 <hr>
                                 <li class="d-flex align-items-center justify-content-between mb-2">

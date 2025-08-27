@@ -23,17 +23,28 @@ class UpdateVariantRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
-    {
-        return [
-            'price' => ['required', 'string'],
-            'quantity' => ['required', 'string'],
-            'attributes' => ['required', 'array'],
-            'attributes.*' => ['required', 'integer', 'exists:attribute_values,id'],
-            'images' => ['nullable', 'array', 'min:1'],
-            'images.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048']
-        ];
-    }
+public function rules()
+{
+    return [
+        'price' => ['required', 'string'],
+        'product_id' => [
+            'required',
+            Rule::unique('variants')->where(function ($query) {
+                return $query->where('product_id', $this->product_id)
+                             ->where('primary_attribute_id', $this->primary_attribute_id)
+                             ->where('primary_attribute_value_id', $this->primary_attribute_value_id)
+                             ->where('secondary_attribute_id', $this->secondary_attribute_id)
+                             ->where('secondary_attribute_value_id', $this->secondary_attribute_value_id);
+            })->ignore($this->route('variant')),
+        ],
+        'quantity' => ['required', 'string'],
+        'primary_attribute_value_id' => 'required|string',
+        'secondary_attribute_value_id' => 'required|string',
+        'images' => ['nullable', 'array', 'min:1'],
+        'images.*' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048']
+    ];
+}
+
 
     public function messages()
     {

@@ -16,14 +16,14 @@ class AttributeSeeder extends Seeder
     public function run()
     {
         Attribute::create([
-            'name_ar' => 'اللون',
-            'name_en' => 'Color',
-            'code' => 'color',
-        ]);
-        Attribute::create([
             'name_ar' => 'المقاس',
             'name_en' => 'size',
             'code' => 'size',
+        ]);
+        Attribute::create([
+            'name_ar' => 'اللون',
+            'name_en' => 'Color',
+            'code' => 'color',
         ]);
     }
 }

@@ -1,15 +1,16 @@
 <div class="offcanvas offcanvas-{{ app()->getLocale() == 'en' ? 'end' : 'start' }}" tabindex="-1" id="offcanvasExample"
     aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">{{ __('Cart') }}</h5>
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">{{ __('Cart')  }}</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
+
     <div class="offcanvas-body cart-div-main">
         @foreach ($cart_items as $item)
             <div id="cart-{{ $item->id }}" class="row align-items-center cart-row">
                 <div class="col-md-4 my-4">
-                    <a class="reset-anchor d-block animsition-link" href="product/{{ $item->associatedModel->slug }}">
-                        <img src="http://{{ request()->httpHost() }}/storage/{{ $item->associatedModel->firstMedia->file_name }}"
+                    <a class="reset-anchor d-block animsition-link" href="product/{{ $item->associatedModel['slug'] }}">
+                        <img src="http://{{ request()->httpHost() }}/storage/{{ $item->associatedModel['first_media']['file_name'] }}"
                             alt="..." width="80" />
                     </a>
                 </div>
@@ -25,8 +26,8 @@
                             {{__('Size')}} : <small>{{ $item->attributes->size_name }}</small>
                     </p>
                     <form id="cartForm{{ $item->id }}" action="">
-                        <input type="hidden" class="available_quantity" id="available_quantity"
-                            value="{{ $item->associatedModel->quantity }}">
+{{--                        <input type="hidden" class="available_quantity" id="available_quantity"--}}
+{{--                            value="{{ $item['quantity'] }}">--}}
                         <div class="w-75 border d-flex align-items-center justify-content-between px-3"><span
                                 class="small text-gray headings-font-family">{{ __('Quantity') }}</span>
                             <div class="quantity">
@@ -63,7 +64,7 @@
                 </p>
             </div>
             <div class="col-md-8">
-                <p id="cart-subtotal" class="text-muted">{{ getCurrency() . number_format(\Cart::session('cart')->getSubTotal(), 2) }}
+                <p id="cart-subtotal" class="text-muted">{{ getCurrency() . number_format(\Cart::session(auth()->id() ?? 'cart')->getSubTotal(), 2) }}
                 </p>
             </div>
             <div class="col-md-12">

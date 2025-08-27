@@ -94,8 +94,8 @@
                                 <i class="fas fa-dolly-flatbed"></i>
                                 {{-- {{ __('Cart') }} --}}
                                 <small id="cart-count"
-                                       class="text-gray fw-normal">({{ \Cart::session('cart')->getContent()->count() }}
-                                    )</small>
+                                       class="text-gray fw-normal">({{\Cart::session(auth()->id() ?? 'cart')->getContent()->count()}})
+                                </small>
                             </a>
                         </li>
                     </ul>

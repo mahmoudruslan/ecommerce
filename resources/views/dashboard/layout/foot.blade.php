@@ -13,6 +13,7 @@
     <script src="{{asset('dashboard/js/sb-admin-2.min.js')}}"></script>
     <!-- custom js code-->
     <script src="{{asset('dashboard/js/custom.js')}}"></script>
+    <script src="{{asset('dashboard/js/variants.js')}}"></script>
 
 
 

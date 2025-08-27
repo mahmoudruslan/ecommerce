@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\VariantDataTable;
-use App\Http\Requests\Products\UpdateProductRequest;
-use App\Http\Requests\Variants\RemoveImageRequest;
 use App\Http\Requests\Variants\StoreVariantRequest;
 use App\Http\Requests\Variants\UpdateVariantRequest;
 use App\Models\Attribute;
 use App\Models\Media;
 use App\Models\Product;
 use App\Models\Variant;
-use App\Models\VariantAttribute;
 use App\Traits\Files;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -30,6 +24,7 @@ class VariantController extends Controller
     public function create(Product $product)
     {
         $attributes = Attribute::with('values')->get();
+        // return $attributes;
         return view('dashboard.products.variants.create', compact('product', 'attributes'));
     }
 
@@ -38,23 +33,14 @@ class VariantController extends Controller
      *
      * @param  \App\Http\Requests\StoreVariantRequest  $request
      * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Httsp\RedirectResponse
      */
-    public function store(StoreVariantRequest $request, Product $product): RedirectResponse
+    public function store(StoreVariantRequest $request, Product $product)
     {
         try{
             DB::transaction(function () use ($request, $product) {
                 // Create Variant
-                $variant = $product->variants()->create($request->only('quantity', 'price', 'sku'));
-                // Create Variant Attributes
-                foreach ($request['attributes'] as $attribute => $value) {
-
-                    VariantAttribute::create([
-                        'variant_id' => $variant->id,
-                        'attribute_id' => $attribute,
-                        'attribute_value_id' => $value,
-                    ]);
-                }
+                $variant = $product->variants()->create($request->except('product_id', 'has_variants', 'images', '_token'));
                 // Upload Variant Images
                 $this->createProductMedia($request->images, $variant, 'image', 'images/variants/');
                 // Update Product status
@@ -67,15 +53,11 @@ class VariantController extends Controller
             ]);
         } catch (\Throwable $e) {
             return redirect()->back()->with([
-                'message' => __('Something went wrong. Please try again.'),
+                'message' => $e->getMessage(),
                 'alert-type' => 'danger'
             ]);
         }
-
     }
-
-
-
     /**
      * Display the specified resource.
      *
@@ -101,11 +83,8 @@ class VariantController extends Controller
     {
         try {
             userAbility(['show-variants']);
-            $attributes = Attribute::with('values')->get();
-            $selectedValues = $variant->attributeValues
-                ->mapWithKeys(fn ($item) => [$item->attribute_id => $item->attribute_value_id])
-                ->toArray();
-            return view('dashboard.products.variants.edit', compact('product',  'variant',  'attributes', 'selectedValues'));
+
+            return view('dashboard.products.variants.edit', compact('product',  'variant'));
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -122,15 +101,8 @@ class VariantController extends Controller
     {
         try {
             DB::transaction(function () use ($request, $product, $variant) {
-                $variant->update($request->only('quantity', 'price'));
-                // Create Variant Attributes
-                foreach ($request['attributes'] as $attribute => $value) {
-                    VariantAttribute::create([
-                        'variant_id' => $variant->id,
-                        'attribute_id' => $attribute,
-                        'attribute_value_id' => $value
-                    ]);
-                }
+                $variant->update($request->except('primary_attribute_id', 'secondary_attribute_id', 'product_id', 'has_variants', 'images', '_token'));
+
                 // Upload Variant Images
                 $this->createProductMedia($request->images, $variant, 'image', 'images/variants/');
                 // Update Product status
@@ -153,6 +125,26 @@ class VariantController extends Controller
     public function destroy(Product $product, Variant $variant)
     {
         userAbility(['delete-variants']);
+        // TODO: Check if the product has other variants, if not update the product's has_variants to false
+        // TODO: Check if the variant is associated with any orders, if so prevent deletion
+        //TODO: Check if the variant is associated with any cart
+        // Delete associated media files
+        $variant->delete();
+        return redirect()->route('admin.products.show', $product)->with([
+            'message' => __('Product Updated successfully.'),
+            'alert-type' => 'success'
+        ]);
+
+    }
+
+    public function forceDelete(Product $product, Variant $variant)
+    {
+        userAbility(['delete-variants']);
+        // TODO: Check if the product has other variants, if not update the product's has_variants to false
+        // TODO: Check if the variant is associated with any orders, if so prevent deletion
+        //TODO: Check if the variant is associated with any cart
+        // Delete associated media files
+        $this->deleteProductMedia($variant, 'image');
         $variant->delete();
         return redirect()->route('admin.products.show', $product)->with([
             'message' => __('Product Updated successfully.'),
@@ -177,4 +169,50 @@ class VariantController extends Controller
             'code' => Response::HTTP_OK
         ]);
     }
+    /**
+     * Check available variants based on selected attribute value.
+     *
+     * @param int $product_id
+     * @param int $attribute_id
+     * @param int $attribute_value_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    // public function checkVariants($product_id, $attribute_id, $attribute_value_id)
+    // {
+    //     $available_colors = Variant::whereHas('attributeValues', function ($query) use ($product_id, $attribute_id, $attribute_value_id) {
+    //         return $query->where('product_id', $product_id)
+    //             ->where('attribute_id', $attribute_id)
+    //             ->where('attribute_value_id', $attribute_value_id);
+    //                 })
+    //             ->with(['attributeValues', 'attributeValues.attributeValue:id,value_en'])
+    //             ->get()
+    //             ->flatMap->attributeValues
+    //             ->where('attribute_id', '!=',  $attribute_id)
+    //             ->values()
+    //             ->pluck('attributeValue');
+
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'data' => $available_colors
+    //     ]);
+    // }
+
+    // public function getAvailableValues(Request $request, $product_id, $primary_attribute_id, $primary_attribute_value_id)
+    // {
+    //     $available_values = DB::table('variants')
+    //         ->where('product_id', $product_id)
+    //         ->where('primary_attribute_id', $primary_attribute_id)
+    //         ->where('primary_attribute_value_id', $primary_attribute_value_id)
+    //         ->whereNotNull('secondary_attribute_id') // To ensure we only get variants with a second attribute
+    //         ->join('attribute_values', 'variants.secondary_attribute_value_id', '=', 'attribute_values.id')
+    //         ->join('attributes', 'variants.secondary_attribute_id', '=', 'attributes.id')
+    //         ->select('attribute_values.value_en', 'attributes.name as attribute_name')
+    //         ->distinct()
+    //         ->get();
+
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'data' => $available_values
+    //     ]);
+    // }
 }

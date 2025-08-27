@@ -18,33 +18,33 @@ class AttributeValueSeeder extends Seeder
     {
         AttributeValue::create([
             'attribute_id' => 1,
-            'value_ar' => 'أحمر',
-            'value_en' => 'red'
-        ]);
-        AttributeValue::create([
-            'attribute_id' => 1,
-            'value_ar' => 'أزرق',
-            'value_en' => 'blue'
-        ]);
-        AttributeValue::create([
-            'attribute_id' => 1,
-            'value_ar' => 'أسود',
-            'value_en' => 'black'
-        ]);
-        AttributeValue::create([
-            'attribute_id' => 2,
             'value_ar' => 'S',
             'value_en' => 'S'
         ]);
         AttributeValue::create([
-            'attribute_id' => 2,
+            'attribute_id' => 1,
             'value_ar' => 'M',
             'value_en' => 'M'
         ]);
         AttributeValue::create([
-            'attribute_id' => 2,
+            'attribute_id' => 1,
             'value_ar' => 'L',
             'value_en' => 'L'
+        ]);
+        AttributeValue::create([
+            'attribute_id' => 2,
+            'value_ar' => 'أحمر',
+            'value_en' => 'red'
+        ]);
+        AttributeValue::create([
+            'attribute_id' => 2,
+            'value_ar' => 'أزرق',
+            'value_en' => 'blue'
+        ]);
+        AttributeValue::create([
+            'attribute_id' => 2,
+            'value_ar' => 'أسود',
+            'value_en' => 'black'
         ]);
     }
 }

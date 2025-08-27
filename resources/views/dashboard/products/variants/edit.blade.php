@@ -22,6 +22,19 @@
         <div id="content">
             <!-- Begin Page Content -->
             <div class="container-fluid">
+                @php
+                    //show all errors
+                    if ($errors->any()) {
+                        foreach ($errors->all() as $error) {
+                            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    ' . $error . '
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>';
+                        }
+                    }
+                @endphp
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800">{{ __('Add variants') }}</h1>
                 <div class="row justify-content-center">

@@ -17,13 +17,13 @@ class OrderService implements OrderStorageInterface
     public function createOrder($request)
     {
         //data
-        $cart = Cart::session('cart')->getContent();
-        $total = Cart::session('cart')->getTotal();
-        $sub_total = Cart::session('cart')->getSubTotal();
-        $sale_condition = Cart::session('cart')->getConditionsByType('sale');
+        $cart = \Cart::session(auth()->id() ?? 'cart')->getContent();
+        $total = \Cart::session(auth()->id() ?? 'cart')->getTotal();
+        $sub_total = \Cart::session(auth()->id() ?? 'cart')->getSubTotal();
+        $sale_condition = \Cart::session(auth()->id() ?? 'cart')->getConditionsByType('sale');
         $discount = $sale_condition->sum('parsedRawValue');
         $coupon_code = count($sale_condition) > 0 ? $sale_condition->first()->getName() : null;
-        $shipping = Cart::session('cart')->getConditionsByType('shipping')->sum('parsedRawValue');
+        $shipping = \Cart::session(auth()->id() ?? 'cart')->getConditionsByType('shipping')->sum('parsedRawValue');
         $order_address_id = null;
 
         if (!isset($request['address_id'])) { // if no address
@@ -77,7 +77,7 @@ class OrderService implements OrderStorageInterface
             'transaction' => OrderTransaction::PENDING,
             'payment_method' => $cache  ? 'cash-on-delivery' : 'card',
         ]);
-        Cart::session('cart')->clear();
+        \Cart::session(auth()->id() ?? 'cart')->clear();
         $address = isset($request['address_id']) ? $order->userAddress : $order->orderAddress;
         return [
             'id' => $order->id,
@@ -100,7 +100,7 @@ class OrderService implements OrderStorageInterface
     public function cartReplace($order_id)
     {
         $order = Order::with('products')->findOrFail($order_id);
-        Cart::session('cart')->clear();
+        \Cart::session(auth()->id() ?? 'cart')->clear();
         $shortages = [];
         foreach ($order->products as $product) {
             $quantity_requested = $product->pivot->quantity;
@@ -129,7 +129,7 @@ class OrderService implements OrderStorageInterface
     {
         $shortages = [];
         $order = Order::with('products')->findOrFail($order_id);
-        $cart_items = Cart::session('cart')->getContent();
+        $cart_items = \Cart::session(auth()->id() ?? 'cart')->getContent();
         foreach ($order->products as $product) {
 
             $item_id = $product->id . '_' . $product->pivot->size_id;
@@ -138,7 +138,7 @@ class OrderService implements OrderStorageInterface
             // return $available_quantity;
 
             if ($cart_items->pluck('id')->contains($item_id)) {
-                $item = Cart::session('cart')->get($item_id);
+                $item = \Cart::session(auth()->id() ?? 'cart')->get($item_id);
 
                 $quantity_requested = $item->quantity + $product->pivot->quantity;
 

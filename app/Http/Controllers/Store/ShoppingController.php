@@ -14,11 +14,7 @@ class ShoppingController extends Controller
 {
     public function shoppingInProducts(Request $request, $type = null, $parent = null, $slug = null)
     {
-//        return Product::with(['variants.variantValues'])->take(5)->get();
-        // return response()->json(true);
-
-        // \Cart::session('cart')->clear();
-        $products = Product::with(['media', 'sizes']);
+        $products = Product::with(['images', 'media', 'sizes']);
         if ($type === 'tag' && !empty($slug)) {
             $products = Product::whereHas('tags', function ($query) use ($slug) {
                 $query->whereSlug($slug)->whereStatus(true);

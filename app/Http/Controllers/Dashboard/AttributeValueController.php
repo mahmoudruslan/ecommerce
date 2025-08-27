@@ -99,4 +99,17 @@ class AttributeValueController extends Controller
             'alert-type' => 'success'
         ]);
     }
+    /**
+     * Get attribute values by attribute id.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getAttributeValues($id)
+    {
+        $attributeValues = AttributeValue::select('id', 'value_'. app()->getLocale())->where('attribute_id', $id)->get();
+        return response()->json([
+            'attribute-values' => $attributeValues,
+        ]);
+    }
 }

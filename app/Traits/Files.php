@@ -114,18 +114,18 @@ trait Files
         }
     }
 
-    public function deleteProductMedia($product, $media_type = 'image')
+    public function deleteProductMedia(Model $model, $media_type = 'image')
     {
          //delete media
         $path = 'storage/';
-        $images = $product->media()->where('media_type', $media_type)->pluck('file_name');
+        $images = $model->media()->where('media_type', $media_type)->pluck('file_name');
         foreach($images as $image)
         {
             if (File::exists($path . $image)) {
                 File::delete($path . $image);
             }
         }
-        $product->media()->where('media_type', $media_type)->delete();
+        $model->media()->where('media_type', $media_type)->delete();
     }
 
 }

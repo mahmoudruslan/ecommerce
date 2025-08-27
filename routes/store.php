@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\User;
-use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Store\CartController;
@@ -11,7 +9,7 @@ use App\Http\Controllers\Store\CheckoutController;
 use App\Http\Controllers\Store\CustomerController;
 use App\Http\Controllers\Store\ShoppingController;
 use App\Http\Controllers\Store\WishListController;
-use App\Notifications\ToStore\OrderInvoiceNotification;
+use App\Http\Controllers\VariantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +25,7 @@ use App\Notifications\ToStore\OrderInvoiceNotification;
 Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => [/*'auth',*/'if_admin'], 'as' => 'customer.'], function () {
+    Route::get('check-variants/{product_id}/{attribute_id}/{attribute_value_id}', [VariantController::class, 'checkVariants'])->name('check.variants');
     Route::get('/', [IndexController::class, 'index'])->name('store');
     Route::get('/shopping/{type?}/{parent?}/{category?}', [ShoppingController::class, 'shoppingInProducts'])->name('shopping');
     Route::post('add-to-cart/{product_id}', [CartController::class, 'addToCart'])->name('add.cart');

@@ -1,9 +1,13 @@
 <?php
 
 use App\Models\User;
+use Darryldecode\Cart\Facades\CartFacade;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Spatie\Permission\Exceptions\UnauthorizedException;
-use Darryldecode\Cart\Facades\CartFacade as Cart;
+//use Darryldecode\Cart\Facades\CartFacade as Cart;
 
 
 // note :  super-admin role have all permissions and roles
@@ -54,23 +58,34 @@ function checkImg($img_src)
 }
 function cartData()
 {
-    $cart = [];
-    $cart['count'] = Cart::session('cart')->getContent()->count();
-    $cart['total'] = Cart::session('cart')->getTotal();
-    $cart['subTotal'] = Cart::session('cart')->getSubTotal();
-    $cart_collection = Cart::session('cart')->getContent()->reverse();
-    foreach ($cart_collection as $item) {
-        $cart['items'][] = [
-            'id' => $item->id,
-            'name' => $item->name,
-            'price' => $item->price,
-            'quantity' => $item->quantity,
-            'associatedModel' => $item->associatedModel,
-            'size_id' => $item->attributes->size_id,
-            'size_name' => $item->attributes->size_name,
-        ];
+    $userId = auth()->id();
+
+    $cart = $userId
+        ? CartFacade::session($userId)
+        : CartFacade::session('cart');
+
+    if ($cart->getContent()->count() > 0) {
+        $cartData['count'] = $cart->getContent()->count();
+        $cartData['total'] = $cart->getTotal();
+        $cartData['subTotal'] = $cart->getSubTotal();
+        $cart_collection = $cart->getContent()->reverse();
+        foreach ($cart_collection as $item) {
+            $cartData['items'][] = [
+                'id' => $item->id,
+                'name' => $item->name,
+                'price' => $item->price,
+                'quantity' => $item->quantity,
+                'associatedModel' => (array) $item->associatedModel,
+                'size_id' => $item->attributes->size_id,
+                'size_name' => $item->attributes->size_name,
+            ];
+        }
+        return $cartData;
+    }else{
+        return [];
     }
-    return $cart;
+
+
 }
 function currentLang()
 {
@@ -79,28 +94,35 @@ function currentLang()
 
 function addToCart($product, $size, $quantity)
 {
-    //add to cart additional size_id to product
-    Cart::session('cart')->add([
-        'id' => $product->id . '_' . $size->id,
+
+    $userId = auth()->id(); // null if guest
+
+    $cart = $userId
+        ? \Cart::session($userId) // For logged-in users
+        : \Cart::session('cart');
+
+    $cart->add([
+        'id' => $product->id,
         'name' => $product->name_ar,
         'price' => $product->price,
         'quantity' => $quantity,
-        'associatedModel' => $product,
+        'associatedModel' => $product->toArray(),
         'attributes' => [
             'size_id' => $size->id,
             'size_name' => $size->name,
         ]
     ]);
+
 }
 function updateCart($product, $size_id, $quantity)
 {
     $product_id = $product->id;
-    $cartItems = Cart::session('cart')->getContent();
+    $cartItems = \Cart::session(auth()->id() ?? 'cart')->getContent();
     $existingItem = $cartItems->filter(function ($item) use ($product_id, $size_id) {
-        return $item->id == $product_id . '_' . $size_id;
+        return $item->id == $product_id;
     })->first();
 
-    Cart::session('cart')->update($existingItem->id, [
+    \Cart::session(auth()->id() ?? 'cart')->update($existingItem->id, [
         'quantity' =>  $quantity,
         'price' => $product->price
     ]);

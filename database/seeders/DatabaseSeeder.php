@@ -114,6 +114,7 @@ class DatabaseSeeder extends Seeder
             ProductSizesSeeder::class,
             AttributeSeeder::class,
             AttributeValueSeeder::class,
+            // VariantSeeder::class,
             CategoryTagsSeeder::class,
             ReviewSeeder::class,
             ShippingCompanySeeder::class,
