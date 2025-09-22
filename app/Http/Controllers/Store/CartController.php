@@ -26,7 +26,11 @@ class CartController extends Controller
 
     public function addToCart(Request $request, $product_id)
     {
-
+        return response()->json([
+            'status' => true,
+            'body' => $request->all(),
+            'product_id' => $product_id
+        ]);
         $quantity_requested = $request->quantity;
         $cart = cartData();
 

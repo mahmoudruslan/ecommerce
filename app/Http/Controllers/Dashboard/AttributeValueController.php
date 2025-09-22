@@ -8,6 +8,7 @@ use App\Http\Requests\AttributeValues\StoreAttributeValueRequest;
 use App\Http\Requests\AttributeValues\UpdateAttributeValueRequest;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
+use Illuminate\Support\Facades\DB;
 
 class AttributeValueController extends Controller
 {
@@ -107,7 +108,9 @@ class AttributeValueController extends Controller
      */
     public function getAttributeValues($id)
     {
-        $attributeValues = AttributeValue::select('id', 'value_'. app()->getLocale())->where('attribute_id', $id)->get();
+        $attributeValues = AttributeValue::select(['id', DB::raw("value_" . app()->getLocale() . " as value")])
+            ->where('attribute_id', $id)
+            ->get();
         return response()->json([
             'attribute-values' => $attributeValues,
         ]);

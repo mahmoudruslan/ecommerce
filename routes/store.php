@@ -25,7 +25,7 @@ use App\Http\Controllers\VariantController;
 Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => [/*'auth',*/'if_admin'], 'as' => 'customer.'], function () {
-    Route::get('check-variants/{product_id}/{attribute_id}/{attribute_value_id}', [VariantController::class, 'checkVariants'])->name('check.variants');
+    Route::get('available-attribute-values/{product_id}/{attribute_id}/{attribute_value_id}', [VariantController::class, 'availableAttributeValues'])->name('variants.attribute.values');
     Route::get('/', [IndexController::class, 'index'])->name('store');
     Route::get('/shopping/{type?}/{parent?}/{category?}', [ShoppingController::class, 'shoppingInProducts'])->name('shopping');
     Route::post('add-to-cart/{product_id}', [CartController::class, 'addToCart'])->name('add.cart');

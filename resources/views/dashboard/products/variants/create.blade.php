@@ -23,6 +23,9 @@
                                             <div class="text-center">
                                                 <h1 class="h4 text-gray-900 mb-4">{{ __('Add variant for : '. $product['name_'. app()->getLocale()]) }}</h1>
                                             </div>
+                                            @error('product_id')
+                                                <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
+                                            @enderror
                                             <form action="{{ route('admin.products.variants.store', $product) }}" method="POST"
                                                   enctype="multipart/form-data" class="user" id="variant-form">
                                                 @csrf
@@ -35,7 +38,7 @@
                                                         </div>
 
                                                         <div class="row">
-                                                            {{-- السعر --}}
+                                                            {{-- price --}}
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <input type="text" name="price"
@@ -48,7 +51,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            {{-- الكمية --}}
+                                                            {{-- quantity --}}
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <input type="text" name="quantity"
@@ -61,28 +64,88 @@
                                                                 </div>
                                                             </div>
 
-                                                            {{-- خصائص المنتج --}}
-                                                            @foreach ($attributes as $attribute)
-                                                                <div class="form-group col-md-6">
-                                                                    <label>{{ $attribute['name_' . app()->getLocale()] }}</label>
-                                                                    <select name="attributes[{{ $attribute->id }}]"
-                                                                            class="form-control item @error('attributes.' . $attribute->id) is-invalid @enderror">
-                                                                        <option selected disabled>{{ __('Select option') }}</option>
-                                                                        @foreach ($attribute->values as $value)
-                                                                            <option value="{{$value->id}}"
-                                                                                {{ old('attributes.' . $attribute->id) == $value->id ? 'selected' : '' }}>
-                                                                                {{ $value['value_' . app()->getLocale()] }}
+                                                            {{-- Primary Attribute --}}
+                                                            <div class="form-group col-md-6">
+                                                                <label>{{ __('Primary Attribute') }}</label>
+                                                                <select name="primary_attribute_id"
+                                                                        class="form-control item @error('primary_attribute_id') is-invalid @enderror"
+                                                                        data-get-attribute-values-url="{{ route('admin.get.attribute.values', ':id') }}">
+                                                                    <option selected disabled>{{ __('Select primary attribute') }}</option>
+                                                                    @foreach ($attributes as $attribute)
+                                                                        <option value="{{ $attribute->id }}"
+                                                                                {{ old('primary_attribute_id') == $attribute->id ? 'selected' : '' }}>
+                                                                            {{ $attribute['name_' . app()->getLocale()] }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @error('primary_attribute_id')
+                                                                <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
+                                                                @enderror
+                                                            </div>
+
+                                                            {{-- (Primary Attribute Value) --}}
+                                                            <div class="form-group col-md-6" id="primary_attribute_value_container">
+                                                                <label>{{ __('Primary Attribute Value') }}</label>
+                                                                <select name="primary_attribute_value_id"
+                                                                        class="form-control item @error('primary_attribute_value_id') is-invalid @enderror"
+                                                                        disabled>
+                                                                    <option selected disabled>{{ __('Select value') }}</option>
+                                                                    @if (old('primary_attribute_id') && old('primary_attribute_value_id'))
+                                                                        @foreach ($attributes->find(old('primary_attribute_id'))->values ?? [] as $value)
+                                                                            <option value="{{ $value->id }}"
+                                                                                    {{ old('primary_attribute_value_id') == $value->id ? 'selected' : '' }}>
+                                                                                {{ $value->value }}hgh
                                                                             </option>
                                                                         @endforeach
-                                                                    </select>
-                                                                    @error('attributes')
-                                                                        <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
-                                                                    @enderror
-                                                                </div>
-                                                            @endforeach
+                                                                    @endif
+                                                                </select>
+                                                                @error('primary_attribute_value_id')
+                                                                <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
+                                                                @enderror
+                                                            </div>
+
+                                                            {{-- (Secondary Attribute) --}}
+                                                            <div class="form-group col-md-6">
+                                                                <label>{{ __('Secondary Attribute') }}</label>
+                                                                <select name="secondary_attribute_id"
+                                                                        class="form-control item @error('secondary_attribute_id') is-invalid @enderror"
+                                                                        data-get-attribute-values-url="{{ route('admin.get.attribute.values', ':id') }}">
+                                                                    <option selected disabled>{{ __('Select secondary attribute') }}</option>
+                                                                    @foreach ($attributes as $attribute)
+                                                                        <option value="{{ $attribute->id }}"
+                                                                                {{ old('secondary_attribute_id') == $attribute->id ? 'selected' : '' }}>
+                                                                            {{ $attribute['name_' . app()->getLocale()] }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @error('secondary_attribute_id')
+                                                                <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
+                                                                @enderror
+                                                            </div>
+
+                                                            {{-- (Secondary Attribute Value) --}}
+                                                            <div class="form-group col-md-6" id="secondary_attribute_value_container">
+                                                                <label>{{ __('Secondary Attribute Value') }}</label>
+                                                                <select name="secondary_attribute_value_id"
+                                                                        class="form-control item @error('secondary_attribute_value_id') is-invalid @enderror"
+                                                                        disabled>
+                                                                    <option selected disabled>{{ __('Select value') }}</option>
+                                                                    @if (old('secondary_attribute_id') && old('secondary_attribute_value_id'))
+                                                                        @foreach ($attributes->find(old('secondary_attribute_id'))->values ?? [] as $value)
+                                                                            <option value="{{ $value->id }}"
+                                                                                    {{ old('secondary_attribute_value_id') == $value->id ? 'selected' : '' }}>
+                                                                                {{ $value->value }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </select>
+                                                                @error('secondary_attribute_value_id')
+                                                                <span class="text-danger" role="alert"><small>{{ $message }}</small></span>
+                                                                @enderror
+                                                            </div>
                                                         </div>
 
-                                                        {{-- الصور --}}
+                                                        {{-- images --}}
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <input multiple type="file" name="images[]" class="file"
@@ -114,13 +177,14 @@
             </div>
         </div>
         <!-- Outer Row -->
-        @endsection
-        @push('script')
-            <script>
-                $("#input-id").fileinput({
-                    required: false,
-                    showUpload: false,
-                    showRemove:true,
-                });
-            </script>
+    @endsection
+
+    @push('script')
+        <script>
+            $("#input-id").fileinput({
+                required: false,
+                showUpload: false,
+                showRemove: true,
+            });
+        </script>
     @endpush

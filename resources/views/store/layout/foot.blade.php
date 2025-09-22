@@ -40,6 +40,7 @@
       <script src="{{ asset('store/js/coupon.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/checkout.js') }}" type="text/javascript"></script>
       <script src="{{ asset('store/js/profile.js') }}" type="text/javascript"></script>
+      <script src="{{ asset('store/js/variants.js')}}"></script>
       </body>
 
       </html>

@@ -10,7 +10,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="lang" value="{{ app()->getLocale() }}">
     <meta name="host" value="{{ request()->httpHost() }}">
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 
     <title>{{config('app.name')}}</title>
     @livewireStyles

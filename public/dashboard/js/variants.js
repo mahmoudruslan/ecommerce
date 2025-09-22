@@ -25,7 +25,7 @@ function fetchAttributeValues(attributeSelect, selectName) {
     const selectedAttributeId = attributeSelect.value;
     const route = attributeSelect.dataset.getAttributeValuesUrl;
     if (selectedAttributeId && route) {
-        const url = route.replace(':id', selectedAttributeId);        
+        const url = route.replace(':id', selectedAttributeId);
 
         fetch(url, {
             method: 'GET',
@@ -71,7 +71,7 @@ function fetchAttributeValues(attributeSelect, selectName) {
             data['attribute-values'].forEach(value => {
                 const option = document.createElement('option');
                 option.value = value.id;
-                option.textContent = value.value_en;
+                option.textContent = value.value;
                 select.appendChild(option);
             });
 

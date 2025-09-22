@@ -197,22 +197,20 @@ class VariantController extends Controller
     //     ]);
     // }
 
-    // public function getAvailableValues(Request $request, $product_id, $primary_attribute_id, $primary_attribute_value_id)
-    // {
-    //     $available_values = DB::table('variants')
-    //         ->where('product_id', $product_id)
-    //         ->where('primary_attribute_id', $primary_attribute_id)
-    //         ->where('primary_attribute_value_id', $primary_attribute_value_id)
-    //         ->whereNotNull('secondary_attribute_id') // To ensure we only get variants with a second attribute
-    //         ->join('attribute_values', 'variants.secondary_attribute_value_id', '=', 'attribute_values.id')
-    //         ->join('attributes', 'variants.secondary_attribute_id', '=', 'attributes.id')
-    //         ->select('attribute_values.value_en', 'attributes.name as attribute_name')
-    //         ->distinct()
-    //         ->get();
+    public function availableAttributeValues(Request $request, $product_id, $primary_attribute_id, $primary_attribute_value_id)
+    {
+        $available_values = Variant::with('secondaryAttributeValue')
+            ->where('product_id', $product_id)
+            ->where('primary_attribute_id', $primary_attribute_id)
+            ->where('primary_attribute_value_id', $primary_attribute_value_id)
+            ->whereNotNull('secondary_attribute_id')
+            ->get()
+            // ->pluck('secondaryAttributeValue')
+            ;
 
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'data' => $available_values
-    //     ]);
-    // }
+        return response()->json([
+            'status' => 'success',
+            'data' => $available_values
+        ]);
+    }
 }

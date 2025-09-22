@@ -1,4 +1,15 @@
 @extends('store.layout.master')
+@section('style')
+<style>
+    .disabled {
+        pointer-events: none;
+        opacity: 0.6;
+        cursor: not-allowed;
+        text-decoration: line-through;
+    }
+</style>
+@endsection
+
 @section('content')
     @php
         $lang = app()->getLocale();
