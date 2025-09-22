@@ -14,6 +14,7 @@
                                 @if($product->has_variants)
                                     @php
                                         $variantPrimaryAttributeValues = $product->variants->pluck('primaryAttributeValue')->unique()->pluck('id')->toArray();
+                                        $availableSecondaryAttributeValues = $product->variants->where('primaryAttributeValue.id', $variantPrimaryAttributeValues[0])->pluck('secondaryAttributeValue')->unique()->pluck('id')->toArray();
                                         $defaultSecondaryAttributeValueId = $product->variants->where('primaryAttributeValue.id', $variantPrimaryAttributeValues[0])->first()->secondaryAttributeValue->id;
                                         $defaultVariant = $product->variants->where('primaryAttributeValue.id', $variantPrimaryAttributeValues[0])->where('secondaryAttributeValue.id', $defaultSecondaryAttributeValueId)->first();
                                     @endphp
@@ -53,7 +54,7 @@
                                                     <label for="value-{{$product->id}}-{{ $value->attribute_id }}-{{ $value->id}}"
                                                         class="w-100 secondary-attribute rounded border p-1 text-center secondary-value-label
                                                         {{ $value->id == $defaultSecondaryAttributeValueId ? 'bg-primary' : '' }}
-                                                        {{ $value->id != $defaultSecondaryAttributeValueId ? 'disabled' : '' }}"
+                                                         {{ !in_array($value->id, $availableSecondaryAttributeValues) ? 'disabled' : '' }}"
                                                         data-product="{{$product->id}}"
                                                         data-value-id="{{ $value->id }}"
                                                         data-value="{{ $value->value_ar }}"
@@ -64,7 +65,7 @@
                                                         style="display: none"
                                                         type="radio"
                                                         {{ $value->id == $defaultSecondaryAttributeValueId ? 'checked' : '' }}
-                                                        {{ $value->id != $defaultSecondaryAttributeValueId ? 'disabled' : '' }}
+                                                        {{ !in_array($value->id, $availableSecondaryAttributeValues) ? 'disabled' : '' }}
                                                         name="secondary_value_id"
                                                         id="value-{{ $product->id }}-{{$value->attribute_id}}-{{ $value->id}}"
                                                         value="{{ $value->id }}"

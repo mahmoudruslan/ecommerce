@@ -51,10 +51,10 @@ function renderSecondaryValues(data, productId) {
         }
         if (availableValueIds.includes(valueId)) {
             label.classList.remove('disabled');
-            // label.querySelector('input').disabled = false;
+            radioInput.disabled = false;
         } else {
             label.classList.add('disabled');
-            // label.querySelector('input').disabled = true;
+            radioInput.disabled = true;
         }
 
         if (radioInput) {
