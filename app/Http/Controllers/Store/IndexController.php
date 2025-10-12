@@ -11,7 +11,7 @@ class IndexController extends Controller
     public function index()
     {
         $categories = Category::whereNull('parent_id')->whereStatus(1)->take(4)->get();
-        $featured_products = Product::with([
+        $featured_products = Product::where('id', 500)->with([
                 'firstMedia',
                 'images',
                 'variants',

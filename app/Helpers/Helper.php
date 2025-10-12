@@ -92,7 +92,7 @@ function currentLang()
     return app()->getLocale();
 }
 
-function addToCart($product, $size, $quantity)
+function addToCart($product, $variant, $quantity)
 {
 
     $userId = auth()->id(); // null if guest
@@ -108,8 +108,7 @@ function addToCart($product, $size, $quantity)
         'quantity' => $quantity,
         'associatedModel' => $product->toArray(),
         'attributes' => [
-            'size_id' => $size->id,
-            'size_name' => $size->name,
+            'variant' => $variant->toArray(),
         ]
     ]);
 

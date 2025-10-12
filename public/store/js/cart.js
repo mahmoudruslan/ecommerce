@@ -8,21 +8,21 @@ document.addEventListener('DOMContentLoaded', () => {
 function addToCart(productId, url) {
     let cartForm = document.getElementById("cartForm" + productId);
     let formData = new FormData(cartForm);
+    console.log(cartForm);
+
     url = url + "/" + productId;
-    let response = ajaxRequest("POST", url, formData);
-    response
+
+    ajaxRequest("POST", url, formData)
         .then((response) => {
-            if (response.status === true) {
+            if (response?.status === true) {
                 updateCartCount(response.cart.count);
                 updateSubTotal(response.cart.subTotal);
+                addItemInCartSidebar(response?.cart?.items);
+                // openCartSidBar();
             }
-            return response;
-        })
-        .then((response) => {
-            addItemInCartSidebar(response.cart.items);
-            // openCartSidBar();
         });
 }
+
 
 // remove form cart
 function removeFromCart(itemId, url)

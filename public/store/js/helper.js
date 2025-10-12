@@ -4,23 +4,41 @@ let host = document.getElementsByName("host")[0].getAttribute("value");
 function ajaxRequest(method, url, formData = null) {
     let loaderDiv = document.querySelector(".loader"); // access loader div
     loaderDiv.style.display = "block";
+
     return fetch(url, {
         method: method,
         headers: {
             "x-csrf-token": token,
+            "X-Requested-With": "XMLHttpRequest",
         },
         body: formData,
     })
-        .then((response) => response.json())
-        .then((data) => {
+        .then(async (response) => {
             loaderDiv.style.display = "none";
+            const data = await response.json().catch(() => null);
+            if (!response.ok) {
+                throw {
+                    status: response.status,
+                    data: data,
+                };
+            }
             return data;
         })
         .catch((error) => {
             loaderDiv.style.display = "none";
-            alert('Error', 'error', 'Some errors');
+
+            if (error?.status === 422 && error?.data?.errors) {
+                Object.entries(error.data.errors).forEach((err) => {
+                    alert("Error", "error", err[1][0]);
+                });
+            } else {
+                alert("Error", "error", "Something went wrong!");
+                console.error("Fetch Error:", error);
+            }
+            return null;
         });
 }
+
 function updateTotal(total) {
     let totalElements = document.querySelectorAll("#cart-total");
     totalElements.forEach((element) => {

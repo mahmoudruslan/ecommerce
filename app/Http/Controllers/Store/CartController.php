@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Store;
 
-use App\Models\Product;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cookie;
+use App\Http\Requests\Store\Cart\AddToCartRequest;
+use App\Models\Product;
+use App\Models\Variant;
+use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
-use Darryldecode\Cart\Facades\CartFacade as Cart;
 
 class CartController extends Controller
 {
@@ -24,36 +24,37 @@ class CartController extends Controller
         return view('store.cart', compact('cart'));
     }
 
-    public function addToCart(Request $request, $product_id)
+    public function addToCart(AddToCartRequest $request, $product_id)
     {
-        return response()->json([
-            'status' => true,
-            'body' => $request->all(),
-            'product_id' => $product_id
-        ]);
-        $quantity_requested = $request->quantity;
-        $cart = cartData();
 
-        $product = Product::with(['variants', 'firstMedia'])->find($product_id);
+        addToCart($request->product, $request->variant, $quantity ?? 1);
+        // $quantity_requested = $request->quantity;
+        // $cart = cartData();
 
-        $size = $product->sizes->where('id', $request->size_id)->first();
-        $size_quantity = $size->pivot->quantity;
+
+
+        // $size = $product->sizes->where('id', $request->size_id)->first();
+        // $size_quantity = $size->pivot->quantity;
         $items = \Cart::session(auth()->id() ?? 'cart')->getContent()->pluck('id');
+
         $product_quantity_in_cart = \Cart::session(auth()->id() ?? 'cart')->get($product_id)->quantity ?? 0;
+        return response()->json([
+            'product_quantity_in_cart' => $product_quantity_in_cart,
+            'cart' => cartData()
+        ]);
+        // if (!$size || $product_quantity_in_cart + $quantity_requested > $size_quantity) {
 
-        if (!$size || $product_quantity_in_cart + $quantity_requested > $size_quantity) {
-
-            return response()->json([
-                'message' => __('Only pieces of the are currently available', [
-                    'quantity' =>  $size_quantity - $product_quantity_in_cart,
-                    'product' => $product->name_ar,
-                ]),
-                'type' => 'warning',
-                'title' => __('Warning'),
-                'status' => true,
-                'cart' => $cart
-            ]);
-        }
+        //     return response()->json([
+        //         'message' => __('Only pieces of the are currently available', [
+        //             'quantity' =>  $size_quantity - $product_quantity_in_cart,
+        //             'product' => $product->name_ar,
+        //         ]),
+        //         'type' => 'warning',
+        //         'title' => __('Warning'),
+        //         'status' => true,
+        //         'cart' => $cart
+        //     ]);
+        // }
         if ($items->contains($product_id)) {
 
             updateCart($product, $size->id, $quantity_requested ?? 1);
@@ -66,7 +67,7 @@ class CartController extends Controller
                 'cart' => $cart
             ]);
         } else {
-            addToCart($product, $size, $quantity_requested ?? 1);
+            addToCart($request->product, $request->variant, $quantity ?? 1);
             $cart = cartData();
             return response()->json([
                 'message' => __('Product added to cart successfully.'),
