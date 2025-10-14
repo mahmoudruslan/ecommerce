@@ -56,7 +56,7 @@
                             </p>
                         </div>
                         <div class="col-md-3 mb-2">
-                            <form id="cartForm{{ $item['id'] }}" action="">
+                            {{-- <form id="cartForm{{ $item['id'] }}" action=""> --}}
                                 <div class="border d-flex align-items-center justify-content-between px-3"><span
                                         class="small text-gray headings-font-family">{{ __('Quantity') }}</span>
                                     <div class="quantity">
@@ -69,12 +69,12 @@
                                             class="form-control form-control-sm border-0 shadow-0 p-0 bg-white"
                                             type="text" value="{{ $item['quantity'] }}" />
                                         <span
-                                            onclick="increaseQuantity('{{ $item['id'] }}', 'http\://{{ request()->httpHost() }}/cart-increase-quantity')"
+                                            onclick="increaseQuantity('{{ $item['attributes']['variant']['id'] }}', 'http\://{{ request()->httpHost() }}/cart-increase-quantity')"
                                             class="increase"><i
                                                 class="fas fa-caret-{{ $lang === 'ar' ? 'left' : 'right' }}"></i></span>
                                     </div>
                                 </div>
-                            </form>
+                            {{-- </form> --}}
                         </div>
                         <div class="col-md-1 mb-2">
                             <a href="javascript:void(0)" class="reset-anchor"

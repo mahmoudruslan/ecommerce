@@ -5,7 +5,6 @@ namespace App\Http\Requests\Store\Cart;
 use App\Models\Product;
 use App\Models\Variant;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class AddToCartRequest extends FormRequest

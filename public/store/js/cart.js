@@ -14,11 +14,13 @@ function addToCart(productId, url) {
 
     ajaxRequest("POST", url, formData)
         .then((response) => {
-            if (response?.status === true) {
+            if (response?.status === 200 || response?.status === true) {
                 updateCartCount(response.cart.count);
                 updateSubTotal(response.cart.subTotal);
                 addItemInCartSidebar(response?.cart?.items);
                 // openCartSidBar();
+            }else{
+                alert(response.title, response.type, response.message);
             }
         });
 }

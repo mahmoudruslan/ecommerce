@@ -102,9 +102,9 @@ function addToCart($product, $variant, $quantity)
         : \Cart::session('cart');
 
     $cart->add([
-        'id' => $product->id,
+        'id' => $variant->id,
         'name' => $product->name_ar,
-        'price' => $product->price,
+        'price' => $variant->price,
         'quantity' => $quantity,
         'associatedModel' => $product->toArray(),
         'attributes' => [
@@ -113,17 +113,16 @@ function addToCart($product, $variant, $quantity)
     ]);
 
 }
-function updateCart($product, $size_id, $quantity)
+function updateCart($variant, $quantity)
 {
-    $product_id = $product->id;
     $cartItems = \Cart::session(auth()->id() ?? 'cart')->getContent();
-    $existingItem = $cartItems->filter(function ($item) use ($product_id, $size_id) {
-        return $item->id == $product_id;
+    $existingItem = $cartItems->filter(function ($item) use ($variant) {
+        return $item->id == $variant->id;
     })->first();
 
     \Cart::session(auth()->id() ?? 'cart')->update($existingItem->id, [
         'quantity' =>  $quantity,
-        'price' => $product->price
+        'price' => $variant->price
     ]);
 }
 

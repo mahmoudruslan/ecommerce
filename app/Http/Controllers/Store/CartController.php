@@ -7,10 +7,12 @@ use App\Http\Requests\Store\Cart\AddToCartRequest;
 use App\Models\Product;
 use App\Models\Variant;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class CartController extends Controller
 {
+    // make services for cart operations like add , remove , update quantity
     public function cart()
     {
         \Cart::session(auth()->id() ?? 'cart')->clearCartConditions();
@@ -26,55 +28,41 @@ class CartController extends Controller
 
     public function addToCart(AddToCartRequest $request, $product_id)
     {
-
-        addToCart($request->product, $request->variant, $quantity ?? 1);
-        // $quantity_requested = $request->quantity;
-        // $cart = cartData();
-
-
-
-        // $size = $product->sizes->where('id', $request->size_id)->first();
-        // $size_quantity = $size->pivot->quantity;
         $items = \Cart::session(auth()->id() ?? 'cart')->getContent()->pluck('id');
 
-        $product_quantity_in_cart = \Cart::session(auth()->id() ?? 'cart')->get($product_id)->quantity ?? 0;
-        return response()->json([
-            'product_quantity_in_cart' => $product_quantity_in_cart,
-            'cart' => cartData()
-        ]);
-        // if (!$size || $product_quantity_in_cart + $quantity_requested > $size_quantity) {
+        $product_quantity_in_cart = \Cart::session(auth()->id() ?? 'cart')->get($request->variant->id)->quantity ?? 0;
 
-        //     return response()->json([
-        //         'message' => __('Only pieces of the are currently available', [
-        //             'quantity' =>  $size_quantity - $product_quantity_in_cart,
-        //             'product' => $product->name_ar,
-        //         ]),
-        //         'type' => 'warning',
-        //         'title' => __('Warning'),
-        //         'status' => true,
-        //         'cart' => $cart
-        //     ]);
-        // }
-        if ($items->contains($product_id)) {
+        if ($product_quantity_in_cart + $request->quantity > $request->variant->quantity) {
 
-            updateCart($product, $size->id, $quantity_requested ?? 1);
-            $cart = cartData();
+            return response()->json([
+                'message' => __('Only :quantity pieces of the :product are currently available', [
+                    'quantity' =>  $request->variant->quantity - $product_quantity_in_cart,
+                    'product' => $request->product['name_' . app()->getLocale()],
+                    ]),
+                'type' => 'warning',
+                'title' => __('Warning'),
+                'status' => 422,// Response::HTTP_OK
+                'cart' => cartData() // data
+            ]);
+        }
+        if ($items->contains($request->variant->id)) {
+
+            updateCart($request->variant, $request->quantity ?? 1);
             return response()->json([
                 'message' => __('product data updated successfully in your cart.'),
                 'type' => 'info',
                 'title' => __('Success'),
-                'status' => true,
-                'cart' => $cart
+                'status' => true,// Response::HTTP_OK
+                'cart' => cartData()// data
             ]);
         } else {
-            addToCart($request->product, $request->variant, $quantity ?? 1);
-            $cart = cartData();
+            addToCart($request->product, $request->variant, $request->quantity ?? 1);
             return response()->json([
                 'message' => __('Product added to cart successfully.'),
                 'type' => 'success',
                 'title' => __('Success'),
-                'status' => true,
-                'cart' => $cart
+                'status' => true,// Response::HTTP_OK
+                'cart' => cartData()//   data
             ]);
         }
     }

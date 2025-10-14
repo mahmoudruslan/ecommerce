@@ -25,7 +25,7 @@
                             id="price-{{ $item->id }}">{{ number_format($item->price, 2) }}</small><br>
                             {{__('Size')}} : <small>{{ $item->attributes->size_name }}</small>
                     </p>
-                    <form id="cartForm{{ $item->id }}" action="">
+                    {{-- <form id="cartForm{{ $item->id }}" action=""> --}}
 {{--                        <input type="hidden" class="available_quantity" id="available_quantity"--}}
 {{--                            value="{{ $item['quantity'] }}">--}}
                         <div class="w-75 border d-flex align-items-center justify-content-between px-3"><span
@@ -44,7 +44,7 @@
                                         class="fas fa-caret-{{ $lang === 'ar' ? 'left' : 'right' }}"></i></span>
                             </div>
                         </div>
-                    </form>
+                    {{-- </form> --}}
                 </div>
                 <div class="col-md-1">
                     <a href="javascript:void(0)" class="reset-anchor"
