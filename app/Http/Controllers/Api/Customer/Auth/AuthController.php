@@ -8,9 +8,24 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\Api\Customer\LoginRequest;
 use App\Http\Requests\Api\Customer\VerifyRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    public function loginTest(Request $request)
+    {
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 422);
+        }
+        if (Auth::attempt($request->only('email', 'password'))) {
+        return response()->json(['message' => 'successfully'], 401);
+        }
+        return response()->json(['message' => 'Invalid credentials'], 401);
+    }
     public function login(LoginRequest $request)
     {
         //search on phone in database
@@ -18,6 +33,7 @@ class AuthController extends Controller
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
         }
+
         //if $user generate OTP
         $otp = $this->generateOTPCode($user);
 

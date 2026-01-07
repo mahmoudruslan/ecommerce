@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\DataTables\SupervisorDataTable;
+use App\Enums\UserTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SupervisorRequest;
 use App\Models\User;
@@ -47,6 +48,7 @@ class SupervisorController extends Controller
                 'email' => $request->email,
                 'mobile' => $request->mobile,
                 'status' => true,
+                'type' => UserTypeEnum::ADMIN->value,
                 'image' => $path . $file_name,
                 'password' => Hash::make('00000000'),
             ]);

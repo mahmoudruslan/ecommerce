@@ -27,6 +27,7 @@ Route::group([
     'prefix' => 'v1/auth',
     'as' => 'customer.auth.',
 ], function(){
+    Route::post('login2', [AuthController::class, 'loginTest']);
     Route::get('login', [AuthController::class, 'login']);
     Route::get('verify', [AuthController::class, 'verify']);
 

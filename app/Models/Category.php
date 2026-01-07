@@ -33,8 +33,9 @@ class Category extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'category_id');
+        return $this->belongsToMany(Product::class);
     }
+
     public function images()
     {
         return $this->morphMany(Media::class, 'mediable');

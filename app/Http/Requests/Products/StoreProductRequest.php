@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Products;
 
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -25,22 +26,30 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name_ar' => 'required|string|max:255',
-            'name_en' => 'required|string|max:255',
-            'price' => 'required|string|max:255',
-            'description_ar' => 'required|string|max:500',
-            'description_en' => 'required|string|max:500',
-            'video_link' => 'nullable|string|max:500',
-            'iframe' => 'nullable|string|max:500',
+            // 'name_ar' => 'required|string|max:255',
+            // 'name_en' => 'required|string|max:255',
+            // 'price' => 'required|string|max:255',
+            // 'description_ar' => 'required|string|max:500',
+            // 'description_en' => 'required|string|max:500',
+            // 'video_link' => 'nullable|string|max:500',
+            // 'iframe' => 'nullable|string|max:500',
             'category_id' => 'required|string|max:50',
-            'featured' => 'max:1',
-            'status' => 'max:1',
-            'images' => 'required|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
-            'sizes' => 'nullable|array',
-            'sizes.*.selected' => 'nullable|boolean',
-            'sizes.*.quantity' => 'nullable|integer|min:0'
+            // 'featured' => 'max:1',
+            // 'status' => 'max:1',
+            // 'images' => 'required|array',
+            // 'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:1024',
+            // 'sizes' => 'nullable|array',
+            // 'sizes.*.selected' => 'nullable|boolean',
+            // 'sizes.*.quantity' => 'nullable|integer|min:0'
         ];
+    }
+
+    public function passedValidation()
+    {
+        $category = Category::where('id', $this->input('category_id'))->first();
+        $this->merge([
+            'category' => $category,
+        ]);
     }
 
 }

@@ -9,7 +9,7 @@ use App\Models\Product;
 use App\Models\Governorate;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
-use App\Models\OrderTransaction;
+use App\Models\Transaction;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
@@ -167,12 +167,12 @@ class CustomerController extends Controller
             $order->update([
                 'status' => Order::REFUND_REQUEST,
             ]);
-            $transaction = OrderTransaction::where('order_id', $order->id)->where('transaction', OrderTransaction::PAYMENT_COMPLETED)->first();
+            $transaction = Transaction::where('order_id', $order->id)->where('transaction', Transaction::PAYMENT_COMPLETED)->first();
             // return $transaction;
             $order->transactions()->create([
-                'transaction' => OrderTransaction::REFUND_REQUEST,
+                'transaction' => Transaction::REFUND_REQUEST,
                 'payment_method' => $transaction->payment_method,
-                'transaction_number' => $transaction->transaction_number,
+                'invoice_number' => $transaction->invoice_number,
                 'payment_result' => $transaction->payment_result,
             ]);
             Alert::toast(__('Refund request sent successfully'), 'success');

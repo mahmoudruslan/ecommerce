@@ -2,15 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Status;
 use App\Models\City;
-use App\Models\Size;
-use App\Models\Order;
 use App\Models\Coupon;
-use App\Models\Product;
 use App\Models\Governorate;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Transaction;
 use App\Models\UserAddress;
 use Illuminate\Database\Seeder;
-use App\Models\OrderTransaction;
 use Illuminate\Support\Facades\DB;
 
 class OrderSeeder extends Seeder
@@ -40,50 +40,44 @@ class OrderSeeder extends Seeder
             'discount' => $coupon->value,
             'total' => ($products->sum('price') - $coupon->value) + $governorate->cost,
             'sub_total' => $products->sum('price'),
-            'status' => Order::FINISHED,
+            'status' => Status::FINISHED,
         ]);
 
         // order products
         foreach ($products as $product) {
-            $size = $product->sizes()->first();
             DB::table('order_product')->insert([
                 'order_id' => $order1->id,
                 'product_id' => $product->id,
-                'size_id' => $size->id,
-                'quantity' =>  rand(1, $size->pivot->quantity),
+                'quantity' =>  rand(1, 3),
                 'price' => $product->price,
-
             ]);
-            // $order1->products()->attach([
-            //     'price' => '50'
-            // ]);
         }
         // order transactions
-        OrderTransaction::create([
+        Transaction::create([
             'order_id' => $order1->id,
-            'transaction' => Order::PENDING,
-            'transaction_number' => null,
+            'status' => Status::PENDING,
+            'invoice_number' => null,
             'payment_result' => null,
             'payment_method' => 'card'
         ]);
-        OrderTransaction::create([
+        Transaction::create([
             'order_id' => $order1->id,
-            'transaction' => Order::PAYMENT_COMPLETED,
-            'transaction_number' => $num = rand(000000, 111111),
+            'status' => Status::PAYMENT_COMPLETED,
+            'invoice_number' => $num = rand(000000, 111111),
             'payment_result' => 'success',
             'payment_method' => 'card'
         ]);
-        OrderTransaction::create([
+        Transaction::create([
             'order_id' => $order1->id,
-            'transaction' => Order::PROCESSING,
-            'transaction_number' => $num,
+            'status' => Status::PROCESSING,
+            'invoice_number' => $num,
             'payment_result' => 'success',
             'payment_method' => 'card'
         ]);
-        OrderTransaction::create([
+        Transaction::create([
             'order_id' => $order1->id,
-            'transaction' => Order::FINISHED,
-            'transaction_number' => $num,
+            'status' => Status::FINISHED,
+            'invoice_number' => $num,
             'payment_result' => 'success',
             'payment_method' => 'card'
         ]);
@@ -101,32 +95,30 @@ class OrderSeeder extends Seeder
             'shipping' => $governorate->cost,
             'total' => $products->sum('price') + $governorate->cost,
             'sub_total' => $products->sum('price'),
-            'status' => Order::PAYMENT_COMPLETED,
+            'status' => Status::PAYMENT_COMPLETED,
         ]);
         // order products
         foreach ($products as $product) {
-            $size = $product->sizes()->first();
             DB::table('order_product')->insert([
                 'order_id' => $order2->id,
                 'product_id' => $product->id,
-                'size_id' => $size->id,
-                'quantity' =>  rand(1, $size->pivot->quantity),
+                'quantity' =>  rand(1, 3),
                 'price' => $product->price,
 
             ]);
         }
         // order transactions
-        OrderTransaction::create([
+        Transaction::create([
             'order_id' => $order2->id,
-            'transaction' => Order::PENDING,
-            'transaction_number' => null,
+            'status' => Status::PENDING,
+            'invoice_number' => null,
             'payment_result' => null,
             'payment_method' => 'card'
         ]);
-        OrderTransaction::create([
+        Transaction::create([
             'order_id' => $order2->id,
-            'transaction' => Order::PAYMENT_COMPLETED,
-            'transaction_number' => $num = rand(000000, 111111),
+            'status' => Status::PAYMENT_COMPLETED,
+            'invoice_number' => $num = rand(000000, 111111),
             'payment_result' => 'success',
             'payment_method' => 'card'
         ]);
@@ -144,32 +136,30 @@ class OrderSeeder extends Seeder
             'shipping' => $governorate->cost,
             'total' => ($products->sum('price') - $coupon->value) + $governorate->cost,
             'sub_total' => $products->sum('price'),
-            'status' => Order::CANCELED
+            'status' => Status::CANCELED
         ]);
         // order products
         foreach ($products as $product) {
-            $size = $product->sizes()->first();
             DB::table('order_product')->insert([
                 'order_id' => $order3->id,
                 'product_id' => $product->id,
-                'size_id' => $size->id,
-                'quantity' =>  rand(1, $size->pivot->quantity),
+                'quantity' =>  rand(1, 3),
                 'price' => $product->price,
 
             ]);
         }
         // order transactions
-        OrderTransaction::create([
+        Transaction::create([
             'order_id' => $order3->id,
-            'transaction' => Order::PENDING,
-            'transaction_number' => null,
+            'status' => Status::PENDING,
+            'invoice_number' => null,
             'payment_result' => null,
             'payment_method' => 'card'
         ]);
-        OrderTransaction::create([
+        Transaction::create([
             'order_id' => $order3->id,
-            'transaction' => Order::CANCELED,
-            'transaction_number' => $num = rand(000000, 111111),
+            'status' => Status::CANCELED,
+            'invoice_number' => $num = rand(000000, 111111),
             'payment_result' => 'failed',
             'payment_method' => 'card'
         ]);
@@ -187,46 +177,46 @@ class OrderSeeder extends Seeder
             'shipping' => $governorate->cost,
             'total' => ($products->sum('price') - $coupon->value) + $governorate->cost,
             'sub_total' => $products->sum('price'),
-            'status' => Order::FINISHED
+            'status' => Status::FINISHED
         ]);
         // order products
         foreach ($products as $product) {
-            $size = $product->sizes()->first();
+
             DB::table('order_product')->insert([
                 'order_id' => $order4->id,
                 'product_id' => $product->id,
-                'size_id' => $size->id,
-                'quantity' =>  rand(1, $size->pivot->quantity),
+
+                'quantity' =>  rand(1, 3),
                 'price' => $product->price,
 
             ]);
         }
         // order transactions
-        OrderTransaction::create([
+        Transaction::create([
             'order_id' => $order4->id,
-            'transaction' => Order::PENDING,
-            'transaction_number' => null,
+            'status' => Status::PENDING,
+            'invoice_number' => null,
             'payment_result' => null,
             'payment_method' => 'cash-on-delivery'
         ]);
-        OrderTransaction::create([
+        Transaction::create([
             'order_id' => $order4->id,
-            'transaction' => Order::PROCESSING,
-            'transaction_number' => null,
+            'status' => Status::PROCESSING,
+            'invoice_number' => null,
             'payment_result' => null,
             'payment_method' => 'cash-on-delivery'
         ]);
-        OrderTransaction::create([
+        Transaction::create([
             'order_id' => $order4->id,
-            'transaction' => Order::PAYMENT_COMPLETED,
-            'transaction_number' => null,
+            'status' => Status::PAYMENT_COMPLETED,
+            'invoice_number' => null,
             'payment_result' => 'success',
             'payment_method' => 'cash-on-delivery',
         ]);
-        OrderTransaction::create([
+        Transaction::create([
             'order_id' => $order4->id,
-            'transaction' => Order::FINISHED,
-            'transaction_number' => null,
+            'status' => Status::FINISHED,
+            'invoice_number' => null,
             'payment_result' => 'success',
             'payment_method' => 'cash-on-delivery'
         ]);
@@ -244,25 +234,25 @@ class OrderSeeder extends Seeder
             'shipping' => $governorate->cost,
             'total' => ($products->sum('price') - $coupon->value) + $governorate->cost,
             'sub_total' => $products->sum('price'),
-            'status' => Order::PENDING
+            'status' => Status::PENDING
         ]);
         // order products
         foreach ($products as $product) {
-            $size = $product->sizes()->first();
+
             DB::table('order_product')->insert([
                 'order_id' => $order5->id,
                 'product_id' => $product->id,
-                'size_id' => $size->id,
-                'quantity' =>  rand(1, $size->pivot->quantity),
+
+                'quantity' =>  rand(1, 3),
                 'price' => $product->price,
 
             ]);
         }
         // order transactions
-        OrderTransaction::insert([
+        Transaction::insert([
             'order_id' => $order5->id,
-            'transaction' => Order::PENDING,
-            'transaction_number' => null,
+            'status' => Status::PENDING,
+            'invoice_number' => null,
             'payment_result' => null,
             'payment_method' => 'cash-on-delivery',
         ]);

@@ -6,7 +6,7 @@ use App\Models\Size;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\OrderAddress;
-use App\Models\OrderTransaction;
+use App\Models\Transaction;
 use App\Services\Contracts\OrderStorageInterface;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -74,7 +74,7 @@ class OrderService implements OrderStorageInterface
         }
         $cache = $request['payment_method'] == 'cash-on-delivery';
         $order->transactions()->create([
-            'transaction' => OrderTransaction::PENDING,
+            'transaction' => Transaction::PENDING,
             'payment_method' => $cache  ? 'cash-on-delivery' : 'card',
         ]);
         \Cart::session(auth()->id() ?? 'cart')->clear();

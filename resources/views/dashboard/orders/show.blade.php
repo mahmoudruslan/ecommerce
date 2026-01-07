@@ -89,7 +89,7 @@
                                             <th>{{ __('Created at:') }}</th>
                                             <td>{{ $order->created_at }}</td>
                                             <th>{{ __('Status') }}</th>
-                                            <td>{!! $order->statusWithHtml() !!}</td>
+                                            <td>{!! $order->badgeHtml() !!}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -208,7 +208,7 @@
                                 @forelse ($order->transactions as $transaction)
                                     <tr>
                                         <td>
-                                            {!! $transaction->statusWithHtml() !!}
+                                            {!! $transaction->badgeHtml() !!}
                                         </td>
                                         <td>
                                             {{ $transaction->payment_method }}
@@ -217,7 +217,7 @@
                                             {{ $transaction->payment_result ?? '--' }}
                                         </td>
                                         <td>
-                                            {{ $transaction->transaction_number ?? '--' }}
+                                            {{ $transaction->invoice_number ?? '--' }}
                                         </td>
                                         <td>
                                             {{ $transaction->created_at }}

@@ -29,7 +29,7 @@ class OrderDataTable extends DataTable
                 return $b;
             })
             ->editColumn('status', function($row){
-                return $row->statusWithHtml();
+                return $row->badgeHtml();
             })
             ->editColumn('user_id', function($row){
                 return $row->user_id != null ? $row->customer->fullName : $row->orderAddress->fullName;

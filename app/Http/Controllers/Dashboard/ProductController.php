@@ -47,6 +47,7 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         try {
+            dd($request->category);
             $product = Product::create($request->only([
                 'name_ar',
                 'name_en',
@@ -55,7 +56,6 @@ class ProductController extends Controller
                 'description_en',
                 'video_link',
                 'iframe',
-                'category_id',
                 'featured',
                 'status',
             ]));
@@ -67,16 +67,7 @@ class ProductController extends Controller
 
             //create tags
             $product->tags()->attach($request->tags);
-            //create sizes
-            $sizesData = [];
-            foreach ($request->input('sizes', []) as $sizeId => $data) {
-                if (!empty($data['selected'])) {
-                    $sizesData[$sizeId] = [
-                        'quantity' => $data['quantity'] ?? 0
-                    ];
-                }
-            }
-            $product->sizes()->sync($sizesData);
+
             return redirect()->route('admin.products.index')->with([
                 'message' => __('Item Created successfully.'),
                 'alert-type' => 'success'

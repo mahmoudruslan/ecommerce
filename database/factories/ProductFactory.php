@@ -17,14 +17,12 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-        $categories = Category::whereNotNull('parent_id')->pluck('id');
         return [
                 'name_ar' => fake()->word(),
                 'name_en' => fake()->word(),
                 'price' => rand(50, 5000),
                 'description_ar' => fake()->sentence(),
                 'description_en' => fake()->sentence(),
-                'category_id' => $categories->random(),
                 'featured' => rand(0, 1),
                 'status' => rand(1, 1),
                 'video_link' => 'https://www.youtube.com/watch?v=nN_CF4lzpEE',

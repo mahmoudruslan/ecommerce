@@ -8,7 +8,7 @@ use App\Models\Coupon;
 use GuzzleHttp\Client;
 use Paymob\Library\Paymob;
 use GuzzleHttp\Psr7\Request;
-use App\Models\OrderTransaction;
+use App\Models\Transaction;
 use RealRashid\SweetAlert\Facades\Alert;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 use App\Notifications\ToStore\OrderStatusNotification;
@@ -109,8 +109,8 @@ class PaymobService implements PaymentInterface
                     'ref_id' => Paymob::filterVar('id')
                 ]);
                 $order->transactions()->create([
-                    'transaction' => OrderTransaction::PAYMENT_COMPLETED,
-                    'transaction_number' => Paymob::filterVar('id'),
+                    'transaction' => Transaction::PAYMENT_COMPLETED,
+                    'invoice_number' => Paymob::filterVar('id'),
                     'payment_result' =>  'success',
                     'payment_method' =>  'card',
                 ]);
@@ -143,7 +143,7 @@ class PaymobService implements PaymentInterface
                     $product->quantity += $product->pivot->quantity;
                 });
                 $order->transactions()->create([
-                    'transaction' => OrderTransaction::REJECTED,
+                    'transaction' => Transaction::REJECTED,
                     'payment_result' =>  'failed',
                 ]);
                 Alert::error(__('Payment'), __('Payment is not completed'));
@@ -193,8 +193,8 @@ class PaymobService implements PaymentInterface
                 'status' => Order::REFUNDED,
             ]);
             $order->transactions()->create([
-                'transaction' => OrderTransaction::REFUNDED,
-                'transaction_number' => $response->id,
+                'transaction' => Transaction::REFUNDED,
+                'invoice_number' => $response->id,
                 'payment_result' => 'success',
             ]);
             $order->products()->each(function ($product) {

@@ -22,7 +22,6 @@ return new class extends Migration
             $table->double('price');
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->boolean('featured')->default(false);
             $table->boolean('status')->default(false);
             $table->text('iframe')->nullable();

@@ -57,7 +57,7 @@ class OrderInvoiceNotification extends Notification implements ShouldQueue
     {
         return [
             'ref_id' => $this->order->ref_id,
-            'order_status' => __($this->order->status()),
+            'order_status' => __($this->order->label()),
             'order_id' => $this->order->id,
             'order_url' => route('customer.order.details', $this->order->id),
         ];
@@ -68,7 +68,7 @@ class OrderInvoiceNotification extends Notification implements ShouldQueue
         return new BroadcastMessage([
             'data' => [
                 'ref_id' => $this->order->ref_id,
-                'order_status' => __($this->order->status()),
+                'order_status' => __($this->order->label()),
                 'order_id' => $this->order->id,
                 'order_url' => route('customer.order.details', $this->order->id),
             ]

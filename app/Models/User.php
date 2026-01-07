@@ -16,26 +16,7 @@ class User extends Authenticatable  implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug;
 
 
-    public function receivesBroadcastNotificationsOn()
-    {
-        return 'App.Models.User.'.$this->id;
-    }
-    /**
-     * Get the options for generating the slug.
-     */
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('username')
-            ->saveSlugsTo('slug')
-            ->usingLanguage('en');
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-    /**
+        /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -49,6 +30,7 @@ class User extends Authenticatable  implements MustVerifyEmail
         'image',
         'status',
         'password',
+        'type',
     ];
 
     /**
@@ -69,6 +51,26 @@ class User extends Authenticatable  implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'App.Models.User.'.$this->id;
+    }
+    /**
+     * Get the options for generating the slug.
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('username')
+            ->saveSlugsTo('slug')
+            ->usingLanguage('en');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function getFullNameAttribute()
     {

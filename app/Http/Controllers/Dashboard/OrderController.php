@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Services\PaymobService;
-use App\Models\OrderTransaction;
+use App\Models\Transaction;
 use App\DataTables\OrderDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
@@ -48,7 +48,7 @@ class OrderController extends Controller
             foreach ($order_status as $key => $value) {
                 if ($key > $order->status) {
                     //no show payment complete in status
-                    $paid_transaction =  $order->transactions()->where('transaction', OrderTransaction::PAYMENT_COMPLETED)->get();
+                    $paid_transaction =  $order->transactions()->where('transaction', Transaction::PAYMENT_COMPLETED)->get();
                     if ($order->payment_method === 'card' && $key == 1) {
                         continue;
                     }

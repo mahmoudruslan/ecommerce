@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Transaction extends Model
 {
     use HasFactory;
-
     protected $guarded = [];
 
     // const PENDING = 0;
@@ -16,43 +15,18 @@ class Order extends Model
     // const PROCESSING = 2;
     // const REJECTED = 3;
     // const CANCELED = 4;
-    // const FINISHED = 3;
+    // const FINISHED = 5;
     // const REFUND_REQUEST = 6;
     // const RETURNED_ORDER = 7;
     // const REFUNDED = 8;
 
-    public function products()
+    public function order()
     {
-        return $this->belongsToMany(Product::class)->withPivot(['quantity', 'price', 'size_id']);
-    }
-    public function customer()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-    public function userAddress()
-    {
-        return $this->belongsTo(UserAddress::class);
-    }
-    public function paymentMethod()
-    {
-        return $this->belongsTo(PaymentMethod::class);
-    }
-    public function orderAddress()
-    {
-        return $this->belongsTo(OrderAddress::class);
-    }
-    public function transactions()
-    {
-        return $this->hasMany(Transaction::class);
-    }
-    public function address()
-    {
-        return $this->user_address_id == null ? $this->orderAddress() : $this->userAddress();
-
+        return $this->belongsTo(Order::class);
     }
     // public function status()
     // {
-    //     switch ($this->status) {
+    //     switch ($this->transaction) {
     //         case 0: $result = __('Pending'); break;
     //         case 1: $result = __('Payment completed'); break;
     //         case 2: $result = __('Processing'); break;
@@ -71,7 +45,7 @@ class Order extends Model
     // }
     // public function badgeHtml()
     // {
-    //     switch ($this->status) {
+    //     switch ($this->transaction) {
     //         case 0: $result = '<label class="p-1 btn-secondary">' . __('Pending') . '</label>'; break;
     //         case 1: $result = '<label class="p-1 btn-info">' . __('Payment completed') . '</label>'; break;
     //         case 2: $result = '<label class="p-1 btn-info">' . __('Processing') . '</label>'; break;
@@ -88,5 +62,4 @@ class Order extends Model
     //     }
     //     return $result;
     // }
-
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserTypeEnum;
 use App\Models\City;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -54,6 +55,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'mahmoud@gmail.com',
             'password' => Hash::make('00000000'),
             'mobile' => '01092199386',
+            'type' => UserTypeEnum::ADMIN->value,
             'image' => 'images/users/avatar.png',
             'status' => 1,
 
@@ -65,6 +67,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'rezkkora',
             'email' => 'rezk@gmail.com',
             'password' => Hash::make('00000000'),
+            'type' => UserTypeEnum::ADMIN->value,
             'mobile' => '010545445446',
             'image' => 'images/users/avatar.png',
             'status' => 1,
@@ -76,6 +79,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'ebraheemkora',
             'email' => 'ebraheem@gmail.com',
             'password' => Hash::make('00000000'),
+            'type' => UserTypeEnum::ADMIN->value,
             'mobile' => '01097978898986',
             'image' => 'images/users/avatar.png',
             'status' => 1,
@@ -88,6 +92,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'ahmedhossam',
             'email' => 'ahmedhossam@gmail.com',
             'password' => Hash::make('00000000'),
+            'type' => UserTypeEnum::CUSTOMER->value,
             'mobile' => '010979788989',
             'image' => 'images/users/avatar.png',
             'status' => 1,
@@ -111,7 +116,7 @@ class DatabaseSeeder extends Seeder
             ProductTagsSeeder::class,
             ProductMediaSeeder::class,
             SizeSeeder::class,
-            ProductSizesSeeder::class,
+            ProductCategorySeeder::class,
             AttributeSeeder::class,
             AttributeValueSeeder::class,
             // VariantSeeder::class,

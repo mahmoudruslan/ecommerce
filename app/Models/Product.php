@@ -32,9 +32,9 @@ class Product extends Model
         return 'slug';
     }
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsToMany(Category::class, 'category_product');
     }
 
     public function media()
@@ -84,7 +84,7 @@ class Product extends Model
 
     public function scopeActiveCategory($query)
     {
-        return $query->whereHas('category', function($query) {
+        return $query->whereHas('categories', function($query) {
             return $query->whereStatus(true);
         });
     }

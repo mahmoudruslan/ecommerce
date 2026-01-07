@@ -34,7 +34,7 @@ class ShippingCompanyDataTable extends DataTable
                 return $b;
             })
             ->editColumn('status', function($row){
-                return $row->status();
+                return $row->label();
             })
             ->editColumn('fast', function($row){
                 return $row->fast();

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\DataTables\UserDataTable;
+use App\Enums\UserTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
-use App\DataTables\UserDataTable;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Crypt;
-use App\Traits\Files;
 use App\Models\User;
+use App\Traits\Files;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
@@ -46,6 +47,7 @@ class UserController extends Controller
                 'mobile' => $request->mobile,
                 'status' => true,
                 'image' => $path . $file_name,
+                'type' => UserTypeEnum::CUSTOMER->value,
                 'password' => Hash::make('password'),
             ]);
             $user->markEmailAsVerified();

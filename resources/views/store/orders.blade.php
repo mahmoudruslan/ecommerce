@@ -42,7 +42,7 @@
                                     <p>{{ __('Shipping') }}: {{ getCurrency() . number_format($order->shipping, 2) }}</p>
                                     <p>{{ __('Total') }}: {{ getCurrency() . number_format($order->total, 2) }}</p>
                                     <p>{{ __('Payment method') }}: {{ $order->payment_method }}</p>
-                                    <p>{{ __('Status') }}: {!! $order->statusWithHtml() !!}</p>
+                                    <p>{{ __('Status') }}: {!! $order->badgeHtml() !!}</p>
                                     <p>{{ __('Created at') }}: {{ $order->created_at->format('Y-m-d') }}</p>
                                    @if ($order->payment_result != null)
                                    <p>{{ __('Payment result') }}:
@@ -58,9 +58,9 @@
                                 </p>
                                 @include('store.modals.order_buy_again')
                                 @if (
-                                    $order->transactions()->orderByDesc('id')->first()->transaction == app\Models\OrderTransaction::FINISHED ||
+                                    $order->transactions()->orderByDesc('id')->first()->transaction == app\Models\Transaction::FINISHED ||
                                         ($order->transactions()->orderByDesc('id')->first()->transaction ==
-                                            app\Models\OrderTransaction::PAYMENT_COMPLETED &&
+                                            app\Models\Transaction::PAYMENT_COMPLETED &&
                                             $order->created_at->diffInDays(now()) <
                                                 Config::get('app.order_return_days')))
                                     <p>

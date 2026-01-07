@@ -87,7 +87,7 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-md-6">
-                                                        <select name="fast" class="form-control select-radius 
+                                                        <select name="fast" class="form-control select-radius
                                                             @error('fast') is-invalid @enderror">
                                                             <option selected value="{{ $shipping_company->fast }}">{{ __($shipping_company->fast()) }}</option>
                                                             <option value="1" >{{ __('Fast') }}</option>
@@ -100,9 +100,9 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <select name="status" class="form-control select-radius 
+                                                        <select name="status" class="form-control select-radius
                                                             @error('status') is-invalid @enderror">
-                                                            <option selected value="{{ $shipping_company->status }}">{{ __($shipping_company->status()) }}</option>
+                                                            <option selected value="{{ $shipping_company->status }}">{{ __($shipping_company->label()) }}</option>
                                                             <option value="1" >{{ __('Active') }}</option>
                                                             <option value="0" >{{ __('Inactive') }}</option>
                                                         </select>
@@ -126,7 +126,7 @@
                                                                 <small>{{ $message }}</small>
                                                             </span>
                                                         @enderror
-                                                    </div> 
+                                                    </div>
                                                 </div>
                                                 <hr>
                                                 <button type="submit" class="btn btn-primary btn-user btn-block">

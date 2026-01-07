@@ -36,7 +36,9 @@ class ProductDataTable extends DataTable
                 return $b;
             })
             ->addColumn('parent_category', function($row){
-                return $row->category->parent['name_' . App::currentLocale()];
+                return $row->categories->map(function($category) {
+                    return $category->parent ? $category->parent->name_ar : '';
+                })->implode(' | ');
             })
             ->addColumn('image', function($row){
                 return $row->firstMedia ? '<img style="height: auto;width: 100%" src="'. asset('storage/' . $row->firstMedia->file_name) .'" alt="category photo">' : __('Image Not Found');
@@ -50,8 +52,10 @@ class ProductDataTable extends DataTable
             ->editColumn('name', function($row) use ($lang){
                 return $row['name_' . $lang];
             })
-            ->editColumn('category_id', function($row){
-                    return $row->category['name_' . App::currentLocale()];
+            ->addColumn('categories', function($row){
+                    return $row->categories->map(function($category) {
+                        return $category->name_ar;
+                    })->implode(' | ');
             })
             ->rawColumns(['name_ar', 'status', 'has_variants', 'action', 'featured', 'category_id', 'parent_category', 'image']);
     }
@@ -64,7 +68,7 @@ class ProductDataTable extends DataTable
     public function query(Product $model): QueryBuilder
     {
         return $model->with([
-            'category:id,name_ar,name_en,parent_id' =>
+            'categories:id,name_ar,name_en,parent_id' =>
                 ['parent:id,name_ar,name_en'],
             'tags',
             'firstMedia:mediable_id,file_name',
@@ -107,7 +111,7 @@ class ProductDataTable extends DataTable
             Column::make('has_variants')->title(__('Variants')),
             Column::make('price')->title(__('Price')),
             Column::make('parent_category')->title(__('Parent Category')),
-            Column::make('category_id')->title(__('Category')),
+            Column::make('categories')->title(__('Categories')),
             Column::make('status')->title(__('Status')),
             Column::make('image')->title(__('Image')),
             Column::computed('action')->title(__('Action'))

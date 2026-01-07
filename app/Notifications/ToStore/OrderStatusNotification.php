@@ -46,7 +46,7 @@ class OrderStatusNotification extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->line(__('Your order #:ref_id status has been updated to :status.', [
                         'ref_id' => $this->order->ref_id,
-                        'status' => __($this->order->status()),
+                        'status' => __($this->order->label()),
                     ]))
                     ->action(__('Order details'), url( 'orders/details/'. $this->order->id))
 
@@ -70,7 +70,7 @@ class OrderStatusNotification extends Notification implements ShouldQueue
     {
         return [
             'ref_id' => $this->order->ref_id,
-            'order_status' => __($this->order->status()),
+            'order_status' => __($this->order->label()),
             'order_id' => $this->order->id,
             'order_url' => route('customer.order.details', $this->order->id),
         ];
@@ -81,7 +81,7 @@ class OrderStatusNotification extends Notification implements ShouldQueue
         return new BroadcastMessage([
             'data' => [
                 'ref_id' => $this->order->ref_id,
-                'order_status' => __($this->order->status()),
+                'order_status' => __($this->order->label()),
                 'order_id' => $this->order->id,
                 'order_url' => route('customer.order.details', $this->order->id),
             ]

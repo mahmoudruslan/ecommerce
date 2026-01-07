@@ -91,7 +91,6 @@ function addItemInCartSidebar(items) {
                                 </small><br>
                             ${size} : <small>${item.size_name}</small>
                             </p>
-                            <form id="cartForm${item.id}" action="">
                             <input type="hidden" class="available_quantity" id="available_quantity"
                                 value="${item.associatedModel.quantity}">
                                 <div class="w-75 border d-flex align-items-center justify-content-between px-3"><span
@@ -119,7 +118,6 @@ function addItemInCartSidebar(items) {
                                                 }"></i></span>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                         <div class="col-md-1">
                             <a href="javascript:void(0)" class="reset-anchor"

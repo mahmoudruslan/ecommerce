@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserTypeEnum;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -18,7 +20,6 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        // return [];
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
@@ -27,6 +28,7 @@ class UserFactory extends Factory
             'image' => 'images/users/avatar.png',
             'status' => '1',
             'email' => fake()->unique()->safeEmail(),
+            'type' => UserTypeEnum::CUSTOMER->value,
             'email_verified_at' => now(),
             'password' => Hash::make('00000000'),
             'remember_token' => Str::random(10),
