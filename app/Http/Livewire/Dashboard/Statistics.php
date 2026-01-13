@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Enums\Status;
 use App\Models\Order;
 use Livewire\Component;
 
@@ -16,10 +17,10 @@ class Statistics extends Component
 
     public function mount()
     {
-        $this->earningAnnual = Order::whereStatus(Order::FINISHED)->whereYear('created_at', date('Y'))->sum('total');
-        $this->earningMonthly = Order::whereStatus(Order::FINISHED)->whereMonth('created_at', date('m'))->sum('total');
-        $this->newOrdersMonthly = Order::whereStatus(Order::PENDING)->whereMonth('created_at', date('m'))->count();
-        $this->finishedOrdersMonthly = Order::whereStatus(Order::FINISHED)->whereMonth('created_at', date('m'))->count();
+        $this->earningAnnual = Order::whereStatus(Status::FINISHED)->whereYear('created_at', date('Y'))->sum('total');
+        $this->earningMonthly = Order::whereStatus(Status::FINISHED)->whereMonth('created_at', date('m'))->sum('total');
+        $this->newOrdersMonthly = Order::whereStatus(Status::FINISHED)->whereMonth('created_at', date('m'))->count();
+        $this->finishedOrdersMonthly = Order::whereStatus(Status::FINISHED)->whereMonth('created_at', date('m'))->count();
         $this->newOrdersMonthlyPercentage = $this->newOrdersMonthly / max(Order::count(), 1) * 100;
         $this->finishedOrdersMonthlyPercentage = $this->finishedOrdersMonthly / max(Order::count(), 1) * 100;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Enums\Status;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -16,7 +17,7 @@ class Charts extends Component
     {
         $orders = Order::
         select(DB::raw('SUM(total) as revenue'), DB::raw('EXTRACT(MONTH FROM created_at) as month'))
-        ->whereStatus(Order::FINISHED)
+        ->whereStatus(Status::FINISHED)
         ->whereYear('created_at', date('Y'))
         ->groupBy(DB::raw('EXTRACT(MONTH FROM created_at)'))
         ->pluck('revenue', 'month');
