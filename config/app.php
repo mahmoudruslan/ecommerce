@@ -136,6 +136,7 @@ return [
 
     'order_return_days' => env('ORDER_RETURN_DAYS', 5),
 
+    'home_path' => '/',
 
     /*
     |--------------------------------------------------------------------------
@@ -213,7 +214,6 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
         App\Providers\CartEventServiceProvider::class,

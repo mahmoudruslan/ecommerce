@@ -17,7 +17,7 @@ use App\Http\Controllers\VariantController;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
+| routes are loaded by the bootsrap/app.php within a group which
 | contains the "web" middleware group. Now create something great!
 |
 */

@@ -1,6 +1,6 @@
 # Dockerfile
 
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
+    libzip-dev \
     zip \
     unzip \
     curl \
@@ -21,6 +22,7 @@ RUN apt-get update && apt-get install -y \
     supervisor \
     vim
 
+RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd zip
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
 
